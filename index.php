@@ -108,14 +108,7 @@ echo ($home ? 'home ' : '').
 	jQuery('body').attr('screen',s);
 })();
 </script>
-<?php 
-// if blank-page parameter is set, only the component will be output
-if(!$this->params->get('blank_page',0)) :
-	// if custom-index-body.php file exists then the body of the template is overriden
-	if(file_exists(JPATH_BASE . '/templates/' . $this->template . 'custom-index-body.php')) :
-		include 'custom-index-body.php'; 
-	else :
-?>
+<?php if(!$this->params->get('blank_page',0)) : // if blank-page parameter is set, only the component will be output ?>
 <header>
 	
 	<?php if($this->countModules('util-1') || $this->countModules('util-2') || $this->countModules('util-3')): ?>
@@ -180,7 +173,7 @@ if(!$this->params->get('blank_page',0)) :
 		</div>
 		<?php endif; ?>
 		
-		<div class="main-middle blk20 blkgroup">
+		<div class="main-middle blk12 blkgroup">
 			
 			<?php if($this->countModules('main-left')): ?>
 			<div class="main-left blk4 blkgroup">
@@ -269,10 +262,7 @@ if(!$this->params->get('blank_page',0)) :
 	<?php endif; ?>
 	
 </footer>
-<?php 
-	endif; // endif for including custom-index-body.php
-else:  // outputing a blank page
-?>
+<?php else:  // outputing a blank page ?>
 <jdoc:include type="component" />
 <?php endif; // endif for blank page ?>
 

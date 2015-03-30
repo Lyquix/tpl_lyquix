@@ -2,14 +2,14 @@
 <!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
 <extension version="3.0" type="template" client="site" method="upgrade">
 	<name>Lyquix</name>
-	<creationDate>2014-04-01</creationDate>
+	<creationDate>2015-01-01</creationDate>
 	<author>Lyquix</author>
 	<authorEmail>info@lyquix.com</authorEmail>
 	<authorUrl>http://www.lyquix.com</authorUrl>
-	<copyright>Copyright(c)2014 - Lyquix</copyright>
+	<copyright>Copyright(c)2015 - Lyquix</copyright>
 	<license></license>
-	<version>0.1.0</version>
-	<description>Lyquix base Joomla 3.x template</description>
+	<version>0.1.2</version>
+	<description>Lyquix base template for Joomla 3.x</description>
 	<files>
 		<folder>css</folder>
 		<folder>html</folder>
@@ -25,7 +25,6 @@
 		<filename>templateDetails.xml</filename>
 		<filename>template_preview.png</filename>
 		<filename>template_thumbnail.png</filename>
-		<filename>updates.xml</filename>
 	</files>
 	<positions>
 		<position>head</position>
@@ -42,13 +41,11 @@
 		<position>header-4</position>
 		<position>header-5</position>
 	
-	
 		<position>top-1</position>
 		<position>top-2</position>
 		<position>top-3</position>
 		<position>top-4</position>
 		<position>top-5</position>
-	
 	
 		<position>main-top</position>
 		<position>main-left</position>
