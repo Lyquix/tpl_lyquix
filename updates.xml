@@ -5,7 +5,7 @@
 	<type>template</type>
 	<folder></folder>
 	<client>0</client>
-	<version>0.1.0</version>
+	<version>0.1.1</version>
 	<infourl title="Lyquix Template Repository">https://bitbucket.org/lyquix/tpl_lyquix</infourl>
 	<downloads>
 		<downloadurl type="upgrade" format="zip">https://bitbucket.org/lyquix/tpl_lyquix/raw/master/tpl_lyquix.zip</downloadurl>
