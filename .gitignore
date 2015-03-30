@@ -7,6 +7,7 @@ custom-index.php
 custom-index-body.php
 css/*
 !css/ie8-alert.css
+!css/css-stylesheet.html
 !css/index.html
 !css/styles.less
 !css/template.less
