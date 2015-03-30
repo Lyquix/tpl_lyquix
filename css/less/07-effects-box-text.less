@@ -1,0 +1,119 @@
+// CSS3 effects, transforms and animationsommon classes
+// --------------------------------------------------------------------
+
+// basic effects and transformations
+// --------------------------------------------------------------------
+.box-glow {
+	-webkit-box-shadow: 0 0 1em 0.1em fade(@glow-color, 50);
+	-moz-box-shadow: 0 0 1em 0.1em fade(@glow-color, 50);
+	box-shadow: 0 0 1em 0.1em fade(@glow-color, 50);
+}
+
+.box-shadow {
+	-webkit-box-shadow: 0.2em 0.2em 0.5em 0.1em fade(@shadow-color, 50);
+	-moz-box-shadow: 0.2em 0.2em 0.5em 0.1em fade(@shadow-color, 50);
+	box-shadow: 0.2em 0.2em 0.5em 0.1em fade(@shadow-color, 50);
+}
+
+.box-tint {
+	position: relative;
+	&:before {
+		content: "";
+		display: block;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: fade(@tint-color, 25);
+	}
+}
+
+.box-duotone {
+	position: relative;
+	// saturation is the factor to go from the saturation of sepia (25) to the saturation of glow-color
+	// hue-rotation is calculated starting from sepia's hue of 34 and converted to the hue of glow-color		
+	-webkit-filter: sepia(1) hue-rotate(unit(@duotone-color-hue - 34, deg));
+	filter: sepia(1) hue-rotate(unit(@duotone-color-hue - 34, deg));
+}
+
+.opacity-85 {
+	opacity: 0.85;
+}
+
+.opacity-50 {
+	opacity: 0.50;
+}
+
+.opacity-15 {
+	opacity: 0.15;
+}
+
+.round-corners {
+	border-radius: @border-radius;
+}
+
+.round-corners-top {
+	border-top-left-radius: @border-radius;
+	border-top-right-radius: @border-radius;
+}
+
+.round-corners-bottom {
+	border-bottom-left-radius: @border-radius;
+	border-bottom-right-radius: @border-radius;
+}
+
+.round-corners-left {
+	border-top-left-radius: @border-radius;
+	border-bottom-left-radius: @border-radius;	
+}
+
+.round-corners-right {
+	border-top-right-radius: @border-radius;
+	border-bottom-right-radius: @border-radius;	
+}
+
+.circle-border {
+	border-radius: 50%;
+}
+
+.enlarge {
+	-webkit-transform: scale(1.25);
+	transform: scale(1.25);
+}
+
+.shrink {
+	-webkit-transform: scale(0.8);
+	transform: scale(0.8);	
+}
+
+.rotate-90 {
+	-webkit-transform: rotate(9deg);
+	transform: rotate(90deg);
+}
+
+.rotate-180 {
+	-webkit-transform: rotate(180deg);
+	transform: rotate(180deg);
+}
+
+.rotate-270 {
+	-webkit-transform: rotate(270deg);
+	transform: rotate(270deg);
+}
+
+// text transforms
+// --------------------------------------------------------------------
+
+.text-glow {
+	text-shadow: 0 0 0.2em fade(@glow-color, 50);
+}
+
+.text-shadow {
+	text-shadow: 0.05em 0.05em 0.1em @shadow-color;	
+}
+
+.text-blur {
+	color: rgba(0,0,0,0);
+	text-shadow: 0 0 0.25em @shadow-color;	
+}

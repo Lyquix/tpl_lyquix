@@ -1,0 +1,234 @@
+// Lyquix
+// --------------------------------------------------------------------
+// Styles for Lyquix template and modules
+
+
+// tpl_lyquix - the Lyquix template
+// --------------------------------------------------------------------
+
+.row {
+	&.util {
+		
+	}
+	&.header {
+		
+	}
+	&.top {
+		
+	}
+	&.main {
+		
+	}
+	&.bottom {
+		
+	}
+	&.footer {
+		
+	}
+	&.copyright {
+		
+	}
+}
+
+// List of items - styles for items listed in categories and main content
+
+@color-item-title:		@color-headings;
+@color-item-subtitle:	@color-copy;
+@color-item-teaser:		@color-copy;
+@color-item-date:		@color-copy;
+@color-item-author:		@color-copy;
+@color-item-caption:	@color-copy;
+
+@font-item-title:		@font-headings;	
+@font-item-subtitle:	@font-copy;
+@font-item-teaser:		@font-copy;
+@font-item-date:		@font-copy;
+@font-item-author:		@font-copy;
+@font-item-caption:		@font-copy;
+
+// Related items - styles for items related to main content
+
+@color-related-title:	@color-headings;	
+@color-related-subtitle:	@color-copy;
+@color-related-teaser:	@color-copy;
+@color-related-date:	@color-copy;
+@color-related-author:	@color-copy;
+@color-related-caption:	@color-copy;
+
+@font-related-title:	@font-headings;	
+@font-related-subtitle:	@font-copy;
+@font-related-teaser:	@font-copy;
+@font-related-date:		@font-copy;
+@font-related-author:	@font-copy;
+@font-related-caption:	@font-copy;
+
+// Side content items - styles for items shown as side content
+
+@color-side-title:		@color-headings;
+@color-side-subtitle:	@color-copy;
+@color-side-teaser:		@color-copy;
+@color-side-date:		@color-copy;
+@color-side-author:		@color-copy;
+@color-side-caption:	@color-copy;
+
+@font-side-title:		@font-headings;	
+@font-side-subtitle:	@font-copy;
+@font-side-teaser:		@font-copy;
+@font-side-date:		@font-copy;
+@font-side-author:		@font-copy;
+@font-side-caption:		@font-copy;
+
+
+
+
+
+// mod_lyquix_banners
+// --------------------------------------------------------------------
+
+.mod_lyquix_banners {
+	
+	position: relative;
+	width:100%;
+	height:0;
+	padding-bottom:46%;
+	padding-top:36px;
+	overflow:hidden;
+
+	.banners {
+		
+		position: relative;
+		margin-top:-36px;
+		
+		.banner {
+			
+			position: absolute;
+			width: 100%;
+			
+			.image {
+				width:100%;
+				height:0;
+				padding-bottom:46%;
+				overflow:hidden;
+				
+				img {
+					width:100%;
+				}
+			}
+			
+			.text {
+				position: absolute;
+				top: 2em;
+				background-color: rgba(64,64,64,0.85);
+				padding: 0 1em;
+				width: 33%;
+				color:@color-bg;
+			}
+			
+			&.left {
+				.text {
+					left:1em;
+				}
+			}
+			
+			&.right {
+				.text {
+					right:1em;
+				}
+			}
+			
+			&.html {
+				.image {
+					display:none;
+				}
+				
+				.text {
+					position: inherit;
+					top: auto;
+					background-color: transparent;
+					padding: 0;
+					width: auto;
+					color: inherit;
+				}
+			}
+			
+			&.image {
+				.text {
+					display:none;
+				}
+			}
+			
+		}
+		
+	}
+	
+	.arrows {
+		
+		.prev {
+			
+		}
+		
+		.next {
+			
+		}
+	}
+	
+	.tabs {
+		
+		position: absolute;
+		left:auto;
+		right:0;
+		bottom: 0;
+		width:auto;
+		
+		.tab {
+			background-color: @color-accent-1-dark;
+			float: left;
+			cursor: pointer;
+			overflow: hidden;
+			width:1em;
+			height:1em;
+			border-radius:1em;
+			margin-left:0.5em;
+			
+			&.on, &:hover {
+				color: @color-accent-1-dark;
+				background-color: @color-accent-1-lighter;
+			}
+			
+			span, img {
+				display:none;
+			}
+		}		
+	}
+}
+
+body[screen=xs] .mod_lyquix_banners {
+	
+	.banners .banner {
+		.text {
+			display: none;
+		}
+		
+		&.html .text {
+			display: block;
+		}
+	}
+}
+
+body[screen=sm] .mod_lyquix_banners {
+
+	.banners .banner .text {
+		width:45%;
+	}
+}
+
+
+// mod_lyquix_items
+// --------------------------------------------------------------------
+
+.mod_lyquix_items {
+	
+	.field_intro_text {
+		margin: 0.63em 0;
+	}
+}

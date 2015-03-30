@@ -1,0 +1,35 @@
+// Responsive layout styles for 4 blocks in small screens
+// --------------------------------------------------------------------
+// Provides the classes for creating a responsive grid-based layout
+
+// Container
+// --------------------------------------------------------------------
+// The container class allows to wrap the page content to fit it within the available
+// screen size. Using media queries the width of the container class is adjusted
+// automagically. By default the grid system allows up to 20 blocks. To setup a narrower
+// site, for example 12 blocks, you need to comment the rules for lg and xl screens
+// and change the one for 12 blocks to include lg and xl screens.
+
+.container {
+	margin:0 auto;
+}
+
+body[screen=xs] .container {
+	width: (@blk4-width + @blk-margin-border-padding-width * 2);	// xs screen - 4 blocks
+}
+
+body[screen=sm] .container {
+	width: (@blk8-width + @blk-margin-border-padding-width * 2);	// sm screen - 8 blocks
+}
+	
+body[screen=md] .container {
+	width: (@blk12-width + @blk-margin-border-padding-width * 2);	// md screen - 12 blocks
+}
+
+body[screen=lg] .container {
+	width: (@blk16-width + @blk-margin-border-padding-width * 2);	// lg screen - 16 blocks
+}
+	
+body[screen=xl] .container {
+	width: (@blk20-width + @blk-margin-border-padding-width * 2);	// xl screen - 20 blocks
+}

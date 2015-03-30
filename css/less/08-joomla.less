@@ -1,0 +1,382 @@
+// Joomla and 3rd party extensions
+// --------------------------------------------------------------------
+// Styles for common Joomla and 3rd party extension elements
+
+
+// Tooltips
+// --------------------------------------------------------------------
+
+.tooltip {
+	display: none !important;
+}
+
+
+// System messages
+// --------------------------------------------------------------------
+
+#system-message {
+	
+	div.alert {
+		padding:0.75em 1.5em;
+		margin:1.5em 0;
+		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+		-webkit-border-radius: 4px;
+		-moz-border-radius: 4px;
+		border-radius: 4px;
+	}
+
+	// green
+	div.alert-message {
+		background-color:@color-message-bg;
+		border:1px solid @color-message-border;
+		color:@color-message;
+		
+		.close {
+			text-decoration:none;
+			color:@color-message;
+
+			&:hover {
+				color:@color-message;
+			}
+		}
+		
+		h4 {
+			color:@color-message;
+		}
+	}
+	
+	// blue
+	div.alert-notice {
+		background-color:@color-notice-bg;
+		border:1px solid @color-notice-border;
+		color:@color-notice;
+		
+		.close {
+			text-decoration:none;
+			color:@color-notice;
+
+			&:hover {
+				color:@color-notice;
+			}
+		}
+		
+		h4 {
+			color:@color-notice;
+		}
+	}
+	
+	// yellow
+	div.alert-warning {
+		background-color:@color-warning-bg;
+		border:1px solid @color-warning-border;
+		color:@color-warning;
+		
+		.close {
+			text-decoration:none;
+			color:@color-warning;
+
+			&:hover {
+				color:@color-warning;
+			}
+		}
+		
+		h4 {
+			color:@color-warning;
+		}
+	}
+	
+	// red
+	div.alert-error {
+		background-color:@color-error-bg;
+		border:1px solid @color-error-border;
+		color:@color-error;
+		
+		.close {
+			text-decoration:none;
+			color:@color-error;
+
+			&:hover {
+				color:@color-error;
+			}
+		}
+		
+		h4 {
+			color:@color-error;
+		}
+	}
+	
+	h4 {
+		margin:0;
+	}
+	
+	.close {
+		float:right;
+		cursor:pointer;
+	}
+}
+
+
+// Menus
+// --------------------------------------------------------------------
+
+ul.menu {
+	margin:0;
+	padding:0;
+	list-style:none;
+	position: relative;
+	
+	&:after {
+	    content: " ";
+	    display: table;
+	    clear:both;
+	}
+	
+	ul {
+		margin:0;
+		padding:0;
+		list-style:none;
+		display:none;
+		min-width:@blk-content-width * 3;
+		position:absolute;
+		z-index:1000;
+	}
+	
+	li {
+		position:relative;
+		margin:0;
+		padding:0;
+		
+		&:first-child a {
+			border-left:1px solid @color-bg;
+		}
+	}
+	
+	a {
+		display:block;
+		padding:0.5em 1em;
+		text-decoration:none;
+		font-size:1em;
+		color:@gray;
+		border-right:1px solid @color-bg;
+		
+		&:hover {
+			color:@color-bg;
+			background-color:@gray-light;
+		}
+	}
+	
+	& > li {
+		float:left;
+			
+		& > ul {
+			top:100%;
+			background-color:@gray-lighter;
+			
+			a {
+				color:@gray;
+				
+				&:hover {
+					color:@color-bg;
+					background-color:@gray-light;
+				}
+				
+			}
+		}
+		
+		&:hover > ul {
+			display:block;
+		}	
+	}
+	
+	
+}
+
+// collapse menu
+// --------------------------------------------------------------------
+
+body[screen=xs] ul.menu.collapse-xs,
+body[screen=sm] ul.menu.collapse-sm {
+	
+	min-height: 1px;
+	
+	ul {
+		display:block;
+		min-width:inherit;
+		position:relative;
+		padding-left:1em;
+	}
+	
+	li {
+		display:none;
+		float:none;
+		
+		&:first-child a {
+			border-left:none;
+		}
+	}
+	
+	a {
+		border-right:none;
+	}
+	
+	&:before {
+		display: block;
+		padding:0.5em 1em;
+		font-size:1em;
+		color:@gray;
+		text-transform:uppercase;
+		// Hamburger icon
+		content: "\f0c9";
+		font: normal normal normal 14px/1 FontAwesome;
+		position: absolute;
+		right: @blk-margin-border-padding-width;
+		top: -65px; // fix this to fit the site header
+		border: 1px solid @gray-lighter;
+		border-radius: 0.33em;
+	}
+	
+	&.expand {
+		li {
+			display:block;
+		}
+	}
+	
+}
+
+
+// Breadcrumbs
+// --------------------------------------------------------------------
+
+ul.breadcrumb {
+	list-style:none;
+	margin:0 0 1em;
+	padding:0;
+	
+	li {
+		display:inline;
+		font-size:0.8em;
+		text-transform:uppercase;
+		
+		span.divider {
+			&:before {
+				display:inline;
+				content:'\00BB';
+				padding:0 0.5em;
+			}
+			
+			img {
+				display:none;
+			}
+		}
+		
+		&:first-child {
+			display:none;
+		}
+	}
+	
+}
+
+// Pagination
+// --------------------------------------------------------------------
+
+div.pagination {
+	div.pageslinks {
+		ul {
+			list-style:none;
+			margin:0;
+			padding:0;
+			
+			li {
+				float:left;
+				margin-right:0.67em;
+				
+				a {
+					display:inline-block;
+					background-color:@color-accent-1-dark;
+					color:@color-bg;
+					padding:0.33em 0.67em;
+					margin:1em 0;
+					border-radius:0.33em;
+					
+					&:hover {
+						text-decoration:none;
+						background-color:lighten(@color-accent-1,10%);
+						color:@color-bg;
+					}
+				}
+				
+				span {
+					display:inline-block;
+					background-color:@gray-lighter;
+					color:@color-copy;
+					padding:0.33em 0.67em;
+					margin:1em 0;
+					border-radius:0.33em;
+					cursor:pointer;
+					
+					&:hover {
+						text-decoration:none;
+						background-color:darken(@gray-lighter,10%);
+						color:@color-copy;
+					}
+					
+				}
+			}
+		}
+		
+		// clearfix
+		&:before, &:after {
+			content: " ";
+			display: table;
+		}
+		
+		&:after {
+			clear:both;
+		}
+		
+		*zoom: 1;
+
+	}
+	div.pagescounter {
+		font-size:0.8em;
+		text-transform:uppercase;
+		font-weight:bold;
+	}
+}
+
+body[screen=xs] div.pagination {
+	li {
+		display: none;
+	}
+	
+	li.pagination-start,
+	li.pagination-prev,
+	li.pagination-next,
+	li.pagination-end {
+		display: block;
+	}
+	
+}
+
+// Event Registration Pro
+// --------------------------------------------------------------------
+
+.events-list {
+	.event {
+		padding-bottom:2em;
+		margin-bottom:2em;
+		border-bottom:1px solid @gray-lighter;
+	}
+}
+
+// Mailchimp for Joomla (CMC)
+// --------------------------------------------------------------------
+
+.mod_cmc {
+	input[type=text], input[type=email] {
+		width:80%;
+	}
+	.hide {
+		display:none;
+	}
+}

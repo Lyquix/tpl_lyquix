@@ -1,0 +1,232 @@
+// Base styles
+// --------------------------------------------------------------------
+// Sets the basic colors, typography and styles for base tags 
+
+body {
+	background-color: @color-bg;
+	font-family: @font-copy;
+	color: @color-copy;
+	font-size: @font-size-base; 
+	line-height: @line-height-base;
+	word-break: break-word;
+}
+p {
+	margin: @elem-margin-base 0;
+}
+pre {
+	font-family: @font-monospace;
+	// make pre text wrap
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	word-wrap: break-word;   
+}
+a {
+	color: @color-link;
+	text-decoration: none;
+	outline: none;
+	font-family: @font-link;
+	
+	&:hover {
+		color: @color-link-hover;
+		text-decoration: underline;
+	}
+}
+img {
+	max-width: 100%;
+}
+h1 {
+	font-family: @font-h1;
+	color: @color-h1;
+	font-size: @font-size-h1;
+	line-height: @line-height-heading;
+	margin: @elem-margin-heading 0;
+	
+	a {
+		color: @color-h1;
+		
+		&:hover {
+			color: @color-h1;
+		}
+	}
+}
+h2 {
+	font-family: @font-h2;
+	color: @color-h2;
+	font-size: @font-size-h2;
+	line-height: @line-height-heading;
+	margin: @elem-margin-heading 0;
+	
+	a {
+		color: @color-h2;
+		
+		&:hover {
+			color: @color-h2;
+		}
+	}
+}
+h3 {
+	font-family: @font-h3;
+	color: @color-h3;
+	font-size: @font-size-h3;
+	line-height: @line-height-heading;
+	margin: @elem-margin-heading 0;
+	
+	a {
+		color: @color-h3;
+		
+		&:hover {
+			color: @color-h3;
+		}
+	}
+}
+h4 {
+	font-family: @font-h4;
+	color: @color-h4;
+	font-size: @font-size-h4;
+	line-height: @line-height-heading;
+	margin: @elem-margin-heading 0;
+	
+	a {
+		color: @color-h4;
+		
+		&:hover {
+			color: @color-h4;
+		}
+	}
+}
+h5 {
+	font-family :@font-h5;
+	color: @color-h5;
+	font-size: @font-size-h5;
+	line-height: @line-height-heading;
+	margin: @elem-margin-heading 0;
+	
+	a {
+		color: @color-h5;
+		
+		&:hover {
+			color: @color-h5;
+		}
+	}
+}
+h6 {
+	font-family:@font-h6;
+	color: @color-h6;
+	font-size: @font-size-h6;
+	line-height: @line-height-heading;
+	margin: @elem-margin-heading 0;
+	
+	a {
+		color: @color-h6;
+		
+		&:hover {
+			color: @color-h6;
+		}
+	}
+}
+input,textarea,select {
+	background-color: @color-input-bg;
+	font-family: @font-input;
+	color: @color-input;
+	outline: none;
+	padding: @elem-margin-input;
+	margin: 0 @elem-margin-input;
+	border: 1px solid @color-input-border;
+	border-radius: 0.33em;	
+}
+input[type=checkbox],input[type=file],input[type=image],input[type=radio] {
+	background-color:transparent;
+	border-color: transparent;
+}
+input[type=submit],input[type=button],input[type=reset],button {
+	background-color: @color-button-bg;
+	color: @color-button;
+	font-family: @font-button;
+	padding: 0.5em 2em;
+	margin: 0 @elem-margin-input;
+	border-radius: 0.33em;
+	border: none;
+	
+	&:hover {
+		text-decoration: none;
+		background-color: lighten(@color-button-bg,10%);
+		color: @color-bg;
+	}
+}
+input:disabled,textarea:disabled,select:disabled {
+	background-color: @gray-lighter;
+}
+input[type=submit]:disabled,input[type=button]:disabled,input[type=reset]:disabled,button:disabled {
+	background-color: @gray;
+	color: @gray-lighter;
+	&:hover {
+		background-color: @gray-light;
+	}
+}
+label {
+	font-family: @font-label;
+	color: @color-label;
+}
+blockquote {
+	font-family: @font-blockquote;
+	color: @color-blockquote;
+	margin: @elem-margin-base 0;
+	padding: 0 2em;
+	font-size: @font-size-big;
+	line-height: @line-height-big;
+	quotes: "\201C""\201D""\2018""\2019";
+	position: relative;
+	
+	&:before {
+		font-family: Georgia, serif;
+		content: open-quote;
+		font-size: 4em;
+		position: absolute;
+		top: 0.2em;
+		left: 0;
+	}
+
+	&:after {
+		font-family: Georgia, serif;
+		content: close-quote;
+		font-size: 4em;
+		line-height: 0;
+		position: absolute;
+		bottom: -0.2em;
+		right: 0;
+	}
+}
+hr {
+	height:  1px;
+	border: none;
+	color: @color-hr;
+	background-color: @color-hr;
+	margin: @elem-margin-base 0;
+}
+table {
+	max-width: 100%;
+	border-collapse: collapse;
+}
+th, td {
+	text-align: left;
+	padding: 0.5em;
+	vertical-align: top;
+}
+th {
+	font-family: @font-th;
+	color: @color-th;
+	border-bottom: 1px solid @color-th-border;
+	background-color: @color-th-bg;	
+}
+td {
+	font-family: @font-td;
+	color: @color-td;
+	border-bottom: 1px solid @color-td-border;
+	background-color: @color-td-bg;
+}
+ul, ol {
+	padding-left: 1.5em;
+}
+li {
+	margin-bottom: 0.67em;
+}

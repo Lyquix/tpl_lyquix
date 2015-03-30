@@ -1,0 +1,49 @@
+// Common classes
+// --------------------------------------------------------------------
+
+// Clear, hiding, floating
+// --------------------------------------------------------------------
+
+// Clear
+.clr, .clear {
+	clear:both;
+}
+
+// Clear fix (clears after the element)
+.cf, .clearfix {
+    &:before, &:after {
+	    content: " ";
+	    display: table;
+    }
+    
+    &:after {
+	    clear:both;
+    }
+    
+    *zoom: 1;
+}
+
+// Hide
+.hide, .off {
+	display: none;
+}
+
+// Float
+.left {
+	float:left;
+	
+	// add margins
+	&.margins {
+		margin-right: @blk-margin-width;
+		margin-bottom: @blk-margin-width;
+	}
+}
+.right {
+	float:right;
+	
+	// add margins
+	&.margins {
+		margin-left: @blk-margin-width;
+		margin-bottom: @blk-margin-width;
+	}
+}

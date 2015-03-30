@@ -1,0 +1,73 @@
+// Layout downsized block for block5 layouts
+// --------------------------------------------------------------------
+// 
+
+// Downsized blocks
+// In smaller screens the larger blocks must be downsized automatically in order to fit
+body[screen=xs] {
+	.blk6, .blk7, .blk8, .blk9, .blk10, .blk11, .blk12, .blk13, .blk14, .blk15, .blk16, .blk17, .blk18, .blk19, .blk20, .blk21, .blk22, .blk23, .blk24, .blk25 {
+		width: @blk5-width;	// 5 blocks
+	}
+	.blk6 *, .blk7 *, .blk8 *, .blk9 *, .blk10 *, .blk11 *, .blk12 *, .blk13 *, .blk14 *, .blk15 *, .blk16 *, .blk17 *, .blk18 *, .blk19 *, .blk20 *, .blk21 *, .blk22 *, .blk23 *, .blk24 *, .blk25 * {
+		max-width: @blk5-width;	// 5 blocks
+	}
+}
+body[screen=sm] {
+	.blk11, .blk12, .blk13, .blk14, .blk15, .blk16, .blk17, .blk18, .blk19, .blk20, .blk21, .blk22, .blk23, .blk24, .blk25 {
+		width: @blk10-width;	// 10 blocks
+	}
+	.blk11 *, .blk12 *, .blk13 *, .blk14 *, .blk15 *, .blk16 *, .blk17 *, .blk18 *, .blk19 *, .blk20 *, .blk21 *, .blk22 *, .blk23 *, .blk24 *, .blk25 * {
+		max-width: @blk10-width;	// 10 blocks
+	}
+}
+body[screen=md] {
+	.blk16, .blk17, .blk18, .blk19, .blk20, .blk21, .blk22, .blk23, .blk24, .blk25 {
+		width: @blk15-width;	// 15 blocks
+	}
+	.blk16 *, .blk17 *, .blk18 *, .blk19 *, .blk20 *, .blk21 *, .blk22 *, .blk23 *, .blk24 *, .blk25 * {
+		max-width: @blk15-width;	// 15 blocks
+	}
+}
+body[screen=lg] {
+	.blk21, .blk22, .blk23, .blk24, .blk25 {
+		width: @blk20-width;	// 20 blocks
+	}
+	.blk21 *, .blk22 *, .blk23 *, .blk24 *, .blk25 * {
+		max-width: @blk20-width;	// 20 blocks
+	}
+}
+
+// Downsized blocks
+// In smaller screens the larger blocks must be downsized automatically in order to fit
+body[screen=xs] .blkgroup {
+	&.blk6, &.blk7, &.blk8, &.blk9, &.blk10, &.blk11, &.blk12, &.blk13, &.blk14, &.blk15, &.blk16, &.blk17, &.blk18, &.blk19, &.blk20, &.blk21, &.blk22, &.blk23, &.blk24, &.blk25 {
+		width: @blk5-width + @blk-margin-border-padding-width * 2;	// 5 blocks
+	}
+	&.blk6 *, &.blk7 *, &.blk8 *, &.blk9 *, &.blk10 *, &.blk11 *, &.blk12 *, &.blk13 *, &.blk14 *, &.blk15 *, &.blk16 *, &.blk17 *, &.blk18 *, &.blk19 *, &.blk20 *, &.blk21 *, &.blk22 *, &.blk23 *, &.blk24 *, &.blk25 * {
+		max-width: @blk5-width + @blk-margin-border-padding-width * 2;	// 5 blocks
+	}
+}
+body[screen=sm] .blkgroup {
+	&.blk11, &.blk12, &.blk13, &.blk14, &.blk15, &.blk16, &.blk17, &.blk18, &.blk19, &.blk20, &.blk21, &.blk22, &.blk23, &.blk24, &.blk25 {
+		width: @blk10-width + @blk-margin-border-padding-width * 2;	// 10 blocks
+	}
+	&.blk11 *, &.blk12 *, &.blk13 *, &.blk14 *, &.blk15 *, &.blk16 *, &.blk17 *, &.blk18 *, &.blk19 *, &.blk20 *, &.blk21 *, &.blk22 *, &.blk23 *, &.blk24 *, &.blk25 * {
+		max-width: @blk10-width + @blk-margin-border-padding-width * 2;	// 10 blocks
+	}
+}
+body[screen=md] .blkgroup {
+	&.blk16, &.blk17, &.blk18, &.blk19, &.blk20, &.blk21, &.blk22, &.blk23, &.blk24, &.blk25 {
+		width: @blk15-width + @blk-margin-border-padding-width * 2;	// 15 blocks
+	}
+	&.blk16 *, &.blk17 *, &.blk18 *, &.blk19 *, &.blk20 *, &.blk21 *, &.blk22 *, &.blk23 *, &.blk24 *, &.blk25 * {
+		max-width: @blk15-width + @blk-margin-border-padding-width * 2;	// 15 blocks
+	}
+}
+body[screen=lg] .blkgroup {
+	&.blk21, &.blk22, &.blk23, &.blk24, &.blk25 {
+		width: @blk20-width + @blk-margin-border-padding-width * 2;	// 20 blocks
+	}
+	&.blk21 *, &.blk22 *, &.blk23 *, &.blk24 *, &.blk25 * {
+		max-width: @blk20-width + @blk-margin-border-padding-width * 2;	// 20 blocks
+	}
+}

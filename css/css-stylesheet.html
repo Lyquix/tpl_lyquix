@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en-gb" >
+<head>
+<!--[if IE]>
+<script type="text/javascript">if(typeof console=='undefined'||typeof console.log=='undefined'){console={};console.log=function(){};}</script>
+<![endif]-->
+<!--[if lt IE 9]>
+<script src="../js/html5shiv.js" type="text/javascript"></script>
+<script src="../js/selectivizr.js" type="text/javascript"></script>
+<![endif]-->
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>CSS Stylesheet</title>
+  <script src="../../../media/jui/js/jquery.min.js" type="text/javascript"></script>
+  <script src="../../../media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
+  <script src="../../../media/jui/js/jquery-migrate.min.js" type="text/javascript"></script>
+  <script src="../../../media/jui/js/jquery.ui.core.min.js" type="text/javascript"></script>
+  <script src="../../../media/jui/js/jquery.ui.sortable.min.js" type="text/javascript"></script>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+<style>
+td:first-child {
+	font-family: monospace, monospace;
+	white-space: nowrap;
+}
+</style>
+<script src="../js/lyquix.js" type="text/javascript"></script>
+</head>
+<body class="home com_content view_article">
+<script type="text/javascript">
+(function(){
+	w = jQuery(window).width();
+	if(w < 640) s = 'xs';
+	if(w >= 640) s = 'sm';
+	if(w >= 960) s = 'md';
+	if(w >= 1280) s = 'lg';
+	if(w >= 1600) s = 'xl';
+	jQuery('body').attr('screen',s);
+})();
+</script>
+<div class="container">
+	<table>
+		<tr>
+			<th nowrap scope="col">HTML Tag and Class</th>
+			<th nowrap scope="col">Sample</th>
+		</tr>
+		<tr>
+			<td nowrap>h1</td>
+			<td><h1>The quick brown fox jumps over the lazy dog</h1></td>
+		</tr>
+		<tr>
+			<td nowrap>h2</td>
+			<td><h2>The quick brown fox jumps over the lazy dog</h2></td>
+		</tr>
+		<tr>
+			<td nowrap>h3</td>
+			<td><h3>The quick brown fox jumps over the lazy dog</h3></td>
+		</tr>
+		<tr>
+			<td nowrap>h4</td>
+			<td><h4>The quick brown fox jumps over the lazy dog</h4></td>
+		</tr>
+		<tr>
+			<td nowrap>h5</td>
+			<td><h5>The quick brown fox jumps over the lazy dog</h5></td>
+		</tr>
+		<tr>
+			<td nowrap>h6</td>
+			<td><h6>The quick brown fox jumps over the lazy dog</h6></td>
+		</tr>
+		<tr>
+			<td nowrap>p</td>
+			<td><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p></td>
+		</tr>
+		<tr>
+			<td nowrap>ul &gt; li</td>
+			<td><ul>
+					<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+					<li>In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. </li>
+					<li>Donec eget orci hendrerit, congue tellus a, suscipit libero. </li>
+					<li>Duis at porta leo, eu sagittis elit. </li>
+					<li>Morbi venenatis nulla quis lobortis eleifend. </li>
+					<li>In hac habitasse platea dictumst. </li>
+					<li>Etiam a malesuada nibh, nec sollicitudin magna. </li>
+					<li>Suspendisse potenti. </li>
+					<li>Aenean euismod lacinia turpis vel fringilla.</li>
+				</ul></td>
+		</tr>
+		<tr>
+			<td nowrap>ol &gt; li</td>
+			<td><ol>
+					<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+					<li>In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. </li>
+					<li>Donec eget orci hendrerit, congue tellus a, suscipit libero. </li>
+					<li>Duis at porta leo, eu sagittis elit. </li>
+					<li>Morbi venenatis nulla quis lobortis eleifend. </li>
+					<li>In hac habitasse platea dictumst. </li>
+					<li>Etiam a malesuada nibh, nec sollicitudin magna. </li>
+					<li>Suspendisse potenti. </li>
+					<li>Aenean euismod lacinia turpis vel fringilla.</li>
+				</ol></td>
+		</tr>
+		<tr>
+			<td nowrap>a</td>
+			<td>The <a href="#">quick brown fox</a> jumps over the <a href="#">lazy dog</a></td>
+		</tr>
+		<tr>
+			<td nowrap>sup</td>
+			<td>The <sup>quick brown fox</sup> jumps over the <sup>lazy dog</sup></td>
+		</tr>
+		<tr>
+			<td nowrap>sub</td>
+			<td>The <sub>quick brown fox</sub> jumps over the <sub>lazy dog</sub></td>
+		</tr>
+		<tr>
+			<td nowrap>strong</td>
+			<td>The <strong>quick brown fox</strong> jumps over the <strong>lazy dog</strong></td>
+		</tr>
+		<tr>
+			<td nowrap>em</td>
+			<td>The <em>quick brown fox</em> jumps over the <em>lazy dog</em></td>
+		</tr>
+		<tr>
+			<td nowrap>hr</td>
+			<td><hr /></td>
+		</tr>
+		<tr>
+			<td nowrap>pre</td>
+			<td><pre>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin 
+dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, 
+suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis 
+lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec 
+sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</pre></td>
+		</tr>
+		<tr>
+			<td nowrap>input[type="text"]<br />input[type="text"]:disabled</td>
+			<td><input type="text" /> <input type="text" disabled /></td>
+		</tr>
+		<tr>
+			<td nowrap>select > option<br />select:disabled</td>
+			<td><select>
+					<option>Please select</option>
+					<option>Option A</option>
+					<option>Option B</option>
+					<option>Option C</option>
+				</select> 
+				<select disabled>
+					<option>Please select</option>
+					<option>Option A</option>
+					<option>Option B</option>
+					<option>Option C</option>
+				</select></td>
+		</tr>
+		<tr>
+			<td nowrap>textarea<br />textarea:disabled</td>
+			<td><textarea>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</textarea> <textarea disabled>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</textarea></td>
+		</tr>
+		<tr>
+			<td nowrap>button<br />button:disabled</td>
+			<td><button>Button</button> <button disabled>Button</button></td>
+		</tr>
+		<tr>
+			<td nowrap>input[type="submit"]<br />input[type="submit"]:disabled</td>
+			<td><input type="submit" /> <input type="submit" disabled /></td>
+		</tr>
+		<tr>
+			<td nowrap>input[type="checkbox"]</td>
+			<td><input type="checkbox" checked>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
+				<input type="checkbox">
+				In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. <br />
+				<input type="checkbox">
+				Donec eget orci hendrerit, congue tellus a, suscipit libero. </td>
+		</tr>
+		<tr>
+			<td nowrap>input[type="radio"]</td>
+			<td><input type="radio" name="radio" checked>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
+				<input type="radio" name="radio">
+				In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. <br />
+				<input type="radio" name="radio">
+				Donec eget orci hendrerit, congue tellus a, suscipit libero. </td>
+		</tr>
+		<tr>
+			<td nowrap>fieldset > legend</td>
+			<td><fieldset>
+					<legend>This is the Legend</legend>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.
+				</fieldset></td>
+		</tr>
+		<tr>
+			<td nowrap>.blk<em>N</em></td>
+			<td><div class="blkgroup blk12">
+					<div class="blk12"><strong>blk12</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</div>
+					<div class="blk4"><strong>.blk4</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</div>
+					<div class="blk4"><strong>.blk4</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</div>
+					<div class="blk4"><strong>.blk4</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</div>
+					<div class="blk8"><strong>.blk8</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit.  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit.  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit.  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. </div>
+					<div class="blk4"><strong>.blk4</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</div>
+					<div class="blk2"><strong>blk2</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. </div>
+					<div class="blk8"><strong>blk8</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</div>
+					<div class="blk2"><strong>blk2</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. </div>
+				</div></td>
+		</tr>
+		<tr>
+			<td nowrap>blockquote</td>
+			<td><blockquote>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</blockquote></td>
+		</tr>
+		<tr>
+			<td nowrap>.left.margins</td>
+			<td><p>
+				<div class="left margins"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="100" /></div> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.
+				</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.right.margins</td>
+			<td><p>
+				<div class="right margins"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="100" /></div> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.
+				</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.color-primary<br />.color-secondary<br />.color-accent-1<br />.color-accent-2<br />.color-accent-3<br />.color-accent-4<br />.color-accent-5</td>
+			<td><p class="color-primary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+			<p class="color-secondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+			<p class="color-accent-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+			<p class="color-accent-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+			<p class="color-accent-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+			<p class="color-accent-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+			<p class="color-accent-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.bg-primary<br />.bg-secondary<br />.bg-accent-1<br />.bg-accent-2<br />.bg-accent-3<br />.bg-accent-4<br />.bg-accent-5</td>
+			<td><p class="bg-primary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+			<p class="bg-secondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+			<p class="bg-accent-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+			<p class="bg-accent-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+			<p class="bg-accent-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+			<p class="bg-accent-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+			<p class="bg-accent-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.border-all<br />.padding-all<br /><br />.border-primary<br />.border-secondary<br />.border-accent-1<br />.border-accent-2<br />.border-accent-3<br />.border-accent-4<br />.border-accent-5</td>
+			<td><p class="padding-all border-all border-primary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+			<p class="padding-all border-all border-secondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+			<p class="padding-all border-all border-accent-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+			<p class="padding-all border-all border-accent-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+			<p class="padding-all border-all border-accent-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+			<p class="padding-all border-all border-accent-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+			<p class="padding-all border-all border-accent-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.font-thin<br />.font-light<br />.font-normal<br />.font-medium<br />.font-bold<br />.font-heavy</td>
+			<td><p class="font-thin">The quick brown fox jumps over the lazy dog</p>
+				<p class="font-light">The quick brown fox jumps over the lazy dog</p>
+				<p class="font-normal">The quick brown fox jumps over the lazy dog</p>
+				<p class="font-medium">The quick brown fox jumps over the lazy dog</p>
+				<p class="font-bold">The quick brown fox jumps over the lazy dog</p>
+				<p class="font-heavy">The quick brown fox jumps over the lazy dog</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.font-sans-serif<br />.font-serif<br />.font-monospace</td>
+			<td><p class="font-sans-serif">The quick brown fox jumps over the lazy dog</p>
+				<p class="font-serif">The quick brown fox jumps over the lazy dog</p>
+				<p class="font-monospace">The quick brown fox jumps over the lazy dog</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.font-smallcaps<br />.font-lowercase<br />.font-uppercase<br />.font-capitalize</td>
+			<td><p class="font-smallcaps">The quick brown fox jumps over the lazy dog</p>
+				<p class="font-lowercase">The quick brown fox jumps over the lazy dog</p>
+				<p class="font-uppercase">The quick brown fox jumps over the lazy dog</p>
+				<p class="font-capitalize">The quick brown fox jumps over the lazy dog</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.font-left<br />.font-right<br />.font-center<br />.font-justify</td>
+			<td><p class="font-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				<p class="font-right">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				<p class="font-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				<p class="font-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.font-looser<br />.font-loose<br />.font-<br />.font-tight<br />.font-tighter</td>
+			<td><p class="font-looser">The quick brown fox jumps over the lazy dog</p>
+				<p class="font-loose">The quick brown fox jumps over the lazy dog</p>
+				<p class="font-tight">The quick brown fox jumps over the lazy dog</p>
+				<p class="font-tighter">The quick brown fox jumps over the lazy dog</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.font-underline<br />.font-strikeout</td>
+			<td><p class="font-underline">The quick brown fox jumps over the lazy dog</p>
+				<p class="font-strikeout">The quick brown fox jumps over the lazy dog</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.tiny<br />.small<br />.big<br />.huge</td>
+			<td><p class="tiny">The quick brown fox jumps over the lazy dog</p>
+				<p class="small">The quick brown fox jumps over the lazy dog</p>
+				<p class="big">The quick brown fox jumps over the lazy dog</p>
+				<p class="huge">The quick brown fox jumps over the lazy dog</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.image.caption</td>
+			<td><div class="image caption"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+			
+		</tr>
+		<tr>
+			<td nowrap>.gallery</td>
+			<td><div class="gallery"><a href="#"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" /></a> <a href="#"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" /></a> <a href="#"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" /></a> <a href="#"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" /></a> <a href="#"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" /></a> <a href="#"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" /></a> <a href="#"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" /></a> <a href="#"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" /></a> <a href="#"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" /></a> <a href="#"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" /></a> <a href="#"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" /></a> <a href="#"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" /></a> </div></td>
+		</tr>
+		<tr>
+			<td nowrap>.video-16-9</td>
+			<td><div style="width: 300px"><div class="video-16-9"><iframe allowfullscreen="" frameborder="0" height="338" src="//www.youtube.com/embed/z7bSxhFBQT0?showinfo=0&amp;autohide=1&amp;rel=0" width="600"></iframe></div></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.video-4-3</td>
+			<td><div style="width: 300px"><div class="video-4-3"><iframe allowfullscreen="" frameborder="0" height="338" src="//www.youtube.com/embed/D7uyV3U12iY?showinfo=0&amp;autohide=1&amp;rel=0" width="600"></iframe></div></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.date</td>
+			<td><p class="date">Saturday, March 28, 2015</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.author</td>
+			<td><p class="author">Written by Ruben Reyes</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.readmore</td>
+			<td><a href="#" class="readmore">Read More</a></td>
+		</tr>
+		<tr>
+			<td nowrap>.drop-caps</td>
+			<td><div class="drop-caps">
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				</div></td>
+		</tr>
+		<tr>
+			<td nowrap>.indent</td>
+			<td><div class="indent">
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				</div></td>
+		</tr>
+		<tr>
+			<td nowrap>.outdent</td>
+			<td><div class="outdent">
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				</div></td>
+		</tr>
+		<tr>
+			<td nowrap>.no-p-break</td>
+			<td><div class="no-p-break">
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				</div></td>
+		</tr>
+		<tr>
+			<td nowrap>.show-pilcrow<br />.show-line-break</td>
+			<td><div class="show-pilcrow show-line-break">
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. <br />Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. <br />Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. <br />Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				</div></td>
+		</tr>
+		<tr>
+			<td nowrap>.intro</td>
+			<td><div class="intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</div></td>
+		</tr>
+		<tr>
+			<td nowrap>.hanging-punctuation</td>
+			<td><div class="hanging-punctuation big font-serif">
+				<p>&ldquo;Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				<p>&laquo;Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				<p>&lsquo;Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p>
+				</div></td>
+		</tr>
+		<tr>
+			<td nowrap>.columns2</td>
+			<td><p class="columns2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.columns3</td>
+			<td><p class="columns3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.columns4</td>
+			<td><p class="columns4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.columns5</td>
+			<td><p class="columns5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.columns6</td>
+			<td><p class="columns6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.box-glow<br />.box-glow-hover</td>
+			<td><div class="box-glow margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div>
+			<div class="box-glow-hover margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.box-shadow<br />.box-shadow-hover</td>
+			<td><div class="box-shadow margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div>
+			<div class="box-shadow-hover margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+			
+		</tr>
+		<tr>
+			<td nowrap>.box-tint<br />.box-tint-hover</td>
+			<td><div class="box-tint margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div>
+			<div class="box-tint-hover margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.box-duotone<br />.box-duotone-hover</td>
+			<td><div class="box-duotone margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div>
+			<div class="box-duotone-hover margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.opacity-85<br />.opacity-85-hover</td>
+			<td><div class="opacity-85 margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div>
+			<div class="opacity-85-hover margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.opacity-50<br />.opacity-50-hover</td>
+			<td><div class="opacity-50 margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div>
+			<div class="opacity-50-hover margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.opacity-15<br />.opacity-15-hover</td>
+			<td><div class="opacity-15 margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div>
+			<div class="opacity-15-hover margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.round-corners<br />.round-corners-hover</td>
+			<td><div class="round-corners margin-all image" style="display: inline-block; background-color: #ccc;"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="100" alt="The quick brown fox jumps over the lazy dog" /></div>
+			<div class="round-corners-hover margin-all image" style="display: inline-block; background-color: #ccc;"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="100" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.round-corners-top<br />.round-corners-top-hover</td>
+			<td><div class="round-corners-top margin-all image" style="display: inline-block; background-color: #ccc;"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="100" alt="The quick brown fox jumps over the lazy dog" /></div>
+			<div class="round-corners-top-hover margin-all image" style="display: inline-block; background-color: #ccc;"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="100" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.round-corners-bottom<br />.round-corners-bottom-hover</td>
+			<td><div class="round-corners-bottom margin-all image" style="display: inline-block; background-color: #ccc;"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="100" alt="The quick brown fox jumps over the lazy dog" /></div>
+			<div class="round-corners-bottom-hover margin-all image" style="display: inline-block; background-color: #ccc;"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="100" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.round-corners-left<br />.round-corners-left-hover</td>
+			<td><div class="round-corners-left margin-all image" style="display: inline-block; background-color: #ccc;"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="100" alt="The quick brown fox jumps over the lazy dog" /></div>
+			<div class="round-corners-left-hover margin-all image" style="display: inline-block; background-color: #ccc;"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="100" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.round-corners-right<br />.round-corners-right-hover</td>
+			<td><div class="round-corners-right margin-all image" style="display: inline-block; background-color: #ccc;"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="100" alt="The quick brown fox jumps over the lazy dog" /></div>
+			<div class="round-corners-right-hover margin-all image" style="display: inline-block; background-color: #ccc;"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="100" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.circle-border<br />.circle-border-hover</td>
+			<td><div class="circle-border margin-all" style="display: inline-block; background-color: #ccc; width: 200px; height: 150px; padding: 25px 0; overflow: hidden;"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div>
+			<div class="circle-border-hover margin-all" style="display: inline-block; background-color: #ccc; width: 200px; height: 150px; padding: 25px 0; overflow: hidden;"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.enlarge<br />.enlarge-hover</td>
+			<td><div class="enlarge margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div>
+			<div class="enlarge-hover margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.shrink<br />.shrink-hover</td>
+			<td><div class="shrink margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div>
+			<div class="shrink-hover margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.rotate-90<br />.rotate-90-hover</td>
+			<td><div class="rotate-90 margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div>
+			<div class="rotate-90-hover margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.rotate-180<br />.rotate-180-hover</td>
+			<td><div class="rotate-180 margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div>
+			<div class="rotate-180-hover margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.rotate-270<br />.rotate-270-hover</td>
+			<td><div class="rotate-270 margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div>
+			<div class="rotate-270-hover margin-all image" style="display: inline-block"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div></td>
+		</tr>
+		<tr>
+			<td nowrap>.text-glow<br>.text-glow-hover</td>
+			<td><p class="huge text-glow">The quick brown fox jumps over the lazy dog</p>
+			<p class="huge text-glow-hover">The quick brown fox jumps over the lazy dog</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.text-shadow<br>.text-shadow-hover</td>
+			<td><p class="huge text-shadow">The quick brown fox jumps over the lazy dog</p>
+			<p class="huge text-shadow-hover">The quick brown fox jumps over the lazy dog</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.text-blur<br>.text-blur-hover</td>
+			<td><p class="huge text-blur">The quick brown fox jumps over the lazy dog</p>
+			<p class="huge text-blur-hover">The quick brown fox jumps over the lazy dog</p></td>
+		</tr>
+		<tr>
+			<td nowrap>.image-bw<br />.image-bw-hover</td>
+			<td><img class="image-bw margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" />
+			<img class="image-bw-hover margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></td>
+		</tr>
+		<tr>
+			<td nowrap>.image-glow<br />.image-glow-hover</td>
+			<td><img class="image-glow margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" />
+			<img class="image-glow-hover margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></td>
+		</tr>
+		<tr>
+			<td nowrap>.image-shadow<br />.image-shadow-hover</td>
+			<td><img class="image-shadow margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" />
+			<img class="image-shadow-hover margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></td>
+		</tr>
+		<tr>
+			<td nowrap>.image-blur<br />.image-blur-hover</td>
+			<td><img class="image-blur margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" />
+			<img class="image-blur-hover margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></td>
+		</tr>
+		<tr>
+			<td nowrap>.image-blur-more<br />.image-blur-more-hover</td>
+			<td><img class="image-blur-more margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" />
+			<img class="image-blur-more-hover margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></td>
+		</tr>
+		<tr>
+			<td nowrap>.image-saturate-more<br />.image-saturate-more-hover</td>
+			<td><img class="image-saturate-more margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" />
+			<img class="image-saturate-more-hover margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></td>
+		</tr>
+		<tr>
+			<td nowrap>.image-saturate-less<br />.image-saturate-less-hover</td>
+			<td><img class="image-saturate-less margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" />
+			<img class="image-saturate-less-hover margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></td>
+		</tr>
+		<tr>
+			<td nowrap>.image-sepia<br />.image-sepia-hover</td>
+			<td><img class="image-sepia margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" />
+			<img class="image-sepia-hover margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></td>
+		</tr>
+		<tr>
+			<td nowrap>.image-hue-rotate-90<br />.image-hue-rotate-90-hover</td>
+			<td><img class="image-hue-rotate-90 margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" />
+			<img class="image-hue-rotate-90-hover margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></td>
+		</tr>
+		<tr>
+			<td nowrap>.image-hue-rotate-180<br />.image-hue-rotate-180-hover</td>
+			<td><img class="image-hue-rotate-180 margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" />
+			<img class="image-hue-rotate-180-hover margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></td>
+		</tr>
+		<tr>
+			<td nowrap>.image-hue-rotate-270<br />.image-hue-rotate-270-hover</td>
+			<td><img class="image-hue-rotate-270 margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" />
+			<img class="image-hue-rotate-270-hover margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></td>
+		</tr>
+		<tr>
+			<td nowrap>.image-invert<br />.image-invert-hover</td>
+			<td><img class="image-invert margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" />
+			<img class="image-invert-hover margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></td>
+		</tr>
+		<tr>
+			<td nowrap>.image-brightness-more<br />.image-brightness-more-hover</td>
+			<td><img class="image-brightness-more margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" />
+			<img class="image-brightness-more-hover margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></td>
+		</tr>
+		<tr>
+			<td nowrap>.image-brightness-less<br />.image-brightness-less-hover</td>
+			<td><img class="image-brightness-less margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" />
+			<img class="image-brightness-less-hover margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></td>
+		</tr>
+		<tr>
+			<td nowrap>.image-contrast-more<br />.image-contrast-more-hover</td>
+			<td><img class="image-contrast-more margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" />
+			<img class="image-contrast-more-hover margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></td>
+		</tr>
+		<tr>
+			<td nowrap>.image-contrast-less<br />.image-contrast-less-hover</td>
+			<td><img class="image-contrast-less margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" />
+			<img class="image-contrast-less-hover margin-all" src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></td>
+		</tr>
+		<tr>
+			<td nowrap>.image.zoom-in</td>
+			<td><div class="image zoom-in margin-all" style="display: inline-block; background-color: #ccc; width: 200px; height: 150px;"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div>
+		</tr>
+		<tr>
+			<td nowrap>.image.zoom-out</td>
+			<td><div class="image zoom-out margin-all" style="display: inline-block; background-color: #ccc; width: 200px; height: 150px;"><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" width="200" alt="The quick brown fox jumps over the lazy dog" /></div>
+		</tr>
+		<tr>
+			<td nowrap>#system-message div.alert<br />div.alert-message<br />div.alert-notice<br />div.alert-warning<br />div.alert-error</td>
+			<td><div id="system-message">
+				<div class="alert alert-message"><div class="close">&times;</div><h4>System Message</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p></div>
+				<div class="alert alert-notice"><div class="close">&times;</div><h4>System Notice</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p></div>
+				<div class="alert alert-warning"><div class="close">&times;</div><h4>System Warning</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p></div>
+				<div class="alert alert-error"><div class="close">&times;</div><h4>System Error</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin sollicitudin dolor, sed laoreet nulla vehicula a. Donec eget orci hendrerit, congue tellus a, suscipit libero. Duis at porta leo, eu sagittis elit. Morbi venenatis nulla quis lobortis eleifend. In hac habitasse platea dictumst. Etiam a malesuada nibh, nec sollicitudin magna. Suspendisse potenti. Aenean euismod lacinia turpis vel fringilla.</p></div>
+			</div></td>
+		</tr>
+		<tr>
+			<td nowrap>ul.menu</td>
+			<td><ul class="nav menu collapse-xs">
+	<li class="item-241 deeper parent"><a href="/about-us">About Us</a><ul class="nav-child unstyled small"><li class="item-242"><a href="/about-us/board">Board</a></li></ul></li><li class="item-243 deeper parent"><a href="/membership">Membership</a><ul class="nav-child unstyled small"><li class="item-308"><a href="/philadelphia-partner-connection">Partner Connection</a></li></ul></li><li class="item-182"><a href="/news-blog">News &amp; Blog</a></li><li class="item-196"><a href="/events/events">Events</a></li><li class="item-244"><a href="/sponsorship">Sponsorship</a></li><li class="item-183"><a href="/contact-us">Contact Us</a></li></ul></td>
+		</tr>
+		<tr>
+			<td nowrap>ul.breadcrumb</td>
+			<td><ul class="breadcrumb cf">
+	<li class="active"><span class="divider icon-location"></span></li><li><a href="/home/page225" class="pathway">Home</a><span class="divider"><img src="/media/system/images/arrow.png" alt="" pagespeed_url_hash="3769992897" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></span></li><li><a href="/news-blog" class="pathway">News &amp; Blog</a><span class="divider"><img src="/media/system/images/arrow.png" alt="" pagespeed_url_hash="3769992897" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></span></li><li class="active"><span>Marketing Executive Breakfast Briefing</span></li></ul></td>
+		</tr>
+		<tr>
+			<td nowrap>div.pagination</td>
+			<td><div class="pagination"><div class="pageslinks"><ul><li class="pagination-start"><span class="pagenav">Start</span></li><li class="pagination-prev"><span class="pagenav">Prev</span></li><li><span class="pagenav">1</span></li><li><a href="/news-blog?limitstart=5&amp;flexi_callview=category&amp;isflexicontent=yes&amp;q=%2Fnews-blog" class="pagenav">2</a></li><li><a href="/news-blog?limitstart=10&amp;flexi_callview=category&amp;isflexicontent=yes&amp;q=%2Fnews-blog" class="pagenav">3</a></li><li><a href="/news-blog?limitstart=15&amp;flexi_callview=category&amp;isflexicontent=yes&amp;q=%2Fnews-blog" class="pagenav">4</a></li><li><a href="/news-blog?limitstart=20&amp;flexi_callview=category&amp;isflexicontent=yes&amp;q=%2Fnews-blog" class="pagenav">5</a></li><li><a href="/news-blog?limitstart=25&amp;flexi_callview=category&amp;isflexicontent=yes&amp;q=%2Fnews-blog" class="pagenav">6</a></li><li class="pagination-next"><a title="" href="/news-blog?limitstart=5&amp;flexi_callview=category&amp;isflexicontent=yes&amp;q=%2Fnews-blog" class="hasTooltip pagenav" data-original-title="Next">Next</a></li><li class="pagination-end"><a title="" href="/news-blog?limitstart=25&amp;flexi_callview=category&amp;isflexicontent=yes&amp;q=%2Fnews-blog" class="hasTooltip pagenav" data-original-title="End">End</a></li></ul></div><div class="pagescounter">Page 1 of 6</div></div></td>
+		</tr>
+		<tr>
+			<td nowrap>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td nowrap>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+// Common classes
+// --------------------------------------------------------------------
+
+// Dates, author, read more
+// --------------------------------------------------------------------
+
+// Date
+.date {
+	color: @color-copy-light;
+	.small();
+	text-transform: uppercase;
+
+	&:before {
+		content: '\f017';
+		font-family: 'FontAwesome';
+		font-size: 1em;
+		margin-right: 0.33em;
+	}
+}
+
+// Author
+// add prefix "Written by" before the author name
+.author {
+	color: @color-copy-light;
+	
+	&:before {
+		content:'\f007';
+		font-family: 'FontAwesome';
+		font-size: 1em;
+		margin-right: 0.33em;
+	}
+}
+
+// Read more link
+// adds right double carat at the end of link
+.readmore {
+	display: inline-block;
+	background-color: @color-accent-1-dark;
+	color: @color-bg;
+	padding: 0.33em 0.67em;
+	margin: @elem-margin-base 0;
+	border-radius:0.33em;
+	
+	&:hover {
+		text-decoration:none;
+		background-color:lighten(@color-accent-1,10%);
+		color:@color-bg;
+	}
+	
+	&:after {
+		content:'\f0a9';
+		font-family: 'FontAwesome';
+		font-size: 1em;
+		margin-left: 0.33em;
+	}
+}
+

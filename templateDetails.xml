@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
+<extension version="3.0" type="template" client="site">
+	<name>Lyquix</name>
+	<creationDate>2014-04-01</creationDate>
+	<author>Lyquix</author>
+	<authorEmail>info@lyquix.com</authorEmail>
+	<authorUrl>http://www.lyquix.com</authorUrl>
+	<copyright>Copyright(c)2014 - Lyquix</copyright>
+	<license></license>
+	<version>1.0.0</version>
+	<description>Lyquix base Joomla 3.x template</description>
+	<files>
+		<folder>css</folder>
+		<folder>images</folder>
+		<folder>js</folder>
+		<folder>fonts</folder>
+		<folder>php</folder>
+		<filename>component.php</filename>
+		<filename>error.php</filename>
+		<filename>index.html</filename>
+		<filename>index.php</filename>
+		<filename>offline.php</filename>
+		<filename>raw.php</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_preview.png</filename>
+		<filename>template_thumbnail.png</filename>
+	</files>
+	<positions>
+		<position>head</position>
+	
+		<position>util-1</position>
+		<position>util-2</position>
+		<position>util-3</position>
+		<position>util-4</position>
+		<position>util-5</position>
+	
+		<position>header-1</position>
+		<position>header-2</position>
+		<position>header-3</position>
+		<position>header-4</position>
+		<position>header-5</position>
+	
+	
+		<position>top-1</position>
+		<position>top-2</position>
+		<position>top-3</position>
+		<position>top-4</position>
+		<position>top-5</position>
+	
+	
+		<position>main-top</position>
+		<position>main-left</position>
+		<position>main-center</position>
+		<position>main-right</position>
+		<position>main-bottom</position>
+	
+		<position>bottom-1</position>
+		<position>bottom-2</position>
+		<position>bottom-3</position>
+		<position>bottom-4</position>
+		<position>bottom-5</position>
+	
+		<position>footer-1</position>
+		<position>footer-2</position>
+		<position>footer-3</position>
+		<position>footer-4</position>
+		<position>footer-5</position>
+	
+		<position>copyright-1</position>
+		<position>copyright-2</position>
+		<position>copyright-3</position>
+		<position>copyright-4</position>
+		<position>copyright-5</position>
+	
+		<position>body</position>
+	</positions>
+	<config>
+		<fields name="params">
+			<fieldset name="advanced">
+				<field name="ga_account" type="text" default="" label="Google Analytics Account" description="" />
+				<field name="disqus_shortname" type="text" default="" label="Disqus Shortname" description="" />
+				<field name="addthis_pubid" type="text" default="" label="AddThis PubID" description="" />
+				<field name="google_site_verification" type="text" default="" label="google-site-verification" description="" />
+				<field name="msvalidate" type="text" default="" label="msvalidate.01" description="" />
+				<field name="p_domain_verify" type="text" default="" label="p:domain_verify" description="" />
+				<field name="lqx_options" type="text" default="" label="Lyquix JavaScript Options" description="Object of options to override Lyquix default settings" />
+				<field name="blank_page" type="list" default="0" label="Blank Page" description="">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

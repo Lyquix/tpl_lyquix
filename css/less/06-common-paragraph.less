@@ -1,0 +1,58 @@
+// Common classes
+// --------------------------------------------------------------------
+
+// Paragraphs
+// --------------------------------------------------------------------
+// typographic styles for P tags. apply these clases to parent of P elements
+
+// Drop caps
+.drop-caps p:first-child:first-letter {
+	float: left; 
+	font-size: 2.6em; 
+	line-height: 0;
+	padding-top: 0.55em; 
+	padding-right: 0.2em; 
+	.font-uppercase();
+	.font-serif();
+}
+
+// indent & outdent
+.indent p {
+	text-indent: 3em;
+}
+.outdent p {
+	text-indent: -3em;
+	margin-left: 3em;
+}
+
+// no paragraph break, insert block
+.no-p-break p {
+	display: inline;
+	
+	&:after {
+		content:'\25a0';
+		margin-right: 0.1em;
+		display: inline-block;
+		line-height: 0;
+		font-size: 1.4em;
+	}
+}
+
+.show-pilcrow p:after {
+	content: '\00b6';
+	margin-left: 0.1em;
+}
+
+.show-line-breaks br:after { // implemented with javascript
+}
+
+.intro {
+	margin: 1em 0;
+	padding:1em 0;
+	.big();
+	border-top: @blk-border-width solid @gray-light;
+	border-bottom: @blk-border-width solid @gray-light;
+}
+
+.hanging-punctuation {} // implemented with javascript
+

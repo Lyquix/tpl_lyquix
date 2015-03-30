@@ -1,0 +1,17 @@
+/* Styles for IE8 and older */
+.ie8-alert {
+	background-color:#ffffe7; 
+	background-image:url('../images/ie8-alert.gif'); 
+	background-position:left; 
+	background-repeat:no-repeat; 
+	width:100%; 
+	height:21px; 
+	font-family:Tahoma, Geneva, sans-serif; 
+	font-size:12px; 
+	line-height:21px; 
+	padding:2px 25px; 
+	border-bottom:1px solid #ccc; 
+	position:fixed; top:0px; 
+	left:0;
+	z-index:1000; 
+}
