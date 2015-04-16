@@ -37,6 +37,10 @@
 	filter: sepia(1) hue-rotate(unit(@duotone-color-hue - 34, deg));
 }
 
+.opacity-100 {
+	opacity: 1;
+}
+
 .opacity-85 {
 	opacity: 0.85;
 }
@@ -47,6 +51,10 @@
 
 .opacity-15 {
 	opacity: 0.15;
+}
+
+.opacity-0 {
+	opacity: 0;
 }
 
 .round-corners {
@@ -87,19 +95,75 @@
 	transform: scale(0.8);	
 }
 
+.rotate-0 {
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+	-webkit-transform: rotate(0deg);
+	-ms-transform: rotate(0deg);
+	transform: rotate(0deg);
+}
+
 .rotate-90 {
-	-webkit-transform: rotate(9deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+	-webkit-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
 	transform: rotate(90deg);
 }
 
 .rotate-180 {
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
 	-webkit-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
 	transform: rotate(180deg);
 }
 
 .rotate-270 {
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 	-webkit-transform: rotate(270deg);
+	-ms-transform: rotate(270deg);
 	transform: rotate(270deg);
+}
+
+.flip-horizontal {
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);
+	-webkit-transform: scale(-1, 1);
+	-ms-transform: scale(-1, 1);
+	transform: scale(-1, 1);
+}
+
+.flip-vertical {
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);
+	-webkit-transform: scale(1, -1);
+	-ms-transform: scale(1, -1);
+	transform: scale(1, -1);
+}
+
+// basic animations
+// --------------------------------------------------------------------
+
+.spin {
+	-webkit-animation: spin 2s infinite linear;
+	animation: spin 2s infinite linear;
+}
+
+@-webkit-keyframes spin {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(359deg);
+		transform: rotate(359deg);
+	}
+}
+@keyframes spin {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(359deg);
+		transform: rotate(359deg);
+	}
 }
 
 // text transforms

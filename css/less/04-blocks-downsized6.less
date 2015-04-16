@@ -1,9 +1,9 @@
 // Layout downsized block for block4 layouts
 // --------------------------------------------------------------------
-// 
+// In smaller screens the larger blocks must be downsized automatically in order to fit
 
 // Downsized blocks
-// In smaller screens the larger blocks must be downsized automatically in order to fit
+
 body[screen=xs] {
 	.blk7, .blk8, .blk9, .blk10, .blk11, .blk12, .blk13, .blk14, .blk15, .blk16, .blk17, .blk18, .blk19, .blk20, .blk21, .blk22, .blk23, .blk24, .blk25, .blk26, .blk27, .blk28, .blk29, .blk30 {
 		width: @blk6-width;	// 6 blocks
@@ -38,7 +38,7 @@ body[screen=lg] {
 }
 
 // Downsized blocks
-// In smaller screens the larger blocks must be downsized automatically in order to fit
+
 body[screen=xs] .blkgroup {
 	&.blk7, &.blk8, &.blk9, &.blk10, &.blk11, &.blk12, &.blk13, &.blk14, &.blk15, &.blk16, &.blk17, &.blk18, &.blk19, &.blk20, &.blk21, &.blk22, &.blk23, &.blk24, &.blk25, &.blk26, &.blk27, &.blk28, &.blk29, &.blk30 {
 		width: @blk6-width + @blk-margin-border-padding-width * 2;	// 6 blocks
@@ -71,3 +71,31 @@ body[screen=lg] .blkgroup {
 		max-width: @blk24-width + @blk-margin-border-padding-width * 2;	// 24 blocks
 	}
 }
+
+
+// Downsized block push
+
+body[screen=xs] {
+	.blkpush6, .blkpush7, .blkpush8, .blkpush9, .blkpush10, .blkpush11, .blkpush12, .blkpush13, .blkpush14, .blkpush15, .blkpush16, .blkpush17, .blkpush18, .blkpush19, .blkpush20, .blkpush21, .blkpush22, .blkpush23, .blkpush24, .blkpush25, .blkpush26, .blkpush27, .blkpush28, .blkpush29, .blkpush30 {
+		margin-left: inherit;
+	}
+}
+
+body[screen=sm] {
+	.blkpush12, .blkpush13, .blkpush14, .blkpush15, .blkpush16, .blkpush17, .blkpush18, .blkpush19, .blkpush20, .blkpush21, .blkpush22, .blkpush23, .blkpush24, .blkpush25, .blkpush26, .blkpush27, .blkpush28, .blkpush29, .blkpush30 {
+		margin-left: inherit;
+	}
+}
+
+body[screen=md] {
+	.blkpush18, .blkpush19, .blkpush20, .blkpush21, .blkpush22, .blkpush23, .blkpush24, .blkpush25, .blkpush26, .blkpush27, .blkpush28, .blkpush29, .blkpush30 {
+		margin-left: inherit;
+	}
+}
+
+body[screen=lg] {
+	.blkpush24, .blkpush25, .blkpush26, .blkpush27, .blkpush28, .blkpush29, .blkpush30 {
+		margin-left: inherit;
+	}
+}
+

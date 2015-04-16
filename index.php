@@ -2,8 +2,13 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+/**
+*** NOTICE: Do not modify this file!
+*** If you need to customize your template, create a file named custom-index.php
+**/
+
 // if custom-index.php file exists the whole template is overriden
-if(file_exists(JPATH_BASE . '/templates/' . $this->template . 'custom-index.php')) :
+if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/custom-index.php')) :
 	include 'custom-index.php'; 
 else :
 
@@ -39,9 +44,12 @@ if($detect->isMobile()){
 	echo '<link href="' . JURI::root() . '" rel="canonical" />' . "\n";
 } ?>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <jdoc:include type="head" />
-<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/styles.css?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/css/styles.css')); ?>" rel="stylesheet" type="text/css" />
+<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/styles.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/' . ($this->params->get('lessjs') ? 'less' : 'css') . '/styles.css')); ?>" rel="stylesheet" type="text/<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>" />
+<?php if($this->params->get('lessjs')): ?>
+<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/less.js" type="text/javascript"></script>
+<?php endif; ?>
 <?php if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/css/ie9.css')): ?>
 <!--[if lte IE 9]>
 <link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/ie9.css" rel="stylesheet" type="text/css" />
@@ -96,22 +104,20 @@ echo ($home ? 'home ' : '').
 	JRequest::getVar('option').
 	' view_'.JRequest::getVar('view').
 	(is_null(JRequest::getVar('task')) ? '' : ' task_'.JRequest::getVar('task'));
+
+if(is_array($this->params->get('fluid_screen')) && (($this->params->get('fluid_device', 'any') == 'any') || ($this->params->get('fluid_device') == 'mobile' && $mobile) || ($this->params->get('fluid_device') == 'phone' && $phone) || ($this->params->get('fluid_device') == 'tablet' && $tablet) )) {
+	foreach($this->params->get('fluid_screen') as $fluid_screen){
+		echo ' blkfluid-' . $fluid_screen;
+	}
+}
 ?>">
 <script type="text/javascript">
-(function(){
-	w = jQuery(window).width();
-	if(w < 640) s = 'xs';
-	if(w >= 640) s = 'sm';
-	if(w >= 960) s = 'md';
-	if(w >= 1280) s = 'lg';
-	if(w >= 1600) s = 'xl';
-	jQuery('body').attr('screen',s);
-})();
+lqx.bodyScreenSize();
 </script>
 <?php if(!$this->params->get('blank_page',0)) : // if blank-page parameter is set, only the component will be output ?>
 <header>
 	
-	<?php if($this->countModules('util-1') || $this->countModules('util-2') || $this->countModules('util-3')): ?>
+	<?php if($this->countModules('util-1') || $this->countModules('util-2') || $this->countModules('util-3') || $this->countModules('util-4') || $this->countModules('util-5') || $this->countModules('util-6')): ?>
 	<div class="row util">
 		<div class="container cf">
 			<div class="util-1 blk4 blkgroup">
@@ -123,11 +129,20 @@ echo ($home ? 'home ' : '').
 			<div class="util-3 blk4 blkgroup">
 				<jdoc:include type="modules" name="util-3" />
 			</div>
+			<div class="util-4 blk4 blkgroup">
+				<jdoc:include type="modules" name="util-4" />
+			</div>
+			<div class="util-5 blk4 blkgroup">
+				<jdoc:include type="modules" name="util-5" />
+			</div>
+			<div class="util-6 blk4 blkgroup">
+				<jdoc:include type="modules" name="util-6" />
+			</div>
 		</div>
 	</div>
 	<?php endif; ?>
 	
-	<?php if($this->countModules('header-1') || $this->countModules('header-2') || $this->countModules('header-3')): ?>
+	<?php if($this->countModules('header-1') || $this->countModules('header-2') || $this->countModules('header-3') || $this->countModules('header-4') || $this->countModules('header-5') || $this->countModules('header-6')): ?>
 	<div class="row header">
 		<div class="container cf">
 			<div class="header-1 blk4 blkgroup">
@@ -139,11 +154,20 @@ echo ($home ? 'home ' : '').
 			<div class="header-3 blk4 blkgroup">
 				<jdoc:include type="modules" name="header-3" />
 			</div>
+			<div class="header-4 blk4 blkgroup">
+				<jdoc:include type="modules" name="header-4" />
+			</div>
+			<div class="header-5 blk4 blkgroup">
+				<jdoc:include type="modules" name="header-5" />
+			</div>
+			<div class="header-6 blk4 blkgroup">
+				<jdoc:include type="modules" name="header-6" />
+			</div>
 		</div>
 	</div>
 	<?php endif; ?>
 	
-	<?php if($this->countModules('top-1') || $this->countModules('top-2') || $this->countModules('top-3')): ?>
+	<?php if($this->countModules('top-1') || $this->countModules('top-2') || $this->countModules('top-3')|| $this->countModules('top-4') || $this->countModules('top-5') || $this->countModules('top-6')): ?>
 	<div class="row top">
 		<div class="container cf">
 			<div class="top-1 blk4 blkgroup">
@@ -154,6 +178,15 @@ echo ($home ? 'home ' : '').
 			</div>
 			<div class="top-3 blk4 blkgroup">
 				<jdoc:include type="modules" name="top-3" />
+			</div>
+			<div class="top-4 blk4 blkgroup">
+				<jdoc:include type="modules" name="top-4" />
+			</div>
+			<div class="top-5 blk4 blkgroup">
+				<jdoc:include type="modules" name="top-5" />
+			</div>
+			<div class="top-6 blk4 blkgroup">
+				<jdoc:include type="modules" name="top-6" />
 			</div>
 		</div>
 	</div>
@@ -167,13 +200,13 @@ echo ($home ? 'home ' : '').
 		
 		<jdoc:include type="message" />
 		
-		<?php if($this->countModules('main-top')): ?>
-		<div class="main-top">
-			<jdoc:include type="modules" name="main-top" />
+		<?php if($this->countModules('main-header')): ?>
+		<div class="main-header">
+			<jdoc:include type="modules" name="main-header" />
 		</div>
 		<?php endif; ?>
 		
-		<div class="main-middle blk12 blkgroup">
+		<div class="main-middle blk20 blkgroup">
 			
 			<?php if($this->countModules('main-left')): ?>
 			<div class="main-left blk4 blkgroup">
@@ -181,7 +214,13 @@ echo ($home ? 'home ' : '').
 			</div>
 			<?php endif; ?>
 
-			<div class="main-center blk<?php echo 12 - ($this->countModules('main-left') ? 4 : 0) - ($this->countModules('main-right') ? 4 : 0)  ?> blkgroup">
+			<div class="main-center blk<?php echo 20 - ($this->countModules('main-left') ? 4 : 0) - ($this->countModules('main-right') ? 4 : 0)  ?> blkgroup">
+				
+				<?php if($this->countModules('main-top')): ?>
+				<div class="main-top">
+					<jdoc:include type="modules" name="main-top" />
+				</div>
+				<?php endif; ?>
 				
 				<?php if($home): ?>
 				<jdoc:include type="modules" name="main-center" />
@@ -189,6 +228,12 @@ echo ($home ? 'home ' : '').
 				<article>
 					<jdoc:include type="component" />
 				</article>
+				<?php endif; ?>
+				
+				<?php if($this->countModules('main-bottom')): ?>
+				<div class="main-bottom">
+					<jdoc:include type="modules" name="main-bottom" />
+				</div>
 				<?php endif; ?>
 				
 			</div>
@@ -201,9 +246,9 @@ echo ($home ? 'home ' : '').
 			
 		</div>
 		
-		<?php if($this->countModules('main-bottom')): ?>
-		<div class="main-bottom">
-			<jdoc:include type="modules" name="main-bottom" />
+		<?php if($this->countModules('main-footer')): ?>
+		<div class="main-footer">
+			<jdoc:include type="modules" name="main-footer" />
 		</div>
 		<?php endif; ?>
 		
@@ -213,7 +258,7 @@ echo ($home ? 'home ' : '').
 
 <footer>
 
-	<?php if($this->countModules('bottom-1') || $this->countModules('bottom-2') || $this->countModules('bottom-3')): ?>
+	<?php if($this->countModules('bottom-1') || $this->countModules('bottom-2') || $this->countModules('bottom-3') || $this->countModules('bottom-4') || $this->countModules('bottom-5') || $this->countModules('bottom-6')): ?>
 	<div class="row bottom">
 		<div class="container cf">
 			<div class="bottom-1 blk4 blkgroup">
@@ -225,11 +270,20 @@ echo ($home ? 'home ' : '').
 			<div class="bottom-3 blk4 blkgroup">
 				<jdoc:include type="modules" name="bottom-3" />
 			</div>
+			<div class="bottom-4 blk4 blkgroup">
+				<jdoc:include type="modules" name="bottom-4" />
+			</div>
+			<div class="bottom-5 blk4 blkgroup">
+				<jdoc:include type="modules" name="bottom-5" />
+			</div>
+			<div class="bottom-6 blk4 blkgroup">
+				<jdoc:include type="modules" name="bottom-6" />
+			</div>
 		</div>
 	</div>
 	<?php endif; ?>
 	
-	<?php if($this->countModules('footer-1') || $this->countModules('footer-2') || $this->countModules('footer-3')): ?>
+	<?php if($this->countModules('footer-1') || $this->countModules('footer-2') || $this->countModules('footer-3') || $this->countModules('footer-4') || $this->countModules('footer-5') || $this->countModules('footer-6')): ?>
 	<div class="row footer">
 		<div class="container cf">
 			<div class="footer-1 blk4 blkgroup">
@@ -241,11 +295,20 @@ echo ($home ? 'home ' : '').
 			<div class="footer-3 blk4 blkgroup">
 				<jdoc:include type="modules" name="footer-3" />
 			</div>
+			<div class="footer-4 blk4 blkgroup">
+				<jdoc:include type="modules" name="footer-4" />
+			</div>
+			<div class="footer-5 blk4 blkgroup">
+				<jdoc:include type="modules" name="footer-5" />
+			</div>
+			<div class="footer-6 blk4 blkgroup">
+				<jdoc:include type="modules" name="footer-6" />
+			</div>
 		</div>
 	</div>
 	<?php endif; ?>
 	
-	<?php if($this->countModules('copyright-1') || $this->countModules('copyright-2') || $this->countModules('copyright-3')): ?>
+	<?php if($this->countModules('copyright-1') || $this->countModules('copyright-2') || $this->countModules('copyright-3') || $this->countModules('copyright-4') || $this->countModules('copyright-5') || $this->countModules('copyright-6')): ?>
 	<div class="row copyright">
 		<div class="container cf">
 			<div class="copyright-1 blk4 blkgroup">
@@ -256,6 +319,15 @@ echo ($home ? 'home ' : '').
 			</div>
 			<div class="copyright-3 blk4 blkgroup">
 				<jdoc:include type="modules" name="copyright-3" />
+			</div>
+			<div class="copyright-4 blk4 blkgroup">
+				<jdoc:include type="modules" name="copyright-4" />
+			</div>
+			<div class="copyright-5 blk4 blkgroup">
+				<jdoc:include type="modules" name="copyright-5" />
+			</div>
+			<div class="copyright-6 blk4 blkgroup">
+				<jdoc:include type="modules" name="copyright-6" />
 			</div>
 		</div>
 	</div>

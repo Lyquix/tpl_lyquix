@@ -97,7 +97,7 @@
 	.banners {
 		
 		position: relative;
-		margin-top:-36px;
+		margin-top: -36px;
 		
 		.banner {
 			
@@ -105,10 +105,10 @@
 			width: 100%;
 			
 			.image {
-				width:100%;
-				height:0;
-				padding-bottom:46%;
-				overflow:hidden;
+				width: 100%;
+				height: 0;
+				padding-bottom: 46%;
+				overflow: hidden;
 				
 				img {
 					width:100%;
@@ -118,27 +118,27 @@
 			.text {
 				position: absolute;
 				top: 2em;
-				background-color: rgba(64,64,64,0.85);
+				background-color: fade(@gray-dark, 85);
 				padding: 0 1em;
 				width: 33%;
-				color:@color-bg;
+				color: @color-bg;
 			}
 			
 			&.left {
 				.text {
-					left:1em;
+					left: 4em;
 				}
 			}
 			
 			&.right {
 				.text {
-					right:1em;
+					right: 4em;
 				}
 			}
 			
 			&.html {
 				.image {
-					display:none;
+					display: none;
 				}
 				
 				.text {
@@ -163,62 +163,108 @@
 	
 	.arrows {
 		
+		.prev, .next {
+			position: absolute;
+			top: 40%;
+			padding: 0;
+			font-size: 6em;
+			line-height: 0;
+			cursor: pointer;
+			font-family: 'FontAwesome';
+			color: @color-bg;
+			.text-shadow();
+			.opacity-50();
+			.opacity-100-hover();
+		}
+		
 		.prev {
+			left: @blk-margin-width;
 			
+			&:before {
+				content:'\f104';
+			}
 		}
 		
 		.next {
+			right: @blk-margin-width;
 			
+			&:before {
+				content:'\f105';
+			}
 		}
 	}
-	
+
 	.tabs {
 		
 		position: absolute;
-		left:auto;
-		right:0;
+		left: 0;
 		bottom: 0;
-		width:auto;
+		width: 100%;
+		box-sizing: border-box;
 		
 		.tab {
-			background-color: @color-accent-1-dark;
+			box-sizing: border-box;
+			border-left: @blk-border-width solid @color-bg;
+			margin: 0;
+			padding: @blk-margin-border-padding-width;
+			background-color: @gray;
+			color: @color-bg;
 			float: left;
+			text-align: center;
 			cursor: pointer;
 			overflow: hidden;
-			width:1em;
-			height:1em;
-			border-radius:1em;
-			margin-left:0.5em;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			border-radius: 0;
+			height: auto;
 			
-			&.on, &:hover {
-				color: @color-accent-1-dark;
-				background-color: @color-accent-1-lighter;
+			&[data-total="1"] { width: 100%; }
+			&[data-total="2"] { width: 50%; }
+			&[data-total="3"] { width: 33.333%; }
+			&[data-total="4"] { width: 25%; }
+			&[data-total="5"] { width: 20%; }
+			
+			&:first-child {
+				border-left: none;
 			}
 			
+			&.on {
+				font-weight: bold;
+				background-color: @gray-dark;
+			}
 			span, img {
-				display:none;
+				display: inline;
 			}
-		}		
-	}
-}
-
-body[screen=xs] .mod_lyquix_banners {
-	
-	.banners .banner {
-		.text {
-			display: none;
 		}
 		
-		&.html .text {
-			display: block;
-		}
 	}
+
 }
 
-body[screen=sm] .mod_lyquix_banners {
-
-	.banners .banner .text {
-		width:45%;
+body[screen=xs], body[screen=sm] {
+	.mod_lyquix_banners {
+		
+		.banners .banner {
+			.text {
+				display: none;
+			}
+			
+			&.html .text {
+				display: block;
+			}
+		}
+		
+		.tab {
+			border-left: none;
+			display: none;
+			
+			&[data-total] { width: 100%; }
+			
+			&.on {
+				display: block;
+			}
+		}
+		
 	}
 }
 

@@ -2,8 +2,13 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+/**
+*** NOTICE: Do not modify this file!
+*** If you need to customize your template, create a file named custom-component.php
+**/
+
 // if custom-index.php file exists the whole template is overriden
-if(file_exists(JPATH_BASE . '/templates/' . $this->template . 'custom-component.php')) :
+if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/custom-component.php')) :
 	include 'custom-component.php'; 
 else :
 
@@ -39,9 +44,12 @@ if($detect->isMobile()){
 	echo '<link href="' . JURI::root() . '" rel="canonical" />' . "\n";
 } ?>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <jdoc:include type="head" />
-<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/styles.css?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/css/styles.css')); ?>" rel="stylesheet" type="text/css" />
+<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/styles.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/' . ($this->params->get('lessjs') ? 'less' : 'css') . '/styles.css')); ?>" rel="stylesheet" type="text/<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>" />
+<?php if($this->params->get('lessjs')): ?>
+<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/less.js" type="text/javascript"></script>
+<?php endif; ?>
 <?php if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/css/ie9.css')): ?>
 <!--[if lte IE 9]>
 <link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/ie9.css" rel="stylesheet" type="text/css" />
@@ -96,17 +104,15 @@ echo ($home ? 'home ' : '').
 	JRequest::getVar('option').
 	' view_'.JRequest::getVar('view').
 	(is_null(JRequest::getVar('task')) ? '' : ' task_'.JRequest::getVar('task'));
+
+if(is_array($this->params->get('fluid_screen')) && (($this->params->get('fluid_device', 'any') == 'any') || ($this->params->get('fluid_device') == 'mobile' && $mobile) || ($this->params->get('fluid_device') == 'phone' && $phone) || ($this->params->get('fluid_device') == 'tablet' && $tablet) )) {
+	foreach($this->params->get('fluid_screen') as $fluid_screen){
+		echo ' blkfluid-' . $fluid_screen;
+	}
+}
 ?>">
 <script type="text/javascript">
-(function(){
-	w = jQuery(window).width();
-	if(w < 640) s = 'xs';
-	if(w >= 640) s = 'sm';
-	if(w >= 960) s = 'md';
-	if(w >= 1280) s = 'lg';
-	if(w >= 1600) s = 'xl';
-	jQuery('body').attr('screen',s);
-})();
+lqx.bodyScreenSize();
 </script>
 
 <jdoc:include type="message" />

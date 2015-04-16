@@ -1,0 +1,244 @@
+// Joomla and 3rd party extensions
+// --------------------------------------------------------------------
+// Styles for common Joomla and 3rd party extension elements
+
+
+// Tooltips
+// --------------------------------------------------------------------
+
+.tooltip {
+	display: none !important;
+}
+
+
+// System messages
+// --------------------------------------------------------------------
+
+#system-message {
+	
+	div.alert {
+		padding: 0.75em 1.5em;
+		margin: 1.5em 0;
+		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+		-webkit-border-radius: 4px;
+		-moz-border-radius: 4px;
+		border-radius: 4px;
+	}
+
+	// green
+	div.alert-message {
+		background-color: @color-message-bg;
+		border: 1px solid @color-message-border;
+		color: @color-message;
+		
+		.close {
+			text-decoration: none;
+			color: @color-message;
+
+			&:hover {
+				color: @color-message;
+			}
+		}
+		
+		h4 {
+			color: @color-message;
+		}
+	}
+	
+	// blue
+	div.alert-notice {
+		background-color: @color-notice-bg;
+		border: 1px solid @color-notice-border;
+		color: @color-notice;
+		
+		.close {
+			text-decoration: none;
+			color: @color-notice;
+
+			&:hover {
+				color: @color-notice;
+			}
+		}
+		
+		h4 {
+			color: @color-notice;
+		}
+	}
+	
+	// yellow
+	div.alert-warning {
+		background-color: @color-warning-bg;
+		border: 1px solid @color-warning-border;
+		color: @color-warning;
+		
+		.close {
+			text-decoration: none;
+			color: @color-warning;
+
+			&:hover {
+				color: @color-warning;
+			}
+		}
+		
+		h4 {
+			color: @color-warning;
+		}
+	}
+	
+	// red
+	div.alert-error {
+		background-color: @color-error-bg;
+		border: 1px solid @color-error-border;
+		color: @color-error;
+		
+		.close {
+			text-decoration: none;
+			color: @color-error;
+
+			&:hover {
+				color: @color-error;
+			}
+		}
+		
+		h4 {
+			color: @color-error;
+		}
+	}
+	
+	h4 {
+		margin: 0;
+	}
+	
+	.close {
+		float: right;
+		cursor: pointer;
+	}
+}
+
+
+// Breadcrumbs
+// --------------------------------------------------------------------
+
+ul.breadcrumb {
+	list-style: none;
+	padding: 0;
+	
+	li {
+		display: inline;
+		.small();
+		.font-uppercase();
+		
+		span.divider {
+			&:before {
+				display: inline;
+				padding: 0 0.5em;
+				font-size: 1.25em;
+				color: @color-link;
+			}
+			.fa-angle-right();
+			
+			img {
+				display: none;
+			}
+		}
+		
+		&:first-child {
+			display: none;
+		}
+	}
+	
+}
+
+// Pagination
+// --------------------------------------------------------------------
+
+div.pagination {
+	div.pageslinks {
+		ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			
+			li {
+				float: left;
+				margin: 1em 0.67em 1em 0;
+				display: inline-block;
+				
+				&.active {
+					a {
+						display: inline-block;
+						background-color: @color-primary-dark;
+						color: @color-bg;
+						padding: 0.33em 0.67em;
+						border-radius: 0.33em;
+						
+						&:hover {
+							text-decoration: none;
+							background-color: lighten(@color-primary,10%);
+							color: @color-bg;
+						}
+					}
+					
+					&.first a {
+						.fa-angle-double-left();
+					}
+					&.prev a {
+						.fa-angle-left();
+					}
+					&.next a {
+						.fa-angle-right();
+					}
+					&.last a {
+						.fa-angle-double-right();
+					}
+				}
+				
+				&.inactive {
+					background-color: @gray-light;
+					color: @color-bg;
+					padding: 0.33em 0.67em;
+					border-radius: 0.33em;
+					cursor: pointer;
+					
+					&:hover {
+						text-decoration: none;
+						background-color: @gray-lighter;
+						color: @color-copy;
+					}
+					
+					&.first {
+						.fa-angle-double-left();
+					}
+					&.prev {
+						.fa-angle-left();
+					}
+					&.page {
+						.font-bold();
+						background-color: @gray-lighter;
+						color: @color-copy;
+					}
+					&.next {
+						.fa-angle-right();
+					}
+					&.last {
+						.fa-angle-double-right();
+					}
+				}
+			}
+		}
+		
+		.cf();
+
+	}
+	div.pagescounter {
+		font-size: 0.8em;
+		text-transform: uppercase;
+		font-weight: bold;
+	}
+}
+
+body[screen=xs] div.pagination {
+	li.page {
+		display: none;
+	}
+}

@@ -1,14 +1,23 @@
-//! based on normalize.css v3.0.1 | git.io/normalize
-
-// 1. Set default font family to sans-serif.
-// 2. Prevent iOS text size adjust after orientation change, without disabling user zoom.
+//! based on normalize.css
 
 html {
 	font-family: sans-serif;
 	text-size-adjust: none;
 	-moz-text-size-adjust: none;
 	-ms-text-size-adjust: none; 
-	-webkit-text-size-adjust: none; 
+	-webkit-text-size-adjust: none;
+	word-break: break-word;
+	// better font rendering
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	// enable ligatures
+	-webkit-font-feature-settings: "liga";
+	-moz-font-feature-settings: "liga=1";
+	-moz-font-feature-settings: "liga";
+	-ms-font-feature-settings: "liga" 1;
+	-o-font-feature-settings: "liga";
+	font-feature-settings: "liga";
 }
 
 // Remove default margin.
@@ -164,13 +173,15 @@ figure {
 hr {
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
-	height: 0;
 }
 
 // Contain overflow in all browsers.
 
 pre {
 	overflow: auto;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	word-wrap: break-word;   
 }
 
 // Address odd `em`-unit font size rendering in all browsers.

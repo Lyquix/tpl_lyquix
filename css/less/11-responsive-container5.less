@@ -14,12 +14,24 @@
 	margin:0 auto;
 }
 
-body[screen=xs] .container {
-	width: (@blk5-width + @blk-margin-border-padding-width * 2);	// xs screen - 5 blocks
+body[screen=xs] {
+	.container {
+		width: (@blk5-width + @blk-margin-border-padding-width * 2);	// xs screen - 5 blocks
+	}
+	
+	&.blkfluid-xs .container {
+		width: 100%;
+	}
 }
 
 body[screen=sm] .container {
-	width: (@blk10-width + @blk-margin-border-padding-width * 2);	// sm screen - 10 blocks
+	.container {
+		width: (@blk10-width + @blk-margin-border-padding-width * 2);	// sm screen - 10 blocks
+	}
+	
+	&.blkfluid-sm .container {
+		width: 100%;
+	}
 }
 	
 body[screen=md] .container {

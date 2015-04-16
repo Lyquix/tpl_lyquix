@@ -8,17 +8,12 @@ body {
 	color: @color-copy;
 	font-size: @font-size-base; 
 	line-height: @line-height-base;
-	word-break: break-word;
 }
 p {
 	margin: @elem-margin-base 0;
 }
 pre {
 	font-family: @font-monospace;
-	// make pre text wrap
-	white-space: pre-wrap;
-	white-space: -moz-pre-wrap;
-	word-wrap: break-word;   
 }
 a {
 	color: @color-link;
@@ -138,10 +133,43 @@ input[type=checkbox],input[type=file],input[type=image],input[type=radio] {
 	background-color:transparent;
 	border-color: transparent;
 }
+input[type=checkbox], input[type=radio] {
+	visibility: hidden;
+}
+input[type=checkbox]:after, input[type=radio]:after,
+input[type=checkbox]:checked:after, input[type=radio]:checked:after {
+	visibility: visible;
+	display: inline-block;
+	.icon();
+}
+input[type=checkbox]:after {
+	font-family: 'IcoMoon';
+	content: '\ea53';
+	color: @color-checkbox;
+}
+input[type=radio]:after {
+	font-family: 'IcoMoon';
+	content: '\ea56';
+	color: @color-radio;
+}
+input[type=checkbox]:checked:after {
+	font-family: 'IcoMoon';
+	content: '\ea52';
+	color: @color-checkbox-checked;
+}
+input[type=radio]:checked:after {
+	font-family: 'IcoMoon';
+	content: '\ea54';
+	color: @color-radio-checked;
+}
+input:disabled,textarea:disabled,select:disabled {
+	background-color: @gray-lighter;
+}
 input[type=submit],input[type=button],input[type=reset],button {
 	background-color: @color-button-bg;
 	color: @color-button;
 	font-family: @font-button;
+	font-weight: bold;
 	padding: 0.5em 2em;
 	margin: 0 @elem-margin-input;
 	border-radius: 0.33em;
@@ -153,12 +181,9 @@ input[type=submit],input[type=button],input[type=reset],button {
 		color: @color-bg;
 	}
 }
-input:disabled,textarea:disabled,select:disabled {
-	background-color: @gray-lighter;
-}
 input[type=submit]:disabled,input[type=button]:disabled,input[type=reset]:disabled,button:disabled {
 	background-color: @gray;
-	color: @gray-lighter;
+	color: @color-button;
 	&:hover {
 		background-color: @gray-light;
 	}

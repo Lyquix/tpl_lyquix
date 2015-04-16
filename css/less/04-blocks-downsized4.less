@@ -1,9 +1,9 @@
 // Layout downsized block for block4 layouts
 // --------------------------------------------------------------------
-// 
+// In smaller screens the larger blocks must be downsized automatically in order to fit
 
 // Downsized blocks
-// In smaller screens the larger blocks must be downsized automatically in order to fit
+
 body[screen=xs] {
 	.blk5, .blk6, .blk7, .blk8, .blk9, .blk10, .blk11, .blk12, .blk13, .blk14, .blk15, .blk16, .blk17, .blk18, .blk19, .blk20 {
 		width: @blk4-width;	// 4 blocks
@@ -40,8 +40,8 @@ body[screen=lg] {
 }
 
 
-// Downsized blocks
-// In smaller screens the larger blocks must be downsized automatically in order to fit
+// Downsized block groups
+
 body[screen=xs] .blkgroup {
 	&.blk5, &.blk6, &.blk7, &.blk8, &.blk9, &.blk10, &.blk11, &.blk12, &.blk13, &.blk14, &.blk15, &.blk16, &.blk17, &.blk18, &.blk19, &.blk20 {
 		width: @blk4-width + @blk-margin-border-padding-width * 2;	// 4 blocks
@@ -74,3 +74,30 @@ body[screen=lg] .blkgroup {
 		max-width: @blk16-width + @blk-margin-border-padding-width * 2;	// 16 blocks
 	}
 }
+
+// Downsized block push
+
+body[screen=xs] {
+	.blkpush4, .blkpush5, .blkpush6, .blkpush7, .blkpush8, .blkpush9, .blkpush10, .blkpush11, .blkpush12, .blkpush13, .blkpush14, .blkpush15, .blkpush16, .blkpush17, .blkpush18, .blkpush19, .blkpush20 {
+		margin-left: inherit;
+	}
+}
+
+body[screen=sm] {
+	.blkpush8, .blkpush9, .blkpush10, .blkpush11, .blkpush12, .blkpush13, .blkpush14, .blkpush15, .blkpush16, .blkpush17, .blkpush18, .blkpush19, .blkpush20 {
+		margin-left: inherit;
+	}
+}
+
+body[screen=md] {
+	.blkpush12, .blkpush13, .blkpush14, .blkpush15, .blkpush16, .blkpush17, .blkpush18, .blkpush19, .blkpush20 {
+		margin-left: inherit;
+	}
+}
+
+body[screen=lg] {
+	.blkpush16, .blkpush17, .blkpush18, .blkpush19, .blkpush20 {
+		margin-left: inherit;
+	}
+}
+

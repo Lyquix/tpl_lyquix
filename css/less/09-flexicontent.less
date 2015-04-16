@@ -74,34 +74,11 @@ ul.filtergroup {
 	}
 	
 	&.field_intro_text {
-		margin:1em 0;
-		font-size:1.25em;
-		quotes: "\201C""\201D""\2018""\2019";
-		
-		p,ul,ol {
-			&:last-child {
-				margin-bottom: 0;
-			}
-		}
+		.intro();
 	}
 	
 	&.field_created_by {
-		color:@color-copy-light;
-		margin-bottom:0.67em;
-		
-		&:before {
-			content:"By ";
-			font-weight:normal;
-		}
-		
-		/*
-		&:before {
-			content:'\f040';
-			font-family: 'FontAwesome';
-			font-size:14px;
-			margin-right:5px;
-		}
-		*/
+		.author();
 	}
 	
 	&.field_video {
