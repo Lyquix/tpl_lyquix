@@ -99,12 +99,16 @@
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
+				<field name="non_min_js" type="radio" default="0" label="Use original JS" description="Uses the original JS files instead of the minified versions. Activate only for development.">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
 				<field name="fluid_screen" type="checkboxes" label="Fluid Layout Screens" description="Select for what screen sizes should fluid layout be enabled">
 					<option value="xs">XS</option>
 					<option value="sm">SM</option>
 				</field>
 				<field name="fluid_device" type="radio" default="any" label="Fluid Layout Devices" description="Select what devices are allowed to have fluid layouts">
-					<option value="any">Any</option>
+					<option value="any">Any (Mobile and Desktop)</option>
 					<option value="mobile">Mobile only</option>
 					<option value="phone">Phones only</option>
 					<option value="tablet">Tablets only</option>

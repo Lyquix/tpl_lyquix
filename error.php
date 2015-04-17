@@ -28,8 +28,8 @@ if($detect->isMobile()){
 <script type="text/javascript">if(typeof console=='undefined'||typeof console.log=='undefined'){console={};console.log=function(){};}</script>
 <![endif]-->
 <!--[if lt IE 9]>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/html5shiv.js" type="text/javascript"></script>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/selectivizr.js" type="text/javascript"></script>
+<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/html5shiv<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js" type="text/javascript"></script>
+<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/selectivizr<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js" type="text/javascript"></script>
 <![endif]-->
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,7 +45,7 @@ if($detect->isMobile()){
 <script src="<?php echo JURI::root(true); ?>/media/jui/js/jquery.ui.core.min.js" type="text/javascript"></script>
 <link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/styles.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/' . ($this->params->get('lessjs') ? 'less' : 'css') . '/styles.css')); ?>" rel="stylesheet" type="text/<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>" />
 <?php if($this->params->get('lessjs')): ?>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/less.js" type="text/javascript"></script>
+<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/less<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js" type="text/javascript"></script>
 <?php endif; ?>
 <?php if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/css/ie9.css')): ?>
 <!--[if lte IE 9]>
@@ -62,7 +62,7 @@ if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/css/ie7.css')): 
 <link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/ie7.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <?php endif; ?>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/lyquix.js?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/js/lyquix.js')); ?>" type="text/javascript"></script>
+<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/lyquix<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/js/lyquix' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>" type="text/javascript"></script>
 <?php echo $this->params->get('lqx_options') ? '<script type="text/javascript">lqx.setOptions(' . $this->params->get('lqx_options') . ');</script>' : ''; ?>
 <?php if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/images/favicon.ico')): ?>
 <link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/images/favicon.ico" rel="shortcut icon" />
@@ -87,6 +87,9 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', '" . $this->params->get('ga_account') . "', 'auto');
 ga('send', 'pageview');
 </script>" : ''; ?>
+<?php if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/js/scripts.js')): ?>
+<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/scripts<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/js/scripts' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>" type="text/javascript"></script>
+<?php endif; ?>
 </head>
 <body class="<?php 
 echo ($home ? 'home ' : '').

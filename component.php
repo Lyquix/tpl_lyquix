@@ -34,8 +34,8 @@ if($detect->isMobile()){
 <script type="text/javascript">if(typeof console=='undefined'||typeof console.log=='undefined'){console={};console.log=function(){};}</script>
 <![endif]-->
 <!--[if lt IE 9]>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/html5shiv.js" type="text/javascript"></script>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/selectivizr.js" type="text/javascript"></script>
+<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/html5shiv<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js" type="text/javascript"></script>
+<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/selectivizr<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js" type="text/javascript"></script>
 <![endif]-->
 <?php if($home) {
 	echo $this->params->get('google_site_verification') ? '<meta name="google-site-verification" content="' . $this->params->get('google_site_verification') . '" />' . "\n" : '';
@@ -48,7 +48,7 @@ if($detect->isMobile()){
 <jdoc:include type="head" />
 <link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/styles.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/' . ($this->params->get('lessjs') ? 'less' : 'css') . '/styles.css')); ?>" rel="stylesheet" type="text/<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>" />
 <?php if($this->params->get('lessjs')): ?>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/less.js" type="text/javascript"></script>
+<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/less<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js" type="text/javascript"></script>
 <?php endif; ?>
 <?php if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/css/ie9.css')): ?>
 <!--[if lte IE 9]>
@@ -65,7 +65,7 @@ if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/css/ie7.css')): 
 <link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/ie7.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <?php endif; ?>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/lyquix.js?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/js/lyquix.js')); ?>" type="text/javascript"></script>
+<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/lyquix<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/js/lyquix' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>" type="text/javascript"></script>
 <?php echo $this->params->get('lqx_options') ? '<script type="text/javascript">lqx.setOptions(' . $this->params->get('lqx_options') . ');</script>' : ''; ?>
 <?php if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/images/favicon.ico')): ?>
 <link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/images/favicon.ico" rel="shortcut icon" />
@@ -92,7 +92,7 @@ ga('send', 'pageview');
 </script>" : ''; ?>
 <?php echo $this->params->get('addthis_pubid') ? '<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=' . $this->params->get('addthis_pubid') . '"></script>' : ''; ?>
 <?php if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/js/scripts.js')): ?>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/scripts.js?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/js/scripts.js')); ?>" type="text/javascript"></script>
+<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/script<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>s.js?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/js/scripts' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>" type="text/javascript"></script>
 <?php endif; ?>
 <jdoc:include type="modules" name="head" />
 </head>
