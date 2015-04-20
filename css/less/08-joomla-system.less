@@ -132,10 +132,9 @@ ul.breadcrumb {
 			&:before {
 				display: inline;
 				padding: 0 0.5em;
-				font-size: 1.25em;
 				color: @color-link;
+				.ion-ios-arrow-right();
 			}
-			.fa-angle-right();
 			
 			img {
 				display: none;
@@ -179,16 +178,16 @@ div.pagination {
 						}
 					}
 					
-					&.first a {
+					&.first a:before {
 						.fa-angle-double-left();
 					}
-					&.prev a {
+					&.prev a:before {
 						.fa-angle-left();
 					}
-					&.next a {
+					&.next a:before {
 						.fa-angle-right();
 					}
-					&.last a {
+					&.last a:before {
 						.fa-angle-double-right();
 					}
 				}
@@ -206,10 +205,10 @@ div.pagination {
 						color: @color-copy;
 					}
 					
-					&.first {
+					&.first:before {
 						.fa-angle-double-left();
 					}
-					&.prev {
+					&.prev:before {
 						.fa-angle-left();
 					}
 					&.page {
@@ -217,10 +216,10 @@ div.pagination {
 						background-color: @gray-lighter;
 						color: @color-copy;
 					}
-					&.next {
+					&.next:before {
 						.fa-angle-right();
 					}
-					&.last {
+					&.last:before {
 						.fa-angle-double-right();
 					}
 				}

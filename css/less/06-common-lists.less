@@ -1,93 +1,285 @@
 // Common classes
 // --------------------------------------------------------------------
-
 // Lists
 // --------------------------------------------------------------------
 // change the bullets in unordered lists
 // based on: http://www.sitepoint.com/use-webfont-icons-bullet-points-html5-lists/
-
 ul.bullets {
-	
-	&, & ul {
-		list-style-type: none;
-		padding-left: 0;
-	}
-	
-	li {
-		margin-left: 1.5em;
-		.icon();
-		&:before {
-			float: left;
-			display: block;
-			width: 1.5em;
-			font-size: 0.85em;
-			margin-top: 0.25em;
-			margin-left: -1.8em;
-			color: @color-bullets;
-			text-align: center;
-		}
-	}
-	
-	&.star li, li.star {.fa-star();}
-	&.star-o li, li.star-o {.fa-star-o();}
+    &, & ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+    li {
+        margin-left: 1.5em;
+        .icon();
+        &:before {
+            float: left;
+            display: block;
+            width: 1.5em;
+            font-size: 0.85em;
+            margin-top: 0.25em;
+            margin-left: -1.8em;
+            color: @color-bullets;
+            text-align: center;
+        }
+    }
+    &.star li,
+    li.star {
+        &:before {
+            .fa-star();
+        }
+    }
+    &.star-o li,
+    li.star-o {
+        &:before {
+            .fa-star-o();
+        }
+    }
+    &.starburst li,
+    li.starburst {
+        &:before {
+            .typcn-starburst();
+        }
+    }
+    &.starburst-o li,
+    li.starburst-o {
+        &:before {
+            .typcn-starburst-outline();
+        }
+    }
+    &.square li,
+    li.square {
+        &:before {
+            .fa-square();
+        }
+    }
+    &.square-o li,
+    li.square-o {
+        &:before {
+            .fa-square-o();
+        }
+    }
+    &.circle li,
+    li.circle {
+        &:before {
+            .fa-circle();
+        }
+    }
+    &.circle-o li,
+    li.circle-o {
+        &:before {
+            .fa-circle-o();
+        }
+    }
+    &.check li,
+    li.check {
+        &:before {
+            .fa-check();
+        }
+    }
+    &.check-circle li,
+    li.check-circle {
+        &:before {
+            .fa-check-circle();
+        }
+    }
+    &.check-circle-o li,
+    li.check-circle-o {
+        &:before {
+            .fa-check-circle-o();
+        }
+    }
+    &.check-square li,
+    li.check-square {
+        &:before {
+            .fa-check-square();
+        }
+    }
+    &.check-square-o li,
+    li.check-square-o {
+        &:before {
+            .fa-check-square-o();
+        }
+    }
+    &.plus li,
+    li.plus {
+        &:before {
+            .fa-plus();
+        }
+    }
+    &.plus-circle li,
+    li.plus-circle {
+        &:before {
+            .fa-plus-circle();
+        }
+    }
+    &.plus-square li,
+    li.plus-square {
+        &:before {
+            .fa-plus-square();
+        }
+    }
+    &.plus-square-o li,
+    li.plus-square-o {
+        &:before {
+            .fa-plus-square-o();
+        }
+    }
+    &.minus li,
+    li.minus {
+        &:before {
+            .fa-minus();
+        }
+    }
+    &.minus-circle li,
+    li.minus-circle {
+        &:before {
+            .fa-minus-circle();
+        }
+    }
+    &.minus-square li,
+    li.minus-square {
+        &:before {
+            .fa-minus-square();
+        }
+    }
+    &.minus-square-o li,
+    li.minus-square-o {
+        &:before {
+            .fa-minus-square-o();
+        }
+    }
+    &.folder li,
+    li.folder {
+        &:before {
+            .fa-folder();
+        }
+    }
+    &.folder-o li,
+    li.folder-o {
+        &:before {
+            .fa-folder-o();
+        }
+    }
+    &.folder-open li,
+    li.folder-open {
+        &:before {
+            .fa-folder-open();
+        }
+    }
+    &.folder-open-o li,
+    li.folder-open-o {
+        &:before {
+            .fa-folder-open-o();
+        }
+    }
+    &.arrow1 li,
+    li.arrow1 {
+        &:before {
+            .fa-arrow-right();
+        }
+    }
+    &.arrow1-o li,
+    li.arrow1-o {
+        &:before {
+            .typcn-arrow-right-outline();
+        }
+    }
+    &.arrow1-circle li,
+    li.arrow1-circle {
+        &:before {
+            .fa-arrow-circle-right();
+        }
+    }
+    &.arrow2 li,
+    li.arrow2 {
+        &:before {
+            .icon-arrow-right();
+        }
+    }
+    &.arrow2-circle-o li,
+    li.arrow2-circle-o {
+        &:before {
+            .fa-arrow-circle-o-right();
+        }
+    }
 
-	&.starburst li, li.starburst {.typcn-starburst();}
-	&.starburst-o li, li.starburst-o {.typcn-starburst-outline();}
-
-	&.square li, li.square {.fa-square();}
-	&.square-o li, li.square-o {.fa-square-o();}
-	
-	&.circle li, li.circle {.fa-circle();}
-	&.circle-o li, li.circle-o {.fa-circle-o();}
-
-	&.check li, li.check {.fa-check();}
-	&.check-circle li, li.check-circle {.fa-check-circle();}
-	&.check-circle-o li, li.check-circle-o {.fa-check-circle-o();}
-	&.check-square li, li.check-square {.fa-check-square();}
-	&.check-square-o li, li.check-square-o {.fa-check-square-o();}
-	
-	&.plus li, li.plus {.fa-plus();}
-	&.plus-circle li, li.plus-circle {.fa-plus-circle();}
-	&.plus-square li, li.plus-square {.fa-plus-square();}
-	&.plus-square-o li, li.plus-square-o {.fa-plus-square-o();}
-	
-	&.minus li, li.minus {.fa-minus();}
-	&.minus-circle li, li.minus-circle {.fa-minus-circle();}
-	&.minus-square li, li.minus-square {.fa-minus-square();}
-	&.minus-square-o li, li.minus-square-o {.fa-minus-square-o();}
-	
-	&.folder li, li.folder {.fa-folder();}
-	&.folder-o li, li.folder-o {.fa-folder-o();}
-	&.folder-open li, li.folder-open {.fa-folder-open();}
-	&.folder-open-o li, li.folder-open-o {.fa-folder-open-o();}
-
-	&.arrow1 li, li.arrow1 {.fa-arrow-right();}
-	&.arrow1-o li, li.arrow1-o {.typcn-arrow-right-outline();}
-	&.arrow1-circle li, li.arrow1-circle {.fa-arrow-circle-right();}
-	
-	&.arrow2 li, li.arrow2 {.icon-arrow-right();}
-	&.arrow2-circle-o li, li.arrow2-circle-o {.fa-arrow-circle-o-right();}
-	
-	&.arrow3 li, li.arrow3 {.icon-arrow-right2();}
-	
-	&.arrow4 li, li.arrow4 {.fa-play();}
-	&.arrow4-circle li, li.arrow4-circle {.fa-play-circle();}
-	&.arrow4-square-o li, li.arrow4-square-o {.fa-caret-square-o-right();}
-	
-	&.arrow5 li, li.arrow5 {.fa-angle-right();}
-	&.arrow5-circle-o li, li.arrow5-circle-o {.icon-circle-right();}
-	
-	&.arrow6 li, li.arrow6 {.fa-angle-double-right();}
-	
-	&.hand li, li.hand {.fa-hand-o-right();}
-	
-	&.file li, li.file {.icon-file-empty();}
-	&.file-text li, li.file-text {.icon-file-text2();}
-	
-	&.music li, li.music {.fa-music();}
-	
-	&.image li, li.image {.ion-image();}
-	
-	&.heart li, li.heart {.ion-heart();}
-	
+    &.arrow3 li,
+    li.arrow3 {
+        &:before {
+            .icon-arrow-right2();
+        }
+    }
+    &.arrow4 li,
+    li.arrow4 {
+        &:before {
+            .fa-play();
+        }
+    }
+    &.arrow4-circle li,
+    li.arrow4-circle {
+        &:before {
+            .fa-play-circle();
+        }
+    }
+    &.arrow4-square-o li,
+    li.arrow4-square-o {
+        &:before {
+            .fa-toggle-right();
+        }
+    }
+    &.arrow5 li,
+    li.arrow5 {
+        &:before {
+            .fa-angle-right();
+        }
+    }
+    &.arrow5-circle-o li,
+    li.arrow5-circle-o {
+        &:before {
+            .icon-circle-right();
+        }
+    }
+    &.arrow6 li,
+    li.arrow6 {
+        &:before {
+            .fa-angle-double-right();
+        }
+    }
+    &.hand li,
+    li.hand {
+        &:before {
+            .fa-hand-o-right();
+        }
+    }
+    &.file li,
+    li.file {
+        &:before {
+            .icon-file-empty();
+        }
+    }
+    &.file-text li,
+    li.file-text {
+        &:before {
+            .icon-file-text2();
+        }
+    }
+    &.music li,
+    li.music {
+        &:before {
+            .fa-music();
+        }
+    }
+    &.image li,
+    li.image {
+        &:before {
+            .ion-image();
+        }
+    }
+    &.heart li,
+    li.heart {
+        &:before {
+            .ion-heart();
+        }
+    }
 }

@@ -54,7 +54,7 @@ defined('_JEXEC') or die;
 function pagination_list_footer($list){
 	$html .= '<div class="pagination">';
 	$html .= '<div class="pageslinks">' . $list['pageslinks'] . '</div>';
-	//$html .= '<div class="pagescounter">Page <span class="currpage">' . (1 + $list['limitstart'] / $list['limit']) . '</span> of <span class="totalpages">' . ceil($list['total'] / $list['limit']) . '</span></div>';
+	$html .= '<div class="pagescounter">Page <span class="currpage">' . (1 + $list['limitstart'] / $list['limit']) . '</span> of <span class="totalpages">' . ceil($list['total'] / $list['limit']) . '</span></div>';
 	$html .= '</div>';
 	return $html;
 }

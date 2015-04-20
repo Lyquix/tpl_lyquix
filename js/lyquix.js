@@ -605,7 +605,7 @@ jQuery(document).ready(function(){
 	// enable function logging
 	if(lqx.settings.logger.enable) {
 		for(var i in lqx.settings.logger.namespaces) {
-			lqx.addLoggingToNamespace(lqx.settings.functionLoggerNamespaces[i]);
+			lqx.addLoggingToNamespace(lqx.settings.logger.namespaces[i]);
 		}
 	}
 	
@@ -705,8 +705,8 @@ function onYouTubeIframeAPIReady(){
 	for(var playerId in lqx.vars.youtubePlayers) {
 		lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, { 
 			events: { 
-				'onReady': lqx.youtubePlayerCallback, 
-				'onStateChange': lqx.youtubePlayerCallback 
+				'onReady': 'lqx.youtubePlayerCallback', 
+				'onStateChange': 'lqx.youtubePlayerCallback' 
 			}
 		});
 	}					

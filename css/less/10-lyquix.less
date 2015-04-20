@@ -166,11 +166,10 @@
 		.prev, .next {
 			position: absolute;
 			top: 40%;
-			padding: 0;
-			font-size: 6em;
+			padding: 0 @blk-margin-border-padding-width;
+			font-size: 4em;
 			line-height: 0;
 			cursor: pointer;
-			font-family: 'FontAwesome';
 			color: @color-bg;
 			.text-shadow();
 			.opacity-50();
@@ -181,7 +180,7 @@
 			left: @blk-margin-width;
 			
 			&:before {
-				content:'\f104';
+				.ion-ios-arrow-left()
 			}
 		}
 		
@@ -189,7 +188,7 @@
 			right: @blk-margin-width;
 			
 			&:before {
-				content:'\f105';
+				.ion-ios-arrow-right()
 			}
 		}
 	}
