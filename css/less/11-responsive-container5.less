@@ -24,7 +24,7 @@ body[screen=xs] {
 	}
 }
 
-body[screen=sm] .container {
+body[screen=sm] {
 	.container {
 		width: (@blk10-width + @blk-margin-border-padding-width * 2);	// sm screen - 10 blocks
 	}
@@ -33,15 +33,21 @@ body[screen=sm] .container {
 		width: 100%;
 	}
 }
-	
-body[screen=md] .container {
-	width: (@blk15-width + @blk-margin-border-padding-width * 2);	// md screen - 15 blocks
+  
+body[screen=md] {
+  .container {
+    width: (@blk15-width + @blk-margin-border-padding-width * 2); // md screen - 15 blocks
+  }
 }
 
-body[screen=lg] .container {
-	width: (@blk20-width + @blk-margin-border-padding-width * 2);	// lg screen - 20 blocks
+body[screen=lg] {
+  .container {
+    width: (@blk20-width + @blk-margin-border-padding-width * 2); // lg screen - 20 blocks
+  }
 }
-	
-body[screen=xl] .container {
-	width: (@blk25-width + @blk-margin-border-padding-width * 2);	// xl screen - 25 blocks
+  
+body[screen=xl] { 
+  .container {
+    width: (@blk25-width + @blk-margin-border-padding-width * 2); // xl screen - 25 blocks
+  }
 }

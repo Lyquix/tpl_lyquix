@@ -5,99 +5,99 @@
 // Downsized blocks
 
 body[screen=xs] {
-	.blk5, .blk6, .blk7, .blk8, .blk9, .blk10, .blk11, .blk12, .blk13, .blk14, .blk15, .blk16, .blk17, .blk18, .blk19, .blk20 {
-		width: @blk4-width;	// 4 blocks
-	}
-	.blk5 *, .blk6 *, .blk7 *, .blk8 *, .blk9 *, .blk10 *, .blk11 *, .blk12 *, .blk13 *, .blk14 *, .blk15 *, .blk16 *, .blk17 *, .blk18 *, .blk19 *, .blk20 * {
-		max-width: @blk4-width;	// 4 blocks
-	}
+  .blk5, .blk6, .blk7, .blk8, .blk9, .blk10, .blk11, .blk12, .blk13, .blk14, .blk15, .blk16, .blk17, .blk18, .blk19, .blk20 {
+    width: @blk4-width; // 4 blocks
+  }
+  .blk5 > *, .blk6 > *, .blk7 > *, .blk8 > *, .blk9 > *, .blk10 > *, .blk11 > *, .blk12 > *, .blk13 > *, .blk14 > *, .blk15 > *, .blk16 > *, .blk17 > *, .blk18 > *, .blk19 > *, .blk20 > * {
+    max-width: @blk4-width; // 4 blocks
+  }
 }
 body[screen=sm] {
-	.blk9, .blk10, .blk11, .blk12, .blk13, .blk14, .blk15, .blk16, .blk17, .blk18, .blk19, .blk20 {
-		width: @blk8-width;	// 8 blocks
-	}
-	.blk9 *, .blk10 *, .blk11 *, .blk12 *, .blk13 *, .blk14 *, .blk15 *, .blk16 *, .blk17 *, .blk18 *, .blk19 *, .blk20 * {
-		max-width: @blk8-width;	// 8 blocks
-	}
+  .blk9, .blk10, .blk11, .blk12, .blk13, .blk14, .blk15, .blk16, .blk17, .blk18, .blk19, .blk20 {
+    width: @blk8-width; // 8 blocks
+  }
+  .blk9 > *, .blk10 > *, .blk11 > *, .blk12 > *, .blk13 > *, .blk14 > *, .blk15 > *, .blk16 > *, .blk17 > *, .blk18 > *, .blk19 > *, .blk20 > * {
+    max-width: @blk8-width; // 8 blocks
+  }
 }
 
 body[screen=md] {
-	.blk13, .blk14, .blk15, .blk16, .blk17, .blk18, .blk19, .blk20 {
-		width: @blk12-width;	// 12 blocks
-	}
-	.blk13 *, .blk14 *, .blk15 *, .blk16 *, .blk17 *, .blk18 *, .blk19 *, .blk20 * {
-		max-width: @blk12-width;	// 12 blocks
-	}
+  .blk13, .blk14, .blk15, .blk16, .blk17, .blk18, .blk19, .blk20 {
+    width: @blk12-width;  // 12 blocks
+  }
+  .blk13 > *, .blk14 > *, .blk15 > *, .blk16 > *, .blk17 > *, .blk18 > *, .blk19 > *, .blk20 > * {
+    max-width: @blk12-width;  // 12 blocks
+  }
 }
 
 body[screen=lg] {
-	.blk17, .blk18, .blk19, .blk20 {
-		width: @blk16-width;	// 16 blocks
-	}
-	.blk17 *, .blk18 *, .blk19 *, .blk20 * {
-		max-width: @blk16-width;	// 16 blocks
-	}
+  .blk17, .blk18, .blk19, .blk20 {
+    width: @blk16-width;  // 16 blocks
+  }
+  .blk17 > *, .blk18 > *, .blk19 > *, .blk20 > * {
+    max-width: @blk16-width;  // 16 blocks
+  }
 }
 
 
 // Downsized block groups
 
 body[screen=xs] .blkgroup {
-	&.blk5, &.blk6, &.blk7, &.blk8, &.blk9, &.blk10, &.blk11, &.blk12, &.blk13, &.blk14, &.blk15, &.blk16, &.blk17, &.blk18, &.blk19, &.blk20 {
-		width: @blk4-width + @blk-margin-border-padding-width * 2;	// 4 blocks
-	}
-	&.blk5 *, &.blk6 *, &.blk7 *, &.blk8 *, &.blk9 *, &.blk10 *, &.blk11 *, &.blk12 *, &.blk13 *, &.blk14 *, &.blk15 *, &.blk16 *, &.blk17 *, &.blk18 *, &.blk19 *, &.blk20 * {
-		max-width: @blk4-width + @blk-margin-border-padding-width * 2;	// 4 blocks
-	}
+  &.blk5, &.blk6, &.blk7, &.blk8, &.blk9, &.blk10, &.blk11, &.blk12, &.blk13, &.blk14, &.blk15, &.blk16, &.blk17, &.blk18, &.blk19, &.blk20 {
+    width: @blk4-width + @blk-margin-border-padding-width * 2;  // 4 blocks
+  }
+  &.blk5 > *, &.blk6 > *, &.blk7 > *, &.blk8 > *, &.blk9 > *, &.blk10 > *, &.blk11 > *, &.blk12 > *, &.blk13 > *, &.blk14 > *, &.blk15 > *, &.blk16 > *, &.blk17 > *, &.blk18 > *, &.blk19 > *, &.blk20 > * {
+    max-width: @blk4-width + @blk-margin-border-padding-width * 2;  // 4 blocks
+  }
 }
 body[screen=sm] .blkgroup {
-	&.blk9, &.blk10, &.blk11, &.blk12, &.blk13, &.blk14, &.blk15, &.blk16, &.blk17, &.blk18, &.blk19, &.blk20 {
-		width: @blk8-width + @blk-margin-border-padding-width * 2;	// 8 blocks
-	}
-	&.blk9 *, &.blk10 *, &.blk11 *, &.blk12 *, &.blk13 *, &.blk14 *, &.blk15 *, &.blk16 *, &.blk17 *, &.blk18 *, &.blk19 *, &.blk20 * {
-		max-width: @blk8-width + @blk-margin-border-padding-width * 2;	// 8 blocks
-	}
+  &.blk9, &.blk10, &.blk11, &.blk12, &.blk13, &.blk14, &.blk15, &.blk16, &.blk17, &.blk18, &.blk19, &.blk20 {
+    width: @blk8-width + @blk-margin-border-padding-width * 2;  // 8 blocks
+  }
+  &.blk9 > *, &.blk10 > *, &.blk11 > *, &.blk12 > *, &.blk13 > *, &.blk14 > *, &.blk15 > *, &.blk16 > *, &.blk17 > *, &.blk18 > *, &.blk19 > *, &.blk20 > * {
+    max-width: @blk8-width + @blk-margin-border-padding-width * 2;  // 8 blocks
+  }
 }
 body[screen=md] .blkgroup {
-	&.blk13, &.blk14, &.blk15, &.blk16, &.blk17, &.blk18, &.blk19, &.blk20 {
-		width: @blk12-width + @blk-margin-border-padding-width * 2;	// 12 blocks
-	}
-	&.blk13 *, &.blk14 *, &.blk15 *, &.blk16 *, &.blk17 *, &.blk18 *, &.blk19 *, &.blk20 * {
-		max-width: @blk12-width + @blk-margin-border-padding-width * 2;	// 12 blocks
-	}
+  &.blk13, &.blk14, &.blk15, &.blk16, &.blk17, &.blk18, &.blk19, &.blk20 {
+    width: @blk12-width + @blk-margin-border-padding-width * 2; // 12 blocks
+  }
+  &.blk13 > *, &.blk14 > *, &.blk15 > *, &.blk16 > *, &.blk17 > *, &.blk18 > *, &.blk19 > *, &.blk20 > * {
+    max-width: @blk12-width + @blk-margin-border-padding-width * 2; // 12 blocks
+  }
 }
 body[screen=lg] .blkgroup {
-	&.blk17, &.blk18, &.blk19, &.blk20 {
-		width: @blk16-width + @blk-margin-border-padding-width * 2;	// 16 blocks
-	}
-	&.blk17 *, &.blk18 *, &.blk19 *, &.blk20 * {
-		max-width: @blk16-width + @blk-margin-border-padding-width * 2;	// 16 blocks
-	}
+  &.blk17, &.blk18, &.blk19, &.blk20 {
+    width: @blk16-width + @blk-margin-border-padding-width * 2; // 16 blocks
+  }
+  &.blk17 > *, &.blk18 > *, &.blk19 > *, &.blk20 > * {
+    max-width: @blk16-width + @blk-margin-border-padding-width * 2; // 16 blocks
+  }
 }
 
 // Downsized block push
 
 body[screen=xs] {
-	.blkpush4, .blkpush5, .blkpush6, .blkpush7, .blkpush8, .blkpush9, .blkpush10, .blkpush11, .blkpush12, .blkpush13, .blkpush14, .blkpush15, .blkpush16, .blkpush17, .blkpush18, .blkpush19, .blkpush20 {
-		margin-left: inherit;
-	}
+  .blkpush4, .blkpush5, .blkpush6, .blkpush7, .blkpush8, .blkpush9, .blkpush10, .blkpush11, .blkpush12, .blkpush13, .blkpush14, .blkpush15, .blkpush16, .blkpush17, .blkpush18, .blkpush19, .blkpush20 {
+    margin-left: inherit;
+  }
 }
 
 body[screen=sm] {
-	.blkpush8, .blkpush9, .blkpush10, .blkpush11, .blkpush12, .blkpush13, .blkpush14, .blkpush15, .blkpush16, .blkpush17, .blkpush18, .blkpush19, .blkpush20 {
-		margin-left: inherit;
-	}
+  .blkpush8, .blkpush9, .blkpush10, .blkpush11, .blkpush12, .blkpush13, .blkpush14, .blkpush15, .blkpush16, .blkpush17, .blkpush18, .blkpush19, .blkpush20 {
+    margin-left: inherit;
+  }
 }
 
 body[screen=md] {
-	.blkpush12, .blkpush13, .blkpush14, .blkpush15, .blkpush16, .blkpush17, .blkpush18, .blkpush19, .blkpush20 {
-		margin-left: inherit;
-	}
+  .blkpush12, .blkpush13, .blkpush14, .blkpush15, .blkpush16, .blkpush17, .blkpush18, .blkpush19, .blkpush20 {
+    margin-left: inherit;
+  }
 }
 
 body[screen=lg] {
-	.blkpush16, .blkpush17, .blkpush18, .blkpush19, .blkpush20 {
-		margin-left: inherit;
-	}
+  .blkpush16, .blkpush17, .blkpush18, .blkpush19, .blkpush20 {
+    margin-left: inherit;
+  }
 }
 

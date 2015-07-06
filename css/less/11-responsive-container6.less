@@ -11,25 +11,43 @@
 // and change the one for 12 blocks to include lg and xl screens.
 
 .container {
-	margin:0 auto;
+  margin:0 auto;
 }
 
-body[screen=xs] .container {
-	width: (@blk6-width + @blk-margin-border-padding-width * 2);	// xs screen - 6 blocks
+body[screen=xs] {
+  .container {
+    width: (@blk6-width + @blk-margin-border-padding-width * 2);  // xs screen - 6 blocks
+  }
+  
+  &.blkfluid-xs .container {
+    width: 100%;
+  }
 }
 
-body[screen=sm] .container {
-	width: (@blk12-width + @blk-margin-border-padding-width * 2);	// sm screen - 12 blocks
+body[screen=sm] {
+  .container {
+    width: (@blk12-width + @blk-margin-border-padding-width * 2); // sm screen - 12 blocks
+  }
+  
+  &.blkfluid-sm .container {
+    width: 100%;
+  }
 }
-	
-body[screen=md] .container {
-	width: (@blk18-width + @blk-margin-border-padding-width * 2);	// md screen - 18 blocks
+  
+body[screen=md] {
+  .container {
+    width: (@blk18-width + @blk-margin-border-padding-width * 2); // md screen - 18 blocks
+  }
 }
 
-body[screen=lg] .container {
-	width: (@blk24-width + @blk-margin-border-padding-width * 2);	// lg screen - 24 blocks
+body[screen=lg] {
+  .container {
+    width: (@blk24-width + @blk-margin-border-padding-width * 2); // lg screen - 24 blocks
+  }
 }
-	
-body[screen=xl] .container {
-	width: (@blk30-width + @blk-margin-border-padding-width * 2);	// xl screen - 30 blocks
+  
+body[screen=xl] { 
+  .container {
+    width: (@blk30-width + @blk-margin-border-padding-width * 2); // xl screen - 30 blocks
+  }
 }
