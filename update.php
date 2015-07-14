@@ -17,6 +17,10 @@ if ($zip -> open('master.zip') === TRUE) {
 	// delete zip file and tmp directory
 	unlink('master.zip');
 	delete_dir('tmp');
+	
+	// re-compile LESS files
+	exec('lessc -x css/styles.less > css/styles.css');
+	exec('lessc -x css/template.less > css/template.css');
 }
 
 
