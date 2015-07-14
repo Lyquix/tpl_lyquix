@@ -12,6 +12,9 @@ if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/custom-component
 	include 'custom-component.php'; 
 else :
 
+// declare some variables
+$home = $mobile = $phone = $tablet = false;
+
 // Enable Joomla Bootstrap and jQuery UI framework;
 JHtml::_('bootstrap.framework');
 JHtml::_('jquery.ui', array('core', 'sortable'));

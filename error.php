@@ -13,6 +13,9 @@ if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/custom-error.php
 	include 'custom-error.php'; 
 else :
 
+// declare some variables
+$home = $mobile = $phone = $tablet = false;
+
 // Check if we are on a mobile device, whether smartphone or tablet
 require_once('php/Mobile_Detect.php');
 $detect = new Mobile_Detect;

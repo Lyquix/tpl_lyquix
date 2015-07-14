@@ -16,6 +16,9 @@ else :
 JHtml::_('bootstrap.framework');
 JHtml::_('jquery.ui', array('core', 'sortable'));
 
+// declare some variables
+$home = $mobile = $phone = $tablet = false;
+
 // Check if we are on the home page
 if(JRequest::getVar('Itemid') == JFactory::getApplication()->getMenu()->getDefault()->id){ $home = true; }
 
