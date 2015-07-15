@@ -1,3 +1,9 @@
+# gitignore common files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# gitignore for tpl_lyquix
 /*.log
 /custom-component.php
 /custom-component-body.php
