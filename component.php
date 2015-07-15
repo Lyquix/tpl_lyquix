@@ -8,8 +8,8 @@ defined('_JEXEC') or die('Restricted access');
 **/
 
 // if custom-index.php file exists the whole template is overriden
-if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/custom-component.php')) :
-	include 'custom-component.php'; 
+if(file_exists(__DIR__ . '/custom-component.php')) :
+	include __DIR__ . '/custom-component.php'; 
 else :
 
 // declare some variables

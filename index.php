@@ -8,8 +8,8 @@ defined('_JEXEC') or die('Restricted access');
 **/
 
 // if custom-index.php file exists the whole template is overriden
-if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/custom-index.php')) :
-	include 'custom-index.php'; 
+if(file_exists(__DIR__ . '/custom-index.php')) :
+	include __DIR__ . '/custom-index.php'; 
 else :
 
 // Enable Joomla Bootstrap and jQuery UI framework;

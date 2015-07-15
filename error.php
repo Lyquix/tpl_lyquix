@@ -9,8 +9,8 @@ $app = JFactory::getApplication();
 **/
 
 // if custom-index.php file exists the whole template is overriden
-if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/custom-error.php')) :
-	include 'custom-error.php'; 
+if(file_exists(__DIR__ . '/custom-error.php')) :
+	include __DIR__ . '/custom-error.php'; 
 else :
 
 // declare some variables
