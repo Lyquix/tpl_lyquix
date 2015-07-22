@@ -84,6 +84,8 @@ var lqx = lqx || {
 		if(s != lqx.vars.lastScreenSize) {
 			// change the body screen attribute
 			jQuery('body').attr('screen',s);
+			// hack to force IE8 to take the new screen size attribute
+			document.getElementsByTagName('body')[0].className = document.getElementsByTagName('body')[0].className;
 			// trigger custom event 'screensizechange'
 			jQuery(document).trigger('screensizechange');
 			// save last screen size
