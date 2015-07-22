@@ -81,8 +81,9 @@ var lqx = lqx || {
 		if(w >= 960) s = 'md';
 		if(w >= 1280) s = 'lg';
 		if(w >= 1600) s = 'xl';
-		jQuery('body').attr('screen',s);
 		if(s != lqx.vars.lastScreenSize) {
+			// change the body screen attribute
+			jQuery('body').attr('screen',s);
 			// trigger custom event 'screensizechange'
 			jQuery(document).trigger('screensizechange');
 			// save last screen size
@@ -172,14 +173,14 @@ var lqx = lqx || {
 	hangingPunctuation : function(){
 		
 		lqx.vars.hangingMarks = {
-			'\u201c': 'medium',     // “ - ldquo - left smart double quote
-			'\u2018': 'small',      // ‘ - lsquo - left smart single quote
+			'\u201c': 'medium',     // ï¿½ - ldquo - left smart double quote
+			'\u2018': 'small',      // ï¿½ - lsquo - left smart single quote
 			'\u0022': 'medium',     // " - ldquo - left dumb double quote
 			'\u0027': 'small',      // ' - lsquo - left dumb single quote
-			'\u00AB': 'large',      // « - laquo - left double angle quote
-			'\u2039': 'medium',     // ‹ - lsaquo - left single angle quote
-			'\u201E': 'medium',     // „ - bdquo - left smart double low quote
-			'\u201A': 'small',      // ‚ - sbquo - left smart single low quote
+			'\u00AB': 'large',      // ï¿½ - laquo - left double angle quote
+			'\u2039': 'medium',     // ï¿½ - lsaquo - left single angle quote
+			'\u201E': 'medium',     // ï¿½ - bdquo - left smart double low quote
+			'\u201A': 'small',      // ï¿½ - sbquo - left smart single low quote
 		};
 		
 		// lops over the P descendants of the elements with class hanging-punctuation
