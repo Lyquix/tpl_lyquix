@@ -28,45 +28,46 @@ if($detect->isMobile()){
 <html lang="<?php echo $this->language; ?>" >
 <head>
 <!--[if IE]>
-<script type="text/javascript">if(typeof console=='undefined'||typeof console.log=='undefined'){console={};console.log=function(){};}</script>
+<script>if(typeof console=='undefined'||typeof console.log=='undefined'){console={};console.log=function(){};}</script>
 <![endif]-->
 <!--[if lt IE 9]>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/html5shiv<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js" type="text/javascript"></script>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/selectivizr<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js" type="text/javascript"></script>
+<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/html5shiv<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
+<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/selectivizr<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <![endif]-->
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Error <?php echo $this->error->getCode(); ?>: <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
 <?php if ($app->get('debug_lang', '0') == '1' || $app->get('debug', '0') == '1') : ?>
-<link rel="stylesheet" href="<?php echo JURI::root(true); ?>/media/cms/css/debug.css" type="text/css" />
+<link rel="stylesheet" href="<?php echo JURI::root(true); ?>/media/cms/css/debug.css" />
 <?php endif; ?>
-<script src="<?php echo JURI::root(true); ?>/media/jui/js/jquery.min.js" type="text/javascript"></script>
-<script src="<?php echo JURI::root(true); ?>/media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
-<script src="<?php echo JURI::root(true); ?>/media/jui/js/jquery-migrate.min.js" type="text/javascript"></script>
-<script src="<?php echo JURI::root(true); ?>/media/jui/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="<?php echo JURI::root(true); ?>/media/jui/js/jquery.ui.core.min.js" type="text/javascript"></script>
-<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/styles.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/' . ($this->params->get('lessjs') ? 'less' : 'css') . '/styles.css')); ?>" rel="stylesheet" type="text/<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>" />
+<script src="<?php echo JURI::root(true); ?>/media/jui/js/jquery.min.js"></script>
+<script src="<?php echo JURI::root(true); ?>/media/jui/js/jquery-noconflict.js"></script>
+<script src="<?php echo JURI::root(true); ?>/media/jui/js/jquery-migrate.min.js"></script>
+<script src="<?php echo JURI::root(true); ?>/media/jui/js/bootstrap.min.js"></script>
+<script src="<?php echo JURI::root(true); ?>/media/jui/js/jquery.ui.core.min.js"></script>
+<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/styles.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/' . ($this->params->get('lessjs') ? 'less' : 'css') . '/styles.css')); ?>" rel="stylesheet" <?php echo $this->params->get('lessjs') ? 'type="text/less" ' : ''; ?>/>
+<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/icons.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/' . ($this->params->get('lessjs') ? 'less' : 'css') . '/icons.css')); ?>" rel="stylesheet" <?php echo $this->params->get('lessjs') ? 'type="text/less" ' : ''; ?>/>
 <?php if($this->params->get('lessjs')): ?>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/less<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js" type="text/javascript"></script>
+<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/less<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <?php endif; ?>
 <?php if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/css/ie9.css')): ?>
 <!--[if lte IE 9]>
-<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/ie9.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/ie9.css" rel="stylesheet" />
 <![endif]-->
 <?php endif;
 if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/css/ie8.css')): ?>
 <!--[if lte IE 8]>
-<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/ie8.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/ie8.css" rel="stylesheet" />
 <![endif]-->
 <?php endif;
 if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/css/ie7.css')): ?>
 <!--[if lte IE 7]>
-<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/ie7.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/ie7.css" rel="stylesheet" />
 <![endif]-->
 <?php endif; ?>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/lyquix<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/js/lyquix' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>" type="text/javascript"></script>
-<?php echo $this->params->get('lqx_options') ? '<script type="text/javascript">lqx.setOptions(' . $this->params->get('lqx_options') . ');</script>' : ''; ?>
+<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/lyquix<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/js/lyquix' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
+<?php echo $this->params->get('lqx_options') ? '<script>lqx.setOptions(' . $this->params->get('lqx_options') . ');</script>' : ''; ?>
 <?php if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/images/favicon.ico')): ?>
 <link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/images/favicon.ico" rel="shortcut icon" />
 <?php endif;
@@ -91,7 +92,7 @@ ga('create', '" . $this->params->get('ga_account') . "', 'auto');
 ga('send', 'pageview');
 </script>" : ''; ?>
 <?php if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/js/scripts.js')): ?>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/scripts<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/js/scripts' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>" type="text/javascript"></script>
+<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/scripts<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/js/scripts' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
 <?php endif; ?>
 </head>
 <body class="<?php 
@@ -109,7 +110,7 @@ if(is_array($this->params->get('fluid_screen')) && (($this->params->get('fluid_d
 	}
 }
 ?>">
-<script type="text/javascript">
+<script>
 lqx.bodyScreenSize();
 </script>
 <div class="container cf">
@@ -133,7 +134,7 @@ lqx.bodyScreenSize();
 </div>
 
 <!--[if lte IE 8]>
-<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/ie8-alert.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/ie8-alert.css" rel="stylesheet" />
 <div class="ie8-alert">You are using an unsupported version of Internet Explorer. To ensure security, performance, and full functionality, <a href="http://browsehappy.com/" target="_blank">please upgrade to an up-to-date browser.</a></div>
 <![endif]-->
 
