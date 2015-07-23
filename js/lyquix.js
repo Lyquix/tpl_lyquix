@@ -14,18 +14,25 @@ var lqx = lqx || {
 			outbound: true,
 			scrolldepth: true,
 			photogallery: true,
-			video: true
+			video: true,
 		},
 		shadeColorPercent: {
 			lighter: 20,
 			light: 10,
 			dark: -10,
-			darker: -20
+			darker: -20,
+		},
+		resizeThrottle: {
+			duration: 100,  // in miliseconds 
 		}
 	},
 	
 	// holds working data
-	vars: {},
+	vars: {
+		
+		resizeThrottle: false,  // saves current status of resizeThrottle
+		
+	},
 	
 	// setOptions
 	// a function for setting options for lqx (instead of manually rewriting lqx.settings)
@@ -102,6 +109,7 @@ var lqx = lqx || {
 	
 	// getBrowser
 	// returns the browser name and version
+	// NOTE: don't use this as a function, as it is converted to string on page ready
 	getBrowser : function(){
 		var ua = navigator.userAgent, tem, M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
 		if(/trident/i.test(M[1])){
@@ -613,6 +621,8 @@ var lqx = lqx || {
 // Functions to execute when the DOM is ready
 jQuery(document).ready(function(){
 	
+	// get browser type - NOTE: this converts the function into a string
+	lqx.getBrowser = lqx.getBrowser();
 	// enable function logging
 	lqx.initLogging();	
 	// add tracking with google analytics
@@ -626,9 +636,21 @@ jQuery(document).ready(function(){
 	
 	// Trigger on window resize
 	jQuery(window).resize(function() {
-		
-		// check screen size and trigger 'screensizechange' event 
-		lqx.bodyScreenSize();
+
+		// throttling?
+		if(!lqx.vars.resizeThrottle) {
+
+			// execute bodyscreenresize function
+			lqx.bodyScreenSize();
+			// throttling is now on
+			lqx.vars.resizeThrottle = true;
+			// set time out to turn throttling on and check screen size once more
+			setTimeout(function () { 
+				lqx.vars.resizeThrottle = false; 
+				lqx.bodyScreenSize();
+			}, lqx.settings.resizeThrottle.duration);
+			
+		}
 		
 	});
 	
