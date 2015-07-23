@@ -36,8 +36,15 @@ var lqx = lqx || {
 		return lqx.settings;
 	},
 	
-	
 	// function logging
+	initLogging: function() {
+		if(lqx.settings.logger.enable) {
+			for(var i in lqx.settings.logger.namespaces) {
+				lqx.addLoggingToNamespace(lqx.settings.logger.namespaces[i]);
+			}
+		}
+	},
+	
 	// addLoggingToNamespace: adds function logging to a namespace (for global functions use "window")
 	addLoggingToNamespace : function(nameSpace){
 		
@@ -299,53 +306,59 @@ var lqx = lqx || {
 	// initialize google analytics tracking
 	initTracking : function() {
 		
-		// track downloads and outbound links
-		if(lqx.settings.tracking.outbound || lqx.settings.tracking.download){
-			// find all a tags and cycle through them
-			jQuery('a').each(function(){
-				var elem = this;
-				// check if it has an href attribute, otherwise it is just a page anchor
-				if(elem.href) {
-					
-					// check if it is an outbound link, track as event
-					if(elem.href.indexOf(location.host) == -1 && lqx.settings.tracking.outbound) {
-						jQuery(elem).click(function(e){
-							// prevent default
-							e.preventDefault ? e.preventDefault() : e.returnValue = !1;
-							var url = elem.href;
-							var target = (elem.target && !elem.target.match(/^_(self|parent|top)$/i)) ? elem.target : false;
-							ga('send', {
-								'hitType': 'event', 
-								'eventCategory' : 'Outbound Links',
-								'eventAction' : 'click',
-								'eventLabel' : url,
-								'nonInteraction' : true,
-								'hitCallback' : function(){ target ? window.open(url, target) : window.location.href = url; }
+		// check if google analytics have been loaded
+		if(typeof window.ga !== 'undefined'){
+			
+			// track downloads and outbound links
+			if(lqx.settings.tracking.outbound || lqx.settings.tracking.download){
+				// find all a tags and cycle through them
+				jQuery('a').each(function(){
+					var elem = this;
+					// check if it has an href attribute, otherwise it is just a page anchor
+					if(elem.href) {
+						
+						// check if it is an outbound link, track as event
+						if(elem.href.indexOf(location.host) == -1 && lqx.settings.tracking.outbound) {
+							jQuery(elem).click(function(e){
+								// prevent default
+								e.preventDefault ? e.preventDefault() : e.returnValue = !1;
+								var url = elem.href;
+								var target = (elem.target && !elem.target.match(/^_(self|parent|top)$/i)) ? elem.target : false;
+								ga('send', {
+									'hitType': 'event', 
+									'eventCategory' : 'Outbound Links',
+									'eventAction' : 'click',
+									'eventLabel' : url,
+									'nonInteraction' : true,
+									'hitCallback' : function(){ target ? window.open(url, target) : window.location.href = url; }
+								});
 							});
-						});
-					}
-					
-					// check if it is a download link, track as pageview
-					else if(elem.href.match(/\.(gif|png|jpg|jpeg|tif|tiff|svg|webp|bmp|zip|rar|gzip|7z|tar|exe|msi|dmg|txt|pdf|rtf|doc.*|xls.*|ppt.*|mp3|wav|mp4|ogg|webm|wma|mov|avi|wmv|flv|swf|xml|js|json|css|less|sass)$/i) && lqx.settings.tracking.download) {
-						jQuery(elem).click(function(e){
-							// prevent default
-							e.preventDefault ? e.preventDefault() : e.returnValue = !1;
-							var url = elem.href;
-							var target = (elem.target && !elem.target.match(/^_(self|parent|top)$/i)) ? elem.target : false;
-							var loc = elem.protocol + '//' + elem.hostname + elem.pathname + elem.search;
-							var page = elem.pathname + elem.search;
-							ga('send', {
-								'hitType': 'pageview', 
-								'location' : loc,
-								'page' : page,
-								'title' : 'Download: ' + page,
-								'hitCallback' : function(){ target ? window.open(url, target) : window.location.href = url; }
+						}
+						
+						// check if it is a download link, track as pageview
+						else if(elem.href.match(/\.(gif|png|jpg|jpeg|tif|tiff|svg|webp|bmp|zip|rar|gzip|7z|tar|exe|msi|dmg|txt|pdf|rtf|doc.*|xls.*|ppt.*|mp3|wav|mp4|ogg|webm|wma|mov|avi|wmv|flv|swf|xml|js|json|css|less|sass)$/i) && lqx.settings.tracking.download) {
+							jQuery(elem).click(function(e){
+								// prevent default
+								e.preventDefault ? e.preventDefault() : e.returnValue = !1;
+								var url = elem.href;
+								var target = (elem.target && !elem.target.match(/^_(self|parent|top)$/i)) ? elem.target : false;
+								var loc = elem.protocol + '//' + elem.hostname + elem.pathname + elem.search;
+								var page = elem.pathname + elem.search;
+								ga('send', {
+									'hitType': 'pageview', 
+									'location' : loc,
+									'page' : page,
+									'title' : 'Download: ' + page,
+									'hitCallback' : function(){ target ? window.open(url, target) : window.location.href = url; }
+								});
 							});
-						});
+						}
+						
 					}
-					
-				}
-			});
+				});
+				
+			}
+			
 		}
 		
 		// track scroll depth
@@ -600,23 +613,10 @@ var lqx = lqx || {
 // Functions to execute when the DOM is ready
 jQuery(document).ready(function(){
 	
-	
-	
-	// ***********************************
-	// BEGIN on document ready functions
-	
 	// enable function logging
-	if(lqx.settings.logger.enable) {
-		for(var i in lqx.settings.logger.namespaces) {
-			lqx.addLoggingToNamespace(lqx.settings.logger.namespaces[i]);
-		}
-	}
-	
+	lqx.initLogging();	
 	// add tracking with google analytics
-	if(typeof window.ga !== 'undefined'){
-		lqx.initTracking();
-	}
-	
+	lqx.initTracking();
 	// set equal height rows
 	lqx.equalHeightRows();
 	// adds image captions using alt property
@@ -624,41 +624,30 @@ jQuery(document).ready(function(){
 	// shows a line break symbol before br elements
 	lqx.lineBreakSymbol();
 	
-	
-	// END on page load functions
-	// ***********************************
-	
-	
-	
-	
-	// ***********************************
-	// BEGIN listeners and triggers
-	
 	// Trigger on window resize
 	jQuery(window).resize(function() {
-		// trottle this to every 0.1 secs to avoid overloading
-		//lqx.throttleFunc(function(){
-			lqx.bodyScreenSize();
-			
-			// place here functions that need to run on screen resize
-			
-		//}, 100);
+		
+		// check screen size and trigger 'screensizechange' event 
+		lqx.bodyScreenSize();
+		
 	});
 	
 	// Trigger on screen orientation change
 	jQuery(window).on('orientationchange', function() {
-		lqx.bodyScreenSize();
 		
-		// place here any functions that need to be run when screen orientation changes
+		// check screen size and trigger 'screensizechange' event 
+		lqx.bodyScreenSize();
 		
 	});
 	
 	// Trigger on custom event screen size change
 	jQuery(window).on('screensizechange', function() {
+		
+		// set equal height rows
 		lqx.equalHeightRows();
-		
-		// place here any functions that need to be run when the screen size changes
-		
+		// set punctuation marks to hanging
+		lqx.hangingPunctuation();
+
 	});
 	
 	// Open-close collapsed mobile menu
@@ -694,8 +683,10 @@ jQuery(document).ready(function(){
 
 // Functions to execute when the page has loaded
 jQuery(window).load(function(){
+	
 	// set punctuation marks to hanging
 	lqx.hangingPunctuation();
+	
 });
 
 
