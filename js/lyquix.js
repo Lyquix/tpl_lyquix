@@ -29,9 +29,7 @@ var lqx = lqx || {
 	
 	// holds working data
 	vars: {
-		
 		resizeThrottle: false,  // saves current status of resizeThrottle
-		
 	},
 	
 	// setOptions
@@ -344,7 +342,7 @@ var lqx = lqx || {
 						}
 						
 						// check if it is a download link, track as pageview
-						else if(elem.href.match(/\.(gif|png|jpg|jpeg|tif|tiff|svg|webp|bmp|zip|rar|gzip|7z|tar|exe|msi|dmg|txt|pdf|rtf|doc.*|xls.*|ppt.*|mp3|wav|mp4|ogg|webm|wma|mov|avi|wmv|flv|swf|xml|js|json|css|less|sass)$/i) && lqx.settings.tracking.download) {
+						else if(elem.href.match(/\.(gif|png|jpg|jpeg|tif|tiff|svg|webp|bmp|zip|rar|gzip|7z|tar|exe|msi|dmg|txt|pdf|rtf|doc|docx|dot|dotx|xls|xlsx|xlt|xltx|ppt|pptx|pot|potx|mp3|wav|mp4|ogg|webm|wma|mov|avi|wmv|flv|swf|xml|js|json|css|less|sass)$/i) && lqx.settings.tracking.download) {
 							jQuery(elem).click(function(e){
 								// prevent default
 								e.preventDefault ? e.preventDefault() : e.returnValue = !1;
@@ -367,136 +365,139 @@ var lqx = lqx || {
 				
 			}
 			
-		}
 		
-		// track scroll depth
-		if(lqx.settings.tracking.scrolldepth){
-			
-			// get the initial scroll position
-			lqx.vars.scrollDepthMax = Math.ceil(((jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height()) * 10) * 10;
-			
-			// add listener to scroll event
-			jQuery(window).scroll(function(){
-				// capture the hightest scroll point, stop calculating once reached 100
-				if(lqx.vars.scrollDepthMax < 100) {
-					lqx.vars.scrollDepthMax = Math.max(lqx.vars.scrollDepthMax, Math.ceil(((jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height()) * 10) * 10);					
-				}
-			});
-			
-			// add listener to link
-			jQuery(window).on('unload', function(){
+			// track scroll depth
+			if(lqx.settings.tracking.scrolldepth){
 				
-				ga('send', {
-					'hitType': 'event', 
-					'eventCategory' : 'Scroll Depth',
-					'eventAction' : lqx.vars.scrollDepthMax,
-					'nonInteraction' : true
-				});				
+				// get the initial scroll position
+				lqx.vars.scrollDepthMax = Math.ceil(((jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height()) * 10) * 10;
 				
-			});					
-			
-		}
-		
-		// track photo galleries
-		if(lqx.settings.tracking.photogallery){
-			jQuery('a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]').click(function(){
-				// send event for gallery opened
-				ga('send', {
-					'hitType': 'event', 
-					'eventCategory' : 'Photo Gallery',
-					'eventAction' : 'Open'
+				// add listener to scroll event
+				jQuery(window).scroll(function(){
+					// capture the hightest scroll point, stop calculating once reached 100
+					if(lqx.vars.scrollDepthMax < 100) {
+						lqx.vars.scrollDepthMax = Math.max(lqx.vars.scrollDepthMax, Math.ceil(((jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height()) * 10) * 10);					
+					}
 				});
+				
+				// add listener to link
+				jQuery(window).on('unload', function(){
+					
+					ga('send', {
+						'hitType': 'event', 
+						'eventCategory' : 'Scroll Depth',
+						'eventAction' : lqx.vars.scrollDepthMax,
+						'nonInteraction' : true
+					});				
+					
+				});					
+				
+			}
 			
-			});
-			
-			jQuery('img.lb-image').on('load', function(){
-				// send event for image displayed
-				ga('send', {
-					'hitType': 'event', 
-					'eventCategory' : 'Photo Gallery',
-					'eventAction' : 'Display',
-					'eventLabel' : jQuery(this).attr('src')
+			// track photo galleries
+			if(lqx.settings.tracking.photogallery){
+				jQuery('a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]').click(function(){
+					// send event for gallery opened
+					ga('send', {
+						'hitType': 'event', 
+						'eventCategory' : 'Photo Gallery',
+						'eventAction' : 'Open'
+					});
+				
 				});
+				
+				jQuery('img.lb-image').on('load', function(){
+					// send event for image displayed
+					ga('send', {
+						'hitType': 'event', 
+						'eventCategory' : 'Photo Gallery',
+						'eventAction' : 'Display',
+						'eventLabel' : jQuery(this).attr('src')
+					});
+				
+				});
+			}
 			
-			});
-		}
-		
-		// track video
-		if(lqx.settings.tracking.video){
-			lqx.vars.youtubePlayers = {};
-			lqx.vars.vimeoPlayers = {};
-			// detect if there are any youtube or vimeo videos, activate js api and add id
-			jQuery('iframe').each(function(idx,elem){
-				if(typeof jQuery(elem).attr('src') != 'undefined'){
-					if(jQuery(elem).attr('src').indexOf('youtube.com/embed/') != -1) {
-						if(jQuery(this).attr('src').indexOf('enablejsapi=1') == -1){
-							var urlconn = '&';
-							if(jQuery(this).attr('src').indexOf('?') == -1) {
-								urlconn = '?';
+			// track video
+			if(lqx.settings.tracking.video){
+				lqx.vars.youtubePlayers = {};
+				lqx.vars.vimeoPlayers = {};
+				// detect if there are any youtube or vimeo videos, activate js api and add id
+				jQuery('iframe').each(function(idx,elem){
+					if(typeof jQuery(elem).attr('src') != 'undefined'){
+						// check youtube players
+						if(jQuery(elem).attr('src').indexOf('youtube.com/embed/') != -1) {
+							if(jQuery(this).attr('src').indexOf('enablejsapi=1') == -1){
+								var urlconn = '&';
+								if(jQuery(this).attr('src').indexOf('?') == -1) {
+									urlconn = '?';
+								}
+								jQuery(elem).attr('src', jQuery(elem).attr('src') + urlconn + 'enablejsapi=1&version=3');
 							}
-							jQuery(elem).attr('src', jQuery(elem).attr('src') + urlconn + 'enablejsapi=1&version=3');
-						}
-						if(typeof jQuery(elem).attr('id') == 'undefined'){
-							jQuery(elem).attr('id','youtubePlayer'+idx)
-						}
-						lqx.vars.youtubePlayers[jQuery(elem).attr('id')] = {};
-					}
-					/*
-					// vimeo is still work in progress
-					if(jQuery(elem).attr('src').indexOf('player.vimeo.com/video/') != -1) {
-						if(jQuery(this).attr('src').indexOf('api=1') == -1){
-							if(jQuery(this).attr('src').indexOf('?') == -1) {
-								urlconn = '?';
+							if(typeof jQuery(elem).attr('id') == 'undefined'){
+								jQuery(elem).attr('id','youtubePlayer'+idx)
 							}
-							jQuery(elem).attr('src', jQuery(elem).attr('src') + urlconn + 'api=1');
+							lqx.vars.youtubePlayers[jQuery(elem).attr('id')] = { };
 						}
-						if(typeof jQuery(elem).attr('id') == 'undefined'){
-							jQuery(elem).attr('id','vimeoPlayer'+idx)
+						// check vimeo players
+						if(jQuery(elem).attr('src').indexOf('player.vimeo.com/video/') != -1) {
+							if(jQuery(this).attr('src').indexOf('api=1') == -1){
+								if(jQuery(this).attr('src').indexOf('?') == -1) {
+									urlconn = '?';
+								}
+								jQuery(elem).attr('src', jQuery(elem).attr('src') + urlconn + 'api=1&player_id=vimeoPlayer' + idx);
+							}
+							if(typeof jQuery(elem).attr('id') == 'undefined'){
+								jQuery(elem).attr('id','vimeoPlayer'+idx)
+							}
+							lqx.vars.vimeoPlayers[jQuery(elem).attr('id')] = { };
 						}
-						lqx.vars.vimeoPlayers[jQuery(elem).attr('id')] = { playerObj: elem };
 					}
-					*/
-				}
-											 
-			}).promise().done(function(){
-				if(Object.keys(lqx.vars.youtubePlayers).length > 0){
-					// youtube players available, load youtube api library
-					var tag = document.createElement('script');
-					tag.src = "https://www.youtube.com/iframe_api";
-					var firstScriptTag = document.getElementsByTagName('script')[0];
-					firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-				}
-				/*
-				if(Object.keys(lqx.vars.vimeoPlayers).length > 0){
-					// add a listener for iframe messages
-					if (window.addEventListener) {
-					    // if the player is Vimeo
-					    if (vobj.length > 0) {
-						   window.addEventListener('message', lqx.vimeoRecvMessage, false);
-					    }
-					} else {
-					    // if the player is Vimeo
-					    if (vobj.length > 0) {
-						   window.attachEvent('onmessage', lqx.vimeoRecvMessage, false);
-					    }
+												 
+				}).promise().done(function(){
+					// if there are any youtube players
+					if(Object.keys(lqx.vars.youtubePlayers).length > 0){
+						// youtube players available, load youtube api library
+						var tag = document.createElement('script');
+						tag.src = "https://www.youtube.com/iframe_api";
+						var firstScriptTag = document.getElementsByTagName('script')[0];
+						firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 					}
-				}
-				*/
-			});
+					// if there are any vimeo players
+					
+					if(Object.keys(lqx.vars.vimeoPlayers).length > 0){
+						
+						if (window.addEventListener) {
+							window.addEventListener('message', lqx.vimeoReceiveMessage, false);
+						} 
+						else {
+							window.attachEvent('onmessage', lqx.vimeoReceiveMessage, false);
+						}
+					}
+					
+					
+				});
+			}
 		}
 
 	},
 	
-	youtubePlayerCallback : function(e){
-		// playerId : e.target.d.id
-		// videoTitle : e.target.B.videoData.title
-		// videoId : e.target.B.videoData.video_id
-		// duration : e.target.getDuration()
-		// currentTime : e.target.getCurrentTime() 
+	youtubePlayerCallback : function(e, playerId){
+		
+		player = lqx.vars.youtubePlayers[playerId];
+		videoTitle = e.target.B.videoData.title;
+		videoUrl = e.target.B.videoUrl;
+		duration = e.target.getDuration();
+		currentTime = e.target.getCurrentTime();
+		
+		// capture the onready event
 		if(e.data == null){
-			// player ready, set progress to 0
-			lqx.vars.youtubePlayers[e.target.d.id].progress = 0;
+			// set player object variables
+			player.progress = 0;
+			player.start = false;
+			player.complete = false;
 		}
+		
 		else {
 			// player events:
 			// -1 (unstarted, player ready)
@@ -506,112 +507,142 @@ var lqx = lqx || {
 			// 3 (buffering)
 			// 5 (video cued / video ready)
 			var label;
-			if(e.target.getPlayerState() == 0) {
+			
+			// making sure we track the complete event just once
+			if(e.target.getPlayerState() == 0 && !player.complete) {
 				label = 'Complete';
+				player.complete = true;
 			}
 			
 			if(e.target.getPlayerState() == 1) {
-				var label;
-				currentTime = e.target.getCurrentTime();
-				lqx.vars.youtubePlayers[e.target.d.id].timer = setTimeout(function(){lqx.youtubePlayerCallback(e)}, 250);
-				if(currentTime == 0){
+				
+				// recursively call this function in 250ms to keep track of video progress
+				player.timer = setTimeout(function(){lqx.youtubePlayerCallback(e, playerId)}, 250);
+				
+				// if this is the first time we get the playing status, track it as start
+				if(!player.start){
 					label = 'Start';
+					player.start = true;
 				}
+				
 				else {
-					duration = e.target.getDuration();
-					if(Math.ceil( Math.ceil( (currentTime / duration) * 100 ) / 10 ) - 1 > lqx.vars.youtubePlayers[e.target.d.id].progress){
-						lqx.vars.youtubePlayers[e.target.d.id].progress = Math.ceil( Math.ceil( (currentTime / duration) * 100 ) / 10 ) - 1;
-						if(lqx.vars.youtubePlayers[e.target.d.id].progress != 10){
-							label = (lqx.vars.youtubePlayers[e.target.d.id].progress * 10) + '%';
+					
+					if(Math.ceil( Math.ceil( (currentTime / duration) * 100 ) / 10 ) - 1 > player.progress){
+						
+						player.progress = Math.ceil( Math.ceil( (currentTime / duration) * 100 ) / 10 ) - 1;
+						
+						if(player.progress != 10){
+							label = (player.progress * 10) + '%';
 						}
+						
 						else {
-							clearTimeout(lqx.vars.youtubePlayers[e.target.d.id].timer);
+							clearTimeout(lqx.vars.youtubePlayers[playerId].timer);
 						}
 					}
 				}
 			}
 			
 			if(label){
-				ga('send', {
-					'hitType': 'event', 
-					'eventCategory' : 'Video',
-					'eventAction' : 'Play',
-					'eventLabel' : label,
-					'eventValue': e.target.B.videoData.title + ' (http://youtube.com/v/' + e.target.B.videoData.video_id + ')'
-				});
+				lqx.videoTrackingEvent(playerId, label, videoTitle);
 			}
 			
 		}
 	},
 	
-	/*
-	vimeoRecvMessage : function(e){
-		e = e.originalEvent;
-		console.log(e);
-		if (e.origin == "http://player.vimeo.com") {
+	
+	vimeoReceiveMessage : function(e){
+		
+		// check message is coming from vimeo
+		if((/^https?:\/\/player.vimeo.com/).test(e.origin)) {
+			// parse the data
 			var data = JSON.parse(e.data);
+			player = lqx.vars.vimeoPlayers[data.player_id];
+			var label;
+			
 			switch (data.event) {
-				case 'ready':
-					onVimeoReady();
-					break;
 				
-				case 'playProgress':
-					vimeoSeconds = data.data.seconds;
-					vimeoPercent = data.data.percent;
-					vimeoDuration = data.data.duration;
-					l = vimeoDuration || 0;
-					n = vimeoTitle || 'undefined';
-					p = 'Vimeo';
-					t = vimeoSeconds;
-					// if this is the first time we're seeing play (vimeoBegin == true) then fire a play event
-					// this is done here because playProgress offers the duration value
-					if (vimeoBegin) {
-						// force the time to 0
-						t = 0;
-						// once we hear the initial play event we don't want to do it again. all future play events will be be handled by case 'play'
-						vimeoBegin = false;
-						// Site Catalyst
-						s.Media.open(n, l, p);
-						s.Media.play(n, t);
-					}
+				case 'ready':
+					// set player object variables
+					player.progress = 0;
+					player.start = false;
+					player.complete = false;
+					
+					// set the listeners
+					lqx.vimeoSendMessage(data.player_id, e.origin, 'addEventListener', 'play');
+			        lqx.vimeoSendMessage(data.player_id, e.origin, 'addEventListener', 'finish');
+        			lqx.vimeoSendMessage(data.player_id, e.origin, 'addEventListener', 'playProgress');
+					
 					break;
 				
 				case 'play':
-					if (!vimeoBegin) {
-						// Site Catalyst
-						s.Media.play(n, t);
+					// if this is the first time we get the playing status, track it as start
+					if(!player.start){
+						label = 'Start';
+						player.start = true;
 					}
+					
 					break;
-				
-				case 'pause':
-					// Site Catalyst
-					s.Media.stop(n, t);
+					
+				case 'playProgress':
+					
+					if(Math.ceil( Math.ceil( (data.data.percent) * 100 ) / 10 ) - 1 > player.progress) {
+						
+						player.progress = Math.ceil( Math.ceil( (data.data.percent) * 100 ) / 10 ) - 1;
+						
+						if(player.progress != 10){
+							label = (player.progress * 10) + '%';
+						}
+						 
+					}
+					
 					break;
-				
+					
 				case 'finish':
-					// Site Catalyst
-					s.Media.stop(n, t);
-					s.Media.close(n);
-					break;
-				
-				default:
-					vimeoData[data.method] = data.value;
-					break;
-				
+					// make sure we capture finish event just once
+					if(!player.complete) {
+						label = 'Complete';
+						player.complete = true;
+					}
+					
 			}
+			
+			if(label){
+				lqx.videoTrackingEvent(data.player_id, label, 'Title not available'); // vimeo doesn't provide a mechanism for getting the video title
+			}
+			
 		}
+		
+		
+		
 	},
 	
-	vimeoSendMessage : function(player,action,value){
+	vimeoSendMessage : function(playerId, origin, action, value){
+		
 		var data = {
-			method: action
-		};
-		if (value) {
-			data.value = value;
-		}
-		player.contentWindow.postMessage(JSON.stringify(data), vurl);
+            method: action
+        };
+
+        if (value) {
+            data.value = value;
+        }
+
+        document.getElementById(playerId).contentWindow.postMessage(JSON.stringify(data), origin);
+		
 	},
-	*/
+	
+	videoTrackingEvent : function(playerId, label, title) {
+		
+		console.log(playerId + ':' + label);
+		ga('send', {
+			'hitType': 'event', 
+			'eventCategory' : 'Video',
+			'eventAction' : 'Play',
+			'eventLabel' : label,
+			'eventValue': title + ' (' + jQuery('#' + playerId).attr('src').split('?')[0] + ')'
+		});
+
+	},
+	
 };
 
 // END Lyquix global object
@@ -695,9 +726,6 @@ jQuery(document).ready(function(){
 		}
 	});
 	
-	// END listeners and triggers
-	// ***********************************
-	
 	
 	
 });
@@ -721,9 +749,9 @@ function onYouTubeIframeAPIReady(){
 	for(var playerId in lqx.vars.youtubePlayers) {
 		lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, { 
 			events: { 
-				'onReady': 'lqx.youtubePlayerCallback', 
-				'onStateChange': 'lqx.youtubePlayerCallback' 
+				'onReady': function(e){ lqx.youtubePlayerCallback(e, playerId) }, 
+				'onStateChange': function(e){ lqx.youtubePlayerCallback(e, playerId) } 
 			}
 		});
-	}					
+	}
 }
