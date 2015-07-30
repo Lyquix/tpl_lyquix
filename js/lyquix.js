@@ -643,6 +643,29 @@ var lqx = lqx || {
 
 	},
 	
+	// adds a width value to img elements
+	ieImgSizeFix : function() {
+		if(lqx.getBrowser.indexOf('IE ') != -1) {
+			jQuery('img').each(function(){
+				if(jQuery(this).attr('width') == undefined) {
+					jQuery(this).attr('width', '100%');
+				}
+			});
+		}
+	},
+	
+	// replaces svg images for png in IE8
+	ie8SVGFallback : function() {
+		if(lqx.getBrowser.indexOf('IE 8') != -1) {
+			jQuery('img').each(function(){
+				src = jQuery(this).attr('src');
+				if(/\.svg$/i.test (src)) {
+					jQuery(this).attr('src', src.replace('.svg', '.png')); 
+				}
+			});
+		}
+	},
+	
 };
 
 // END Lyquix global object
@@ -664,6 +687,10 @@ jQuery(document).ready(function(){
 	lqx.imageCaption();
 	// shows a line break symbol before br elements
 	lqx.lineBreakSymbol();
+	// ie fix for imeges when no size is provided
+	lqx.ieImgSizeFix();
+	// ie8 fix for fallback to png when svg images are used 
+	lqx.ie8SVGFallback();
 	
 	// Trigger on window resize
 	jQuery(window).resize(function() {
