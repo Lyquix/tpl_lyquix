@@ -5,170 +5,412 @@
 
 @blk-content-width-fluid-xs: 16.666%;
 @blk-margin-width-fluid-xs: unit(100 * @blk-margin-width / 320, %);
-body[screen=xs].blkfluid-xs {
-	box-sizing: border-box;
-	*, *:before, *:after {
-		box-sizing: inherit;
-	}
-	
-	.blk1, .blk1-xs { 
-		width: @blk-content-width-fluid-xs * 1 - 2 * @blk-margin-width-fluid-xs; 
+@blk-border-width-fluid-xs: unit(100 * @blk-border-width / 320, %);
+@blk-padding-width-fluid-xs: unit(100 * @blk-padding-width / 320, %);
 
-		.blkgroup {
-			width: @blk-content-width-fluid-xs * 1;
-		}
-	}
-	.blk2, .blk1-xs { 
-		width: @blk-content-width-fluid-xs * 2 - 2 * @blk-margin-width-fluid-xs;  
+@blk-padding-border-width-fluid-xs: @blk-padding-width-fluid-xs + @blk-border-width-fluid-xs;
+@blk-padding-border-margin-width-fluid-xs: @blk-padding-width-fluid-xs + @blk-border-width-fluid-xs + @blk-margin-width-fluid-xs;
 
-		.blkgroup {
-			width: @blk-content-width-fluid-xs * 2;
-		}
-	}
-	.blk3, .blk1-xs { 
-		width: @blk-content-width-fluid-xs * 3 - 2 * @blk-margin-width-fluid-xs;  
+body[screen=xs].blkfluid-xs { 
+  box-sizing: border-box;
+  
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+  
+  .blk1, .blk1-xs { 
+    width: @blk-content-width-fluid-xs * 1 - 2 * @blk-margin-width-fluid-xs; 
 
-		.blkgroup {
-			width: @blk-content-width-fluid-xs * 3;
-		}
-	}
-	.blk4, .blk4-xs { 
-		width: @blk-content-width-fluid-xs * 4 - 2 * @blk-margin-width-fluid-xs;  
+    &.blkgroup {
+      width: @blk-content-width-fluid-xs * 1;
+    }
+  }
+  .blk2, .blk2-xs { 
+    width: @blk-content-width-fluid-xs * 2 - 2 * @blk-margin-width-fluid-xs;  
 
-		.blkgroup {
-			width: @blk-content-width-fluid-xs * 4;
-		}
-	}
-	.blk5, .blk5-xs { 
-		width: @blk-content-width-fluid-xs * 5 - 2 * @blk-margin-width-fluid-xs;  
+    &.blkgroup {
+      width: @blk-content-width-fluid-xs * 2;
+    }
+  }
+  .blk3, .blk3-xs { 
+    width: @blk-content-width-fluid-xs * 3 - 2 * @blk-margin-width-fluid-xs;  
 
-		.blkgroup {
-			width: @blk-content-width-fluid-xs * 5;
-		}
-	}
-	
-	.blk6, .blk7, .blk8, .blk9, .blk10, .blk11, .blk12, .blk13, .blk14, .blk15, .blk16, .blk17, .blk18, .blk19, .blk20, .blk21, .blk22, .blk23, .blk24, .blk25, .blk26, .blk27, .blk28, .blk29, .blk30,
-	.blk6-xs, .blk7-xs, .blk8-xs, .blk9-xs, .blk10-xs, .blk11-xs, .blk12-xs, .blk13-xs, .blk14-xs, .blk15-xs, .blk16-xs, .blk17-xs, .blk18-xs, .blk19-xs, .blk20-xs, .blk21-xs, .blk22-xs, .blk23-xs, .blk24-xs, .blk25-xs, .blk26-xs, .blk27-xs, .blk28-xs, .blk29-xs, .blk30-xs {
-		width: 100% - 2 * @blk-margin-width-fluid-xs;	// 5 blocks
-		
-		.blkgroup {
-			width: 100%;
-		}
-	}
-	.blk1 > *, .blk2 > *, .blk3 > *, .blk4 > *, .blk5 > *, .blk6 > *, .blk7 > *, .blk8 > *, .blk9 > *, .blk10 > *, .blk11 > *, .blk12 > *, .blk13 > *, .blk14 > *, .blk15 > *, .blk16 > *, .blk17 > *, .blk18 > *, .blk19 > *, .blk20 > *, .blk21 > *, .blk22 > *, .blk23 > *, .blk24 > *, .blk25 > *, .blk26 > *, .blk27 > *, .blk28 > *, .blk29 > *, .blk30 > * {
-		max-width: 100%;	// 4 blocks
-	}
-	
-	// TODO
-	.blkbleed-padding {}
-	
-	.blkbleed-border {}
-	
-	.blkbleed-margin {}
+    &.blkgroup {
+      width: @blk-content-width-fluid-xs * 3;
+    }
+  }
+  .blk4, .blk4-xs { 
+    width: @blk-content-width-fluid-xs * 4 - 2 * @blk-margin-width-fluid-xs;  
+
+    &.blkgroup {
+      width: @blk-content-width-fluid-xs * 4;
+    }
+  }
+  .blk5, .blk5-xs { 
+    width: @blk-content-width-fluid-xs * 5 - 2 * @blk-margin-width-fluid-xs;  
+
+    &.blkgroup {
+      width: @blk-content-width-fluid-xs * 5;
+    }
+  }
+  
+  .blk6, .blk7, .blk8, .blk9, .blk10, .blk11, .blk12, .blk13, .blk14, .blk15, .blk16, .blk17, .blk18, .blk19, .blk20, .blk21, .blk22, .blk23, .blk24, .blk25, .blk26, .blk27, .blk28, .blk29, .blk30,
+  .blk6-xs, .blk7-xs, .blk8-xs, .blk9-xs, .blk10-xs, .blk11-xs, .blk12-xs, .blk13-xs, .blk14-xs, .blk15-xs, .blk16-xs, .blk17-xs, .blk18-xs, .blk19-xs, .blk20-xs, .blk21-xs, .blk22-xs, .blk23-xs, .blk24-xs, .blk25-xs, .blk26-xs, .blk27-xs, .blk28-xs, .blk29-xs, .blk30-xs {
+    width: 100% - 2 * @blk-margin-width-fluid-xs; // 5 blocks
+    
+    &.blkgroup {
+      width: 100%;
+    }
+  }
+  .blk1 > *, .blk2 > *, .blk3 > *, .blk4 > *, .blk5 > *, .blk6 > *, .blk7 > *, .blk8 > *, .blk9 > *, .blk10 > *, .blk11 > *, .blk12 > *, .blk13 > *, .blk14 > *, .blk15 > *, .blk16 > *, .blk17 > *, .blk18 > *, .blk19 > *, .blk20 > *, .blk21 > *, .blk22 > *, .blk23 > *, .blk24 > *, .blk25 > *, .blk26 > *, .blk27 > *, .blk28 > *, .blk29 > *, .blk30 > *,
+  .blk1-xs > *, .blk2-xs > *, .blk3-xs > *, .blk4-xs > *, .blk4-xs > *, .blk5-xs > *, .blk6-xs > *, .blk7-xs > *, .blk8-xs > *, .blk9-xs > *, .blk10-xs > *, .blk11-xs > *, .blk12-xs > *, .blk13-xs > *, .blk14-xs > *, .blk15-xs > *, .blk16-xs > *, .blk17-xs > *, .blk18-xs > *, .blk19-xs > *, .blk20-xs, .blk21-xs, .blk22-xs, .blk23-xs, .blk24-xs, .blk25-xs, .blk26-xs, .blk27-xs, .blk28-xs, .blk29-xs, .blk30-xs {
+    max-width: 100%;  // 5 blocks
+  }
+  
+  .blkbleed-padding {
+    
+    margin: @blk-margin-width -(@blk-padding-width-fluid-xs);
+    
+    &.blk1, &.blk1-xs { 
+      width: @blk-content-width-fluid-xs * 1 + 2 * @blk-padding-width-fluid-xs; 
+    }
+    &.blk2, &.blk2-xs { 
+      width: @blk-content-width-fluid-xs * 2 + 2 * @blk-padding-width-fluid-xs;  
+    }
+    &.blk3, &.blk3-xs { 
+      width: @blk-content-width-fluid-xs * 3 + 2 * @blk-padding-width-fluid-xs;  
+    }
+    &.blk4, &.blk4-xs { 
+      width: @blk-content-width-fluid-xs * 4 + 2 * @blk-padding-width-fluid-xs;  
+    }
+    &.blk5, &.blk5-xs { 
+      width: @blk-content-width-fluid-xs * 5 + 2 * @blk-padding-width-fluid-xs;  
+    }
+    
+    &.blk6, &.blk7, &.blk8, &.blk9, &.blk10, &.blk11, &.blk12, &.blk13, &.blk14, &.blk15, &.blk16, &.blk17, &.blk18, &.blk19, &.blk20, &.blk21, &.blk22, &.blk23, &.blk24, &.blk25, &.blk26, &.blk27, &.blk28, &.blk29, &.blk30,
+    &.blk6-xs, &.blk7-xs, &.blk8-xs, &.blk9-xs, &.blk10-xs, &.blk11-xs, &.blk12-xs, &.blk13-xs, &.blk14-xs, &.blk15-xs, &.blk16-xs, &.blk17-xs, &.blk18-xs, &.blk19-xs, &.blk20-xs, &.blk21-xs, &.blk22-xs, &.blk23-xs, &.blk24-xs, &.blk25-xs, &.blk26-xs, &.blk27-xs, &.blk28-xs, &.blk29-xs, &.blk30-xs {
+      width: 100% + 2 * @blk-padding-width-fluid-xs; // 4 blocks
+      
+    }
+    &.blk1 > *, &.blk2 > *, &.blk3 > *, &.blk4 > *, &.blk5 > *, &.blk6 > *, &.blk7 > *, &.blk8 > *, &.blk9 > *, &.blk10 > *, &.blk11 > *, &.blk12 > *, &.blk13 > *, &.blk14 > *, &.blk15 > *, &.blk16 > *, &.blk17 > *, &.blk18 > *, &.blk19 > *, &.blk20 > *, &.blk21 > *, &.blk22 > *, &.blk23 > *, &.blk24 > *, &.blk25 > *, &.blk26 > *, &.blk27 > *, &.blk28 > *, &.blk29 > *, &.blk30 > *,
+    .blk1-xs > *, .blk2-xs > *, .blk3-xs > *, .blk4-xs > *, &.blk4-xs > *, &.blk5-xs > *, &.blk6-xs > *, &.blk7-xs > *, &.blk8-xs > *, &.blk9-xs > *, &.blk10-xs > *, &.blk11-xs > *, &.blk12-xs > *, &.blk13-xs > *, &.blk14-xs > *, &.blk15-xs > *, &.blk16-xs > *, &.blk17-xs > *, &.blk18-xs > *, &.blk19-xs > *, &.blk20-xs > *, &.blk21-xs > *, &.blk22-xs > *, &.blk23-xs > *, &.blk24-xs > *, &.blk25-xs > *, &.blk26-xs > *, &.blk27-xs > *, &.blk28-xs > *, &.blk29-xs > *, &.blk30-xs > * {
+      max-width: 100% + 2 * @blk-padding-width-fluid-xs;  // 4 blocks
+    } 
+       
+  }
+  
+  .blkbleed-border {
+    
+    margin: @blk-margin-width -(@blk-padding-border-width-fluid-xs);
+    
+    &.blk1, &.blk1-xs { 
+      width: @blk-content-width-fluid-xs * 1 + 2 * @blk-padding-border-width-fluid-xs; 
+    }
+    &.blk2, &.blk2-xs { 
+      width: @blk-content-width-fluid-xs * 2 + 2 * @blk-padding-border-width-fluid-xs;  
+    }
+    &.blk3, &.blk3-xs { 
+      width: @blk-content-width-fluid-xs * 3 + 2 * @blk-padding-border-width-fluid-xs;  
+    }
+    &.blk4, &.blk4-xs { 
+      width: @blk-content-width-fluid-xs * 4 + 2 * @blk-padding-border-width-fluid-xs;  
+    }
+    &.blk5, &.blk5-xs { 
+      width: @blk-content-width-fluid-xs * 5 + 2 * @blk-padding-border-width-fluid-xs;  
+    }
+    
+    &.blk6, &.blk7, &.blk8, &.blk9, &.blk10, &.blk11, &.blk12, &.blk13, &.blk14, &.blk15, &.blk16, &.blk17, &.blk18, &.blk19, &.blk20, &.blk21, &.blk22, &.blk23, &.blk24, &.blk25, &.blk26, &.blk27, &.blk28, &.blk29, &.blk30,
+    &.blk6-xs, &.blk7-xs, &.blk8-xs, &.blk9-xs, &.blk10-xs, &.blk11-xs, &.blk12-xs, &.blk13-xs, &.blk14-xs, &.blk15-xs, &.blk16-xs, &.blk17-xs, &.blk18-xs, &.blk19-xs, &.blk20-xs, &.blk21-xs, &.blk22-xs, &.blk23-xs, &.blk24-xs, &.blk25-xs, &.blk26-xs, &.blk27-xs, &.blk28-xs, &.blk29-xs, &.blk30-xs {
+      width: 100% + 2 * @blk-padding-border-width-fluid-xs; // 4 blocks
+      
+    }
+    &.blk1 > *, &.blk2 > *, &.blk3 > *, &.blk4 > *, &.blk5 > *, &.blk6 > *, &.blk7 > *, &.blk8 > *, &.blk9 > *, &.blk10 > *, &.blk11 > *, &.blk12 > *, &.blk13 > *, &.blk14 > *, &.blk15 > *, &.blk16 > *, &.blk17 > *, &.blk18 > *, &.blk19 > *, &.blk20 > *, &.blk21 > *, &.blk22 > *, &.blk23 > *, &.blk24 > *, &.blk25 > *, &.blk26 > *, &.blk27 > *, &.blk28 > *, &.blk29 > *, &.blk30 > *,
+    .blk1-xs > *, .blk2-xs > *, .blk3-xs > *, .blk4-xs > *, &.blk4-xs > *, &.blk5-xs > *, &.blk6-xs > *, &.blk7-xs > *, &.blk8-xs > *, &.blk9-xs > *, &.blk10-xs > *, &.blk11-xs > *, &.blk12-xs > *, &.blk13-xs > *, &.blk14-xs > *, &.blk15-xs > *, &.blk16-xs > *, &.blk17-xs > *, &.blk18-xs > *, &.blk19-xs > *, &.blk20-xs > *, &.blk21-xs > *, &.blk22-xs > *, &.blk23-xs > *, &.blk24-xs > *, &.blk25-xs > *, &.blk26-xs > *, &.blk27-xs > *, &.blk28-xs > *, &.blk29-xs > *, &.blk30-xs > * {
+      max-width: 100% + 2 * @blk-padding-border-width-fluid-xs;  // 4 blocks
+    } 
+       
+  }
+  
+  .blkbleed-margin {
+    
+    margin: @blk-margin-width -(@blk-padding-border-margin-width-fluid-xs);
+    
+    &.blk1, &.blk1-xs { 
+      width: @blk-content-width-fluid-xs * 1 + 2 * @blk-padding-border-margin-width-fluid-xs; 
+    }
+    &.blk2, &.blk2-xs { 
+      width: @blk-content-width-fluid-xs * 2 + 2 * @blk-padding-border-margin-width-fluid-xs;  
+    }
+    &.blk3, &.blk3-xs { 
+      width: @blk-content-width-fluid-xs * 3 + 2 * @blk-padding-border-margin-width-fluid-xs;  
+    }
+    &.blk4, &.blk4-xs { 
+      width: @blk-content-width-fluid-xs * 4 + 2 * @blk-padding-border-margin-width-fluid-xs;  
+    }
+    &.blk5, &.blk5-xs { 
+      width: @blk-content-width-fluid-xs * 5 + 2 * @blk-padding-border-margin-width-fluid-xs;  
+    }
+    
+    &.blk6, &.blk7, &.blk8, &.blk9, &.blk10, &.blk11, &.blk12, &.blk13, &.blk14, &.blk15, &.blk16, &.blk17, &.blk18, &.blk19, &.blk20, &.blk21, &.blk22, &.blk23, &.blk24, &.blk25, &.blk26, &.blk27, &.blk28, &.blk29, &.blk30,
+    &.blk6-xs, &.blk7-xs, &.blk8-xs, &.blk9-xs, &.blk10-xs, &.blk11-xs, &.blk12-xs, &.blk13-xs, &.blk14-xs, &.blk15-xs, &.blk16-xs, &.blk17-xs, &.blk18-xs, &.blk19-xs, &.blk20-xs, &.blk21-xs, &.blk22-xs, &.blk23-xs, &.blk24-xs, &.blk25-xs, &.blk26-xs, &.blk27-xs, &.blk28-xs, &.blk29-xs, &.blk30-xs {
+      width: 100% + 2 * @blk-padding-border-margin-width-fluid-xs; // 4 blocks
+      
+    }
+    &.blk1 > *, &.blk2 > *, &.blk3 > *, &.blk4 > *, &.blk5 > *, &.blk6 > *, &.blk7 > *, &.blk8 > *, &.blk9 > *, &.blk10 > *, &.blk11 > *, &.blk12 > *, &.blk13 > *, &.blk14 > *, &.blk15 > *, &.blk16 > *, &.blk17 > *, &.blk18 > *, &.blk19 > *, &.blk20 > *, &.blk21 > *, &.blk22 > *, &.blk23 > *, &.blk24 > *, &.blk25 > *, &.blk26 > *, &.blk27 > *, &.blk28 > *, &.blk29 > *, &.blk30 > *,
+    .blk1-xs > *, .blk2-xs > *, .blk3-xs > *, .blk4-xs > *, &.blk4-xs > *, &.blk5-xs > *, &.blk6-xs > *, &.blk7-xs > *, &.blk8-xs > *, &.blk9-xs > *, &.blk10-xs > *, &.blk11-xs > *, &.blk12-xs > *, &.blk13-xs > *, &.blk14-xs > *, &.blk15-xs > *, &.blk16-xs > *, &.blk17-xs > *, &.blk18-xs > *, &.blk19-xs > *, &.blk20-xs > *, &.blk21-xs > *, &.blk22-xs > *, &.blk23-xs > *, &.blk24-xs > *, &.blk25-xs > *, &.blk26-xs > *, &.blk27-xs > *, &.blk28-xs > *, &.blk29-xs > *, &.blk30-xs > * {
+      max-width: 100% + 2 * @blk-padding-border-margin-width-fluid-xs;  // 4 blocks
+    } 
+    
+  }
+  
 }
 
 @blk-content-width-fluid-sm: 8.333%;
 @blk-margin-width-fluid-sm: unit(100 * @blk-margin-width / 640, %);
-body[screen=sm].blkfluid-sm, {
-	box-sizing: border-box;
-	*, *:before, *:after {
-		box-sizing: inherit;
-	}
-	
-	.blk1, blk1-sm { 
-		width: @blk-content-width-fluid-sm * 1 - 2 * @blk-margin-width-fluid-sm; 
-		
-		.blkgroup {
-			width: @blk-content-width-fluid-sm * 1;
-		}
-	}
-	.blk2, blk2-sm { 
-		width: @blk-content-width-fluid-sm * 2 - 2 * @blk-margin-width-fluid-sm; 
-		
-		.blkgroup {
-			width: @blk-content-width-fluid-sm * 2;
-		}
-	}
-	.blk3, blk3-sm { 
-		width: @blk-content-width-fluid-sm * 3 - 2 * @blk-margin-width-fluid-sm; 
-		
-		.blkgroup {
-			width: @blk-content-width-fluid-sm * 3;
-		}
-	}
-	.blk4, blk4-sm { 
-		width: @blk-content-width-fluid-sm * 4 - 2 * @blk-margin-width-fluid-sm; 
-		
-		.blkgroup {
-			width: @blk-content-width-fluid-sm * 4;
-		}
-	}
-	.blk5, blk5-sm { 
-		width: @blk-content-width-fluid-sm * 5 - 2 * @blk-margin-width-fluid-sm; 
-		
-		.blkgroup {
-			width: @blk-content-width-fluid-sm * 5;
-		}
-	}
-	.blk6, blk6-sm { 
-		width: @blk-content-width-fluid-sm * 6 - 2 * @blk-margin-width-fluid-sm; 
-		
-		.blkgroup {
-			width: @blk-content-width-fluid-sm * 6;
-		}
-	}
-	.blk7, blk7-sm { 
-		width: @blk-content-width-fluid-sm * 7 - 2 * @blk-margin-width-fluid-sm; 
-		
-		.blkgroup {
-			width: @blk-content-width-fluid-sm * 7;
-		}
-	}
-	.blk8, blk8-sm { 
-		width: @blk-content-width-fluid-sm * 8 - 2 * @blk-margin-width-fluid-sm; 
-		
-		.blkgroup {
-			width: @blk-content-width-fluid-sm * 8;
-		}
-	}
-	.blk9, blk9-sm { 
-		width: @blk-content-width-fluid-sm * 9 - 2 * @blk-margin-width-fluid-sm; 
-		
-		.blkgroup {
-			width: @blk-content-width-fluid-sm * 9;
-		}
-	}
-	.blk10, blk10-sm { 
-		width: @blk-content-width-fluid-sm * 10 - 2 * @blk-margin-width-fluid-sm; 
-		
-		.blkgroup {
-			width: @blk-content-width-fluid-sm * 10;
-		}
-	}
-	.blk11, blk11-sm { 
-		width: @blk-content-width-fluid-sm * 11 - 2 * @blk-margin-width-fluid-sm; 
-		
-		.blkgroup {
-			width: @blk-content-width-fluid-sm * 11;
-		}
-	}
-	
-	.blk12, .blk13, .blk14, .blk15, .blk16, .blk17, .blk18, .blk19, .blk20, .blk21, .blk22, .blk23, .blk24, .blk25, .blk26, .blk27, .blk28, .blk29, .blk30,
-	.blk12-sm, .blk13-sm, .blk14-sm, .blk15-sm, .blk16-sm, .blk17-sm, .blk18-sm, .blk19-sm, .blk20-sm, .blk21-sm, .blk22-sm, .blk23-sm, .blk24-sm, .blk25-sm, .blk26-sm, .blk27-sm, .blk28-sm, .blk29-sm, .blk30-sm {
-		width: 100% - 2 * @blk-margin-width-fluid-xs;	// 10 blocks
-		
-		.blkgroup {
-			width: 100%;
-		}
-	}
-	.blk1 > *, .blk2 > *, .blk3 > *, .blk4 > *, .blk5 > *, .blk6 > *, .blk7 > *, .blk8 > *, .blk9 > *, .blk10 > *, .blk11 > *, .blk12 > *, .blk13 > *, .blk14 > *, .blk15 > *, .blk16 > *, .blk17 > *, .blk18 > *, .blk19 > *, .blk20 > *, .blk21 > *, .blk22 > *, .blk23 > *, .blk24 > *, .blk25 > * .blk26 > *, .blk27 > *, .blk28 > *, .blk29 > *, .blk30 > * {
-		max-width: 100%;	// 8 blocks
-	}
-	
-	// TODO
-	.blkbleed-padding {}
-	
-	.blkbleed-border {}
-	
-	.blkbleed-margin {}
+@blk-border-width-fluid-sm: unit(100 * @blk-border-width / 640, %);
+@blk-padding-width-fluid-sm: unit(100 * @blk-padding-width / 640, %);
+
+@blk-padding-border-width-fluid-sm: @blk-padding-width-fluid-sm + @blk-border-width-fluid-sm;
+@blk-padding-border-margin-width-fluid-sm: @blk-padding-width-fluid-sm + @blk-border-width-fluid-sm + @blk-margin-width-fluid-sm;
+
+body[screen=sm].blkfluid-sm {
+  box-sizing: border-box;
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+  
+  .blk1, .blk1-sm { 
+    width: @blk-content-width-fluid-sm * 1 - 2 * @blk-margin-width-fluid-sm; 
+    
+    .blkgroup {
+      width: @blk-content-width-fluid-sm * 1;
+    }
+  }
+  .blk2, .blk2-sm { 
+    width: @blk-content-width-fluid-sm * 2 - 2 * @blk-margin-width-fluid-sm; 
+    
+    .blkgroup {
+      width: @blk-content-width-fluid-sm * 2;
+    }
+  }
+  .blk3, .blk3-sm { 
+    width: @blk-content-width-fluid-sm * 3 - 2 * @blk-margin-width-fluid-sm; 
+    
+    .blkgroup {
+      width: @blk-content-width-fluid-sm * 3;
+    }
+  }
+  .blk4, .blk4-sm { 
+    width: @blk-content-width-fluid-sm * 4 - 2 * @blk-margin-width-fluid-sm; 
+    
+    .blkgroup {
+      width: @blk-content-width-fluid-sm * 4;
+    }
+  }
+  .blk5, .blk5-sm { 
+    width: @blk-content-width-fluid-sm * 5 - 2 * @blk-margin-width-fluid-sm; 
+    
+    .blkgroup {
+      width: @blk-content-width-fluid-sm * 5;
+    }
+  }
+  .blk6, .blk6-sm { 
+    width: @blk-content-width-fluid-sm * 6 - 2 * @blk-margin-width-fluid-sm; 
+    
+    .blkgroup {
+      width: @blk-content-width-fluid-sm * 6;
+    }
+  }
+  .blk7, .blk7-sm { 
+    width: @blk-content-width-fluid-sm * 7 - 2 * @blk-margin-width-fluid-sm; 
+    
+    .blkgroup {
+      width: @blk-content-width-fluid-sm * 7;
+    }
+  }
+  .blk8, .blk8-sm { 
+    width: @blk-content-width-fluid-sm * 8 - 2 * @blk-margin-width-fluid-sm; 
+    
+    .blkgroup {
+      width: @blk-content-width-fluid-sm * 8;
+    }
+  }
+  .blk9, .blk9-sm { 
+    width: @blk-content-width-fluid-sm * 9 - 2 * @blk-margin-width-fluid-sm; 
+    
+    .blkgroup {
+      width: @blk-content-width-fluid-sm * 9;
+    }
+  }
+  .blk10, .blk10-sm { 
+    width: @blk-content-width-fluid-sm * 10 - 2 * @blk-margin-width-fluid-sm; 
+    
+    .blkgroup {
+      width: @blk-content-width-fluid-sm * 10;
+    }
+  }
+  
+  .blk12, .blk13, .blk14, .blk15, .blk16, .blk17, .blk18, .blk19, .blk20, .blk21, .blk22, .blk23, .blk24, .blk25, .blk26, .blk27, .blk28, .blk29, .blk30,
+  .blk12-sm, .blk13-sm, .blk14-sm, .blk15-sm, .blk16-sm, .blk17-sm, .blk18-sm, .blk19-sm, .blk20-sm, .blk21-sm, .blk22-sm, .blk23-sm, .blk24-sm, .blk25-sm, .blk26-sm, .blk27-sm, .blk28-sm, .blk29-sm, .blk30-sm {
+    width: 100% - 2 * @blk-margin-width-fluid-sm; // 10 blocks
+    
+    .blkgroup {
+      width: 100%;
+    }
+  }
+  .blk1 > *, .blk2 > *, .blk3 > *, .blk4 > *, .blk5 > *, .blk6 > *, .blk7 > *, .blk8 > *, .blk9 > *, .blk10 > *, .blk11 > *, .blk12 > *, .blk13 > *, .blk14 > *, .blk15 > *, .blk16 > *, .blk17 > *, .blk18 > *, .blk19 > *, .blk20 > *, .blk21 > *, .blk22 > *, .blk23 > *, .blk24 > *, .blk25 > *, .blk26 > *, .blk27 > *, .blk28 > *, .blk29 > *, .blk30 > *,
+  .blk1-sm > *, .blk2-sm > *, .blk3-sm > *, .blk4-sm > *, .blk4-sm > *, .blk5-sm > *, .blk6-sm > *, .blk7-sm > *, .blk8-sm > *, .blk9-sm > *, .blk10-sm > *, .blk11-sm > *, .blk12-sm > *, .blk13-sm > *, .blk14-sm > *, .blk15-sm > *, .blk16-sm > *, .blk17-sm > *, .blk18-sm > *, .blk19-sm > *, .blk20-sm, .blk21-sm, .blk22-sm, .blk23-sm, .blk24-sm, .blk25-sm, .blk26-sm, .blk27-sm, .blk28-sm, .blk29-sm, .blk30-sm {
+    max-width: 100%;  // 10 blocks
+  }
+  
+  
+  .blkbleed-padding {
+    
+    margin: @blk-margin-width -(@blk-padding-width-fluid-sm);
+    
+    &.blk1, &.blk1-sm { 
+      width: @blk-content-width-fluid-sm * 1 + 2 * @blk-padding-width-fluid-sm; 
+    }
+    &.blk2, &.blk2-sm { 
+      width: @blk-content-width-fluid-sm * 2 + 2 * @blk-padding-width-fluid-sm;  
+    }
+    &.blk3, &.blk3-sm { 
+      width: @blk-content-width-fluid-sm * 3 + 2 * @blk-padding-width-fluid-sm;  
+    }
+    &.blk4, &.blk4-sm { 
+      width: @blk-content-width-fluid-sm * 4 + 2 * @blk-padding-width-fluid-sm;  
+    }
+    &.blk5, &.blk5-sm { 
+      width: @blk-content-width-fluid-sm * 5 + 2 * @blk-padding-width-fluid-sm;  
+    }
+    &.blk6, &.blk6-sm { 
+      width: @blk-content-width-fluid-sm * 6 + 2 * @blk-padding-width-fluid-sm;  
+    }
+    &.blk7, &.blk7-sm { 
+      width: @blk-content-width-fluid-sm * 7 + 2 * @blk-padding-width-fluid-sm;  
+    }
+    &.blk8, &.blk8-sm { 
+      width: @blk-content-width-fluid-sm * 8 + 2 * @blk-padding-width-fluid-sm;  
+    }
+    &.blk9, &.blk9-sm { 
+      width: @blk-content-width-fluid-sm * 9 + 2 * @blk-padding-width-fluid-sm;  
+    }
+    &.blk10, &.blk10-sm { 
+      width: @blk-content-width-fluid-sm * 4 + 2 * @blk-padding-width-fluid-sm;  
+    }
+    &.blk11, &.blk11-sm { 
+      width: @blk-content-width-fluid-sm * 4 + 2 * @blk-padding-width-fluid-sm;  
+    }
+    
+    &.blk12, &.blk13, &.blk14, &.blk15, &.blk16, &.blk17, &.blk18, &.blk19, &.blk20, &.blk21, &.blk22, &.blk23, &.blk24, &.blk25, &.blk26, &.blk27, &.blk28, &.blk29, &.blk30,
+    &.blk12-sm, &.blk13-sm, &.blk14-sm, &.blk15-sm, &.blk16-sm, &.blk17-sm, &.blk18-sm, &.blk19-sm, &.blk20-sm, &.blk21-sm, &.blk22-sm, &.blk23-sm, &.blk24-sm, &.blk25-sm, &.blk26-sm, &.blk27-sm, &.blk28-sm, &.blk29-sm, &.blk30-sm {
+      width: 100% + 2 * @blk-padding-width-fluid-sm; // 4 blocks
+      
+    }
+    &.blk1 > *, &.blk2 > *, &.blk3 > *, &.blk4 > *, &.blk5 > *, &.blk6 > *, &.blk7 > *, &.blk8 > *, &.blk9 > *, &.blk10 > *, &.blk11 > *, &.blk12 > *, &.blk13 > *, &.blk14 > *, &.blk15 > *, &.blk16 > *, &.blk17 > *, &.blk18 > *, &.blk19 > *, &.blk20 > *, &.blk21 > *, &.blk22 > *, &.blk23 > *, &.blk24 > *, &.blk25 > *, &.blk26 > *, &.blk27 > *, &.blk28 > *, &.blk29 > *, &.blk30 > *,
+    .blk1-sm > *, .blk2-sm > *, .blk3-sm > *, .blk4-sm > *, &.blk4-sm > *, &.blk5-sm > *, &.blk6-sm > *, &.blk7-sm > *, &.blk8-sm > *, &.blk9-sm > *, &.blk10-sm > *, &.blk11-sm > *, &.blk12-sm > *, &.blk13-sm > *, &.blk14-sm > *, &.blk15-sm > *, &.blk16-sm > *, &.blk17-sm > *, &.blk18-sm > *, &.blk19-sm > *, &.blk20-sm > *, &.blk21-sm > *, &.blk22-sm > *, &.blk23-sm > *, &.blk24-sm > *, &.blk25-sm > *, &.blk26-sm > *, &.blk27-sm > *, &.blk28-sm > *, &.blk29-sm > *, &.blk30-sm > * {
+      max-width: 100% + 2 * @blk-padding-width-fluid-sm;  // 4 blocks
+    } 
+       
+  }
+  
+  .blkbleed-border {
+    
+    margin: @blk-margin-width -(@blk-padding-border-width-fluid-sm);
+    
+    &.blk1, &.blk1-sm { 
+      width: @blk-content-width-fluid-sm * 1 + 2 * @blk-padding-border-width-fluid-sm; 
+    }
+    &.blk2, &.blk2-sm { 
+      width: @blk-content-width-fluid-sm * 2 + 2 * @blk-padding-border-width-fluid-sm;  
+    }
+    &.blk3, &.blk3-sm { 
+      width: @blk-content-width-fluid-sm * 3 + 2 * @blk-padding-border-width-fluid-sm;  
+    }
+    &.blk4, &.blk4-sm { 
+      width: @blk-content-width-fluid-sm * 4 + 2 * @blk-padding-border-width-fluid-sm;  
+    }
+    &.blk5, &.blk5-sm { 
+      width: @blk-content-width-fluid-sm * 5 + 2 * @blk-padding-border-width-fluid-sm;  
+    }
+    &.blk6, &.blk6-sm { 
+      width: @blk-content-width-fluid-sm * 6 + 2 * @blk-padding-border-width-fluid-sm;  
+    }
+    &.blk7, &.blk7-sm { 
+      width: @blk-content-width-fluid-sm * 7 + 2 * @blk-padding-border-width-fluid-sm;  
+    }
+    &.blk8, &.blk8-sm { 
+      width: @blk-content-width-fluid-sm * 8 + 2 * @blk-padding-border-width-fluid-sm;  
+    }
+    &.blk9, &.blk9-sm { 
+      width: @blk-content-width-fluid-sm * 9 + 2 * @blk-padding-border-width-fluid-sm;  
+    }
+    &.blk10, &.blk10-sm { 
+      width: @blk-content-width-fluid-sm * 10 + 2 * @blk-padding-border-width-fluid-sm;  
+    }
+    &.blk11, &.blk11-sm { 
+      width: @blk-content-width-fluid-sm * 11 + 2 * @blk-padding-border-width-fluid-sm;  
+    }
+    
+    &.blk12, &.blk13, &.blk14, &.blk15, &.blk16, &.blk17, &.blk18, &.blk19, &.blk20, &.blk21, &.blk22, &.blk23, &.blk24, &.blk25, &.blk26, &.blk27, &.blk28, &.blk29, &.blk30,
+    &.blk12-sm, &.blk13-sm, &.blk14-sm, &.blk15-sm, &.blk16-sm, &.blk17-sm, &.blk18-sm, &.blk19-sm, &.blk20-sm, &.blk21-sm, &.blk22-sm, &.blk23-sm, &.blk24-sm, &.blk25-sm, &.blk26-sm, &.blk27-sm, &.blk28-sm, &.blk29-sm, &.blk30-sm {
+      width: 100% + 2 * @blk-padding-border-width-fluid-sm; // 4 blocks
+      
+    }
+    &.blk1 > *, &.blk2 > *, &.blk3 > *, &.blk4 > *, &.blk5 > *, &.blk6 > *, &.blk7 > *, &.blk8 > *, &.blk9 > *, &.blk10 > *, &.blk11 > *, &.blk12 > *, &.blk13 > *, &.blk14 > *, &.blk15 > *, &.blk16 > *, &.blk17 > *, &.blk18 > *, &.blk19 > *, &.blk20 > *, &.blk21 > *, &.blk22 > *, &.blk23 > *, &.blk24 > *, &.blk25 > *, &.blk26 > *, &.blk27 > *, &.blk28 > *, &.blk29 > *, &.blk30 > *,
+    .blk1-sm > *, .blk2-sm > *, .blk3-sm > *, .blk4-sm > *, &.blk4-sm > *, &.blk5-sm > *, &.blk6-sm > *, &.blk7-sm > *, &.blk8-sm > *, &.blk9-sm > *, &.blk10-sm > *, &.blk11-sm > *, &.blk12-sm > *, &.blk13-sm > *, &.blk14-sm > *, &.blk15-sm > *, &.blk16-sm > *, &.blk17-sm > *, &.blk18-sm > *, &.blk19-sm > *, &.blk20-sm > *, &.blk21-sm > *, &.blk22-sm > *, &.blk23-sm > *, &.blk24-sm > *, &.blk25-sm > *, &.blk26-sm > *, &.blk27-sm > *, &.blk28-sm > *, &.blk29-sm > *, &.blk30-sm > * {
+      max-width: 100% + 2 * @blk-padding-border-width-fluid-sm;  // 4 blocks
+    } 
+       
+  }
+  
+  .blkbleed-margin {
+    
+    margin: @blk-margin-width -(@blk-padding-border-margin-width-fluid-sm);
+    
+    &.blk1, &.blk1-sm { 
+      width: @blk-content-width-fluid-sm * 1 + 2 * @blk-padding-border-margin-width-fluid-sm; 
+    }
+    &.blk2, &.blk2-sm { 
+      width: @blk-content-width-fluid-sm * 2 + 2 * @blk-padding-border-margin-width-fluid-sm;  
+    }
+    &.blk3, &.blk3-sm { 
+      width: @blk-content-width-fluid-sm * 3 + 2 * @blk-padding-border-margin-width-fluid-sm;  
+    }
+    &.blk4, &.blk4-sm { 
+      width: @blk-content-width-fluid-sm * 4 + 2 * @blk-padding-border-margin-width-fluid-sm;  
+    }
+    &.blk5, &.blk5-sm { 
+      width: @blk-content-width-fluid-sm * 5 + 2 * @blk-padding-border-margin-width-fluid-sm;  
+    }
+    &.blk6, &.blk6-sm { 
+      width: @blk-content-width-fluid-sm * 6 + 2 * @blk-padding-border-margin-width-fluid-sm;  
+    }
+    &.blk7, &.blk7-sm { 
+      width: @blk-content-width-fluid-sm * 7 + 2 * @blk-padding-border-margin-width-fluid-sm;  
+    }
+    &.blk8, &.blk8-sm { 
+      width: @blk-content-width-fluid-sm * 8 + 2 * @blk-padding-border-margin-width-fluid-sm;  
+    }
+    &.blk9, &.blk9-sm { 
+      width: @blk-content-width-fluid-sm * 9 + 2 * @blk-padding-border-margin-width-fluid-sm;  
+    }
+    &.blk10, &.blk10-sm { 
+      width: @blk-content-width-fluid-sm * 10 + 2 * @blk-padding-border-margin-width-fluid-sm;  
+    }
+    &.blk11, &.blk11-sm { 
+      width: @blk-content-width-fluid-sm * 11 + 2 * @blk-padding-border-margin-width-fluid-sm;  
+    }
+    
+    &.blk12, &.blk13, &.blk14, &.blk15, &.blk16, &.blk17, &.blk18, &.blk19, &.blk20, &.blk21, &.blk22, &.blk23, &.blk24, &.blk25, &.blk26, &.blk27, &.blk28, &.blk29, &.blk30,
+    &.blk12-sm, &.blk13-sm, &.blk14-sm, &.blk15-sm, &.blk16-sm, &.blk17-sm, &.blk18-sm, &.blk19-sm, &.blk20-sm, &.blk21-sm, &.blk22-sm, &.blk23-sm, &.blk24-sm, &.blk25-sm, &.blk26-sm, &.blk27-sm, &.blk28-sm, &.blk29-sm, &.blk30-sm {
+      width: 100% + 2 * @blk-padding-border-margin-width-fluid-sm; // 4 blocks
+      
+    }
+    &.blk1 > *, &.blk2 > *, &.blk3 > *, &.blk4 > *, &.blk5 > *, &.blk6 > *, &.blk7 > *, &.blk8 > *, &.blk9 > *, &.blk10 > *, &.blk11 > *, &.blk12 > *, &.blk13 > *, &.blk14 > *, &.blk15 > *, &.blk16 > *, &.blk17 > *, &.blk18 > *, &.blk19 > *, &.blk20 > *, &.blk21 > *, &.blk22 > *, &.blk23 > *, &.blk24 > *, &.blk25 > *, &.blk26 > *, &.blk27 > *, &.blk28 > *, &.blk29 > *, &.blk30 > *,
+    .blk1-sm > *, .blk2-sm > *, .blk3-sm > *, .blk4-sm > *, &.blk4-sm > *, &.blk5-sm > *, &.blk6-sm > *, &.blk7-sm > *, &.blk8-sm > *, &.blk9-sm > *, &.blk10-sm > *, &.blk11-sm > *, &.blk12-sm > *, &.blk13-sm > *, &.blk14-sm > *, &.blk15-sm > *, &.blk16-sm > *, &.blk17-sm > *, &.blk18-sm > *, &.blk19-sm > *, &.blk20-sm > *, &.blk21-sm > *, &.blk22-sm > *, &.blk23-sm > *, &.blk24-sm > *, &.blk25-sm > *, &.blk26-sm > *, &.blk27-sm > *, &.blk28-sm > *, &.blk29-sm > *, &.blk30-sm > * {
+      max-width: 100% + 2 * @blk-padding-border-margin-width-fluid-sm;  // 4 blocks
+    } 
+    
+  }
 }
