@@ -32,11 +32,12 @@ This is intended to be the foundation for developers that build custom templates
 The template implements a grid layout and responsive framework. Think Bootstrap grid, but with a different overall approach. Our grid layout is based on the following principles:
 
   * On a macro level the design is broken down into columns and rows
-  * We define 5 screen sizes. The smallest screen (smartphone on portrait orientation) has one colum. The other screen sizes are multiples of the smallest screen and they have between 2 and 5 columns
+  * We define 5 screen sizes, and we call them xs, sm, md, lg and xl. The smallest screen (smartphone on portrait orientation) has one colum. The other screen sizes are multiples of the smallest screen and they have between 2 and 5 columns
   * Columns are further divided into blocks. The template can be configured to have 4, 5 or 6 blocks on the smallest screen size, to fit your design needs
   * Blocks are divided into content, padding, border and margin. You can configure the template to specify the sizes of those components to fit your design needs
   * Automatic downsizing: large blocks in a small screen (or inside smaller blocks) are automatically downsized
   * Utility classes for layout-only blocks
+  * Fluid layout can be activated only where needed: by screen size (xs and/or sm screens), and device type (all, mobile only, tablets only, phones only)
 
 ###CSS and LESS###
 
