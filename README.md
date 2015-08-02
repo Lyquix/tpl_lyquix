@@ -27,6 +27,17 @@ This is intended to be the foundation for developers that build custom templates
   * Responsive and fluid: in the documentation you can find more information about our approach to responsive and fluid design
   * Sets mobile icons
 
+###Grid Layout and Responsive Framework###
+
+The template implements a grid layout and responsive framework. Think Bootstrap grid, but with a different overall approach. Our grid layout is based on the following principles:
+
+  * On a macro level the design is broken down into columns and rows
+  * We define 5 screen sizes. The smallest screen (smartphone on portrait orientation) has one colum. The other screen sizes are multiples of the smallest screen and they have between 2 and 5 columns
+  * Columns are further divided into blocks. The template can be configured to have 4, 5 or 6 blocks on the smallest screen size, to fit your design needs
+  * Blocks are divided into content, padding, border and margin. You can configure the template to specify the sizes of those components to fit your design needs
+  * Automatic downsizing: large blocks in a small screen (or inside smaller blocks) are automatically downsized
+  * Utility classes for layout-only blocks
+
 ###CSS and LESS###
 
   * Hundreds of common classes for efficiently styling your site with cross-browser compatibility
@@ -40,7 +51,15 @@ This is intended to be the foundation for developers that build custom templates
   * Automatically loads less.js and .less files during development only (controlled by template settings)
   * Custom scripts URL is appended with date-time of last modification to ensure visitors always load latest version
   * Loads Joomla Bootstrap with jQuery UI
-  * Lyquix Javascript library includes useful functionality for responsiveness, analytics (scroll depth, video events, photo gallery events, download URLs, exit URLs), photo galleries, sliders, and script-supported styling including equal height rows, hanging punctuation, image captions, color shades
+  * Lyquix Javascript library includes useful functionality for:
+    * Responsiveness: listens to screen resize and rotation events, then sets the attribute "screen" in the body tag based on the screen size, and triggers the custom event screensizechange. This event can then be listened by other functions to implement full responsiveness. Supports down to IE8.
+    * Analytics - tracking of common events using Google Analytics:
+      * Scroll depth
+      * Video events on YouTube and Vimeo players: start, progress milestones, complete
+      * Photo gallery events: gallery open and image view
+      * Download URLs
+      * Exit URLs
+    * Script-supported styling including equal height rows, hanging punctuation, image captions, color shades
   * Overrides Lyquix Javascript defaults via template settings
   * Loads Google Analytics, AddThis and Disqus if account numbers are set in template settings
   * Uses minified files for production
@@ -64,6 +83,9 @@ This is intended to be the foundation for developers that build custom templates
   * Adds fix IE console
   * Loads html5shiv and selectivzr
   * Adds conditional comments for CSS fixes for IE (only if CSS files exist)
+  * Adds width attributes to images if missing
+  * On IE8 implements a hack for responsiveness to work
+  * On IE8 implements fallback of inline svg images to png
   * Displays warning for IE8 and older users
 
 ##Documentation##
