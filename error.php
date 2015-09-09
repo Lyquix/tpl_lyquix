@@ -15,6 +15,8 @@ else :
 
 // declare some variables
 $home = $mobile = $phone = $tablet = false;
+$tmpl_url = JURI::root(true) . '/templates/' . $this->template;
+$tmpl_path = JPATH_BASE . '/templates/' . $this->template;
 
 // Check if we are on a mobile device, whether smartphone or tablet
 require_once('php/Mobile_Detect.php');
@@ -31,8 +33,8 @@ if($detect->isMobile()){
 <script>if(typeof console=='undefined'||typeof console.log=='undefined'){console={};console.log=function(){};}</script>
 <![endif]-->
 <!--[if lt IE 9]>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/html5shiv<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/selectivizr<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
+<script src="<?php echo $tmpl_url; ?>/js/html5shiv<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
+<script src="<?php echo $tmpl_url; ?>/js/selectivizr<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <![endif]-->
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,42 +48,67 @@ if($detect->isMobile()){
 <script src="<?php echo JURI::root(true); ?>/media/jui/js/jquery-migrate.min.js"></script>
 <script src="<?php echo JURI::root(true); ?>/media/jui/js/bootstrap.min.js"></script>
 <script src="<?php echo JURI::root(true); ?>/media/jui/js/jquery.ui.core.min.js"></script>
-<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/styles.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/' . ($this->params->get('lessjs') ? 'less' : 'css') . '/styles.css')); ?>" rel="stylesheet" <?php echo $this->params->get('lessjs') ? 'type="text/less" ' : ''; ?>/>
-<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/icons.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/' . ($this->params->get('lessjs') ? 'less' : 'css') . '/icons.css')); ?>" rel="stylesheet" <?php echo $this->params->get('lessjs') ? 'type="text/less" ' : ''; ?>/>
+<link href="<?php echo $tmpl_url; ?>/css/styles.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/' . ($this->params->get('lessjs') ? 'less' : 'css') . '/styles.css')); ?>" rel="stylesheet" <?php echo $this->params->get('lessjs') ? 'type="text/less" ' : ''; ?>/>
+<link href="<?php echo $tmpl_url; ?>/css/icons.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/' . ($this->params->get('lessjs') ? 'less' : 'css') . '/icons.css')); ?>" rel="stylesheet" <?php echo $this->params->get('lessjs') ? 'type="text/less" ' : ''; ?>/>
 <?php if($this->params->get('lessjs')): ?>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/less<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
+<script src="<?php echo $tmpl_url; ?>/js/less<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <?php endif; ?>
-<?php if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/css/ie9.css')): ?>
+<?php if(file_exists($tmpl_path . '/css/ie9.css')): ?>
 <!--[if lte IE 9]>
-<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/ie9.css" rel="stylesheet" />
+<link href="<?php echo $tmpl_url; ?>/css/ie9.css" rel="stylesheet" />
 <![endif]-->
 <?php endif;
-if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/css/ie8.css')): ?>
+if(file_exists($tmpl_path . '/css/ie8.css')): ?>
 <!--[if lte IE 8]>
-<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/ie8.css" rel="stylesheet" />
+<link href="<?php echo $tmpl_url; ?>/css/ie8.css" rel="stylesheet" />
 <![endif]-->
 <?php endif;
-if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/css/ie7.css')): ?>
+if(file_exists($tmpl_path . '/css/ie7.css')): ?>
 <!--[if lte IE 7]>
-<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/ie7.css" rel="stylesheet" />
+<link href="<?php echo $tmpl_url; ?>/css/ie7.css" rel="stylesheet" />
 <![endif]-->
 <?php endif; ?>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/lyquix<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/js/lyquix' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
-<?php echo $this->params->get('lqx_options') ? '<script>lqx.setOptions(' . $this->params->get('lqx_options') . ');</script>' : ''; ?>
-<?php if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/images/favicon.ico')): ?>
-<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/images/favicon.ico" rel="shortcut icon" />
+<script src="<?php echo $tmpl_url; ?>/js/lyquix<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/lyquix' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
+<?php echo $this->params->get('lqx_options') ? '<script>lqx.setOptions(' . $this->params->get('lqx_options') . ');</script>' : ''; 
+// use http://www.favicon-generator.org/ to generate all these versions
+if(file_exists($tmpl_path . '/images/favicon/apple-icon-57x57.png')): ?>
+<link rel="apple-touch-icon" sizes="57x57" href="<?php echo $tmpl_url; ?>/images/favicon/apple-icon-57x57.png">
 <?php endif;
-if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/images/apple-touch-icon.png')): ?>
-<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/images/apple-touch-icon.png" rel="apple-touch-icon" />
+if(file_exists($tmpl_path . '/images/favicon/apple-icon-60x60.png')): ?>
+<link rel="apple-touch-icon" sizes="60x60" href="<?php echo $tmpl_url; ?>/images/favicon/apple-icon-60x60.png">
 <?php endif;
-if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/images/apple-touch-icon-76x76.png')): ?>
-<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/images/apple-touch-icon-76x76.png" rel="apple-touch-icon" sizes="76x76" />
+if(file_exists($tmpl_path . '/images/favicon/apple-icon-72x72.png')): ?>
+<link rel="apple-touch-icon" sizes="72x72" href="<?php echo $tmpl_url; ?>/images/favicon/apple-icon-72x72.png">
 <?php endif;
-if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/images/apple-touch-icon-120x120.png')): ?>
-<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/images/apple-touch-icon-120x120.png" rel="apple-touch-icon" sizes="120x120" />
+if(file_exists($tmpl_path . '/images/favicon/apple-icon-76x76.png')): ?>
+<link rel="apple-touch-icon" sizes="76x76" href="<?php echo $tmpl_url; ?>/images/favicon/apple-icon-76x76.png">
 <?php endif;
-if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/images/apple-touch-icon-152x152.png')): ?>
-<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/images/apple-touch-icon-152x152.png" rel="apple-touch-icon" sizes="152x152" />
+if(file_exists($tmpl_path . '/images/favicon/apple-icon-114x114.png')): ?>
+<link rel="apple-touch-icon" sizes="114x114" href="<?php echo $tmpl_url; ?>/images/favicon/apple-icon-114x114.png">
+<?php endif;
+if(file_exists($tmpl_path . '/images/favicon/apple-icon-120x120.png')): ?>
+<link rel="apple-touch-icon" sizes="120x120" href="<?php echo $tmpl_url; ?>/images/favicon/apple-icon-120x120.png">
+<?php endif;
+if(file_exists($tmpl_path . '/images/favicon/apple-icon-144x144.png')): ?>
+<link rel="apple-touch-icon" sizes="144x144" href="<?php echo $tmpl_url; ?>/images/favicon/apple-icon-144x144.png">
+<?php endif;
+if(file_exists($tmpl_path . '/images/favicon/apple-icon-152x152.png')): ?>
+<link rel="apple-touch-icon" sizes="152x152" href="<?php echo $tmpl_url; ?>/images/favicon/apple-icon-152x152.png">
+<?php endif;
+if(file_exists($tmpl_path . '/images/favicon/apple-icon-180x180.png')): ?>
+<link rel="apple-touch-icon" sizes="180x180" href="<?php echo $tmpl_url; ?>/images/favicon/apple-icon-180x180.png">
+<?php endif;
+if(file_exists($tmpl_path . '/images/favicon/android-icon-192x192.png')): ?>
+<link rel="icon" type="image/png" sizes="192x192"  href="<?php echo $tmpl_url; ?>/images/favicon/android-icon-192x192.png">
+<?php endif;
+if(file_exists($tmpl_path . '/images/favicon/favicon-32x32.png')): ?>
+<link rel="icon" type="image/png" sizes="32x32" href="<?php echo $tmpl_url; ?>/images/favicon/favicon-32x32.png">
+<?php endif;
+if(file_exists($tmpl_path . '/images/favicon/favicon-96x96.png')): ?>
+<link rel="icon" type="image/png" sizes="96x96" href="<?php echo $tmpl_url; ?>/images/favicon/favicon-96x96.png">
+<?php endif;
+if(file_exists($tmpl_path . '/images/favicon/favicon-16x16.png')): ?>
+<link rel="icon" type="image/png" sizes="16x16" href="<?php echo $tmpl_url; ?>/images/favicon/favicon-16x16.png">
 <?php endif;
 echo $this->params->get('ga_account') ? "<script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -91,8 +118,8 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', '" . $this->params->get('ga_account') . "', 'auto');
 ga('send', 'pageview');
 </script>" : ''; ?>
-<?php if(file_exists(JPATH_BASE . '/templates/' . $this->template . '/js/scripts.js')): ?>
-<script src="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/js/scripts<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime(JPATH_BASE . '/templates/' . $this->template . '/js/scripts' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
+<?php if(file_exists($tmpl_path . '/js/scripts.js')): ?>
+<script src="<?php echo $tmpl_url; ?>/js/scripts<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/scripts' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
 <?php endif; ?>
 </head>
 <body class="<?php 
@@ -134,7 +161,7 @@ lqx.bodyScreenSize();
 </div>
 
 <!--[if lte IE 8]>
-<link href="<?php echo JURI::root(true); ?>/templates/<?php echo $this->template; ?>/css/ie8-alert.css" rel="stylesheet" />
+<link href="<?php echo $tmpl_url; ?>/css/ie8-alert.css" rel="stylesheet" />
 <div class="ie8-alert">You are using an unsupported version of Internet Explorer. To ensure security, performance, and full functionality, <a href="http://browsehappy.com/" target="_blank">please upgrade to an up-to-date browser.</a></div>
 <![endif]-->
 
