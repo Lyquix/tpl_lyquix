@@ -103,6 +103,20 @@
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
+				<field name="min_screen" type="list" label="Minimum Screen Size" default="0" description="Select the minimum screen size that will be allowed">
+					<option value="0">XS</option>
+					<option value="1">SM</option>
+					<option value="2">MD</option>
+					<option value="3">LG</option>
+					<option value="4">XL</option>
+				</field>
+				<field name="max_screen" type="list" label="Maximum Screen Size" default="4" description="Select the maximum screen size that will be allowed">
+					<option value="0">XS</option>
+					<option value="1">SM</option>
+					<option value="2">MD</option>
+					<option value="3">LG</option>
+					<option value="4">XL</option>
+				</field>
 				<field name="fluid_screen" type="checkboxes" label="Fluid Layout Screens" description="Select for what screen sizes should fluid layout be enabled">
 					<option value="xs">XS</option>
 					<option value="sm">SM</option>
