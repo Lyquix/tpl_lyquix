@@ -137,6 +137,22 @@ var lqx = lqx || {
 		return M.join(' ');
 	},
 	
+	// browserFixes
+	// implements some general browser fixes
+	browserFixes : function(){
+		switch(lqx.getBrowser) {
+			
+			// fix for google fonts not rendering in IE10/11
+			case 'MSIE 10':
+			case 'MSIE 11':
+			case 'IE 10':
+			case 'IE 11':
+				jQuery('html').css('font-feature-settings', 'normal');
+				break;
+				
+		}
+	},
+	
 	// equalHeightRows
 	// makes all elements in a row to be the same height
 	equalHeightRows : function() {
@@ -687,6 +703,8 @@ jQuery(document).ready(function(){
 	
 	// get browser type - NOTE: this converts the function into a string
 	lqx.getBrowser = lqx.getBrowser();
+	// execute some browser fixes
+	lqx.browserFixes();
 	// enable function logging
 	lqx.initLogging();	
 	// add tracking with google analytics
