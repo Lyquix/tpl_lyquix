@@ -55,6 +55,11 @@
 // --------------------------------------------------------------------
 
 // the .icon() mixin can be used throughout less
+
+@icon-font-size: 16px;
+@icon-lg-font-size: @icon-font-size * 2;
+@icon-xl-font-size: @icon-font-size * 4;
+
 .icon() {
 	speak: none;
 	font-style: normal;
@@ -62,7 +67,7 @@
 	font-variant: normal;
 	text-transform: none;
 	line-height: 1;
-	font-size: 16px;
+	font-size: @icon-font-size;
 }
 .icon {
 	&:before {
@@ -72,12 +77,12 @@
 
 .icon-lg:before {
 	.icon();
-	font-size: 32px;
+	font-size: @icon-lg-font-size;
 }
 
 .icon-xl:before {
 	.icon();
-	font-size: 64px;
+	font-size: @icon-xl-font-size;
 }
 
 // icon definitions
