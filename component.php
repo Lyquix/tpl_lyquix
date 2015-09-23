@@ -71,6 +71,17 @@ if(file_exists($tmpl_path . '/css/ie7.css')): ?>
 <link href="<?php echo $tmpl_url; ?>/css/ie7.css" rel="stylesheet" />
 <![endif]-->
 <?php endif; ?>
+<script src="<?php echo $tmpl_url; ?>/js/angular<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/angular' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
+<script src="<?php echo $tmpl_url; ?>/js/lodash<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/lodash' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
+<?php
+$add_js_libraries = explode("\n", trim($this->params->get('add_js_libraries', 0)));
+foreach($add_js_libraries as $jsurl) {
+	$jsurl = trim($jsurl);
+	if($jsurl) {
+		echo '<script src="' . $jsurl . '"></script>';
+	}
+} 
+?>
 <script src="<?php echo $tmpl_url; ?>/js/lyquix<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/lyquix' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
 <?php echo $this->params->get('lqx_options') ? '<script>lqx.setOptions(' . $this->params->get('lqx_options') . ');</script>' : ''; 
 // use http://www.favicon-generator.org/ to generate all these versions

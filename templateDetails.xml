@@ -95,14 +95,23 @@
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
-				<field name="lessjs" type="radio" default="0" label="Use less.js" description="Uses LESS instead of CSS with JavaScript processing. Activate only for development. Not recommended for production as it degrades page performance.">
-					<option value="0">No</option>
-					<option value="1">Yes</option>
-				</field>
 				<field name="non_min_js" type="radio" default="0" label="Use original JS" description="Uses the original JS files instead of the minified versions. Activate only for development.">
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
+				<field name="lessjs" type="radio" default="0" label="Use less.js" description="Uses LESS instead of CSS with JavaScript processing. Activate only for development. Not recommended for production as it degrades page performance.">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="angularjs" type="radio" default="0" label="Load AngularJS library" description="">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="lodash" type="radio" default="0" label="Load LoDash library" description="">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="add_js_libraries" type="textarea" default="" label="Additional Javascript Libraries" description="Enter one URL per line for additional javascript libraries you need for your project. We recommend: a) use libraries hosted at https://cdnjs.com/libraries, b) remove the protcol (http or https) from the URL, c) use the minified version for the production site" />
 				<field name="min_screen" type="list" label="Minimum Screen Size" default="0" description="Select the minimum screen size that will be allowed">
 					<option value="0">XS</option>
 					<option value="1">SM</option>
