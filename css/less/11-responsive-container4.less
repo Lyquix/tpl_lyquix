@@ -38,16 +38,28 @@ body[screen=md] {
   .container {
     width: (@blk12-width + @blk-padding-border-margin-width * 2); // md screen - 12 blocks
   }
+  
+  &.blkfluid-md .container {
+    width: 100%;
+  }
 }
 
 body[screen=lg] {
   .container {
     width: (@blk16-width + @blk-padding-border-margin-width * 2); // lg screen - 16 blocks
   }
+  
+  &.blkfluid-lg .container {
+    width: 100%;
+  }
 }
   
 body[screen=xl] { 
   .container {
     width: (@blk20-width + @blk-padding-border-margin-width * 2); // xl screen - 20 blocks
+  }
+  
+  &.blkfluid-xl .container {
+    width: 100%;
   }
 }
