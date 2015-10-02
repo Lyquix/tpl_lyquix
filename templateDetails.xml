@@ -129,6 +129,9 @@
 				<field name="fluid_screen" type="checkboxes" label="Fluid Layout Screens" description="Select for what screen sizes should fluid layout be enabled">
 					<option value="xs">XS</option>
 					<option value="sm">SM</option>
+					<option value="md">MD</option>
+					<option value="lg">LG</option>
+					<option value="xl">XL</option>
 				</field>
 				<field name="fluid_device" type="radio" default="any" label="Fluid Layout Devices" description="Select what devices are allowed to have fluid layouts">
 					<option value="any">Any (Mobile and Desktop)</option>
