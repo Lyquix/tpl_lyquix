@@ -23,7 +23,7 @@ var lqx = lqx || {
 			darker: -20,
 		},
 		resizeThrottle: {
-			duration: 100,  // in miliseconds 
+			duration: 13,  // in miliseconds 
 		},
 		bodyScreenSize: {
 			// defines the minimum and maximum screen sizes, 
