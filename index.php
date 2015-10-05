@@ -120,6 +120,9 @@ if(file_exists($tmpl_path . '/images/favicon/apple-icon-180x180.png')): ?>
 if(file_exists($tmpl_path . '/images/favicon/android-icon-192x192.png')): ?>
 <link rel="icon" type="image/png" sizes="192x192"  href="<?php echo $tmpl_url; ?>/images/favicon/android-icon-192x192.png">
 <?php endif;
+if(file_exists($tmpl_path . '/images/favicon/favicon.ico')): ?>
+<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<?php echo $tmpl_url; ?>/images/favicon/favicon.ico">
+<?php endif;
 if(file_exists($tmpl_path . '/images/favicon/favicon-32x32.png')): ?>
 <link rel="icon" type="image/png" sizes="32x32" href="<?php echo $tmpl_url; ?>/images/favicon/favicon-32x32.png">
 <?php endif;
