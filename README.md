@@ -14,7 +14,7 @@ The objectives of this template are:
 
 This is intended for advanced developers, or those looking to learn advanced template development. 
 
-If you are looking for a "one-click & go" template, this is not for you. After you first install this template you will probably see a blank page. 
+If you are looking for a "one-click & go" template, this is not for you. After you first install this template you will probably see a blank page with an error message. 
 
 This is intended to be the foundation for developers that build custom templates from scratch. This is not a pre-made template that looks pretty and you tweak to fit your design.
 
@@ -34,10 +34,11 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * On a macro level the design is broken down into columns and rows
   * We define 5 screen sizes, and we call them xs, sm, md, lg and xl. The smallest screen (smartphone on portrait orientation) has one colum. The other screen sizes are multiples of the smallest screen and they have between 2 and 5 columns
   * Columns are further divided into blocks. The template can be configured to have 4, 5 or 6 blocks on the smallest screen size, to fit your design needs
+  * Configure minimum and maximum allowed screens
   * Blocks are divided into content, padding, border and margin. You can configure the template to specify the sizes of those components to fit your design needs
   * Automatic downsizing: large blocks in a small screen (or inside smaller blocks) are automatically downsized
   * Utility classes for layout-only blocks
-  * Fluid layout can be activated only where needed: by screen size (xs and/or sm screens), and device type (all, mobile only, tablets only, phones only)
+  * Fluid layout can be activated only where needed: by screen size, and device type (all, mobile only, tablets only, phones only)
 
 ###CSS and LESS###
 
@@ -50,7 +51,8 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
 ###Javascript###
 
   * Automatically loads less.js and .less files during development only (controlled by template settings)
-  * Custom scripts URL is appended with date-time of last modification to ensure visitors always load latest version
+  * Options to load AngularJS, loDash and additional custom-url javascript libraries
+  * Custom script.js URL is appended with date-time of last modification to ensure visitors always load latest version
   * Loads Joomla Bootstrap with jQuery UI
   * Lyquix Javascript library includes useful functionality for:
     * Responsiveness: listens to screen resize and rotation events, then sets the attribute "screen" in the body tag based on the screen size, and triggers the custom event screensizechange. This event can then be listened by other functions to implement full responsiveness. Supports down to IE8.
@@ -75,7 +77,7 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
 
 ###Customization###
 
-  * All PHP templates can be overriden by adding custom-index.php, custom-component.php, custom-error.php or custom-offline.php
+  * All PHP templates can be overriden by adding index-custom.php and component-custom.php
   * LESS files can be overriden by adding custom files to the css/less/custom folder. [NOTE: this feature relies on the import keyword 'optional' introduced in LESS 2, and as of this writing it is only supported by the LESS command line compiler]
   * Updated versions of the template will not override or modified customization files
 
@@ -87,6 +89,7 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Adds width attributes to images if missing
   * On IE8 implements a hack for responsiveness to work
   * On IE8 implements fallback of inline svg images to png
+  * Hacks for font rendering issues in IE11
   * Displays warning for IE8 and older users
 
 ##Documentation##
@@ -99,7 +102,6 @@ There is still work to do! Please let us know if you would like to help, find an
 
   * Finish the documentation
   * Update 3rd party libraries as needed
-  * Tracking of Vimeo video player events
   * Cross-browser testing of all CSS3-supported styles (and document what is not supported in which browsers)
 
 Some ideas we have and plan on develop next:
