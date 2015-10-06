@@ -23,11 +23,6 @@ Desktop.ini
 !/css/less/
 /css/less/custom/*
 !/css/less/custom/index.html
-/html/*
-!/html/index.html
-!/html/message.php
-!/html/modules.php
-!/html/pagination.php
 /images/*
 !/images/index.html
 !/images/ie8-alert.gif
