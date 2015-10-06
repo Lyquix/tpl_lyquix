@@ -769,31 +769,6 @@ jQuery(document).ready(function(){
 
 	});
 	
-	// Open-close collapsed mobile menu
-	jQuery('ul.menu').click(function(){
-		if(jQuery(this).hasClass('collapse') || (jQuery(this).hasClass('collapse-xs') && jQuery('body').attr('screen') == 'xs') || (jQuery(this).hasClass('collapse-sm') && jQuery('body').attr('screen') == 'sm')) {
-			if(jQuery(this).hasClass('expand')){
-				jQuery(this).removeClass('expand');
-			}
-			else {
-				jQuery(this).addClass('expand');
-			}
-		}
-	});
-	jQuery('ul.menu > li.parent').click(function(e){
-		e.stopPropagation();
-		if(jQuery(this).parent().hasClass('collapse') || (jQuery(this).parent().hasClass('collapse-xs') && jQuery('body').attr('screen') == 'xs') || (jQuery(this).parent().hasClass('collapse-sm') && jQuery('body').attr('screen') == 'sm')) {
-			if(jQuery(this).hasClass('expand')){
-				jQuery(this).removeClass('expand');
-			}
-			else {
-				jQuery(this).addClass('expand');
-			}
-		}
-	});
-	
-	
-	
 });
 
 

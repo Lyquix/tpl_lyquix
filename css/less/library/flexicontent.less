@@ -1,0 +1,104 @@
+// FLEXIcontent
+// --------------------------------------------------------------------
+// Set styles for FLEXIcontent elements and structures
+
+  
+// general field styles
+.field {
+  .label {
+    font-weight: bold;
+  }
+}
+
+.field_created {
+  .date();
+}
+
+.field_intro_text {
+  .intro();
+}
+
+.field_created_by {
+  .author();
+}
+
+.field_video {
+  .video-16-9();
+}
+
+.field_addthis_bar {
+}
+
+// tags
+.fc_categories.link_categories, 
+.fc_tags.link_tags {
+  color: @color-copy;
+  text-decoration: none;
+  background-color: @gray-lighter;
+  border-radius: 0.5em;
+  margin-right: 0.5em;
+  display: inline-block;
+  padding: 0.5em 1em;
+  margin-bottom: 0.5em;
+  float: left;
+  &:before {
+    .icon();
+    margin-right: 0.5em;
+        
+  }
+}
+
+.fc_categories.link_categories{
+  &:before {
+    .typcn-folder-open();
+  }
+}
+
+.fc_tags.link_tags{
+  &:before {
+    .fa-tag();
+  }
+}
+	
+// category filters
+.cat-filters {}
+
+// category alpha index
+.cat-alphaindex {}
+
+// category image
+.cat-image {}
+
+// category description
+.cat-description {}
+
+// category map
+.cat-map {}
+
+// category sub-categories
+.cat-subcats {
+  
+  list-style: none;
+  padding: 0;
+  
+  .sub_cat_items_items-items-list {
+    list-style:none;
+    margin:0;
+    padding:0;
+  } 
+  
+}
+
+// category items
+.cat-items {
+  
+  // items lists
+  .leading-items-list, 
+  .introitems-items-list, 
+  .featured-items-list {      
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  
+}
