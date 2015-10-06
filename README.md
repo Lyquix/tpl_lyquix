@@ -96,6 +96,10 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
 
 Since this started as an internal project, the documentation was initially developed as a Google Doc. We have made that document public now and you can find it here https://goo.gl/ZncfgQ
 
+We are slowly moving the documentation into this repo:
+
+[templateDetails.xml](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/templateDetails.xml.md)
+
 ##To Do##
 
 There is still work to do! Please let us know if you would like to help, find any issues, or have any ideas.
