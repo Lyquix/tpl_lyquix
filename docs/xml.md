@@ -2,7 +2,6 @@
 This file includes meta data for the template (name, date, etc.), list of files included in the template, list of available module positions, and template options.
 
 ###Files
-Covers all the files in the template
 ```xml
 
 <files>
@@ -26,19 +25,7 @@ Covers all the files in the template
 ```
 
 ###Module Positions
-The following module positions have been defined:
-* **head** - placed at the end of the <head> tag
-* **main-header** - placed at the top of the <main> tag
-* **main-left** - placed on the left of the middle of the <main> tag
-* **main-top** - placed above the main-center position
-* **main-center** - placed on the center of the middle of the <main> tag. This position is used exclusively by the component output, except on the home page
-* **main-bottom** - placed below the main-center position
-* **main-right** - placed on the rightof the middle of the <main> tag
-* **main-footer** - placed at the bottom of the <main> tag
-* **body** - placed at the end of the <body> tag
-* All the other positions, such as **util-1** are placed in blocks inside the various rows.
 ```xml
-
 <positions>
 
 	<position>head</position>
@@ -97,21 +84,19 @@ The following module positions have been defined:
 
 </positions>
 ```
+The following module positions have been defined:
+* **head** - placed at the end of the <head> tag
+* **main-header** - placed at the top of the <main> tag
+* **main-left** - placed on the left of the middle of the <main> tag
+* **main-top** - placed above the main-center position
+* **main-center** - placed on the center of the middle of the <main> tag. This position is used exclusively by the component output, except on the home page
+* **main-bottom** - placed below the main-center position
+* **main-right** - placed on the rightof the middle of the <main> tag
+* **main-footer** - placed at the bottom of the <main> tag
+* **body** - placed at the end of the <body> tag
+* All the other positions, such as **util-1** are placed in blocks inside the various rows.
 
 ###Configuration Fields
-* Google Analytics account number
-* Disqus shortname
-* AddThis pubid
-* Google site verification code
-* Bing/Yahoo sites verification code
-* Blank page: allows to create a template style that only renders the component, but includes all the template javascript and css.
-* Original JS: during development you can load the original JS files (non minified) for easier debugging.
-* Less.js: during development, loads less.js and compiles LESS files on the browser.
-* AngularJS: loads the AngularJS library
-* LoDash: loads the LoDash library
-* Additional JS libraries: enter one URL per line
-* Minimum and maximum screen sizes for Lyquix responsive framework: xs, sm, md, lg and xl
-* Fluid layout: adds fluid classes to the body tag for specific screen sizes and device types
 ```xml
 <config>
 	<fields name="params">
@@ -175,3 +160,16 @@ The following module positions have been defined:
 	</fields>
 </config>
 ```
+* Google Analytics account number
+* Disqus shortname
+* AddThis pubid
+* Google site verification code
+* Bing/Yahoo sites verification code
+* Blank page: allows to create a template style that only renders the component, but includes all the template javascript and css.
+* Original JS: during development you can load the original JS files (non minified) for easier debugging.
+* Less.js: during development, loads less.js and compiles LESS files on the browser.
+* AngularJS: loads the AngularJS library
+* LoDash: loads the LoDash library
+* Additional JS libraries: enter one URL per line
+* Minimum and maximum screen sizes for Lyquix responsive framework: xs, sm, md, lg and xl
+* Fluid layout: adds fluid classes to the body tag for specific screen sizes and device types

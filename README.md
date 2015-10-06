@@ -98,7 +98,7 @@ Since this started as an internal project, the documentation was initially devel
 
 We are slowly moving the documentation into this repo:
 
-[templateDetails.xml](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/templateDetails.xml.md)
+[templateDetails.xml](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/xml.md)
 
 ##To Do##
 
