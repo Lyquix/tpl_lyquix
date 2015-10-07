@@ -1,0 +1,131 @@
+// mod_lyquix_banners
+// --------------------------------------------------------------------
+
+.mod_lyquix_banners {
+	
+	position: relative;
+	width:100%;
+	height:0;
+	padding-bottom: 56.25%;  // creates a 16:9 proportion
+	overflow:hidden;
+
+	.banners {
+		position: relative;
+	}
+	.banner {
+		position: absolute;
+		width: 100%;
+		
+    &.left {
+      .text {
+        left: 4em;
+      }
+    }
+    
+    &.right {
+      .text {
+        right: 4em;
+      }
+    }
+    
+    &.html {
+      .image {
+        display: none;
+      }
+      
+      .text {
+        position: inherit;
+        top: auto;
+        background-color: transparent;
+        padding: 0;
+        width: auto;
+        color: inherit;
+      }
+    }
+    
+    &.image {
+      .text {
+        display:none;
+      }
+    }
+	}
+	
+	.image {
+		width: 100%;
+		height: 0;
+		padding-bottom: 56.25%;  // creates a 16:9 proportion
+		overflow: hidden;
+		
+		img {
+			width:100%;
+		}
+	}
+			
+	.text {
+		position: absolute;
+		top: 2em;
+		background-color: fade(@gray-dark, 85);
+		padding: 0 1em;
+		width: 33%;
+		color: @color-bg;
+	}
+			
+	.arrows {
+		
+		.prev, .next {
+			position: absolute;
+			top: 40%;
+			padding: 0 @blk-padding-border-margin-width;
+			font-size: 4em;
+			line-height: 0;
+			cursor: pointer;
+			color: @color-bg;
+			.opacity-50();
+			.opacity-100-hover();
+		}
+		
+		.prev {
+			left: @blk-margin-width;
+			
+			&:before {
+				.ion-ios-arrow-left()
+			}
+		}
+		
+		.next {
+			right: @blk-margin-width;
+			
+			&:before {
+				.ion-ios-arrow-right()
+			}
+		}
+	}
+
+	.tabs {
+		
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		box-sizing: border-box;
+		
+		.tab {
+			box-sizing: border-box;
+			float: left;
+			cursor: pointer;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			height: auto;
+			
+			&[data-total="1"] { width: 100%; }
+			&[data-total="2"] { width: 50%; }
+			&[data-total="3"] { width: 33.333%; }
+			&[data-total="4"] { width: 25%; }
+			&[data-total="5"] { width: 20%; }
+			
+		}
+		
+	}
+
+}
