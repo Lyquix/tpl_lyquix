@@ -11,8 +11,8 @@ All php files loaded by Joomla must include this line of code that prevents dire
 
 ```php
 // if custom-index.php file exists the whole template is overriden
-if(file_exists(__DIR__ . '/custom-index.php')) :
-	include __DIR__ . '/custom-index.php'; 
+if(file_exists(__DIR__ . '/index-custom.php')) :
+	include __DIR__ . '/index-custom.php'; 
 else :
 ```
 Checks for the file index-custom.php. If it finds it, it is included, otherwise a message is displayed.
@@ -24,7 +24,7 @@ Checks for the file index-custom.php. If it finds it, it is included, otherwise 
 		<jdoc:include type="head" />
 	</head>
 	<body>
-		File <span style="font-family: monospace;"><?php echo JPATH_BASE . '/templates/' . $this->template; ?>/custom-index.php</span> not found.
+		File <span style="font-family: monospace;"><?php echo JPATH_BASE . '/templates/' . $this->template; ?>/index-custom.php</span> not found.
 	</body>
 </html>
 ```
