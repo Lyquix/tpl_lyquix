@@ -47,6 +47,7 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Stylesheet URL is appended with date-time of last modification to ensure visitors always load latest version
   * Incorporates 6 icon libraries: FontAwesome, IcoMoon, IonIcons, MapIcons, TypIcons and WeatherIcons, using consistent classes and allowing for LESS mixings everywhere
   * 7-row, 6-column base layout provides a very good starting point for any design
+  * Utility functions for creating the structure and base functionality of menus
 
 ###Javascript###
 
@@ -98,7 +99,9 @@ Since this started as an internal project, the documentation was initially devel
 
 We are slowly moving the documentation into this repo:
 
-[templateDetails.xml](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/xml.md)
+[Installation and basic setup](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/install.md)
+[Files, positions, configuration: templateDetails.xml](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/xml.md)
+[Base template files: index.php, component.php](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/template.md)
 
 ##To Do##
 
