@@ -703,6 +703,41 @@ var lqx = lqx || {
 		}
 	},
 	
+	mobileMenu : function(elem) {
+		/*
+		 * keep in mind the various joomla classes for menu items:
+		 * 
+		 * .parent  - is applied when the menu item is parent to other menu items
+		 * .deeper  - is applied when a sub-menu was rendered in the html
+		 * .active  - is applied to the whole pathway of active menu items
+		 * .current - is applied only to the specific menu item of the current page
+		 * 
+		 */
+		
+		var li = jQuery(elem).parent();
+		var url = elem.href;
+		var target = (elem.target && !elem.target.match(/^_(self|parent|top)$/i)) ? elem.target : false;
+		var go = function(){target ? window.open(url, target) : window.location.href = url;};
+		
+		// check if there is a deeper menu
+		if(jQuery(li).hasClass('deeper')) {
+			if(jQuery(li).hasClass('open')) {
+				// it is already open, follow the link
+				go();
+			}
+			else {
+				// close any siblings (and their children) and then open itself
+				jQuery(li).siblings('li.open').find('li.open').removeClass('open');
+				jQuery(li).siblings('li.open').removeClass('open');
+				jQuery(li).addClass('open');
+			}
+		}
+		else {
+			// there isn't a sub-menu, follow the link
+			go();
+		}
+	},
+	
 };
 
 // END Lyquix global object
@@ -768,6 +803,34 @@ jQuery(document).ready(function(){
 		lqx.hangingPunctuation();
 
 	});
+	
+	// add listeners for mobile menu logic
+	jQuery('body.mobile .horizontal, body.mobile .vertical, body.mobile .slide-out').on('click', 'ul.menu a', function(e){
+		// prevent links to work until we 
+		e.preventDefault();
+		lqx.mobileMenu(this);
+	});
+	jQuery('body.mobile .horizontal, body.mobile .vertical, .slide-out').click(function(e){
+	    // do not propagate click events outside menus
+	    e.stopPropagation();
+	});
+	jQuery('.slide-out .menu-control').click(function(){
+		// open/close slide-out menu
+		var elem = jQuery(this).parent();
+		if(jQuery(elem).hasClass('open')) {
+			jQuery(elem).removeClass('open');
+		}
+		else {
+			jQuery(elem).addClass('open')
+		}
+	});
+	jQuery('body').click(function() {
+		// hide the menus if visible
+		jQuery('body.mobile .horizontal, body.mobile .vertical, body.mobile .slide-out').find('ul.menu li.open').removeClass('open');
+		// close the slide out menu if open
+		jQuery('.slide-out.open').removeClass('open');
+	});
+	
 	
 });
 

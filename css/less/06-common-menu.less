@@ -5,21 +5,164 @@
 // --------------------------------------------------------------------
 
 /*
- * Add the following classes to a parent of your ul.menu:
+ * Add the following classes to a parent of your ul.menu(s):
  * 
  * Select one of the following: 
- * .horizontal  - top level items are arranged in a single row for desktop devices (hover event)
- * .vertical    - top level items are stacked in a single column for desktop devices (hover event)
- * .slide-out   - slide-out menu for mobile devices (touch event)
+ * .horizontal  - top level items are arranged in a single row
+ * .vertical    - top level items are stacked in a single column
+ * .slide-out   - all items are stacked in single column, slides in and out
  * 
  * Show lower-level menu items:
  * .drop-down   - enables the 2nd level menu items
  * .sub-menu    - enables the 3rd level menu items
  * 
  * Control animation:
- * .fly-left    - for horizontal menu, opens 3rd level to the right; for vertical menu opens 2nd and 3rd level to the right; for slide out opens menu to the right
- * .fly-right   - similar to .fly-left but in the opposite direction
+ * .fly-left    - for horizontal menu, opens 3rd level to the left; for vertical menu opens 2nd and 3rd level to the left; for slide out opens menu to the left
  * .push        - makes slide out menu push contents
  * .overlay     - makes slide out menu to overlay on top of contents
  * 
+ * Menu control: add an element with class .menu-control as a child of .slide-out to implement the hamburguer and close icons and functionality
+ * 
  */
+
+// common rules for all types of menus
+.horizontal, 
+.vertical,
+.slide-out {
+  ul.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    & > li {
+      & > a {
+        display: block;
+      }
+      & > ul {
+        display: none;
+      }
+    }
+  }
+  // add .drop-down to allow for 2nd level items to show, below top level items
+  &.drop-down {
+    ul.menu > li > ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      & > li {
+        & > a {
+          display: block;
+        }
+        & > ul {
+          display: none;
+        }
+      }
+    }
+    // add .sub-menu to allow for 3rd level items to show, right to top level items
+    &.sub-menu {
+      ul.menu > li > ul > li > ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        & > li {
+          & > a {
+            display: block;
+          }
+          & > ul {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+// common positioning for vertical and horizontal menus
+.horizontal,
+.vertical {
+  ul.menu {
+    & > li {
+      position: relative;
+    }
+  }
+  &.drop-down {
+    ul.menu > li > ul {
+      position: absolute;
+      & > li {
+        position: relative;
+      }
+    }
+    &.sub-menu {
+      ul.menu > li > ul > li > ul {
+        position: absolute;
+        left: 100%;
+        top: 0;
+        & > li {
+          position: relative;
+        }
+      }
+      &.fly-left {
+        ul.menu > li > ul > li > ul {
+          left: auto;
+          right: 100%;
+        }
+      }
+    }
+  }
+}
+
+// make top items float left in horizontal menu
+.horizontal {  
+  ul.menu {
+    & > li {
+      float: left;
+    }
+  }
+}
+
+// set drop-down position for vertical menu
+.vertical {
+  &.drop-down {
+    ul.menu {
+      display: inline-block;
+      & > li > ul {
+        left: 100%;
+        top: 0;
+      }
+    }
+    &.fly-left {
+      ul.menu > li > ul {
+        left: auto;
+        right: 100%;
+      }
+    }
+  }
+}
+
+// in mobile use the class .open (added on click with javascript) to expand lower levels
+body.mobile {
+  .drop-down {
+    ul.menu > li.open > ul {
+      display: block;
+    }
+    &.sub-menu {
+      ul.menu > li.open > ul > li.open > ul {
+        display: block;
+      }
+    }
+  }
+}
+
+// in desktop use hover event to expand lower levels
+body:not(.mobile) {
+  .drop-down {
+    ul.menu > li:hover > ul {
+      display: block;
+    }
+    &.sub-menu {
+      ul.menu > li:hover > ul > li:hover > ul {
+        display: block;
+      }
+    }
+  }
+}
+
