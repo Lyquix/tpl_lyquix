@@ -112,6 +112,7 @@ The following module positions have been defined:
 				<option value="0">No</option>
 				<option value="1">Yes</option>
 			</field>
+			<field name="add_css_libraries" type="textarea" default="" label="Additional CSS Libraries" description="Enter one URL per line for additional javascript libraries you need for your project. We recommend: a) remove the protcol (http or https) from the URL, b) use the minified version for the production site" />
 			<field name="non_min_js" type="radio" default="0" label="Use original JS" description="Uses the original JS files instead of the minified versions. Activate only for development.">
 				<option value="0">No</option>
 				<option value="1">Yes</option>
@@ -128,7 +129,7 @@ The following module positions have been defined:
 				<option value="0">No</option>
 				<option value="1">Yes</option>
 			</field>
-			<field name="add_js_libraries" type="textarea" default="" label="Additional Javascript Libraries" description="Enter one URL per line for additional javascript libraries you need for your project. We recommend: a) use libraries hosted at https://cdnjs.com/libraries, b) remove the protcol (http or https) from the URL, c) use the minified version for the production site" />
+			<field name="add_js_libraries" type="textarea" default="" label="Additional Javascript Libraries" description="Enter one URL per line for additional javascript libraries you need for your project. We recommend: a) remove the protcol (http or https) from the URL, b) use the minified version for the production site" />
 			<field name="min_screen" type="list" label="Minimum Screen Size" default="0" description="Select the minimum screen size that will be allowed">
 				<option value="0">XS</option>
 				<option value="1">SM</option>
@@ -156,6 +157,10 @@ The following module positions have been defined:
 				<option value="phone">Phones only</option>
 				<option value="tablet">Tablets only</option>
 			</field>
+			<field name="mobiledetect_method" type="radio" default="php" label="Mobile Detect Method" description="Selects the method for detecting mobile devices. Adds CSS classes mobile, tablet and phone to the body tag if applicable. Server-side (PHP) is the default method but if your site uses page cache, you should use client-side method.">
+				<option value="php">Server-Side (PHP)</option>
+				<option value="js">Client-Side (JavaScript)</option>
+			</field>
 		</fieldset>
 	</fields>
 </config>
@@ -166,6 +171,7 @@ The following module positions have been defined:
 * Google site verification code
 * Bing/Yahoo sites verification code
 * Blank page: allows to create a template style that only renders the component, but includes all the template javascript and css.
+* Additional CSS libraries: enter one URL per line
 * Original JS: during development you can load the original JS files (non minified) for easier debugging.
 * Less.js: during development, loads less.js and compiles LESS files on the browser.
 * AngularJS: loads the AngularJS library
@@ -173,3 +179,4 @@ The following module positions have been defined:
 * Additional JS libraries: enter one URL per line
 * Minimum and maximum screen sizes for Lyquix responsive framework: xs, sm, md, lg and xl
 * Fluid layout: adds fluid classes to the body tag for specific screen sizes and device types
+* Mobile Detect Method: select whether mobile detection is done server side (PHP) or client side (JS)
