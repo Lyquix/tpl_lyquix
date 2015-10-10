@@ -74,7 +74,7 @@ $detect = new Mobile_Detect;
 if($detect->isMobile()){
 	$mobile = true;
 	if($detect->isTablet()){ $tablet = true; }
-	else { $phone = true; }
+	if($detect->isPhone()){ $phone = true; }
 }
 ?>
 ```
@@ -114,11 +114,10 @@ This needs to be added before any other scripts and CSS.
 ```
 For the home page it inserts meta tags for:
 
-Google site verification code
+  * Google site verification code
+  * Bing/Yahoo site verification code
+  * Canonical URL
 
-Bing/Yahoo site verification code
-
-Canonical URL
 ```php
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 ```
@@ -136,14 +135,22 @@ Inserts Joomla head, this includes meta tags, CSS and Javascript added by extens
 
 ```php
 <link href="<?php echo $tmpl_url; ?>/css/styles.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/styles.' . ($this->params->get('lessjs') ? 'less' : 'css'))); ?>" rel="stylesheet" <?php echo $this->params->get('lessjs') ? 'type="text/less" ' : ''; ?>/>
-
 <link href="<?php echo $tmpl_url; ?>/css/icons.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/icons.' . ($this->params->get('lessjs') ? 'less' : 'css'))); ?>" rel="stylesheet" <?php echo $this->params->get('lessjs') ? 'type="text/less" ' : ''; ?>/>
-
-<?php if($this->params->get('lessjs')): ?>
+<?php
+$add_css_libraries = explode("\n", trim($this->params->get('add_css_libraries', '')));
+foreach($add_css_libraries as $cssurl) {
+	$cssurl = trim($cssurl);
+	if($cssurl) {
+		echo '<link href="' . $cssurl . '" rel="stylesheet" />';
+	}
+} 
+if($this->params->get('lessjs')): ?>
 <script src="<?php echo $tmpl_url; ?>/js/less<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <?php endif; ?>
 ```
 Adds the main stylesheet and the font icon libraries.
+
+Loads any additional CSS libraries
 
 During development you can activate LESS which loads the less.js library and processes the LESS file on the browser.
 
@@ -171,16 +178,17 @@ if(file_exists($tmpl_path . '/css/ie7.css')): ?>
 If files exist, inserts CSS fixes for old IE versions, if the files exists. Start with IE 9 and goes backwards as newer versions require fewer fixes.
 
 ```php
-<?php if($this->params->get('angularjs', 0)): ?>
+<?php endif;
+if($this->params->get('angularjs', 0)): ?>
 <script src="<?php echo $tmpl_url; ?>/js/angular<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/angular' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
-<?php endif; ?>
-
-<?php if($this->params->get('lodash', 0)): ?>
+<?php endif;
+if($this->params->get('lodash', 0)): ?>
 <script src="<?php echo $tmpl_url; ?>/js/lodash<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/lodash' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
-<?php endif; ?>
-
-<?php
-$add_js_libraries = explode("\n", trim($this->params->get('add_js_libraries', 0)));
+<?php endif;
+if($this->params->get('mobiledetect_method', 'php') == 'js'): ?>
+<script src="<?php echo $tmpl_url; ?>/js/mobile-detect<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/mobile-detect' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
+<?php endif;
+$add_js_libraries = explode("\n", trim($this->params->get('add_js_libraries', '')));
 foreach($add_js_libraries as $jsurl) {
 	$jsurl = trim($jsurl);
 	if($jsurl) {
@@ -190,6 +198,8 @@ foreach($add_js_libraries as $jsurl) {
 ?>
 ```
 If selected, loads AngularJS and loDash libraries.
+
+Loads mobile-detect.js if client-side detection is selected
 
 Parses a list of URLs for custom javascript libraries and loads them
 
@@ -325,9 +335,17 @@ Additionally, blkfluid- classes are added based on the template configuration
 ```php
 <script>
 lqx.bodyScreenSize();
+<?php if($this->params->get('mobiledetect_method', 'php') == 'js'): ?>lqx.mobileDetect = lqx.mobileDetect();
+<?php endif;
+if($this->params->get('mobiledetect_method', 'php') == 'php'){
+	echo 'lqx.mobileDetect = {mobile: ' . ($mobile ? 'true' : 'false') . ',phone: ' . ($phone ? 'true' : 'false') . ',tablet: ' . ($tablet ? 'true' : 'false') . "};\n";
+}
+?>
 </script>
 ```
 Adds an attribute "screen" to the body tag with the size code: xs, sm, md, lg, and xl.
+
+Executes mobileDetect function if selected to be client-side, otherwise sets the values found from server-side detection.
 
 This attribute is updated automatically with Javascript upon screen size changes.
 
