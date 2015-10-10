@@ -102,9 +102,9 @@ Since this started as an internal project, the documentation was initially devel
 
 We are slowly moving the documentation into this repo:
 
-[Installation and basic setup](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/install.md)
-[Files, positions, configuration: templateDetails.xml](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/xml.md)
-[Base template files: index.php, component.php](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/template.md)
+  * [Installation and basic setup](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/install.md)
+  * [Files, positions, configuration: templateDetails.xml](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/xml.md)
+  * [Base template files: index.php, component.php](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/template.md)
 
 ##To Do##
 
