@@ -29,13 +29,17 @@ var lqx = lqx || {
 			// defines the minimum and maximum screen sizes, 
 			// use 0 through 4 to represent xs to xl screen sizes
 			min: 0,
-			max: 4
+			max: 4,
+			breakPoints: [320, 640, 960, 1280, 1600],
 		},
 	},
 	
 	// holds working data
 	vars: {
 		resizeThrottle: false,  // saves current status of resizeThrottle
+		bodyScreenSize: {
+			sizes: ['xs', 'sm', 'md', 'lg', 'xl'],
+		},
 	},
 	
 	// setOptions
@@ -89,30 +93,49 @@ var lqx = lqx || {
 	// adds an attribute "screen" to the body tag that indicates the current size of the screen
 	bodyScreenSize : function() {
 		var w = jQuery(window).width();
-		var sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
 		// xs:    0 -  640
 		// sm:  640 -  960
 		// md:  960 - 1280
 		// lg: 1280 - 1600
 		// xl: 1600 -
-		if(w < 640) s = 0;
-		if(w >= 640) s = 1;
-		if(w >= 960) s = 2;
-		if(w >= 1280) s = 3;
-		if(w >= 1600) s = 4;
-		if(sizes[s] != lqx.vars.lastScreenSize) {
+		if(w < lqx.settings.bodyScreenSize.breakPoints[1]) s = 0;
+		if(w >= lqx.settings.bodyScreenSize.breakPoints[1]) s = 1;
+		if(w >= lqx.settings.bodyScreenSize.breakPoints[2]) s = 2;
+		if(w >= lqx.settings.bodyScreenSize.breakPoints[3]) s = 3;
+		if(w >= lqx.settings.bodyScreenSize.breakPoints[4]) s = 4;
+		if(lqx.vars.bodyScreenSize.sizes[s] != lqx.vars.lastScreenSize) {
 			// adjust calculated size to min and max range
 			if(s < lqx.settings.bodyScreenSize.min) s = lqx.settings.bodyScreenSize.min;
 			if(s > lqx.settings.bodyScreenSize.max) s = lqx.settings.bodyScreenSize.max;
 			// change the body screen attribute
-			jQuery('body').attr('screen',sizes[s]);
+			jQuery('body').attr('screen',lqx.vars.bodyScreenSize.sizes[s]);
 			// hack to force IE8 to take the new screen size attribute
 			document.getElementsByTagName('body')[0].className = document.getElementsByTagName('body')[0].className;
 			// trigger custom event 'screensizechange'
 			jQuery(document).trigger('screensizechange');
 			// save last screen size
-			lqx.vars.lastScreenSize = sizes[s];
+			lqx.vars.lastScreenSize = lqx.vars.bodyScreenSize.sizes[s];
 		}
+	},
+	
+	// uses the mobile-detect.js library to detect if the browser is a mobile device
+	// add the classes mobile, phone and tablet to the body tag if applicable
+	mobileDetect : function() {
+		var md = new MobileDetect(window.navigator.userAgent);
+		var r = {mobile: false, phone: false, tablet: false};
+		if(md.mobile() != null) {
+			r.mobile = true;
+			jQuery('body').addClass('mobile');
+			if(md.phone() != null){
+				r.phone = true;
+				jQuery('body').addClass('phone');
+			}
+			if(md.tablet() != null){
+				r.tablet = true;
+				jQuery('body').addClass('tablet');
+			}
+		}
+		return r;
 	},
 	
 	// getBrowser

@@ -1,13 +1,14 @@
+
 /*!
- * Less - Leaner CSS v2.5.0
+ * Less - Leaner CSS v2.5.3
  * http://lesscss.org
  *
  * Copyright (c) 2009-2015, Alexis Sellier <self@cloudhead.net>
- * Licensed under the Apache v2 License.
+ * Licensed under the  License.
  *
  */
 
- /** * @license Apache v2
+ /** * @license 
  */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.less = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
@@ -74,18 +75,18 @@ require("./add-default-options")(window, options);
 
 var less = module.exports = require("./index")(window, options);
 
+window.less = less;
+
 if (options.onReady) {
     if (/!watch/.test(window.location.hash)) {
         less.watch();
     }
 
-    less.pageLoadFinished = less.registerStylesheets().then(
-        function () {
-            return less.refresh(less.env === 'development');
-        }
-    );
+    less.registerStylesheetsImmediately();
+    less.pageLoadFinished = less.refresh(less.env === 'development');
 }
-},{"./add-default-options":1,"./index":7,"promise/polyfill.js":94}],3:[function(require,module,exports){
+
+},{"./add-default-options":1,"./index":7,"promise/polyfill.js":95}],3:[function(require,module,exports){
 var utils = require("./utils");
 module.exports = {
     createCSS: function (document, styles, sheet) {
@@ -671,20 +672,28 @@ module.exports = function(window, options) {
     less.unwatch = function () {clearInterval(less.watchTimer); this.watchMode = false; return false; };
 
     //
-    // Get all <link> tags with the 'rel' attribute set to "stylesheet/less"
+    // Synchronously get all <link> tags with the 'rel' attribute set to
+    // "stylesheet/less".
+    //
+    less.registerStylesheetsImmediately = function() {
+        var links = document.getElementsByTagName('link');
+        less.sheets = [];
+
+        for (var i = 0; i < links.length; i++) {
+            if (links[i].rel === 'stylesheet/less' || (links[i].rel.match(/stylesheet/) &&
+                (links[i].type.match(typePattern)))) {
+                less.sheets.push(links[i]);
+            }
+        }
+    };
+
+    //
+    // Asynchronously get all <link> tags with the 'rel' attribute set to
+    // "stylesheet/less", returning a Promise.
     //
     less.registerStylesheets = function() {
         return new Promise(function(resolve, reject) {
-            var links = document.getElementsByTagName('link');
-            less.sheets = [];
-
-            for (var i = 0; i < links.length; i++) {
-                if (links[i].rel === 'stylesheet/less' || (links[i].rel.match(/stylesheet/) &&
-                    (links[i].type.match(typePattern)))) {
-                    less.sheets.push(links[i]);
-                }
-            }
-
+            less.registerStylesheetsImmediately();
             resolve();
         });
     };
@@ -739,7 +748,7 @@ module.exports = function(window, options) {
     return less;
 };
 
-},{"../less":29,"./browser":3,"./cache":4,"./error-reporting":5,"./file-manager":6,"./log-listener":8,"./utils":9}],8:[function(require,module,exports){
+},{"../less":30,"./browser":3,"./cache":4,"./error-reporting":5,"./file-manager":6,"./log-listener":8,"./utils":9}],8:[function(require,module,exports){
 module.exports = function(less, options) {
 
     var logLevel_debug = 4,
@@ -1281,7 +1290,7 @@ environment.prototype.clearFileManagers = function () {
 
 module.exports = environment;
 
-},{"../logger":31}],16:[function(require,module,exports){
+},{"../logger":32}],16:[function(require,module,exports){
 var Color = require("../tree/color"),
     functionRegistry = require("./function-registry");
 
@@ -1357,7 +1366,7 @@ for (var f in colorBlendModeFunctions) {
 
 functionRegistry.addMultiple(colorBlend);
 
-},{"../tree/color":48,"./function-registry":21}],17:[function(require,module,exports){
+},{"../tree/color":49,"./function-registry":21}],17:[function(require,module,exports){
 var Dimension = require("../tree/dimension"),
     Color = require("../tree/color"),
     Quoted = require("../tree/quoted"),
@@ -1678,7 +1687,7 @@ colorFunctions = {
 };
 functionRegistry.addMultiple(colorFunctions);
 
-},{"../tree/anonymous":44,"../tree/color":48,"../tree/dimension":54,"../tree/quoted":71,"./function-registry":21}],18:[function(require,module,exports){
+},{"../tree/anonymous":45,"../tree/color":49,"../tree/dimension":55,"../tree/quoted":72,"./function-registry":21}],18:[function(require,module,exports){
 module.exports = function(environment) {
     var Quoted = require("../tree/quoted"),
         URL = require("../tree/url"),
@@ -1765,7 +1774,7 @@ module.exports = function(environment) {
     });
 };
 
-},{"../logger":31,"../tree/quoted":71,"../tree/url":78,"./function-registry":21}],19:[function(require,module,exports){
+},{"../logger":32,"../tree/quoted":72,"../tree/url":79,"./function-registry":21}],19:[function(require,module,exports){
 var Keyword = require("../tree/keyword"),
     functionRegistry = require("./function-registry");
 
@@ -1794,7 +1803,7 @@ functionRegistry.add("default", defaultFunc.eval.bind(defaultFunc));
 
 module.exports = defaultFunc;
 
-},{"../tree/keyword":63,"./function-registry":21}],20:[function(require,module,exports){
+},{"../tree/keyword":64,"./function-registry":21}],20:[function(require,module,exports){
 var Expression = require("../tree/expression");
 
 var functionCaller = function(name, context, index, currentFileInfo) {
@@ -1842,7 +1851,7 @@ functionCaller.prototype.call = function(args) {
 
 module.exports = functionCaller;
 
-},{"../tree/expression":57}],21:[function(require,module,exports){
+},{"../tree/expression":58}],21:[function(require,module,exports){
 function makeRegistry( base ) {
     return {
         _data: {},
@@ -1893,9 +1902,26 @@ module.exports = function(environment) {
     return functions;
 };
 
-},{"./color":17,"./color-blending":16,"./data-uri":18,"./default":19,"./function-caller":20,"./function-registry":21,"./math":23,"./number":24,"./string":25,"./svg":26,"./types":27}],23:[function(require,module,exports){
-var Dimension = require("../tree/dimension"),
-    functionRegistry = require("./function-registry");
+},{"./color":17,"./color-blending":16,"./data-uri":18,"./default":19,"./function-caller":20,"./function-registry":21,"./math":24,"./number":25,"./string":26,"./svg":27,"./types":28}],23:[function(require,module,exports){
+var Dimension = require("../tree/dimension");
+
+var MathHelper = function() {
+};
+MathHelper._math = function (fn, unit, n) {
+    if (!(n instanceof Dimension)) {
+        throw { type: "Argument", message: "argument must be a number" };
+    }
+    if (unit == null) {
+        unit = n.unit;
+    } else {
+        n = n.unify();
+    }
+    return new Dimension(fn(parseFloat(n.value)), unit);
+};
+module.exports = MathHelper;
+},{"../tree/dimension":55}],24:[function(require,module,exports){
+var functionRegistry = require("./function-registry"),
+    mathHelper = require("./math-helper.js");
 
 var mathFunctions = {
     // name,  unit
@@ -1911,35 +1937,24 @@ var mathFunctions = {
     acos:  "rad"
 };
 
-function _math(fn, unit, n) {
-    if (!(n instanceof Dimension)) {
-        throw { type: "Argument", message: "argument must be a number" };
-    }
-    if (unit == null) {
-        unit = n.unit;
-    } else {
-        n = n.unify();
-    }
-    return new Dimension(fn(parseFloat(n.value)), unit);
-}
-
 for (var f in mathFunctions) {
     if (mathFunctions.hasOwnProperty(f)) {
-        mathFunctions[f] = _math.bind(null, Math[f], mathFunctions[f]);
+        mathFunctions[f] = mathHelper._math.bind(null, Math[f], mathFunctions[f]);
     }
 }
 
 mathFunctions.round = function (n, f) {
     var fraction = typeof f === "undefined" ? 0 : f.value;
-    return _math(function(num) { return num.toFixed(fraction); }, null, n);
+    return mathHelper._math(function(num) { return num.toFixed(fraction); }, null, n);
 };
 
 functionRegistry.addMultiple(mathFunctions);
 
-},{"../tree/dimension":54,"./function-registry":21}],24:[function(require,module,exports){
+},{"./function-registry":21,"./math-helper.js":23}],25:[function(require,module,exports){
 var Dimension = require("../tree/dimension"),
     Anonymous = require("../tree/anonymous"),
-    functionRegistry = require("./function-registry");
+    functionRegistry = require("./function-registry"),
+    mathHelper = require("./math-helper.js");
 
 var minMax = function (isMin, args) {
     args = Array.prototype.slice.call(args);
@@ -2010,11 +2025,15 @@ functionRegistry.addMultiple({
         return new Dimension(Math.pow(x.value, y.value), x.unit);
     },
     percentage: function (n) {
-        return new Dimension(n.value * 100, '%');
+        var result = mathHelper._math(function(num) {
+            return num * 100;
+        }, '%', n);
+
+        return result;
     }
 });
 
-},{"../tree/anonymous":44,"../tree/dimension":54,"./function-registry":21}],25:[function(require,module,exports){
+},{"../tree/anonymous":45,"../tree/dimension":55,"./function-registry":21,"./math-helper.js":23}],26:[function(require,module,exports){
 var Quoted = require("../tree/quoted"),
     Anonymous = require("../tree/anonymous"),
     JavaScript = require("../tree/javascript"),
@@ -2053,7 +2072,7 @@ functionRegistry.addMultiple({
     }
 });
 
-},{"../tree/anonymous":44,"../tree/javascript":61,"../tree/quoted":71,"./function-registry":21}],26:[function(require,module,exports){
+},{"../tree/anonymous":45,"../tree/javascript":62,"../tree/quoted":72,"./function-registry":21}],27:[function(require,module,exports){
 module.exports = function(environment) {
     var Dimension = require("../tree/dimension"),
         Color = require("../tree/color"),
@@ -2143,7 +2162,7 @@ module.exports = function(environment) {
     });
 };
 
-},{"../tree/color":48,"../tree/dimension":54,"../tree/expression":57,"../tree/quoted":71,"../tree/url":78,"./function-registry":21}],27:[function(require,module,exports){
+},{"../tree/color":49,"../tree/dimension":55,"../tree/expression":58,"../tree/quoted":72,"../tree/url":79,"./function-registry":21}],28:[function(require,module,exports){
 var Keyword = require("../tree/keyword"),
     DetachedRuleset = require("../tree/detached-ruleset"),
     Dimension = require("../tree/dimension"),
@@ -2234,7 +2253,7 @@ functionRegistry.addMultiple({
     }
 });
 
-},{"../tree/anonymous":44,"../tree/color":48,"../tree/detached-ruleset":53,"../tree/dimension":54,"../tree/keyword":63,"../tree/operation":69,"../tree/quoted":71,"../tree/url":78,"./function-registry":21}],28:[function(require,module,exports){
+},{"../tree/anonymous":45,"../tree/color":49,"../tree/detached-ruleset":54,"../tree/dimension":55,"../tree/keyword":64,"../tree/operation":70,"../tree/quoted":72,"../tree/url":79,"./function-registry":21}],29:[function(require,module,exports){
 var contexts = require("./contexts"),
     Parser = require('./parser/parser'),
     FunctionImporter = require('./plugins/function-importer');
@@ -2367,12 +2386,12 @@ module.exports = function(environment) {
     return ImportManager;
 };
 
-},{"./contexts":10,"./parser/parser":36,"./plugins/function-importer":38}],29:[function(require,module,exports){
+},{"./contexts":10,"./parser/parser":37,"./plugins/function-importer":39}],30:[function(require,module,exports){
 module.exports = function(environment, fileManagers) {
     var SourceMapOutput, SourceMapBuilder, ParseTree, ImportManager, Environment;
 
     var less = {
-        version: [2, 5, 0],
+        version: [2, 5, 3],
         data: require('./data'),
         tree: require('./tree'),
         Environment: (Environment = require("./environment/environment")),
@@ -2398,7 +2417,7 @@ module.exports = function(environment, fileManagers) {
     return less;
 };
 
-},{"./contexts":10,"./data":12,"./environment/abstract-file-manager":14,"./environment/environment":15,"./functions":22,"./import-manager":28,"./less-error":30,"./logger":31,"./parse":33,"./parse-tree":32,"./parser/parser":36,"./plugin-manager":37,"./render":39,"./source-map-builder":40,"./source-map-output":41,"./transform-tree":42,"./tree":60,"./utils":81,"./visitors":85}],30:[function(require,module,exports){
+},{"./contexts":10,"./data":12,"./environment/abstract-file-manager":14,"./environment/environment":15,"./functions":22,"./import-manager":29,"./less-error":31,"./logger":32,"./parse":34,"./parse-tree":33,"./parser/parser":37,"./plugin-manager":38,"./render":40,"./source-map-builder":41,"./source-map-output":42,"./transform-tree":43,"./tree":61,"./utils":82,"./visitors":86}],31:[function(require,module,exports){
 var utils = require("./utils");
 
 var LessError = module.exports = function LessError(e, importManager, currentFilename) {
@@ -2442,7 +2461,7 @@ if (typeof Object.create === 'undefined') {
 
 LessError.prototype.constructor = LessError;
 
-},{"./utils":81}],31:[function(require,module,exports){
+},{"./utils":82}],32:[function(require,module,exports){
 module.exports = {
     error: function(msg) {
         this._fireEvent("error", msg);
@@ -2478,7 +2497,7 @@ module.exports = {
     _listeners: []
 };
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 var LessError = require('./less-error'),
     transformTree = require("./transform-tree"),
     logger = require("./logger");
@@ -2540,7 +2559,7 @@ module.exports = function(SourceMapBuilder) {
     return ParseTree;
 };
 
-},{"./less-error":30,"./logger":31,"./transform-tree":42}],33:[function(require,module,exports){
+},{"./less-error":31,"./logger":32,"./transform-tree":43}],34:[function(require,module,exports){
 var PromiseConstructor,
     contexts = require("./contexts"),
     Parser = require('./parser/parser'),
@@ -2610,7 +2629,7 @@ module.exports = function(environment, ParseTree, ImportManager) {
     return parse;
 };
 
-},{"./contexts":10,"./parser/parser":36,"./plugin-manager":37,"promise":undefined}],34:[function(require,module,exports){
+},{"./contexts":10,"./parser/parser":37,"./plugin-manager":38,"promise":undefined}],35:[function(require,module,exports){
 // Split the input into chunks.
 module.exports = function (input, fail) {
     var len = input.length, level = 0, parenLevel = 0,
@@ -2724,7 +2743,7 @@ module.exports = function (input, fail) {
     return chunks;
 };
 
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 var chunker = require('./chunker');
 
 module.exports = function() {
@@ -2985,7 +3004,7 @@ module.exports = function() {
     return parserInput;
 };
 
-},{"./chunker":34}],36:[function(require,module,exports){
+},{"./chunker":35}],37:[function(require,module,exports){
 var LessError = require('../less-error'),
     tree = require("../tree"),
     visitors = require("../visitors"),
@@ -3477,7 +3496,7 @@ var Parser = function Parser(context, imports, fileInfo) {
                         if (!colorCandidateString.match(/^[A-Fa-f0-9]+$/)) { // verify if candidate consists only of allowed HEX characters
                             error("Invalid HEX color code");
                         }
-                        return new(tree.Color)(rgb[1]);
+                        return new(tree.Color)(rgb[1], undefined, '#' + colorCandidateString);
                     }
                 },
 
@@ -3675,7 +3694,8 @@ var Parser = function Parser(context, imports, fileInfo) {
                     var entities = parsers.entities,
                         returner = { args:null, variadic: false },
                         expressions = [], argsSemiColon = [], argsComma = [],
-                        isSemiColonSeparated, expressionContainsNamed, name, nameLoop, value, arg;
+                        isSemiColonSeparated, expressionContainsNamed, name, nameLoop,
+                        value, arg, expand;
 
                     parserInput.save();
 
@@ -3737,14 +3757,18 @@ var Parser = function Parser(context, imports, fileInfo) {
                                     }
                                 }
                                 nameLoop = (name = val.name);
-                            } else if (!isCall && parserInput.$str("...")) {
-                                returner.variadic = true;
-                                if (parserInput.$char(";") && !isSemiColonSeparated) {
-                                    isSemiColonSeparated = true;
+                            } else if (parserInput.$str("...")) {
+                                if (!isCall) {
+                                    returner.variadic = true;
+                                    if (parserInput.$char(";") && !isSemiColonSeparated) {
+                                        isSemiColonSeparated = true;
+                                    }
+                                    (isSemiColonSeparated ? argsSemiColon : argsComma)
+                                        .push({ name: arg.name, variadic: true });
+                                    break;
+                                } else {
+                                    expand = true;
                                 }
-                                (isSemiColonSeparated ? argsSemiColon : argsComma)
-                                    .push({ name: arg.name, variadic: true });
-                                break;
                             } else if (!isCall) {
                                 name = nameLoop = val.name;
                                 value = null;
@@ -3755,7 +3779,7 @@ var Parser = function Parser(context, imports, fileInfo) {
                             expressions.push(value);
                         }
 
-                        argsComma.push({ name:nameLoop, value:value });
+                        argsComma.push({ name:nameLoop, value:value, expand:expand });
 
                         if (parserInput.$char(',')) {
                             continue;
@@ -3772,7 +3796,7 @@ var Parser = function Parser(context, imports, fileInfo) {
                             if (expressions.length > 1) {
                                 value = new(tree.Value)(expressions);
                             }
-                            argsSemiColon.push({ name:name, value:value });
+                            argsSemiColon.push({ name:name, value:value, expand:expand });
 
                             name = null;
                             expressions = [];
@@ -4754,7 +4778,7 @@ Parser.serializeVars = function(vars) {
 
 module.exports = Parser;
 
-},{"../less-error":30,"../tree":60,"../utils":81,"../visitors":85,"./parser-input":35}],37:[function(require,module,exports){
+},{"../less-error":31,"../tree":61,"../utils":82,"../visitors":86,"./parser-input":36}],38:[function(require,module,exports){
 /**
  * Plugin Manager
  */
@@ -4870,7 +4894,7 @@ PluginManager.prototype.getFileManagers = function() {
 };
 module.exports = PluginManager;
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 var LessError = require('../less-error'),
     tree = require("../tree");
 
@@ -4907,7 +4931,7 @@ FunctionImporter.prototype.eval = function(contents, callback) {
     callback(null, { functions: loaded });
 };
 
-},{"../less-error":30,"../tree":60}],39:[function(require,module,exports){
+},{"../less-error":31,"../tree":61}],40:[function(require,module,exports){
 var PromiseConstructor;
 
 module.exports = function(environment, ParseTree, ImportManager) {
@@ -4950,7 +4974,7 @@ module.exports = function(environment, ParseTree, ImportManager) {
     return render;
 };
 
-},{"promise":undefined}],40:[function(require,module,exports){
+},{"promise":undefined}],41:[function(require,module,exports){
 module.exports = function (SourceMapOutput, environment) {
 
     var SourceMapBuilder = function (options) {
@@ -5021,7 +5045,7 @@ module.exports = function (SourceMapOutput, environment) {
     return SourceMapBuilder;
 };
 
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 module.exports = function (environment) {
 
     var SourceMapOutput = function (options) {
@@ -5161,7 +5185,7 @@ module.exports = function (environment) {
     return SourceMapOutput;
 };
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 var contexts = require("./contexts"),
     visitor = require("./visitors"),
     tree = require("./tree");
@@ -5236,7 +5260,7 @@ module.exports = function(root, options) {
     return evaldRoot;
 };
 
-},{"./contexts":10,"./tree":60,"./visitors":85}],43:[function(require,module,exports){
+},{"./contexts":10,"./tree":61,"./visitors":86}],44:[function(require,module,exports){
 var Node = require("./node");
 
 var Alpha = function (val) {
@@ -5266,20 +5290,21 @@ Alpha.prototype.genCSS = function (context, output) {
 
 module.exports = Alpha;
 
-},{"./node":68}],44:[function(require,module,exports){
+},{"./node":69}],45:[function(require,module,exports){
 var Node = require("./node");
 
-var Anonymous = function (value, index, currentFileInfo, mapLines, rulesetLike) {
+var Anonymous = function (value, index, currentFileInfo, mapLines, rulesetLike, referenced) {
     this.value = value;
     this.index = index;
     this.mapLines = mapLines;
     this.currentFileInfo = currentFileInfo;
     this.rulesetLike = (typeof rulesetLike === 'undefined') ? false : rulesetLike;
+    this.isReferenced = referenced || false;
 };
 Anonymous.prototype = new Node();
 Anonymous.prototype.type = "Anonymous";
 Anonymous.prototype.eval = function () {
-    return new Anonymous(this.value, this.index, this.currentFileInfo, this.mapLines, this.rulesetLike);
+    return new Anonymous(this.value, this.index, this.currentFileInfo, this.mapLines, this.rulesetLike, this.isReferenced);
 };
 Anonymous.prototype.compare = function (other) {
     return other.toCSS && this.toCSS() === other.toCSS() ? 0 : undefined;
@@ -5290,9 +5315,16 @@ Anonymous.prototype.isRulesetLike = function() {
 Anonymous.prototype.genCSS = function (context, output) {
     output.add(this.value, this.currentFileInfo, this.index, this.mapLines);
 };
+Anonymous.prototype.markReferenced = function () {
+    this.isReferenced = true;
+};
+Anonymous.prototype.getIsReferenced = function () {
+    return !this.currentFileInfo || !this.currentFileInfo.reference || this.isReferenced;
+};
+
 module.exports = Anonymous;
 
-},{"./node":68}],45:[function(require,module,exports){
+},{"./node":69}],46:[function(require,module,exports){
 var Node = require("./node");
 
 var Assignment = function (key, val) {
@@ -5321,7 +5353,7 @@ Assignment.prototype.genCSS = function (context, output) {
 };
 module.exports = Assignment;
 
-},{"./node":68}],46:[function(require,module,exports){
+},{"./node":69}],47:[function(require,module,exports){
 var Node = require("./node");
 
 var Attribute = function (key, op, value) {
@@ -5350,7 +5382,7 @@ Attribute.prototype.toCSS = function (context) {
 };
 module.exports = Attribute;
 
-},{"./node":68}],47:[function(require,module,exports){
+},{"./node":69}],48:[function(require,module,exports){
 var Node = require("./node"),
     FunctionCaller = require("../functions/function-caller");
 //
@@ -5414,14 +5446,14 @@ Call.prototype.genCSS = function (context, output) {
 };
 module.exports = Call;
 
-},{"../functions/function-caller":20,"./node":68}],48:[function(require,module,exports){
+},{"../functions/function-caller":20,"./node":69}],49:[function(require,module,exports){
 var Node = require("./node"),
     colors = require("../data/colors");
 
 //
 // RGB Colors - #ff0014, #eee
 //
-var Color = function (rgb, a) {
+var Color = function (rgb, a, originalForm) {
     //
     // The end goal here, is to parse the arguments
     // into an integer triplet, such as `128, 255, 0`
@@ -5440,6 +5472,9 @@ var Color = function (rgb, a) {
         });
     }
     this.alpha = typeof a === 'number' ? a : 1;
+    if (typeof originalForm !== 'undefined') {
+        this.value = originalForm;
+    }
 };
 
 Color.prototype = new Node();
@@ -5602,7 +5637,7 @@ Color.fromKeyword = function(keyword) {
 };
 module.exports = Color;
 
-},{"../data/colors":11,"./node":68}],49:[function(require,module,exports){
+},{"../data/colors":11,"./node":69}],50:[function(require,module,exports){
 var Node = require("./node");
 
 var Combinator = function (value) {
@@ -5627,7 +5662,7 @@ Combinator.prototype.genCSS = function (context, output) {
 };
 module.exports = Combinator;
 
-},{"./node":68}],50:[function(require,module,exports){
+},{"./node":69}],51:[function(require,module,exports){
 var Node = require("./node"),
     getDebugInfo = require("./debug-info");
 
@@ -5654,7 +5689,7 @@ Comment.prototype.markReferenced = function () {
 };
 module.exports = Comment;
 
-},{"./debug-info":52,"./node":68}],51:[function(require,module,exports){
+},{"./debug-info":53,"./node":69}],52:[function(require,module,exports){
 var Node = require("./node");
 
 var Condition = function (op, l, r, i, negate) {
@@ -5693,7 +5728,7 @@ Condition.prototype.eval = function (context) {
 };
 module.exports = Condition;
 
-},{"./node":68}],52:[function(require,module,exports){
+},{"./node":69}],53:[function(require,module,exports){
 var debugInfo = function(context, ctx, lineSeparator) {
     var result = "";
     if (context.dumpLineNumbers && !context.compress) {
@@ -5733,7 +5768,7 @@ debugInfo.asMediaQuery = function(ctx) {
 
 module.exports = debugInfo;
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 var Node = require("./node"),
     contexts = require("../contexts");
 
@@ -5756,7 +5791,7 @@ DetachedRuleset.prototype.callEval = function (context) {
 };
 module.exports = DetachedRuleset;
 
-},{"../contexts":10,"./node":68}],54:[function(require,module,exports){
+},{"../contexts":10,"./node":69}],55:[function(require,module,exports){
 var Node = require("./node"),
     unitConversions = require("../data/unit-conversions"),
     Unit = require("./unit"),
@@ -5915,7 +5950,7 @@ Dimension.prototype.convertTo = function (conversions) {
 };
 module.exports = Dimension;
 
-},{"../data/unit-conversions":13,"./color":48,"./node":68,"./unit":77}],55:[function(require,module,exports){
+},{"../data/unit-conversions":13,"./color":49,"./node":69,"./unit":78}],56:[function(require,module,exports){
 var Node = require("./node"),
     Selector = require("./selector"),
     Ruleset = require("./ruleset");
@@ -6065,7 +6100,7 @@ Directive.prototype.outputRuleset = function (context, output, rules) {
 };
 module.exports = Directive;
 
-},{"./node":68,"./ruleset":74,"./selector":75}],56:[function(require,module,exports){
+},{"./node":69,"./ruleset":75,"./selector":76}],57:[function(require,module,exports){
 var Node = require("./node"),
     Paren = require("./paren"),
     Combinator = require("./combinator");
@@ -6120,7 +6155,7 @@ Element.prototype.toCSS = function (context) {
 };
 module.exports = Element;
 
-},{"./combinator":49,"./node":68,"./paren":70}],57:[function(require,module,exports){
+},{"./combinator":50,"./node":69,"./paren":71}],58:[function(require,module,exports){
 var Node = require("./node"),
     Paren = require("./paren"),
     Comment = require("./comment");
@@ -6176,9 +6211,14 @@ Expression.prototype.throwAwayComments = function () {
         return !(v instanceof Comment);
     });
 };
+Expression.prototype.markReferenced = function () {
+    this.value.forEach(function (value) {
+        if (value.markReferenced) { value.markReferenced(); }
+    });
+};
 module.exports = Expression;
 
-},{"./comment":50,"./node":68,"./paren":70}],58:[function(require,module,exports){
+},{"./comment":51,"./node":69,"./paren":71}],59:[function(require,module,exports){
 var Node = require("./node");
 
 var Extend = function Extend(selector, option, index) {
@@ -6231,7 +6271,7 @@ Extend.prototype.findSelfSelectors = function (selectors) {
 };
 module.exports = Extend;
 
-},{"./node":68}],59:[function(require,module,exports){
+},{"./node":69}],60:[function(require,module,exports){
 var Node = require("./node"),
     Media = require("./media"),
     URL = require("./url"),
@@ -6362,7 +6402,12 @@ Import.prototype.eval = function (context) {
     }
 
     if (this.options.inline) {
-        var contents = new Anonymous(this.root, 0, {filename: this.importedFilename}, true, true);
+        var contents = new Anonymous(this.root, 0,
+          {
+              filename: this.importedFilename,
+              reference: this.path.currentFileInfo && this.path.currentFileInfo.reference
+          }, true, true, false);
+
         return this.features ? new Media([contents], this.features.value) : [contents];
     } else if (this.css) {
         var newImport = new Import(this.evalPath(context), features, this.options, this.index);
@@ -6380,7 +6425,7 @@ Import.prototype.eval = function (context) {
 };
 module.exports = Import;
 
-},{"./anonymous":44,"./media":64,"./node":68,"./quoted":71,"./ruleset":74,"./url":78}],60:[function(require,module,exports){
+},{"./anonymous":45,"./media":65,"./node":69,"./quoted":72,"./ruleset":75,"./url":79}],61:[function(require,module,exports){
 var tree = {};
 
 tree.Node = require('./node');
@@ -6423,7 +6468,7 @@ tree.RulesetCall = require('./ruleset-call');
 
 module.exports = tree;
 
-},{"./alpha":43,"./anonymous":44,"./assignment":45,"./attribute":46,"./call":47,"./color":48,"./combinator":49,"./comment":50,"./condition":51,"./detached-ruleset":53,"./dimension":54,"./directive":55,"./element":56,"./expression":57,"./extend":58,"./import":59,"./javascript":61,"./keyword":63,"./media":64,"./mixin-call":65,"./mixin-definition":66,"./negative":67,"./node":68,"./operation":69,"./paren":70,"./quoted":71,"./rule":72,"./ruleset":74,"./ruleset-call":73,"./selector":75,"./unicode-descriptor":76,"./unit":77,"./url":78,"./value":79,"./variable":80}],61:[function(require,module,exports){
+},{"./alpha":44,"./anonymous":45,"./assignment":46,"./attribute":47,"./call":48,"./color":49,"./combinator":50,"./comment":51,"./condition":52,"./detached-ruleset":54,"./dimension":55,"./directive":56,"./element":57,"./expression":58,"./extend":59,"./import":60,"./javascript":62,"./keyword":64,"./media":65,"./mixin-call":66,"./mixin-definition":67,"./negative":68,"./node":69,"./operation":70,"./paren":71,"./quoted":72,"./rule":73,"./ruleset":75,"./ruleset-call":74,"./selector":76,"./unicode-descriptor":77,"./unit":78,"./url":79,"./value":80,"./variable":81}],62:[function(require,module,exports){
 var JsEvalNode = require("./js-eval-node"),
     Dimension = require("./dimension"),
     Quoted = require("./quoted"),
@@ -6453,7 +6498,7 @@ JavaScript.prototype.eval = function(context) {
 
 module.exports = JavaScript;
 
-},{"./anonymous":44,"./dimension":54,"./js-eval-node":62,"./quoted":71}],62:[function(require,module,exports){
+},{"./anonymous":45,"./dimension":55,"./js-eval-node":63,"./quoted":72}],63:[function(require,module,exports){
 var Node = require("./node"),
     Variable = require("./variable");
 
@@ -6516,7 +6561,7 @@ JsEvalNode.prototype.jsify = function (obj) {
 
 module.exports = JsEvalNode;
 
-},{"./node":68,"./variable":80}],63:[function(require,module,exports){
+},{"./node":69,"./variable":81}],64:[function(require,module,exports){
 var Node = require("./node");
 
 var Keyword = function (value) { this.value = value; };
@@ -6532,7 +6577,7 @@ Keyword.False = new Keyword('false');
 
 module.exports = Keyword;
 
-},{"./node":68}],64:[function(require,module,exports){
+},{"./node":69}],65:[function(require,module,exports){
 var Ruleset = require("./ruleset"),
     Value = require("./value"),
     Selector = require("./selector"),
@@ -6676,7 +6721,7 @@ Media.prototype.bubbleSelectors = function (selectors) {
 };
 module.exports = Media;
 
-},{"./anonymous":44,"./directive":55,"./expression":57,"./ruleset":74,"./selector":75,"./value":79}],65:[function(require,module,exports){
+},{"./anonymous":45,"./directive":56,"./expression":58,"./ruleset":75,"./selector":76,"./value":80}],66:[function(require,module,exports){
 var Node = require("./node"),
     Selector = require("./selector"),
     MixinDefinition = require("./mixin-definition"),
@@ -6684,7 +6729,7 @@ var Node = require("./node"),
 
 var MixinCall = function (elements, args, index, currentFileInfo, important) {
     this.selector = new Selector(elements);
-    this.arguments = (args && args.length) ? args : null;
+    this.arguments = args || [];
     this.index = index;
     this.currentFileInfo = currentFileInfo;
     this.important = important;
@@ -6695,17 +6740,18 @@ MixinCall.prototype.accept = function (visitor) {
     if (this.selector) {
         this.selector = visitor.visit(this.selector);
     }
-    if (this.arguments) {
+    if (this.arguments.length) {
         this.arguments = visitor.visitArray(this.arguments);
     }
 };
 MixinCall.prototype.eval = function (context) {
-    var mixins, mixin, mixinPath, args, rules = [], match = false, i, m, f, isRecursive, isOneFound, rule,
+    var mixins, mixin, mixinPath, args = [], arg, argValue,
+        rules = [], rule, match = false, i, m, f, isRecursive, isOneFound,
         candidates = [], candidate, conditionResult = [], defaultResult, defFalseEitherCase = -1,
         defNone = 0, defTrue = 1, defFalse = 2, count, originalRuleset, noArgumentsFilter;
 
     function calcDefGroup(mixin, mixinPath) {
-        var p, namespace;
+        var f, p, namespace;
 
         for (f = 0; f < 2; f++) {
             conditionResult[f] = true;
@@ -6731,9 +6777,18 @@ MixinCall.prototype.eval = function (context) {
         return defFalseEitherCase;
     }
 
-    args = this.arguments && this.arguments.map(function (a) {
-        return { name: a.name, value: a.value.eval(context) };
-    });
+    for (i = 0; i < this.arguments.length; i++) {
+        arg = this.arguments[i];
+        argValue = arg.value.eval(context);
+        if (arg.expand && Array.isArray(argValue.value)) {
+            argValue = argValue.value;
+            for (m = 0; m < argValue.length; m++) {
+                args.push({value: argValue[m]});
+            }
+        } else {
+            args.push({name: arg.name, value: argValue});
+        }
+    }
 
     noArgumentsFilter = function(rule) {return rule.matchArgs(null, context);};
 
@@ -6847,7 +6902,7 @@ MixinCall.prototype.format = function (args) {
 };
 module.exports = MixinCall;
 
-},{"../functions/default":19,"./mixin-definition":66,"./node":68,"./selector":75}],66:[function(require,module,exports){
+},{"../functions/default":19,"./mixin-definition":67,"./node":69,"./selector":76}],67:[function(require,module,exports){
 var Selector = require("./selector"),
     Element = require("./element"),
     Ruleset = require("./ruleset"),
@@ -6864,14 +6919,17 @@ var Definition = function (name, params, rules, condition, variadic, frames) {
     this.arity = params.length;
     this.rules = rules;
     this._lookups = {};
+    var optionalParameters = [];
     this.required = params.reduce(function (count, p) {
         if (!p.name || (p.name && !p.value)) {
             return count + 1;
         }
         else {
+            optionalParameters.push(p.name);
             return count;
         }
     }, 0);
+    this.optionalParameters = optionalParameters;
     this.frames = frames;
 };
 Definition.prototype = new Ruleset();
@@ -7002,29 +7060,37 @@ Definition.prototype.matchCondition = function (args, context) {
         new contexts.Eval(context,
             [this.evalParams(context, /* the parameter variables*/
                 new contexts.Eval(context, this.frames ? this.frames.concat(context.frames) : context.frames), args, [])]
-            .concat(this.frames) // the parent namespace/mixin frames
+            .concat(this.frames || []) // the parent namespace/mixin frames
             .concat(context.frames)))) { // the current environment frames
         return false;
     }
     return true;
 };
 Definition.prototype.matchArgs = function (args, context) {
-    var argsLength = (args && args.length) || 0, len;
+    var allArgsCnt = (args && args.length) || 0, len, optionalParameters = this.optionalParameters;
+    var requiredArgsCnt = !args ? 0 : args.reduce(function (count, p) {
+        if (optionalParameters.indexOf(p.name) < 0) {
+            return count + 1;
+        } else {
+            return count;
+        }
+    }, 0);
 
     if (! this.variadic) {
-        if (argsLength < this.required) {
+        if (requiredArgsCnt < this.required) {
             return false;
         }
-        if (argsLength > this.params.length) {
+        if (allArgsCnt > this.params.length) {
             return false;
         }
     } else {
-        if (argsLength < (this.required - 1)) {
+        if (requiredArgsCnt < (this.required - 1)) {
             return false;
         }
     }
 
-    len = Math.min(argsLength, this.arity);
+    // check patterns
+    len = Math.min(requiredArgsCnt, this.arity);
 
     for (var i = 0; i < len; i++) {
         if (!this.params[i].name && !this.params[i].variadic) {
@@ -7037,7 +7103,7 @@ Definition.prototype.matchArgs = function (args, context) {
 };
 module.exports = Definition;
 
-},{"../contexts":10,"./element":56,"./expression":57,"./rule":72,"./ruleset":74,"./selector":75}],67:[function(require,module,exports){
+},{"../contexts":10,"./element":57,"./expression":58,"./rule":73,"./ruleset":75,"./selector":76}],68:[function(require,module,exports){
 var Node = require("./node"),
     Operation = require("./operation"),
     Dimension = require("./dimension");
@@ -7059,7 +7125,7 @@ Negative.prototype.eval = function (context) {
 };
 module.exports = Negative;
 
-},{"./dimension":54,"./node":68,"./operation":69}],68:[function(require,module,exports){
+},{"./dimension":55,"./node":69,"./operation":70}],69:[function(require,module,exports){
 var Node = function() {
 };
 Node.prototype.toCSS = function (context) {
@@ -7135,7 +7201,7 @@ Node.numericCompare = function (a, b) {
 };
 module.exports = Node;
 
-},{}],69:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 var Node = require("./node"),
     Color = require("./color"),
     Dimension = require("./dimension");
@@ -7185,7 +7251,7 @@ Operation.prototype.genCSS = function (context, output) {
 
 module.exports = Operation;
 
-},{"./color":48,"./dimension":54,"./node":68}],70:[function(require,module,exports){
+},{"./color":49,"./dimension":55,"./node":69}],71:[function(require,module,exports){
 var Node = require("./node");
 
 var Paren = function (node) {
@@ -7203,7 +7269,7 @@ Paren.prototype.eval = function (context) {
 };
 module.exports = Paren;
 
-},{"./node":68}],71:[function(require,module,exports){
+},{"./node":69}],72:[function(require,module,exports){
 var Node = require("./node"),
     JsEvalNode = require("./js-eval-node"),
     Variable = require("./variable");
@@ -7260,7 +7326,7 @@ Quoted.prototype.compare = function (other) {
 };
 module.exports = Quoted;
 
-},{"./js-eval-node":62,"./node":68,"./variable":80}],72:[function(require,module,exports){
+},{"./js-eval-node":63,"./node":69,"./variable":81}],73:[function(require,module,exports){
 var Node = require("./node"),
     Value = require("./value"),
     Keyword = require("./keyword");
@@ -7355,9 +7421,26 @@ Rule.prototype.makeImportant = function () {
                           this.index, this.currentFileInfo, this.inline);
 };
 
-module.exports = Rule;
+// Recursive marking for rules
+var mark = function(value) {
+    if (!Array.isArray(value)) {
+        if (value.markReferenced) {
+            value.markReferenced();
+        }
+    } else {
+        value.forEach(function (ar) {
+            mark(ar);
+        });
+    }
+};
+Rule.prototype.markReferenced = function () {
+    if (this.value) {
+        mark(this.value);
+    }
+};
 
-},{"./keyword":63,"./node":68,"./value":79}],73:[function(require,module,exports){
+module.exports = Rule;
+},{"./keyword":64,"./node":69,"./value":80}],74:[function(require,module,exports){
 var Node = require("./node"),
     Variable = require("./variable");
 
@@ -7372,7 +7455,7 @@ RulesetCall.prototype.eval = function (context) {
 };
 module.exports = RulesetCall;
 
-},{"./node":68,"./variable":80}],74:[function(require,module,exports){
+},{"./node":69,"./variable":81}],75:[function(require,module,exports){
 var Node = require("./node"),
     Rule = require("./rule"),
     Selector = require("./selector"),
@@ -7630,7 +7713,7 @@ Ruleset.prototype.variable = function (name) {
     return this.variables()[name];
 };
 Ruleset.prototype.rulesets = function () {
-    if (!this.rules) { return null; }
+    if (!this.rules) { return []; }
 
     var filtRules = [], rules = this.rules, cnt = rules.length,
         i, rule;
@@ -8101,7 +8184,7 @@ Ruleset.prototype.joinSelector = function (paths, context, selector) {
 };
 module.exports = Ruleset;
 
-},{"../contexts":10,"../functions/default":19,"../functions/function-registry":21,"./debug-info":52,"./element":56,"./node":68,"./paren":70,"./rule":72,"./selector":75}],75:[function(require,module,exports){
+},{"../contexts":10,"../functions/default":19,"../functions/function-registry":21,"./debug-info":53,"./element":57,"./node":69,"./paren":71,"./rule":73,"./selector":76}],76:[function(require,module,exports){
 var Node = require("./node"),
     Element = require("./element");
 
@@ -8219,7 +8302,7 @@ Selector.prototype.getIsOutput = function() {
 };
 module.exports = Selector;
 
-},{"./element":56,"./node":68}],76:[function(require,module,exports){
+},{"./element":57,"./node":69}],77:[function(require,module,exports){
 var Node = require("./node");
 
 var UnicodeDescriptor = function (value) {
@@ -8230,7 +8313,7 @@ UnicodeDescriptor.prototype.type = "UnicodeDescriptor";
 
 module.exports = UnicodeDescriptor;
 
-},{"./node":68}],77:[function(require,module,exports){
+},{"./node":69}],78:[function(require,module,exports){
 var Node = require("./node"),
     unitConversions = require("../data/unit-conversions");
 
@@ -8352,7 +8435,7 @@ Unit.prototype.cancel = function () {
 };
 module.exports = Unit;
 
-},{"../data/unit-conversions":13,"./node":68}],78:[function(require,module,exports){
+},{"../data/unit-conversions":13,"./node":69}],79:[function(require,module,exports){
 var Node = require("./node");
 
 var URL = function (val, index, currentFileInfo, isEvald) {
@@ -8408,7 +8491,7 @@ URL.prototype.eval = function (context) {
 };
 module.exports = URL;
 
-},{"./node":68}],79:[function(require,module,exports){
+},{"./node":69}],80:[function(require,module,exports){
 var Node = require("./node");
 
 var Value = function (value) {
@@ -8444,7 +8527,7 @@ Value.prototype.genCSS = function (context, output) {
 };
 module.exports = Value;
 
-},{"./node":68}],80:[function(require,module,exports){
+},{"./node":69}],81:[function(require,module,exports){
 var Node = require("./node");
 
 var Variable = function (name, index, currentFileInfo) {
@@ -8499,7 +8582,7 @@ Variable.prototype.find = function (obj, fun) {
 };
 module.exports = Variable;
 
-},{"./node":68}],81:[function(require,module,exports){
+},{"./node":69}],82:[function(require,module,exports){
 module.exports = {
     getLocation: function(index, inputStream) {
         var n = index + 1,
@@ -8521,7 +8604,7 @@ module.exports = {
     }
 };
 
-},{}],82:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 var tree = require("../tree"),
     Visitor = require("./visitor"),
     logger = require("../logger");
@@ -8974,7 +9057,7 @@ ProcessExtendsVisitor.prototype = {
 
 module.exports = ProcessExtendsVisitor;
 
-},{"../logger":31,"../tree":60,"./visitor":88}],83:[function(require,module,exports){
+},{"../logger":32,"../tree":61,"./visitor":89}],84:[function(require,module,exports){
 function ImportSequencer(onSequencerEmpty) {
     this.imports = [];
     this.variableImports = [];
@@ -9030,7 +9113,7 @@ ImportSequencer.prototype.tryRun = function() {
 
 module.exports = ImportSequencer;
 
-},{}],84:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 var contexts = require("../contexts"),
     Visitor = require("./visitor"),
     ImportSequencer = require("./import-sequencer");
@@ -9137,6 +9220,7 @@ ImportVisitor.prototype = {
         var importVisitor = this,
             inlineCSS = importNode.options.inline,
             isPlugin = importNode.options.plugin,
+            isOptional = importNode.options.optional,
             duplicateImport = importedAtRoot || fullPath in importVisitor.recursionDetector;
 
         if (!context.importMultiple) {
@@ -9151,6 +9235,10 @@ ImportVisitor.prototype = {
                     return false;
                 };
             }
+        }
+
+        if (!fullPath && isOptional) {
+            importNode.skip = true;
         }
 
         if (root) {
@@ -9216,7 +9304,7 @@ ImportVisitor.prototype = {
 };
 module.exports = ImportVisitor;
 
-},{"../contexts":10,"./import-sequencer":83,"./visitor":88}],85:[function(require,module,exports){
+},{"../contexts":10,"./import-sequencer":84,"./visitor":89}],86:[function(require,module,exports){
 var visitors = {
     Visitor: require("./visitor"),
     ImportVisitor: require('./import-visitor'),
@@ -9227,7 +9315,7 @@ var visitors = {
 
 module.exports = visitors;
 
-},{"./extend-visitor":82,"./import-visitor":84,"./join-selector-visitor":86,"./to-css-visitor":87,"./visitor":88}],86:[function(require,module,exports){
+},{"./extend-visitor":83,"./import-visitor":85,"./join-selector-visitor":87,"./to-css-visitor":88,"./visitor":89}],87:[function(require,module,exports){
 var Visitor = require("./visitor");
 
 var JoinSelectorVisitor = function() {
@@ -9280,7 +9368,7 @@ JoinSelectorVisitor.prototype = {
 
 module.exports = JoinSelectorVisitor;
 
-},{"./visitor":88}],87:[function(require,module,exports){
+},{"./visitor":89}],88:[function(require,module,exports){
 var tree = require("../tree"),
     Visitor = require("./visitor");
 
@@ -9577,12 +9665,21 @@ ToCSSVisitor.prototype = {
                 rule.value = toValue(spacedGroups);
             }
         });
+    },
+
+    visitAnonymous: function(anonymousNode, visitArgs) {
+        if (!anonymousNode.getIsReferenced()) {
+            return ;
+        }
+
+        anonymousNode.accept(this._visitor);
+        return anonymousNode;
     }
 };
 
 module.exports = ToCSSVisitor;
 
-},{"../tree":60,"./visitor":88}],88:[function(require,module,exports){
+},{"../tree":61,"./visitor":89}],89:[function(require,module,exports){
 var tree = require("../tree");
 
 var _visitArgs = { visitDeeper: true },
@@ -9736,7 +9833,7 @@ Visitor.prototype = {
 };
 module.exports = Visitor;
 
-},{"../tree":60}],89:[function(require,module,exports){
+},{"../tree":61}],90:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -9796,7 +9893,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],90:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 'use strict';
 
 var asap = require('asap')
@@ -9903,7 +10000,7 @@ function doResolve(fn, onFulfilled, onRejected) {
   }
 }
 
-},{"asap":92}],91:[function(require,module,exports){
+},{"asap":93}],92:[function(require,module,exports){
 'use strict';
 
 //This file contains the ES6 extensions to the core Promises/A+ API
@@ -10013,7 +10110,7 @@ Promise.prototype['catch'] = function (onRejected) {
   return this.then(null, onRejected);
 }
 
-},{"./core.js":90,"asap":92}],92:[function(require,module,exports){
+},{"./core.js":91,"asap":93}],93:[function(require,module,exports){
 (function (process){
 
 // Use the fastest possible means to execute a task in a future turn
@@ -10130,7 +10227,7 @@ module.exports = asap;
 
 
 }).call(this,require('_process'))
-},{"_process":89}],93:[function(require,module,exports){
+},{"_process":90}],94:[function(require,module,exports){
 // should work in any browser without browserify
 
 if (typeof Promise.prototype.done !== 'function') {
@@ -10143,7 +10240,7 @@ if (typeof Promise.prototype.done !== 'function') {
     })
   }
 }
-},{}],94:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 // not "use strict" so we can declare global "Promise"
 
 var asap = require('asap');
@@ -10155,5 +10252,5 @@ if (typeof Promise === 'undefined') {
 
 require('./polyfill-done.js');
 
-},{"./lib/core.js":90,"./lib/es6-extensions.js":91,"./polyfill-done.js":93,"asap":92}]},{},[2])(2)
+},{"./lib/core.js":91,"./lib/es6-extensions.js":92,"./polyfill-done.js":94,"asap":93}]},{},[2])(2)
 });
