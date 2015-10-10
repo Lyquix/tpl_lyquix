@@ -24,6 +24,8 @@ This is intended to be the foundation for developers that build custom templates
 
   * Sets meta viewport
   * Use MobileDetect to identify if the visitor is using a mobile device, and whether it is a tablet or phone, and adds classes to the body tag
+  * Detection can be set to be done server-side (PHP) or client-side (JS)
+  * A JS object lqx.mobileDetect is created with the result of mobile detection
   * Responsive and fluid: in the documentation you can find more information about our approach to responsive and fluid design
   * Sets mobile icons
 
@@ -48,6 +50,7 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Incorporates 6 icon libraries: FontAwesome, IcoMoon, IonIcons, MapIcons, TypIcons and WeatherIcons, using consistent classes and allowing for LESS mixings everywhere
   * 7-row, 6-column base layout provides a very good starting point for any design
   * Utility functions for creating the structure and base functionality of menus
+  * Allows adding custom CSS libraries from template settings
 
 ###Javascript###
 
