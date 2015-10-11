@@ -10,10 +10,10 @@ After the initial installation you should see an error in the frontend that read
 
 Based on your design you need to select if you want to use 4, 5 or 6 block structure. If you don't know which one to use start with 4. You can change it later. You need to copy some of the base LESS files in the `css/less` directory into the `css/less/custom` directory and rename them, as follows:
 
-`04-blocks-downsized4.less` to `04-blocks-downsized.less`
-`04-blocks-fluid4.less` to `04-blocks-fluid.less`
-`04-blocks-size4.less` to `04-blocks-size.less`
-`11-responsive-container4.less` to `11-responsive-container.less`
+  * `04-blocks-downsized4.less` to `04-blocks-downsized.less`
+  * `04-blocks-fluid4.less` to `04-blocks-fluid.less`
+  * `04-blocks-size4.less` to `04-blocks-size.less`
+  * `11-responsive-container4.less` to `11-responsive-container.less`
 
 After you have these files in the `css/less/custom` folder you can compile the file `css/styles.less` into `css/styles.css`.
 
