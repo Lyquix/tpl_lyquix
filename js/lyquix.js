@@ -389,12 +389,16 @@ var lqx = lqx || {
 								// prevent default
 								e.preventDefault ? e.preventDefault() : e.returnValue = !1;
 								var url = elem.href;
+								var label = url;
+								if(jQuery(elem).attr('title')) {
+									label = jQuery(elem).attr('title') + ' [' + url + ']';
+								}
 								var target = (elem.target && !elem.target.match(/^_(self|parent|top)$/i)) ? elem.target : false;
 								ga('send', {
 									'hitType': 'event', 
 									'eventCategory' : 'Outbound Links',
 									'eventAction' : 'click',
-									'eventLabel' : url,
+									'eventLabel' : label,
 									'nonInteraction' : true,
 									'hitCallback' : function(){ target ? window.open(url, target) : window.location.href = url; }
 								});
@@ -410,11 +414,15 @@ var lqx = lqx || {
 								var target = (elem.target && !elem.target.match(/^_(self|parent|top)$/i)) ? elem.target : false;
 								var loc = elem.protocol + '//' + elem.hostname + elem.pathname + elem.search;
 								var page = elem.pathname + elem.search;
+								var title = 'Download: ' + page;
+								if(jQuery(elem).attr('title')) {
+									title = jQuery(elem).attr('title');
+								}
 								ga('send', {
 									'hitType': 'pageview', 
 									'location' : loc,
 									'page' : page,
-									'title' : 'Download: ' + page,
+									'title' : title,
 									'hitCallback' : function(){ target ? window.open(url, target) : window.location.href = url; }
 								});
 							});
