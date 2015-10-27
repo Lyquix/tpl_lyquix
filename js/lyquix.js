@@ -188,40 +188,44 @@ var lqx = lqx || {
 		
 		jQuery('.equalheightrow').each(function(){
 			
-			el = jQuery(this);
-			
-			// there may be images waiting to load, in that case wait a little and try again
-			jQuery(el).find('img').each(function(){
-				if(this.complete != true || this.naturalWidth == 0) {
-					// the image is not loaded yet or there was an error
-					if(typeof jQuery(this).attr('error') == 'undefined'){
-						// if there isn't an error, means the image has not completed loading
-						loadComplete = false;
+			if(jQuery(el).css('display') != 'none') {
+				
+				el = jQuery(this);
+				
+				// there may be images waiting to load, in that case wait a little and try again
+				jQuery(el).find('img').each(function(){
+					if(this.complete != true || this.naturalWidth == 0) {
+						// the image is not loaded yet or there was an error
+						if(typeof jQuery(this).attr('error') == 'undefined'){
+							// if there isn't an error, means the image has not completed loading
+							loadComplete = false;
+						}
 					}
-				}
-			}).promise().done(function(){
-				// if all images completed or on error
-				if(loadComplete){
-					el.height('auto')
-					topPostion = el.position().top;
-					
-					if (currentRowStart != topPostion) {
+				}).promise().done(function(){
+					// if all images completed or on error
+					if(loadComplete){
+						el.height('auto')
+						topPostion = el.position().top;
+						
+						if (currentRowStart != topPostion) {
+							for (currentDiv = 0; currentDiv < rowDivs.length; currentDiv++) {
+								rowDivs[currentDiv].height(currentTallest);
+							}
+							rowDivs.length = 0; // empty the array
+							currentRowStart = topPostion;
+							currentTallest = el.height();
+							rowDivs.push(el);
+						} else {
+							rowDivs.push(el);
+							currentTallest = (currentTallest < el.height()) ? (el.height()) : (currentTallest);
+						}
 						for (currentDiv = 0; currentDiv < rowDivs.length; currentDiv++) {
 							rowDivs[currentDiv].height(currentTallest);
 						}
-						rowDivs.length = 0; // empty the array
-						currentRowStart = topPostion;
-						currentTallest = el.height();
-						rowDivs.push(el);
-					} else {
-						rowDivs.push(el);
-						currentTallest = (currentTallest < el.height()) ? (el.height()) : (currentTallest);
 					}
-					for (currentDiv = 0; currentDiv < rowDivs.length; currentDiv++) {
-						rowDivs[currentDiv].height(currentTallest);
-					}
-				}
-			});
+				});
+				
+			}
 			
 		}).promise().done(function(){
 			// still waiting for some images to load, try again in 0.25secs
