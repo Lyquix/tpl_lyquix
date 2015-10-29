@@ -5,12 +5,8 @@ Desktop.ini
 
 # gitignore for tpl_lyquix
 /*.log
-/custom-component.php
-/custom-component-body.php
-/custom-error.php
-/custom-error-body.php
-/custom-index.php
-/custom-index-body.php
+/component-custom.php
+/index-custom.php
 /css/*
 !/css/ie8-alert.css
 !/css/css-stylesheet.html
@@ -22,9 +18,11 @@ Desktop.ini
 !/css/template.less
 !/css/less/
 /css/less/custom/*
+!/css/less/custom/custom.dist.less
 !/css/less/custom/index.html
 /images/*
 !/images/index.html
 !/images/ie8-alert.gif
 !/images/default/
 /js/scripts.js
+/js/scripts.min.js
