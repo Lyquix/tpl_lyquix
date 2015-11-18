@@ -19,7 +19,6 @@ a {
 	color: @color-link;
 	text-decoration: none;
 	outline: none;
-	font-family: @font-link;
 	
 	&:hover {
 		color: @color-link-hover;
@@ -83,37 +82,6 @@ input,textarea,select {
 input[type=checkbox],input[type=file],input[type=image],input[type=radio] {
 	background-color:transparent;
 	border-color: transparent;
-}
-input[type=checkbox], input[type=radio] {
-	visibility: hidden;
-	width: @icon-font-size;
-	height: @icon-font-size;
-}
-input[type=checkbox]:after, input[type=radio]:after,
-input[type=checkbox]:checked:after, input[type=radio]:checked:after {
-	visibility: visible;
-	display: inline-block;
-	.icon();
-}
-input[type=checkbox]:after {
-	font-family: 'IcoMoon';
-	content: '\ea53';
-	color: @color-checkbox;
-}
-input[type=radio]:after {
-	font-family: 'IcoMoon';
-	content: '\ea56';
-	color: @color-radio;
-}
-input[type=checkbox]:checked:after {
-	font-family: 'IcoMoon';
-	content: '\ea52';
-	color: @color-checkbox-checked;
-}
-input[type=radio]:checked:after {
-	font-family: 'IcoMoon';
-	content: '\ea54';
-	color: @color-radio-checked;
 }
 input:disabled,textarea:disabled,select:disabled {
 	background-color: @gray-lighter;
@@ -205,5 +173,5 @@ ul, ol {
 	padding-left: 1.5em;
 }
 li {
-	margin-bottom: 0.67em;
+	margin: 0.67em 0;
 }
