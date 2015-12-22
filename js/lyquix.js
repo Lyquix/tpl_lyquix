@@ -165,17 +165,33 @@ var lqx = lqx || {
 	browserFixes : function(){
 		switch(lqx.getBrowser) {
 			
-			// fix for google fonts not rendering in IE10/11
-			case 'MSIE 10':
-			case 'MSIE 11':
 			case 'IE 10':
 			case 'IE 11':
+			case 'MSIE 10':
+			case 'MSIE 11':
+				// fix for google fonts not rendering in IE10/11
 				jQuery('html').css('font-feature-settings', 'normal');
 				break;
-				
+		}
+		// adds width value to img elements that don't have one
+		if(lqx.getBrowser.indexOf('IE ') == 0 || lqx.getBrowser.indexOf('MSIE ') == 0) {
+			jQuery('img').each(function(){
+				if(jQuery(this).attr('width') == undefined) {
+					jQuery(this).attr('width', '100%');
+				}
+			});
+		}
+		// replaced svg imager for pngs in IE8
+		if(lqx.getBrowser == 'IE 8' || lqx.getBrowser == 'MSIE 8') {
+			jQuery('img').each(function(){
+				src = jQuery(this).attr('src');
+				if(/\.svg$/i.test (src)) {
+					jQuery(this).attr('src', src.replace('.svg', '.png')); 
+				}
+			});
 		}
 	},
-	
+
 	// equalHeightRows
 	// makes all elements in a row to be the same height
 	equalHeightRows : function() {
@@ -714,28 +730,39 @@ var lqx = lqx || {
 		});
 
 	},
-	
-	// adds a width value to img elements
-	ieImgSizeFix : function() {
-		if(lqx.getBrowser.indexOf('IE ') != -1) {
-			jQuery('img').each(function(){
-				if(jQuery(this).attr('width') == undefined) {
-					jQuery(this).attr('width', '100%');
-				}
-			});
-		}
-	},
-	
-	// replaces svg images for png in IE8
-	ie8SVGFallback : function() {
-		if(lqx.getBrowser.indexOf('IE 8') != -1) {
-			jQuery('img').each(function(){
-				src = jQuery(this).attr('src');
-				if(/\.svg$/i.test (src)) {
-					jQuery(this).attr('src', src.replace('.svg', '.png')); 
-				}
-			});
-		}
+
+	initMobileMenu : function() {
+		
+		// add listeners to A tags in mobile menu
+		jQuery('body.mobile .horizontal, body.mobile .vertical, body.mobile .slide-out').on('click', 'ul.menu a', function(e){
+			// prevent links to work until we 
+			e.preventDefault();
+			lqx.mobileMenu(this);
+		});
+
+		// prevent propagation of clicks
+		jQuery('body.mobile .horizontal, body.mobile .vertical, .slide-out').click(function(e){
+		    // do not propagate click events outside menus
+		    e.stopPropagation();
+		});
+
+		// open/close slide-out menu
+		jQuery('.slide-out .menu-control').click(function(){
+			var elem = jQuery(this).parent();
+			if(jQuery(elem).hasClass('open')) {
+				jQuery(elem).removeClass('open');
+			}
+			else {
+				jQuery(elem).addClass('open')
+			}
+		});
+
+		// when clicking outside the menus, hide the menus if visible and close the slide out menu if open
+		jQuery('body').click(function() {
+			jQuery('body.mobile .horizontal, body.mobile .vertical, body.mobile .slide-out').find('ul.menu li.open').removeClass('open');
+			jQuery('.slide-out.open').removeClass('open');
+		});
+
 	},
 	
 	mobileMenu : function(elem) {
@@ -752,7 +779,7 @@ var lqx = lqx || {
 		var li = jQuery(elem).parent();
 		var url = elem.href;
 		var target = (elem.target && !elem.target.match(/^_(self|parent|top)$/i)) ? elem.target : false;
-		var go = function(){target ? window.open(url, target) : window.location.href = url;};
+		var go = function(){ target ? window.open(url, target) : window.location.href = url; };
 		
 		// check if there is a deeper menu
 		if(jQuery(li).hasClass('deeper')) {
@@ -790,16 +817,14 @@ jQuery(document).ready(function(){
 	lqx.initLogging();	
 	// add tracking with google analytics
 	lqx.initTracking();
+	// initialize mobile menu functionality
+	lqx.initMobileMenu();
 	// set equal height rows
 	lqx.equalHeightRows();
 	// adds image captions using alt property
 	lqx.imageCaption();
 	// shows a line break symbol before br elements
 	lqx.lineBreakSymbol();
-	// ie fix for imeges when no size is provided
-	lqx.ieImgSizeFix();
-	// ie8 fix for fallback to png when svg images are used 
-	lqx.ie8SVGFallback();
 	
 	// Trigger on window resize
 	jQuery(window).resize(function() {
@@ -838,34 +863,6 @@ jQuery(document).ready(function(){
 		lqx.hangingPunctuation();
 
 	});
-	
-	// add listeners for mobile menu logic
-	jQuery('body.mobile .horizontal, body.mobile .vertical, body.mobile .slide-out').on('click', 'ul.menu a', function(e){
-		// prevent links to work until we 
-		e.preventDefault();
-		lqx.mobileMenu(this);
-	});
-	jQuery('body.mobile .horizontal, body.mobile .vertical, .slide-out').click(function(e){
-	    // do not propagate click events outside menus
-	    e.stopPropagation();
-	});
-	jQuery('.slide-out .menu-control').click(function(){
-		// open/close slide-out menu
-		var elem = jQuery(this).parent();
-		if(jQuery(elem).hasClass('open')) {
-			jQuery(elem).removeClass('open');
-		}
-		else {
-			jQuery(elem).addClass('open')
-		}
-	});
-	jQuery('body').click(function() {
-		// hide the menus if visible
-		jQuery('body.mobile .horizontal, body.mobile .vertical, body.mobile .slide-out').find('ul.menu li.open').removeClass('open');
-		// close the slide out menu if open
-		jQuery('.slide-out.open').removeClass('open');
-	});
-	
 	
 });
 
