@@ -2,11 +2,15 @@
 // --------------------------------------------------------------------
 // Sets the basic colors, typography and styles for base tags 
 
+html {
+    // browser default is 16px, this value equals to 10px for easy use of rem in the rest of document
+	font-size: 62.5%;  
+}
 body {
 	background-color: @color-bg;
 	font-family: @font-copy;
+	font-size: @font-size-base;
 	color: @color-copy;
-	font-size: @font-size-base; 
 	line-height: @line-height-base;
 }
 p {
