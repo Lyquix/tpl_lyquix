@@ -191,7 +191,16 @@ var lqx = lqx || {
 			});
 		}
 	},
-
+	
+	// init equalHeightRows
+	// add an "loaderror" attribute to images that fail to load
+	initEqualHeightRows : function() {
+		jQuery('.equalheightrow img').on('error', function(){
+			jQuery(this).attr('loaderror','');
+		});
+		lqx.equalHeightRows();
+	},
+	
 	// equalHeightRows
 	// makes all elements in a row to be the same height
 	equalHeightRows : function() {
@@ -202,54 +211,44 @@ var lqx = lqx || {
 			topPosition = 0,
 			loadComplete = true;
 		
-		jQuery('.equalheightrow').each(function(){
-			
-			if(jQuery(el).css('display') != 'none') {
+		// first, revert all elements to auto height
+		jQuery('.equalheightrow').height('auto').promise().done(function(){
+			// update heights per row
+			jQuery('.equalheightrow').each(function(){
 				
 				el = jQuery(this);
+				topPostion = el.position().top;
 				
+				if (currentRowStart != topPostion) {
+					for (currentDiv = 0; currentDiv < rowDivs.length; currentDiv++) {
+						rowDivs[currentDiv].height(currentTallest);
+					}
+					rowDivs = new Array(); // empty the array
+					currentRowStart = topPostion;
+					currentTallest = el.height();
+					rowDivs.push(el);
+				} else {
+					rowDivs.push(el);
+					currentTallest = (currentTallest < el.height()) ? (el.height()) : (currentTallest);
+				}
+				for (currentDiv = 0; currentDiv < rowDivs.length; currentDiv++) {
+					rowDivs[currentDiv].height(currentTallest);
+				}
+				
+			}).promise().done(function(){
 				// there may be images waiting to load, in that case wait a little and try again
-				jQuery(el).find('img').each(function(){
-					if(this.complete != true || this.naturalWidth == 0) {
-						// the image is not loaded yet or there was an error
-						if(typeof jQuery(this).attr('error') == 'undefined'){
-							// if there isn't an error, means the image has not completed loading
-							loadComplete = false;
+				jQuery(el).find('.equalheightrow img').each(function(){
+					// the 'complete' attribute works only in IE
+					if(this.complete != true || (typeof this.naturalWidth !== "undefined" && this.naturalWidth === 0)) {
+						// it could be that the image is not finished loading or that there was an error
+						if(typeof jQuery(this).attr('loaderror') != 'undefined'){
+							// there isn't an error, it means the image has not completed loading yet
+							setTimeout(function(){lqx.equalHeightRows()}, 250);
 						}
 					}
-				}).promise().done(function(){
-					// if all images completed or on error
-					if(loadComplete){
-						el.height('auto')
-						topPostion = el.position().top;
-						
-						if (currentRowStart != topPostion) {
-							for (currentDiv = 0; currentDiv < rowDivs.length; currentDiv++) {
-								rowDivs[currentDiv].height(currentTallest);
-							}
-							rowDivs.length = 0; // empty the array
-							currentRowStart = topPostion;
-							currentTallest = el.height();
-							rowDivs.push(el);
-						} else {
-							rowDivs.push(el);
-							currentTallest = (currentTallest < el.height()) ? (el.height()) : (currentTallest);
-						}
-						for (currentDiv = 0; currentDiv < rowDivs.length; currentDiv++) {
-							rowDivs[currentDiv].height(currentTallest);
-						}
-					}
-				});
-				
-			}
-			
-		}).promise().done(function(){
-			// still waiting for some images to load, try again in 0.25secs
-			if(!loadComplete) {
-				setTimeout(function(){lqx.equalHeightRows()}, 250);
-			}	
+				})
+			});
 		});
-
 	},
 	
 	// hangingPunctuation
@@ -820,7 +819,7 @@ jQuery(document).ready(function(){
 	// initialize mobile menu functionality
 	lqx.initMobileMenu();
 	// set equal height rows
-	lqx.equalHeightRows();
+	lqx.initEqualHeightRows();
 	// adds image captions using alt property
 	lqx.imageCaption();
 	// shows a line break symbol before br elements
@@ -872,6 +871,8 @@ jQuery(window).load(function(){
 	
 	// set punctuation marks to hanging
 	lqx.hangingPunctuation();
+	// set equal height rows
+	lqx.equalHeightRows();
 	
 });
 

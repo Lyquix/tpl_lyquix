@@ -2,13 +2,13 @@
 <!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
 <extension version="3.0" type="template" client="site" method="upgrade">
 	<name>Lyquix</name>
-	<creationDate>2016-01-09</creationDate>
+	<creationDate>2016-01-20</creationDate>
 	<author>Lyquix</author>
 	<authorEmail>info@lyquix.com</authorEmail>
 	<authorUrl>http://www.lyquix.com</authorUrl>
 	<copyright>Copyright(c)2014-2016 - Lyquix</copyright>
 	<license></license>
-	<version>0.5.0</version>
+	<version>0.5.2</version>
 	<description>Lyquix base template for Joomla 3.x</description>
 	<files>
 		<folder>css</folder>
