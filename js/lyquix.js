@@ -195,7 +195,7 @@ var lqx = lqx || {
 	// init equalHeightRows
 	// add an "loaderror" attribute to images that fail to load
 	initEqualHeightRows : function() {
-		jQuery('.equalheightrow img').on('error', function(){
+		jQuery('.equalheightrow').on('error', 'img', function(){
 			jQuery(this).attr('loaderror','');
 		});
 		lqx.equalHeightRows();
@@ -211,10 +211,11 @@ var lqx = lqx || {
 			topPosition = 0,
 			loadComplete = true;
 		
+		var elems = jQuery('.equalheightrow');
 		// first, revert all elements to auto height
-		jQuery('.equalheightrow').height('auto').promise().done(function(){
+		elems.height('auto').promise().done(function(){
 			// update heights per row
-			jQuery('.equalheightrow').each(function(){
+			elems.each(function(){
 				
 				el = jQuery(this);
 				topPostion = el.position().top;
