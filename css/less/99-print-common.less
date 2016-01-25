@@ -1,0 +1,74 @@
+// Print common
+// --------------------------------------------------------------------
+// common print-related classes, only apply when printing
+
+
+// page break classes
+.page-break-before-always { page-break-before: always; }
+.page-break-before-avoid { page-break-before: avoid; }
+
+.page-break-after-always { page-break-after: always; }
+.page-break-after-avoid { page-break-after: avoid; }
+
+.page-break-inside-avoid { page-break-inside: avoid; }
+
+// hide in print
+.print-hide {
+    @media print {
+        display: none !important;
+    }
+}
+// remove background color and images
+.print-no-background { 
+    @media print {
+        background: transparent !important;
+        background-image: none !important;
+    }
+}
+
+// force text to full black
+.print-text-color-black {
+    @media print {
+        color: #000 !important;
+    }
+}
+
+// remove box shadow
+.print-no-box-shadow {
+    @media print {
+        box-shadow: none !important;
+    }
+}
+
+// remove text shadow
+.print-no-text-shadow {
+    @media print {
+        text-shadow: none !important;
+    }
+}
+    
+    
+// appends the url after links (except anchors and javascript)
+.print-links-href {
+    @media print {
+        &:after {
+            content: " (" attr(href) ")";
+        }
+        
+        &[href^="#"],
+        &[href^="javascript:"] {
+            &after {
+                content: "";
+            }
+        }
+    }
+}
+    
+// appends title after abbreviations
+.print-abbr-title {
+    @media print {
+        &:after {
+            content: " (" attr(title) ")";
+        }
+    }
+}

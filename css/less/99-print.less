@@ -2,5 +2,7 @@
 // --------------------------------------------------------------------
 // Loads styles for print version of pages
 
-@import (less) "99-print-normalize.less";        // normalize print styles
-@import (less,optional) "custom/99-print.less";  // custom css rules for project	
+@import (less) "99-print-normalize.less";                   // normalize print styles
+@import (less,optional) "custom/99-print-normalize.less";   // override 
+@import (less) "99-print-common.less";                      // common print-related css classes
+@import (less,optional) "custom/99-print-common.less";      // override 
