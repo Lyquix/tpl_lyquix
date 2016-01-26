@@ -1,3 +1,4 @@
+
 // ***********************************
 // BEGIN Lyquix global object
 // Includes Lyquix common function library and default settings
@@ -31,6 +32,11 @@ var lqx = lqx || {
 			min: 0,
 			max: 4,
 			breakPoints: [320, 640, 960, 1280, 1600],
+		},
+		equalHeightRows: {
+			refreshElems: false, // refreshed the list of elements on each run
+			onlyVisible: true,   // ignores non visible elements
+			checkPageLoad: true, // check if there was the page load event when waiting for images
 		},
 	},
 	
@@ -195,59 +201,112 @@ var lqx = lqx || {
 	// init equalHeightRows
 	// add an "loaderror" attribute to images that fail to load
 	initEqualHeightRows : function() {
-		jQuery('.equalheightrow').on('error', 'img', function(){
+		// get elements, check if we will ignore not visible elements
+		if(lqx.settings.equalHeightRows.onlyVisible) {
+			lqx.vars.equalHeightRowElems = jQuery('.equalheightrow:visible'); 
+		}
+		else {
+			lqx.vars.equalHeightRowElems = jQuery('.equalheightrow');
+		}
+		// get images inside equal height rows elements
+		lqx.vars.equalHeightRowImgs = lqx.vars.equalHeightRowElems.find('img');
+		// add on-error listener to all images inside them
+		lqx.vars.equalHeightRowImgs.on('error', function(){
 			jQuery(this).attr('loaderror','');
 		});
+		// add listener on page load
+		lqx.vars.equalHeightRowPageLoaded = false;
+		jQuery(window).load(function(){
+			lqx.vars.equalHeightRowPageLoaded = true;
+		});
+		// run equal height rows
 		lqx.equalHeightRows();
 	},
 	
 	// equalHeightRows
 	// makes all elements in a row to be the same height
-	equalHeightRows : function() {
-		var currentTallest = 0,
-			currentRowStart = 0,
-			rowDivs = new Array(),
-			el,
-			topPosition = 0,
-			loadComplete = true;
+	equalHeightRows : function(opts) {
 		
-		var elems = jQuery('.equalheightrow');
+		// get default settings and override with custom opts
+		var s = lqx.settings.equalHeightRows;
+		if(typeof opts == 'object') jQuery.extend(true, s, opts);
+		
+		if(s.refreshElems) {
+			if(lqx.settings.equalHeightRows.onlyVisible) {
+				lqx.vars.equalHeightRowElems = jQuery('.equalheightrow:visible'); 
+			}
+			else {
+				lqx.vars.equalHeightRowElems = jQuery('.equalheightrow');
+			}
+			lqx.vars.equalHeightRowImgs = lqx.vars.equalHeightRowElems.find('img');
+		}
+		
+		var elemsCount = lqx.vars.equalHeightRowElems.length;
+		
 		// first, revert all elements to auto height
-		elems.height('auto').promise().done(function(){
+		lqx.vars.equalHeightRowElems.height('auto').promise().done(function(){
+			// reset some vars
+			var currElem,
+				currElemTop = 0,
+				currElemHeight = 0,
+				currRowElems = new Array(),
+				currRowTop = 0,
+				currRowHeight = 0;
+			
 			// update heights per row
-			elems.each(function(){
+			lqx.vars.equalHeightRowElems.each(function(i){
 				
-				el = jQuery(this);
-				topPostion = el.position().top;
+				// current element and its top
+				currElem = jQuery(this);
+				currElemTop = currElem.position().top;
+				currElemHeight = currElem.height();
 				
-				if (currentRowStart != topPostion) {
-					for (currentDiv = 0; currentDiv < rowDivs.length; currentDiv++) {
-						rowDivs[currentDiv].height(currentTallest);
+				if(currElemTop != currRowTop) {
+					currElem.attr('row-first', '');
+					// new row has started, set the height for the previous row if it has more than one element
+					if(currRowElems.length > 1) {
+						for(var j = 0; j < currRowElems.length; j++) {
+							currRowElems[j].height(currRowHeight);
+						}
 					}
-					rowDivs = new Array(); // empty the array
-					currentRowStart = topPostion;
-					currentTallest = el.height();
-					rowDivs.push(el);
-				} else {
-					rowDivs.push(el);
-					currentTallest = (currentTallest < el.height()) ? (el.height()) : (currentTallest);
+					// wipe out array of current row elems, start with current element
+					currRowElems = new Array(currElem);
+					// set the top of current row (gets again position of elem after adjusting previous row)
+					currRowTop = currElem.position().top;;
+					// set the current tallest
+					currRowHeight = currElemHeight;
 				}
-				for (currentDiv = 0; currentDiv < rowDivs.length; currentDiv++) {
-					rowDivs[currentDiv].height(currentTallest);
+				else {
+					// element in same row, add to array of elements
+					currRowElems.push(currElem);
+					// update the row height if new element is taller
+					currRowHeight = (currElemHeight > currRowHeight) ? currElemHeight : currRowHeight;
+					// if this is the last element in the set, update the last row elements height
+					if(i == elemsCount) {
+						if(currRowElems.length > 1) {
+							for(var j = 0; j < currRowElems.length; j++) {
+								currRowElems[j].height(currRowHeight);
+							}
+						}
+					}
 				}
 				
 			}).promise().done(function(){
 				// there may be images waiting to load, in that case wait a little and try again
-				jQuery(el).find('.equalheightrow img').each(function(){
-					// the 'complete' attribute works only in IE
-					if(this.complete != true || (typeof this.naturalWidth !== "undefined" && this.naturalWidth === 0)) {
-						// it could be that the image is not finished loading or that there was an error
-						if(typeof jQuery(this).attr('loaderror') != 'undefined'){
-							// there isn't an error, it means the image has not completed loading yet
-							setTimeout(function(){lqx.equalHeightRows()}, 250);
+				if(!(lqx.settings.equalHeightRows.checkPageLoad && lqx.vars.equalHeightRowPageLoaded)) {
+					lqx.vars.equalHeightRowImgs.each(function(){
+						// is the image still loading? (this.complete works only in IE)
+						if(this.complete != true || (typeof this.naturalWidth !== "undefined" && this.naturalWidth === 0)) {
+							// seems to still be loading
+							// if there wasn't an error, run equalheightrows again in 0.25 secs
+							if(typeof jQuery(this).attr('loaderror') != 'undefined'){
+								// there isn't an error, it means the image has not completed loading yet
+								setTimeout(function(){lqx.equalHeightRows(opts)}, 250);
+								
+							}
 						}
-					}
-				})
+					});
+				}
 			});
 		});
 	},
