@@ -262,7 +262,6 @@ var lqx = lqx || {
 				currElemHeight = currElem.height();
 				
 				if(currElemTop != currRowTop) {
-					currElem.attr('row-first', '');
 					// new row has started, set the height for the previous row if it has more than one element
 					if(currRowElems.length > 1) {
 						for(var j = 0; j < currRowElems.length; j++) {
