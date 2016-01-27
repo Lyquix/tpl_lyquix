@@ -928,6 +928,8 @@ jQuery(document).ready(function(){
 // Functions to execute when the page has loaded
 jQuery(window).load(function(){
 	
+	// check screen size once again (to deal with appearing scrollbar) 
+	lqx.bodyScreenSize();
 	// set punctuation marks to hanging
 	lqx.hangingPunctuation();
 	// set equal height rows
