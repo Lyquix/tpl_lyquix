@@ -281,7 +281,7 @@ var lqx = lqx || {
 					// update the row height if new element is taller
 					currRowHeight = (currElemHeight > currRowHeight) ? currElemHeight : currRowHeight;
 					// if this is the last element in the set, update the last row elements height
-					if(i == elemsCount) {
+					if(i == elemsCount - 1) {
 						if(currRowElems.length > 1) {
 							for(var j = 0; j < currRowElems.length; j++) {
 								currRowElems[j].height(currRowHeight);
