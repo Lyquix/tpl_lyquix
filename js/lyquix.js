@@ -538,7 +538,7 @@ var lqx = lqx || {
 			
 			// track photo galleries
 			if(lqx.settings.tracking.photogallery){
-				jQuery('a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]').click(function(){
+				jQuery('html').on('click', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]', function(){
 					// send event for gallery opened
 					ga('send', {
 						'hitType': 'event', 
@@ -548,7 +548,7 @@ var lqx = lqx || {
 				
 				});
 				
-				jQuery('img.lb-image').on('load', function(){
+				jQuery('html').on('load', 'img.lb-image', function(){
 					// send event for image displayed
 					ga('send', {
 						'hitType': 'event', 
