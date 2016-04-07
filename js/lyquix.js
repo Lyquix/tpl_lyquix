@@ -210,10 +210,6 @@ var lqx = lqx || {
 		}
 		// get images inside equal height rows elements
 		lqx.vars.equalHeightRowImgs = lqx.vars.equalHeightRowElems.find('img');
-		// add on-error listener to all images inside them
-		lqx.vars.equalHeightRowImgs.on('error', function(){
-			jQuery(this).attr('loaderror','');
-		});
 		// add listener on page load
 		lqx.vars.equalHeightRowPageLoaded = false;
 		jQuery(window).load(function(){
@@ -858,6 +854,17 @@ var lqx = lqx || {
 		}
 	},
 	
+	
+	// image load error and complete attributes
+	initImgLoadAttr : function() {
+		jQuery('body').on('load', 'img', function(){
+			jQuery(this).attr('loadcomplete','');
+		});
+		jQuery('body').on('error', 'img', function(){
+			jQuery(this).attr('loaderror','');
+		});
+	},
+	
 };
 
 // END Lyquix global object
@@ -867,6 +874,8 @@ var lqx = lqx || {
 // Functions to execute when the DOM is ready
 jQuery(document).ready(function(){
 	
+	// add image attributes for load error and load complete
+	lqx.initImgLoadAttr();
 	// get browser type - NOTE: this converts the function into a string
 	lqx.getBrowser = lqx.getBrowser();
 	// execute some browser fixes
