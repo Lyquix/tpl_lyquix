@@ -3,9 +3,9 @@
 html {
 	font-family: sans-serif;
 	text-size-adjust: none;
-	-moz-text-size-adjust: none;
-	-ms-text-size-adjust: none; 
-	-webkit-text-size-adjust: none;
+	-moz-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%; 
+	-webkit-text-size-adjust: 100%;
 	word-break: break-word;
 	// better font rendering
 	text-rendering: auto;
@@ -68,6 +68,12 @@ audio:not([controls]) {
 	height: 0;
 }
 
+// Add the correct vertical alignment in Chrome, Firefox, and Opera.
+
+progress {
+    vertical-align: baseline;
+}
+
 // Address `[hidden]` styling not present in IE 8/9/10.
 // Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
 
@@ -82,14 +88,14 @@ template {
 // Remove the gray background color from active links in IE 10.
 
 a {
-	background: transparent;
+	background-color: transparent;
 }
 
 // Improve readability when focused and also mouse hovered in all browsers.
 
 a:active,
 a:hover {
-	outline: 0;
+	outline-width: 0;
 }
 
 // Text-level semantics
@@ -98,7 +104,9 @@ a:hover {
 // Address styling not present in IE 8/9/10/11, Safari, and Chrome.
 
 abbr[title] {
-	border-bottom: 1px dotted;
+    border-bottom: none;
+    text-decoration: underline;
+    text-decoration: underline dotted;
 }
 
 // Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
@@ -117,7 +125,7 @@ dfn {
 // Address styling not present in IE 8/9.
 
 mark {
-	background: #ff0;
+	background-color: #ff0;
 	color: #000;
 }
 
@@ -151,7 +159,7 @@ sub {
 // Remove border when inside `a` element in IE 8/9/10.
 
 img {
-	border: 0;
+	border-style: none;
 }
 
 // Correct overflow not hidden in IE 9/10/11.
@@ -216,9 +224,17 @@ textarea {
 	margin: 0;
 }
 
+// Restore the font weight unset by the previous rule.
+
+optgroup {
+    font-weight: bold;
+}
+
 // Address `overflow` set to `hidden` in IE 8/9/10/11.
 
-button {
+button,
+input,
+select {
 	overflow: visible;
 }
 
@@ -240,8 +256,8 @@ select {
 
 button,
 html input[type="button"],
-input[type="reset"],
-input[type="submit"] {
+[type="reset"],
+[type="submit"] {
 	-webkit-appearance: button;
 	cursor: pointer;
 }
@@ -261,6 +277,14 @@ input::-moz-focus-inner {
 	padding: 0;
 }
 
+
+// Restore the focus styles unset by the previous rule.
+
+button:-moz-focusring,
+input:-moz-focusring {
+    outline: 1px dotted ButtonText;
+}
+
 // Address Firefox 4+ setting `line-height` on `input` using `!important` in
 // the UA stylesheet.
 
@@ -273,8 +297,8 @@ input {
 // 1. Address box sizing set to `content-box` in IE 8/9/10.
 // 2. Remove excess padding in IE 8/9/10.
 
-input[type="checkbox"],
-input[type="radio"] {
+[type="checkbox"],
+[type="radio"] {
 	box-sizing: border-box;
 	padding: 0;
 }
@@ -283,8 +307,8 @@ input[type="radio"] {
 // `font-size` values of the `input`, it causes the cursor style of the
 // decrement button to change from `default` to `text`.
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
 	height: auto;
 }
 
@@ -292,7 +316,7 @@ input[type="number"]::-webkit-outer-spin-button {
 // 2. Address `box-sizing` set to `border-box` in Safari and Chrome
 //    (include `-moz` to future-proof).
 
-input[type="search"] {
+[type="search"] {
 	-webkit-appearance: textfield;
 	-moz-box-sizing: content-box;
 	-webkit-box-sizing: content-box;
@@ -303,8 +327,8 @@ input[type="search"] {
 // Safari (but not Chrome) clips the cancel button when the search input has
 // padding (and `textfield` appearance).
 
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-decoration {
+[type="search"]::-webkit-search-cancel-button,
+[type="search"]::-webkit-search-decoration {
 	-webkit-appearance: none;
 }
 
@@ -320,8 +344,12 @@ fieldset {
 // 2. Remove padding so people aren't caught out if they zero out fieldsets.
 
 legend {
-	border: 0;
-	padding: 0;
+    box-sizing: border-box;
+    color: inherit;
+    display: table;
+    max-width: 100%;
+    padding: 0;
+    white-space: normal;
 }
 
 // Remove default vertical scrollbar in IE 8/9/10/11.
@@ -351,3 +379,5 @@ td,
 th {
 	padding: 0;
 }
+
+
