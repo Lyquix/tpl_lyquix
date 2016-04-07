@@ -562,73 +562,144 @@ var lqx = lqx || {
 			
 			// track video
 			if(lqx.settings.tracking.video){
+				
+				// load youtube iframe api
+				var tag = document.createElement('script');
+				tag.src = "https://www.youtube.com/iframe_api";
+				var firstScriptTag = document.getElementsByTagName('script')[0];
+				firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+				
+				// set listeners for vimeo videos
+				if (window.addEventListener) {
+					window.addEventListener('message', lqx.vimeoReceiveMessage, false);
+				} 
+				else {
+					window.attachEvent('onmessage', lqx.vimeoReceiveMessage, false);
+				}
+				
+				// initialize lqx players objects
 				lqx.vars.youtubePlayers = {};
 				lqx.vars.vimeoPlayers = {};
+				
 				// detect if there are any youtube or vimeo videos, activate js api and add id
-				jQuery('iframe').each(function(idx,elem){
-					if(typeof jQuery(elem).attr('src') != 'undefined'){
+				jQuery('iframe').each(function(){
+					
+					var elem = jQuery(this);
+					var src = elem.attr('src');
+					
+					if(typeof src != 'undefined'){
 						// check youtube players
-						if(jQuery(elem).attr('src').indexOf('youtube.com/embed/') != -1) {
-							if(jQuery(this).attr('src').indexOf('enablejsapi=1') == -1){
+						if(src.indexOf('youtube.com/embed/') != -1) {
+							// set an id if needed
+							if(typeof elem.attr('id') == 'undefined'){
+								elem.attr('id','youtubePlayer' + (Object.keys(lqx.vars.youtubePlayers).length))
+							}
+							// add player to object list
+							lqx.vars.youtubePlayers[elem.attr('id')] = { };
+							// check player url and add api support
+							if(src.indexOf('enablejsapi=1') == -1){
 								var urlconn = '&';
-								if(jQuery(this).attr('src').indexOf('?') == -1) {
+								if(src.indexOf('?') == -1) {
 									urlconn = '?';
 								}
-								jQuery(elem).attr('src', jQuery(elem).attr('src') + urlconn + 'enablejsapi=1&version=3');
+								elem.attr('src', src + urlconn + 'enablejsapi=1&version=3');
 							}
-							if(typeof jQuery(elem).attr('id') == 'undefined'){
-								jQuery(elem).attr('id','youtubePlayer'+idx)
-							}
-							lqx.vars.youtubePlayers[jQuery(elem).attr('id')] = { };
 						}
 						// check vimeo players
-						if(jQuery(elem).attr('src').indexOf('player.vimeo.com/video/') != -1) {
-							if(jQuery(this).attr('src').indexOf('api=1') == -1){
-								if(jQuery(this).attr('src').indexOf('?') == -1) {
+						if(src.indexOf('player.vimeo.com/video/') != -1) {
+							// set an id if needed
+							if(typeof elem.attr('id') == 'undefined'){
+								elem.attr('id', 'vimeoPlayer' + (Object.keys(lqx.vars.vimeoPlayers).length))
+							}
+							// add player to object list
+							lqx.vars.vimeoPlayers[jQuery(elem).attr('id')] = { };
+							// check player url and add api support
+							if(src.indexOf('api=1') == -1){
+								if(src.indexOf('?') == -1) {
 									urlconn = '?';
 								}
-								jQuery(elem).attr('src', jQuery(elem).attr('src') + urlconn + 'api=1&player_id=vimeoPlayer' + idx);
+								elem.attr('src', src + urlconn + 'api=1&player_id=vimeoPlayer' + idx);
 							}
-							if(typeof jQuery(elem).attr('id') == 'undefined'){
-								jQuery(elem).attr('id','vimeoPlayer'+idx)
-							}
-							lqx.vars.vimeoPlayers[jQuery(elem).attr('id')] = { };
 						}
 					}
 												 
-				}).promise().done(function(){
-					// if there are any youtube players
-					if(Object.keys(lqx.vars.youtubePlayers).length > 0){
-						// youtube players available, load youtube api library
-						var tag = document.createElement('script');
-						tag.src = "https://www.youtube.com/iframe_api";
-						var firstScriptTag = document.getElementsByTagName('script')[0];
-						firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-					}
-					// if there are any vimeo players
-					
-					if(Object.keys(lqx.vars.vimeoPlayers).length > 0){
-						
-						if (window.addEventListener) {
-							window.addEventListener('message', lqx.vimeoReceiveMessage, false);
-						} 
-						else {
-							window.attachEvent('onmessage', lqx.vimeoReceiveMessage, false);
-						}
-					}
-					
-					
 				});
+
 			}
 		}
 
 	},
 	
+	// handle video players added dynamically
+	videoPlayerMutationHandler : function(mutRec) {
+		
+		jQuery(mutRec.addedNodes).each(function(){
+	    	
+	    	var elem = jQuery(this);
+	    	var src = elem.attr('src');
+	    	var tag = elem.prop('tagName').toLowerCase();
+	        
+	        if (tag == 'iframe' && typeof src != 'undefined') {
+	            // check youtube players
+	            if (src.indexOf('youtube.com/embed/') != -1) {
+	                // add id if it doesn't have one
+	                if (typeof elem.attr('id') == 'undefined') {
+	                    elem.attr('id', 'youtubePlayer' + (Object.keys(lqx.vars.youtubePlayers).length));
+	                }
+	                var playerId = elem.attr('id');
+	                lqx.vars.youtubePlayers[playerId] = {};
+	                
+	                // reload with API support enabled
+	                if (src.indexOf('enablejsapi=1') == -1) {
+	                    var urlconn = '&';
+	                    if (src.indexOf('?') == -1) {
+	                        urlconn = '?';
+	                    }
+	                    elem.attr('src', src + urlconn + 'enablejsapi=1&version=3');
+	                }
+	                
+	                // add event callbacks to player
+					lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, {
+			            events: {
+			                'onReady': function(e) {
+			                    lqx.youtubePlayerCallback(e, playerId)
+			                },
+			                'onStateChange': function(e) {
+			                    lqx.youtubePlayerCallback(e, playerId)
+			                }
+			            }
+			        });			                            
+	            }
+	            
+	            // check vimeo players
+				if(src.indexOf('player.vimeo.com/video/') != -1) {
+					// set an id if needed
+					if(typeof elem.attr('id') == 'undefined'){
+						elem.attr('id', 'vimeoPlayer' + (Object.keys(lqx.vars.vimeoPlayers).length))
+					}
+					// add player to object list
+					lqx.vars.vimeoPlayers[jQuery(elem).attr('id')] = { };
+					// check player url and add api support
+					if(src.indexOf('api=1') == -1){
+						if(src.indexOf('?') == -1) {
+							urlconn = '?';
+						}
+						elem.attr('src', src + urlconn + 'api=1&player_id=vimeoPlayer' + idx);
+					}
+				}
+				
+			}
+		
+		});
+		
+	},
+	
 	youtubePlayerCallback : function(e, playerId){
 		
 		player = lqx.vars.youtubePlayers[playerId];
-		videoTitle = e.target.B.videoData.title;
-		videoUrl = e.target.B.videoUrl;
+		videoData = e.target.getVideoData()
+		videoTitle = videoData['title'];
+		videoUrl = e.target.getVideoUrl();
 		duration = e.target.getDuration();
 		currentTime = e.target.getCurrentTime();
 		
@@ -690,7 +761,6 @@ var lqx = lqx || {
 			
 		}
 	},
-	
 	
 	vimeoReceiveMessage : function(e){
 		
@@ -774,7 +844,6 @@ var lqx = lqx || {
 	
 	videoTrackingEvent : function(playerId, label, title) {
 		
-		console.log(playerId + ':' + label);
 		ga('send', {
 			'hitType': 'event', 
 			'eventCategory' : 'Video',
@@ -854,6 +923,46 @@ var lqx = lqx || {
 		}
 	},
 	
+	// create a custom mutation observer that will trigger any needed functions
+	initMutationObserver : function(){
+        // handle videos that may be loaded dynamically
+		var mo = window.MutationObserver || window.WebKitMutationObserver;
+		lqx.mutationObserver = new mo(lqx.mutationHandler);
+		lqx.mutationObserver.observe(document.getElementsByTagName('html'), { childList: true, characterData: true, attributes: true, subtree: true });
+
+	},
+	
+	// mutation observer handler
+	mutationHandler : function(mutRecs) {
+		
+		mutRecs.forEach(function(mutRec){
+			
+			// handle type of mutation
+			switch(mutRec.type) {
+				
+				case 'childList':
+					// handle addedNodes
+					if (mutRec.addedNodes.length > 0) {
+						// send mutation record to individual handlers
+						lqx.videoPlayerMutationHandler(mutRec);
+					}
+					
+					// handle removedNodes
+					if (mutRec.removedNodes.length > 0) {
+					}
+					break;
+					
+				case 'attributes':
+					
+					break;
+				
+				case 'characterData':
+					
+					break;
+			}
+			
+		});
+	},
 	
 	// image load error and complete attributes
 	initImgLoadAttr : function() {
