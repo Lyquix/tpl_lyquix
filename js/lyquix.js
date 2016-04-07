@@ -254,7 +254,7 @@ var lqx = lqx || {
 				
 				// current element and its top
 				currElem = jQuery(this);
-				currElemTop = currElem.position().top;
+				currElemTop = currElem.offset().top;
 				currElemHeight = currElem.height();
 				
 				if(currElemTop != currRowTop) {
@@ -267,7 +267,7 @@ var lqx = lqx || {
 					// wipe out array of current row elems, start with current element
 					currRowElems = new Array(currElem);
 					// set the top of current row (gets again position of elem after adjusting previous row)
-					currRowTop = currElem.position().top;;
+					currRowTop = currElem.offset().top;;
 					// set the current tallest
 					currRowHeight = currElemHeight;
 				}
