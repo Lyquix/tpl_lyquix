@@ -5,13 +5,16 @@
 // --------------------------------------------------------------------
 
 // Clear
-.clr, .clear {
+.clr, 
+.clear {
 	clear:both;
 }
 
 // Clear fix (clears after the element)
-.cf, .clearfix {
-    &:before, &:after {
+.cf, 
+.clearfix {
+    &:before, 
+    &:after {
 	    content: " ";
 	    display: table;
     }
@@ -23,27 +26,114 @@
     *zoom: 1;
 }
 
-// Hide
-.hide, .off {
-	display: none;
-}
-
 // Float
 .left {
-	float:left;
-	
-	// add margins
-	&.margins {
-		margin-right: @blk-margin-width;
-		margin-bottom: @blk-margin-width;
-	}
+    float:left;
+    
+    // add margins
+    &.margins {
+        margin-right: @blk-margin-width;
+        margin-bottom: @blk-margin-width;
+    }
 }
 .right {
-	float:right;
-	
-	// add margins
-	&.margins {
-		margin-left: @blk-margin-width;
-		margin-bottom: @blk-margin-width;
-	}
+    float:right;
+    
+    // add margins
+    &.margins {
+        margin-left: @blk-margin-width;
+        margin-bottom: @blk-margin-width;
+    }
+}
+
+// Hide & show classes
+.hide, 
+.off {
+	display: none;
+}
+.show, 
+.on {
+    display: inherit;
+}
+
+.display-block { 
+    display: block; 
+}
+.display-inline { 
+    display: inline; 
+}
+.display-inline-block { 
+    display: inline-block;
+}
+
+// Hide & show for devices
+body.mobile {
+    .mobile-hide,
+    .tablet-hide,
+    .phone-hide { 
+        display: none; 
+    }
+    .mobile-show,
+    .tablet-show,
+    .phone-show { 
+        display: inherit; 
+    }
+} 
+body.tablet {
+    .tablet-hide { 
+        display: none; 
+    }
+    .tablet-show { 
+        display: inherit; 
+    }
+} 
+body.phone {
+    .phone-hide { 
+        display: none; 
+    }
+    .phone-show { 
+        display: inherit; 
+    }
+} 
+
+// Hide & show for screen sizes
+body[screen=xs] {
+    .xs-hide {
+        display: none;
+    }
+    .xs-show {
+        display: inherit;
+    }
+}
+body[screen=sm] {
+    .sm-hide {
+        display: none;
+    }
+    .sm-show {
+        display: inherit;
+    }
+}
+body[screen=md] {
+    .md-hide {
+        display: none;
+    }
+    .md-show {
+        display: inherit;
+    }
+}
+body[screen=lg] {
+    .lg-hide {
+        display: none;
+    }
+    .lg-show {
+        display: inherit;
+    }
+}
+body[screen=xl] {
+    .xl-hide {
+        display: none;
+    }
+    .xl-show {
+        display: inherit;
+    }
 }
