@@ -117,10 +117,10 @@ var lqx = lqx || {
 			jQuery('body').attr('screen',lqx.vars.bodyScreenSize.sizes[s]);
 			// hack to force IE8 to take the new screen size attribute
 			document.getElementsByTagName('body')[0].className = document.getElementsByTagName('body')[0].className;
-			// trigger custom event 'screensizechange'
-			jQuery(document).trigger('screensizechange');
 			// save last screen size
 			lqx.vars.lastScreenSize = lqx.vars.bodyScreenSize.sizes[s];
+			// trigger custom event 'screensizechange'
+			jQuery(document).trigger('screensizechange');
 		}
 	},
 	
