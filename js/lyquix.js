@@ -227,7 +227,7 @@ var lqx = lqx || {
 		var s = lqx.settings.equalHeightRows;
 		if(typeof opts == 'object') jQuery.extend(true, s, opts);
 		
-		if(s.refreshElems) {
+		if(s.refreshElems || typeof lqx.vars.equalHeightRowElems == 'undefined') {
 			if(lqx.settings.equalHeightRows.onlyVisible) {
 				lqx.vars.equalHeightRowElems = jQuery('.equalheightrow:visible'); 
 			}
@@ -1002,46 +1002,7 @@ jQuery(document).ready(function(){
 	// shows a line break symbol before br elements
 	lqx.lineBreakSymbol();
 	
-	// Trigger on window resize
-	jQuery(window).resize(function() {
-
-		// throttling?
-		if(!lqx.vars.resizeThrottle) {
-
-			// execute bodyscreenresize function
-			lqx.bodyScreenSize();
-			// throttling is now on
-			lqx.vars.resizeThrottle = true;
-			// set time out to turn throttling on and check screen size once more
-			setTimeout(function () { 
-				lqx.vars.resizeThrottle = false; 
-				lqx.bodyScreenSize();
-			}, lqx.settings.resizeThrottle.duration);
-			
-		}
-		
-	});
-	
-	// Trigger on screen orientation change
-	jQuery(window).on('orientationchange', function() {
-		
-		// check screen size and trigger 'screensizechange' event 
-		lqx.bodyScreenSize();
-		
-	});
-	
-	// Trigger on custom event screen size change
-	jQuery(window).on('screensizechange', function() {
-		
-		// set equal height rows
-		lqx.equalHeightRows();
-		// set punctuation marks to hanging
-		lqx.hangingPunctuation();
-
-	});
-	
 });
-
 
 // Functions to execute when the page has loaded
 jQuery(window).load(function(){
@@ -1053,6 +1014,44 @@ jQuery(window).load(function(){
 	// set equal height rows
 	lqx.equalHeightRows();
 	
+});
+
+// Trigger on window resize
+jQuery(window).resize(function() {
+
+	// throttling?
+	if(!lqx.vars.resizeThrottle) {
+
+		// execute bodyscreenresize function
+		lqx.bodyScreenSize();
+		// throttling is now on
+		lqx.vars.resizeThrottle = true;
+		// set time out to turn throttling on and check screen size once more
+		setTimeout(function () { 
+			lqx.vars.resizeThrottle = false; 
+			lqx.bodyScreenSize();
+		}, lqx.settings.resizeThrottle.duration);
+		
+	}
+	
+});
+
+// Trigger on screen orientation change
+jQuery(window).on('orientationchange', function() {
+	
+	// check screen size and trigger 'screensizechange' event 
+	lqx.bodyScreenSize();
+	
+});
+
+// Trigger on custom event screen size change
+jQuery(window).on('screensizechange', function() {
+	
+	// set equal height rows
+	lqx.equalHeightRows();
+	// set punctuation marks to hanging
+	lqx.hangingPunctuation();
+
 });
 
 
