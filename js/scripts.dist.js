@@ -31,7 +31,7 @@ var changeme = changeme || {  // custom project namespace, change to the client 
 		 */
 	},
 	
-	
+	/* add custom functions for your project here */	
 	
 };
 
@@ -39,22 +39,35 @@ var changeme = changeme || {  // custom project namespace, change to the client 
 // on dom ready
 jQuery(document).ready(function(){
 	
-	/* add custom code for your project here */
+	/* add custom code to run on document ready e.g. init functions */
 	
-	
-	// on change of screen size: xs, sm, md, lg, xl, as well as rotation
-	jQuery(window).on('screensizechange', function() {
-
-		/* add custom code that needs to run on screen changes */
-
-	});
 	
 });
 
 // on page load
 jQuery(window).load(function(){
 
-	/* add custom code that needs to run when the page finishes loading */
+	/* add handlers to run when the page finishes loading */
 	
 });
 
+// on change of screen size: xs, sm, md, lg, xl, as well as rotation
+jQuery(window).on('screensizechange', function() {
+
+	/* add handlers to run on screen changes */
+
+});
+
+// on scroll events
+jQuery(window).scroll(function() {
+
+	/* add handlers to run when page is scrolled */
+	
+});
+
+// on window resize events
+jQuery(window).resize(function() {
+
+	/* add handlers to run when window is resized */
+	
+});
