@@ -857,20 +857,20 @@ var lqx = lqx || {
 	initMobileMenu : function() {
 		
 		// add listeners to A tags in mobile menu
-		jQuery('body.mobile .horizontal, body.mobile .vertical, body.mobile .slide-out').on('click', 'ul.menu a', function(e){
+		jQuery('body').on('click', '.horizontal ul.menu a, .vertical ul.menu a, .slide-out ul.menu a', function(e){
 			// prevent links to work until we 
 			e.preventDefault();
 			lqx.mobileMenu(this);
 		});
 
 		// prevent propagation of clicks
-		jQuery('body.mobile .horizontal, body.mobile .vertical, .slide-out').click(function(e){
+		jQuery('body').on('click', '.horizontal, .vertical, .slide-out', function(e){
 		    // do not propagate click events outside menus
 		    e.stopPropagation();
 		});
 
 		// open/close slide-out menu
-		jQuery('.slide-out .menu-control').click(function(){
+		jQuery('body').on('click', '.slide-out .menu-control', function(){
 			var elem = jQuery(this).parent();
 			if(jQuery(elem).hasClass('open')) {
 				jQuery(elem).removeClass('open');
@@ -882,7 +882,7 @@ var lqx = lqx || {
 
 		// when clicking outside the menus, hide the menus if visible and close the slide out menu if open
 		jQuery('body').click(function() {
-			jQuery('body.mobile .horizontal, body.mobile .vertical, body.mobile .slide-out').find('ul.menu li.open').removeClass('open');
+			jQuery('.horizontal, .vertical, .slide-out').find('ul.menu li.open').removeClass('open');
 			jQuery('.slide-out.open').removeClass('open');
 		});
 
