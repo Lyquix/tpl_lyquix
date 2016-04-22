@@ -4,14 +4,10 @@
 // basic effects and transformations
 // --------------------------------------------------------------------
 .box-glow {
-	-webkit-box-shadow: 0 0 0.2em 0.1em fade(@glow-color, 50);
-	-moz-box-shadow: 0 0 0.2em 0.1em fade(@glow-color, 50);
 	box-shadow: 0 0 0.2em 0.1em fade(@glow-color, 50);
 }
 
 .box-shadow {
-	-webkit-box-shadow: 0.2em 0.2em 0.5em 0.1em fade(@shadow-color, 50);
-	-moz-box-shadow: 0.2em 0.2em 0.5em 0.1em fade(@shadow-color, 50);
 	box-shadow: 0.2em 0.2em 0.5em 0.1em fade(@shadow-color, 50);
 }
 
@@ -33,7 +29,6 @@
 	position: relative;
 	// saturation is the factor to go from the saturation of sepia (25) to the saturation of glow-color
 	// hue-rotation is calculated starting from sepia's hue of 34 and converted to the hue of glow-color		
-	-webkit-filter: sepia(1) hue-rotate(unit(@duotone-color-hue - 34, deg));
 	filter: sepia(1) hue-rotate(unit(@duotone-color-hue - 34, deg));
 }
 
@@ -86,54 +81,40 @@
 }
 
 .enlarge {
-	-webkit-transform: scale(1.25) translateZ(0);
 	transform: scale(1.25) translateZ(0);
 }
 
 .shrink {
-	-webkit-transform: scale(0.8) translateZ(0);
 	transform: scale(0.8) translateZ(0);	
 }
 
 .rotate-0 {
 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
-	-webkit-transform: rotate(0deg);
-	-ms-transform: rotate(0deg);
 	transform: rotate(0deg);
 }
 
 .rotate-90 {
 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
-	-webkit-transform: rotate(90deg);
-	-ms-transform: rotate(90deg);
 	transform: rotate(90deg);
 }
 
 .rotate-180 {
 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
-	-webkit-transform: rotate(180deg);
-	-ms-transform: rotate(180deg);
 	transform: rotate(180deg);
 }
 
 .rotate-270 {
 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-	-webkit-transform: rotate(270deg);
-	-ms-transform: rotate(270deg);
 	transform: rotate(270deg);
 }
 
 .flip-horizontal {
 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);
-	-webkit-transform: scale(-1, 1);
-	-ms-transform: scale(-1, 1);
 	transform: scale(-1, 1);
 }
 
 .flip-vertical {
 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);
-	-webkit-transform: scale(1, -1);
-	-ms-transform: scale(1, -1);
 	transform: scale(1, -1);
 }
 
@@ -141,27 +122,22 @@
 // --------------------------------------------------------------------
 
 .spin {
-	-webkit-animation: spin 2s infinite linear;
 	animation: spin 2s infinite linear;
 }
 
 @-webkit-keyframes spin {
 	0% {
-		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
 	100% {
-		-webkit-transform: rotate(359deg);
 		transform: rotate(359deg);
 	}
 }
 @keyframes spin {
 	0% {
-		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
 	100% {
-		-webkit-transform: rotate(359deg);
 		transform: rotate(359deg);
 	}
 }
