@@ -1,5 +1,5 @@
 #Template Files
-In order to allow for customization of your template, without overriding template files we have modified the files index.php and component.php to look for your custom template, index-custom.php and component-custom.php respectively.
+In order to allow for customization of your template, without overriding template files we have modified the files `index.php` and `component.php` to look for your custom template files, `index-custom.php` and `component-custom.php` respectively.
 
 
 ```php
@@ -7,7 +7,9 @@ In order to allow for customization of your template, without overriding templat
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 ```
-All php files loaded by Joomla must include this line of code that prevents direct execution.
+All PHP files loaded by Joomla must include this line of code that prevents direct execution.
+
+
 
 ```php
 // if custom-index.php file exists the whole template is overriden
@@ -15,7 +17,9 @@ if(file_exists(__DIR__ . '/index-custom.php')) :
 	include __DIR__ . '/index-custom.php'; 
 else :
 ```
-Checks for the file index-custom.php. If it finds it, it is included, otherwise a message is displayed.
+Checks for the file `index-custom.php`. If it finds it, it is included, otherwise a message is displayed.
+
+
 
 ```php
 ?><!DOCTYPE html>
@@ -28,21 +32,26 @@ Checks for the file index-custom.php. If it finds it, it is included, otherwise 
 	</body>
 </html>
 ```
-An error message indicating that the file index-custom.php cannot be found is displayed
+An error message indicating that the file `index-custom.php` cannot be found is displayed.
+
+
 
 ```php
 <?php endif; // endif for including custom-index.php
 ```
-Close the if/else block
+Close the if/else block.
 
 
-In the repo you can find the file index-custom.dist.php that you can use as the base for your custom template. Just rename it to index-custom.php. The component file has a very similar structure.
+
+In the repo you can find the file `index-custom.dist.php` that you can use as the base for your custom template. Just rename it to `index-custom.php`. The component file has a very similar structure.
 ```php
 <?php
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 ```
 All php files loaded by Joomla must include this line of code that prevents direct execution.
+
+
 
 ```php
 // Enable Joomla Bootstrap framework;
@@ -51,58 +60,73 @@ JHtml::_('jquery.ui', array('core', 'sortable'));
 ```
 Enables loading of jQuery UI and Bootstrap. Recommended for compatibility with Joomla core functions and several 3rd party extensions.
 
+
+
 ```php
 // declare some variables
 $home = $mobile = $phone = $tablet = false;
 $tmpl_url = JURI::root(true) . '/templates/' . $this->template;
 $tmpl_path = JPATH_BASE . '/templates/' . $this->template;
 ```
-Declares some variables to avoid getting PHP warnings later
+Declares some variables to avoid getting PHP warnings later. `$tmpl_url` stores the base site URL and `$tmpl_path` stores the base template path in disk.
 
-$tmpl_url stores the base site URL and $tmpl_path stores the base template path in disk
+
 
 ```php
 // Check if we are on the home page
 if(JRequest::getVar('Itemid') == JFactory::getApplication()->getMenu()->getDefault()->id){ $home = true; }
 ```
-Sets variable $home to true if we are displaying the home page. This is used for adding CSS classes and making necessary layout changes
+Sets variable `$home` to true if we are displaying the home page. This is used for adding CSS classes and making necessary layout changes.
+
+
 
 ```php
-// Check if we are on a mobile (smartphone) or tablet
-require_once('php/Mobile_Detect.php');
-$detect = new Mobile_Detect;
-if($detect->isMobile()){
-	$mobile = true;
-	if($detect->isTablet()){ $tablet = true; }
-	if($detect->isPhone()){ $phone = true; }
+// Check if we are on a mobile device, whether smartphone or tablet
+if($this->params->get('mobiledetect_method', 'php') == 'php') {
+	require_once(__DIR__ . '/php/Mobile_Detect.php');
+	$detect = new Mobile_Detect;
+	if($detect->isMobile()){
+		$mobile = true;
+		if($detect->isTablet()){ $tablet = true; }
+		if($detect->isPhone()){ $phone = true; }
+	}
 }
 ?>
 ```
-Sets the variables $mobile, $phone and $tablet to indicate if the site is viewed in a mobile device and whether it is a phone or tablet. This requires the Mobile Detect library.
+If mobile detection is set to be done on the server side (via PHP), loads the mobile detection library, and sets the variables `$mobile`, `$phone` and `$tablet` to indicate if the site is viewed in a mobile device and whether it is a phone or tablet.
+
+
 
 ```php
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" >
 <head>
 ```
-Generates the HTML5 heading, with language code, useful for SEO and accessibility
+Generates the HTML5 heading, with language code, useful for SEO and accessibility.
+
+
 
 ```php
 <!--[if IE]>
 <script>if(typeof console=='undefined'||typeof console.log=='undefined'){console={};console.log=function(){};}</script>
 <![endif]-->
 ```
-For IE, adds the console.log function if it doesn't exist
+For IE, adds the console.log function if it doesn't exist.
+
+
 
 ```php
 <!--[if lt IE 9]>
-<script src="<?php echo $tmpl_url; ?>/js/html5shiv<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
+<script src="<?php echo $tmpl_url; ?>/js/aight<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <script src="<?php echo $tmpl_url; ?>/js/selectivizr<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <![endif]-->
 ```
-For IE8 and older html5shiv creates HTML5 DOM elements and provides default styles. Selectivizr adds support for modern CSS selectors.
+For IE8 and older aight is a Javascript shims and shams to make the browser behave reasonable. It creates HTML5 DOM elements and provides default styles. Selectivizr adds support for modern CSS selectors.
 
 This needs to be added before any other scripts and CSS.
+
+
+
 
 ```php
 <?php if($home) {
@@ -118,20 +142,29 @@ For the home page it inserts meta tags for:
   * Bing/Yahoo site verification code
   * Canonical URL
 
+
+
+
 ```php
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 ```
-Add hard-coded custom meta tags
+Adds meta tag for forcing IE to latest available version.
+
+
 
 ```php
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 ```
 Sets the viewport for proper mobile rendering: sets the viewport to the size of the device screen, and initial scale to 100%.
 
+
+
 ```php
 <jdoc:include type="head" />
 ```
 Inserts Joomla head, this includes meta tags, CSS and Javascript added by extensions. This must be added before any custom scripts and CSS so that they can be overridden if necessary.
+
+
 
 ```php
 <link href="<?php echo $tmpl_url; ?>/css/styles.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/styles.' . ($this->params->get('lessjs') ? 'less' : 'css'))); ?>" rel="stylesheet" <?php echo $this->params->get('lessjs') ? 'type="text/less" ' : ''; ?>/>
@@ -150,7 +183,7 @@ if($this->params->get('lessjs')): ?>
 ```
 Adds the main stylesheet and the font icon libraries.
 
-Loads any additional CSS libraries
+Loads any additional CSS libraries.
 
 During development you can activate LESS which loads the less.js library and processes the LESS file on the browser.
 
@@ -158,27 +191,31 @@ Read below for how to generate this style sheet using multiple base files and LE
 
 Automatically appends an integer that represents the date-time of the last modification. This is intended to force browsers to load the latest version of the file.
 
+
+
 ```php
 <?php if(file_exists($tmpl_path . '/css/ie9.css')): ?>
 <!--[if lte IE 9]>
-<link href="<?php echo $tmpl_url; ?>/css/ie9.css" rel="stylesheet" />
+<link href="<?php echo $tmpl_url; ?>/css/ie9.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/ie9.css')); ?>" rel="stylesheet" />
 <![endif]-->
 <?php endif;
 if(file_exists($tmpl_path . '/css/ie8.css')): ?>
 <!--[if lte IE 8]>
-<link href="<?php echo $tmpl_url; ?>/css/ie8.css" rel="stylesheet" />
+<link href="<?php echo $tmpl_url; ?>/css/ie8.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/ie8.css')); ?>" rel="stylesheet" />
 <![endif]-->
 <?php endif;
 if(file_exists($tmpl_path . '/css/ie7.css')): ?>
 <!--[if lte IE 7]>
-<link href="<?php echo $tmpl_url; ?>/css/ie7.css" rel="stylesheet" />
+<link href="<?php echo $tmpl_url; ?>/css/ie7.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/ie7.css')); ?>" rel="stylesheet" />
 <![endif]-->
 <?php endif; ?>
 ```
 If files exist, inserts CSS fixes for old IE versions, if the files exists. Start with IE 9 and goes backwards as newer versions require fewer fixes.
 
+
+
 ```php
-<?php endif;
+<?php
 if($this->params->get('angularjs', 0)): ?>
 <script src="<?php echo $tmpl_url; ?>/js/angular<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/angular' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
 <?php endif;
@@ -199,9 +236,11 @@ foreach($add_js_libraries as $jsurl) {
 ```
 If selected, loads AngularJS and loDash libraries.
 
-Loads mobile-detect.js if client-side detection is selected
+Loads mobile-detect.js if client-side detection is selected.
 
-Parses a list of URLs for custom javascript libraries and loads them
+Parses a list of URLs for custom javascript libraries and loads them.
+
+
 
 ```php
 <script src="<?php echo $tmpl_url; ?>/js/lyquix<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/lyquix' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
@@ -217,6 +256,8 @@ Automatically appends an integer that represents the date-time of the last modif
 Sets the minimum and maximum screen sizes
 
 Overrides default Lyquix script settings.
+
+
 ```php
 // use http://www.favicon-generator.org/ to generate all these versions
 if(file_exists($tmpl_path . '/images/favicon/apple-icon-57x57.png')): ?>
@@ -268,7 +309,9 @@ favicon.ico is the the small icon that is displayed on the window or bookmarks
 
 The other images add site icons for iPhone, iPad and Android devices.
 
-Use http://www.favicon-generator.org/ to generate all these files and place them in the /templates/lyquix//images/favicon/ folder.
+Use http://www.favicon-generator.org/ to generate all these files and place them in the /templates/lyquix/images/favicon/ folder.
+
+
 ```php
 echo $this->params->get('ga_account') ? "<script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -281,10 +324,14 @@ ga('send', 'pageview');
 ```
 Inserts Google Analytics Universal Code if account information is available from the template parameters.
 
+
+
 ```php
 <?php echo $this->params->get('addthis_pubid') ? '<script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=' . $this->params->get('addthis_pubid') . '"></script>' : ''; ?>
 ```
 If an AddThis account is provided, the javascript code is added.
+
+
 
 ```php
 <?php if(file_exists($tmpl_path . '/js/scripts.js')): ?>
@@ -293,11 +340,15 @@ If an AddThis account is provided, the javascript code is added.
 ```
 If file exists, insert custom scripts for project.
 
+
+
 ```php
 <jdoc:include type="modules" name="head" />
 </head>
 ```
 Module position head, can be used to insert custom meta tags, scripts and CSS (e.g. Google Analytics, open graph tags, Google author tag).
+
+
 
 ```php
 <body class="<?php 
@@ -332,6 +383,8 @@ task name, e.g. task-display
 
 Additionally, blkfluid- classes are added based on the template configuration
 
+
+
 ```php
 <script>
 lqx.bodyScreenSize();
@@ -349,10 +402,14 @@ Executes mobileDetect function if selected to be client-side, otherwise sets the
 
 This attribute is updated automatically with Javascript upon screen size changes.
 
+
+
 ```php
 <?php if(!$this->params->get('blank_page',0)) : // if blank-page parameter is set, only the component will be output ?>
 ```
 If style settings is set to "Blank page" it will skip the page structure and output only the component.
+
+
 
 ```php
 <header>
@@ -448,6 +505,8 @@ Use custom styles like div.util-1 to style specific columns.
 
 Adjust the size and number of blocks using blk1 to blk20 classes. In this example each row contains 5 columns of equal width blk4. You may remove or add columns as needed and change their widths.
 
+
+
 ```php
 <main class="row main">
 	
@@ -520,6 +579,8 @@ The main section is divided in 3 rows and the middle row is divided in 3 columns
 All of the cells in this arrangement are displayed only if the modules assigned to the positions are producing output.
 
 For the interior pages we place the component output in the middle-center cell. The size of this cell is determined automatically based on whether there is a left and/or right columns.
+
+
 
 ```php
 <footer>
@@ -603,12 +664,16 @@ For the interior pages we place the component output in the middle-center cell. 
 ```
 Adds the footer sections, which works in the same way as the header sections described above.
 
+
+
 ```php
 <?php else:  // outputting a blank page ?>
 <jdoc:include type="component" />
 <?php endif; // endif for blank page ?>
 ```
-If template style is set to be blank page only renders the component
+If template style is set to be blank page only renders the component.
+
+
 
 ```php
 <!--[if lte IE 8]>
@@ -618,15 +683,21 @@ If template style is set to be blank page only renders the component
 ```
 Insert right before the closing body tag to show an alert to users of Internet Explorer 8 or older.
 
+
+
 ```php
 <?php echo $this->params->get('disqus_shortname') ? '<script src="//' . $this->params->get('disqus_shortname') . '.disqus.com/embed.js"></script>' : ''; ?>
 ```
 Inserts Javascript for Disqus if the account name is added to template parameters.
 
+
+
 ```php
 <jdoc:include type="modules" name="body" />
 ```
 Module position body, can be used to insert custom scripts and content at the end of the page. 
+
+
 
 ```php
 </body>
@@ -637,6 +708,8 @@ Closes body and html tags
 ###raw.php
 Provides an alternative template file that generated a raw output from the component. This is useful for generating output such as JSON or binary files.
 
+
+
 ```php
 <?php
 // No direct access
@@ -644,7 +717,4 @@ defined('_JEXEC') or die('Restricted access');
 ?><jdoc:include type="component" />
 ```
 Only the component output is included.
-
-###php/Mobile_Detect.php
-This library allows the server to detect whether the browser is a mobile device, and what type of device it is. This library is downloaded from http://mobiledetect.net/ and will be updated periodically to keep up with need devices.
 
