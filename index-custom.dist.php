@@ -58,17 +58,17 @@ if($this->params->get('lessjs')): ?>
 <?php endif; ?>
 <?php if(file_exists($tmpl_path . '/css/ie9.css')): ?>
 <!--[if lte IE 9]>
-<link href="<?php echo $tmpl_url; ?>/css/ie9.css" rel="stylesheet" />
+<link href="<?php echo $tmpl_url; ?>/css/ie9.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/ie9.css')); ?>" rel="stylesheet" />
 <![endif]-->
 <?php endif;
 if(file_exists($tmpl_path . '/css/ie8.css')): ?>
 <!--[if lte IE 8]>
-<link href="<?php echo $tmpl_url; ?>/css/ie8.css" rel="stylesheet" />
+<link href="<?php echo $tmpl_url; ?>/css/ie8.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/ie8.css')); ?>" rel="stylesheet" />
 <![endif]-->
 <?php endif;
 if(file_exists($tmpl_path . '/css/ie7.css')): ?>
 <!--[if lte IE 7]>
-<link href="<?php echo $tmpl_url; ?>/css/ie7.css" rel="stylesheet" />
+<link href="<?php echo $tmpl_url; ?>/css/ie7.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/ie7.css')); ?>" rel="stylesheet" />
 <![endif]-->
 <?php endif;
 if($this->params->get('angularjs', 0)): ?>
