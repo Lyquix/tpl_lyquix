@@ -231,32 +231,28 @@ var lqx = lqx || {
 	// browserFixes
 	// implements some general browser fixes
 	browserFixes : function(){
-		switch(lqx.getBrowser) {
-			
-			case 'IE 10':
-			case 'IE 11':
-			case 'MSIE 10':
-			case 'MSIE 11':
-				// fix for google fonts not rendering in IE10/11
-				jQuery('html').css('font-feature-settings', 'normal');
-				break;
-		}
-		// adds width value to img elements that don't have one
-		if(lqx.getBrowser.indexOf('IE ') == 0 || lqx.getBrowser.indexOf('MSIE ') == 0) {
+		if(lqx.getBrowser.type == 'msie') {
+			// adds width value to img elements that don't have one
 			jQuery('img').each(function(){
 				if(jQuery(this).attr('width') == undefined) {
 					jQuery(this).attr('width', '100%');
 				}
 			});
-		}
-		// replaced svg imager for pngs in IE8
-		if(lqx.getBrowser == 'IE 8' || lqx.getBrowser == 'MSIE 8') {
-			jQuery('img').each(function(){
-				src = jQuery(this).attr('src');
-				if(/\.svg$/i.test (src)) {
-					jQuery(this).attr('src', src.replace('.svg', '.png')); 
-				}
-			});
+			// fix for google fonts not rendering in IE10/11
+			if(lqx.getBrowser.version >= 10) {
+				console.log('ie10/11');
+				jQuery('html').css('font-feature-settings', 'normal');
+			}
+			// replaced svg imager for pngs in IE8
+			if(lqx.getBrowser.version < 9) {
+				console.log('ie8');
+				jQuery('img').each(function(){
+					src = jQuery(this).attr('src');
+					if(/\.svg$/i.test (src)) {
+						jQuery(this).attr('src', src.replace('.svg', '.png')); 
+					}
+				});
+			}
 		}
 	},
 	
