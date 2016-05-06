@@ -146,24 +146,86 @@ var lqx = lqx || {
 	
 	// getBrowser
 	// returns the browser name and version
-	// NOTE: don't use this as a function, as it is converted to string on page ready
+	// detects major browsers: IE, Edge, Firefox, Chrome, Safari, Opera, Android
+	// based on bowser: https://github.com/ded/bowser
+	// NOTE: don't use this as a function, as it is converted to an object on the first execution
+	// list of user agen strings: http://www.webapps-online.com/online-tools/user-agent-strings/dv
 	getBrowser : function(){
-		var ua = navigator.userAgent, tem, M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
-		if(/trident/i.test(M[1])){
-			tem =  /\brv[ :]+(\d+)/g.exec(ua) || [];
-			return 'IE ' + (tem[1] || '');
+		var ua = navigator.userAgent, browser;
+
+		// helper functions to deal with common regex
+		function getFirstMatch(regex) {
+			var match = ua.match(regex);
+			return (match && match.length > 1 && match[1]) || '';
 		}
-		if(M[1] === 'Chrome'){
-			tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
-			if(tem != null){
-				return tem.slice(1).join(' ').replace('OPR', 'Opera');
+
+		function getSecondMatch(regex) {
+			var match = ua.match(regex);
+			return (match && match.length > 1 && match[2]) || '';
+		}
+
+		// start detecting
+		if (/opera|opr/i.test(ua)) {
+			browser = {
+				name: 'Opera',
+				type: 'opera',
+				version: getFirstMatch(/version\/(\d+(\.\d+)?)/i) || getFirstMatch(/(?:opera|opr)[\s\/](\d+(\.\d+)?)/i)
+			}
+		}  else if (/msie|trident/i.test(ua)) {
+			browser = {
+				name: 'Internet Explorer',
+				type: 'msie',
+				version: getFirstMatch(/(?:msie |rv:)(\d+(\.\d+)?)/i)
+			}
+		} else if (/chrome.+? edge/i.test(ua)) {
+			browser = {
+				name: 'Microsft Edge',
+				type: 'msedge',
+				version: getFirstMatch(/edge\/(\d+(\.\d+)?)/i)
+			}
+		} else if (/chrome|crios|crmo/i.test(ua)) {
+			browser = {
+				name: 'Google Chrome',
+				type: 'chrome',
+				version: getFirstMatch(/(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i)
+			}
+		} else if (/firefox/i.test(ua)) {
+			browser = {
+				name: 'Firefox',
+				type: 'firefox',
+				version: getFirstMatch(/(?:firefox)[ \/](\d+(\.\d+)?)/i)
+			}
+		} else if (!(/like android/i.test(ua)) && /android/i.test(ua)) {
+			browser = {
+				name: 'Android',
+				type: 'android',
+				version: getFirstMatch(/version\/(\d+(\.\d+)?)/i)
+			}
+		} else if (/safari/i.test(ua)) {
+			browser = {
+				name: 'Safari',
+				type: 'safari',
+				version: getFirstMatch(/version\/(\d+(\.\d+)?)/i)
+			}
+		} else {
+			browser = {
+				name: getFirstMatch(/^(.*)\/(.*) /),
+				version: getSecondMatch(/^(.*)\/(.*) /)
+			}
+			browser.type = browser.name.toLowerCase().replace(/\s/g, '');
+		}
+		// add classes to body
+		// browser type
+		jQuery('body').addClass(browser.type);
+		// browser type and major version
+		jQuery('body').addClass(browser.type + '-' + browser.version.split('.')[0]);
+		// browser type and full version
+		jQuery('body').addClass(browser.type + '-' + browser.version.replace(/\./g, '-'));
+
+		return browser;
+	},
 			}
 		}
-		M = M[2] ? [M[1] , M[2]] : [navigator.appName, navigator.appVersion, '-?'];
-		if((tem = ua.match(/version\/(\d+)/i))!= null) {
-			M.splice(1, 1, tem[1]);
-		}
-		return M.join(' ');
 	},
 	
 	// browserFixes
