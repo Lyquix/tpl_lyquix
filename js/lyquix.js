@@ -144,10 +144,9 @@ var lqx = lqx || {
 		return r;
 	},
 	
-	// getBrowser
-	// returns the browser name and version
+	// returns the browser name, type and version, and sets body classes
 	// detects major browsers: IE, Edge, Firefox, Chrome, Safari, Opera, Android
-	// based on bowser: https://github.com/ded/bowser
+	// based on: https://github.com/ded/bowser
 	// NOTE: don't use this as a function, as it is converted to an object on the first execution
 	// list of user agen strings: http://www.webapps-online.com/online-tools/user-agent-strings/dv
 	getBrowser : function(){
@@ -225,12 +224,11 @@ var lqx = lqx || {
 		return browser;
 	},
 
-	// getOS: gets the OS name and version
-	// returns the os name and version
-	// based on https://raw.githubusercontent.com/faisalman/ua-parser-js/master/src/ua-parser.js
+	// returns the os name, type and version, and sets body classes
 	// detects major desktop and mobile os: Windows, Windows Phone, Mac, iOS, Android, Ubuntu, Fedora, ChromeOS
+	// based on bowser: https://github.com/ded/bowser
 	// NOTE: don't use this as a function, as it is converted to an object on the first execution
-	// list of user agen strings: http://www.webapps-online.com/online-tools/user-agent-strings/dv
+	// list of user agent strings: http://www.webapps-online.com/online-tools/user-agent-strings/dv
 	getOS : function() {
 		var ua = navigator.userAgent, os;
 
