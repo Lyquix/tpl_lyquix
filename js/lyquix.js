@@ -224,8 +224,88 @@ var lqx = lqx || {
 
 		return browser;
 	},
+
+	// getOS: gets the OS name and version
+	// returns the os name and version
+	// based on https://raw.githubusercontent.com/faisalman/ua-parser-js/master/src/ua-parser.js
+	// detects major desktop and mobile os: Windows, Windows Phone, Mac, iOS, Android, Ubuntu, Fedora, ChromeOS
+	// NOTE: don't use this as a function, as it is converted to an object on the first execution
+	// list of user agen strings: http://www.webapps-online.com/online-tools/user-agent-strings/dv
+	getOS : function() {
+		var ua = navigator.userAgent, os;
+
+		// helper functions to deal with common regex
+		function getFirstMatch(regex) {
+			var match = ua.match(regex);
+			return (match && match.length > 1 && match[1]) || '';
+		}
+
+		function getSecondMatch(regex) {
+			var match = ua.match(regex);
+			return (match && match.length > 1 && match[2]) || '';
+		}
+
+		if(/(ipod|iphone|ipad)/i.test(ua)) {
+			os = {
+				name: 'iOS',
+				type: 'ios',
+				version: getFirstMatch(/os (\d+([_\s]\d+)*) like mac os x/i).replace(/[_\s]/g, '.')
+			}
+		} else if(/windows phone/i.test(ua)) {
+			os = {
+				name: 'Windows Phone',
+				type: 'windowsphone',
+				version: getFirstMatch(/windows phone (?:os)?\s?(\d+(\.\d+)*)/i)
+			}
+		} else if(!(/like android/i.test(ua)) && /android/i.test(ua)) {
+			os = {
+				name: 'Android',
+				type: 'android',
+				version: getFirstMatch(/android[ \/-](\d+(\.\d+)*)/i)
+			}
+		} else if(/windows nt/i.test(ua)) {
+			os = {
+				name: 'Windows',
+				type: 'windows',
+				version: getFirstMatch(/windows nt (\d+(\.\d+)*)/i)
+			}
+		} else if(/mac os x/i.test(ua)) {
+			os = {
+				name: 'Mac OS X',
+				type: 'macosx',
+				version: getFirstMatch(/mac os x (\d+([_\s]\d+)*)/i).replace(/[_\s]/g, '.')
+			}
+		} else if(/ubuntu/i.test(ua)) {
+			os = {
+				name: 'Ubuntu',
+				type: 'ubuntu',
+				version: getFirstMatch(/ubuntu\/(\d+(\.\d+)*)/i)
+			}
+		} else if(/fedora/i.test(ua)) {
+			os = {
+				name: 'Fedora',
+				type: 'fedora',
+				version: getFirstMatch(/fedora\/(\d+(\.\d+)*)/i)
+			}
+		} else if(/CrOS/.test(ua)) {
+			os = {
+				name: 'Chrome OS',
+				type: 'chromeos',
+				version: getSecondMatch(/cros (.+) (\d+(\.\d+)*)/i)
 			}
 		}
+
+		// add classes to body
+		if(os.type && os.version) {
+			// os type
+			jQuery('body').addClass(os.type);
+			// os type and major version
+			jQuery('body').addClass(os.type + '-' + os.version.split('.')[0]);
+			// os type and full version
+			jQuery('body').addClass(os.type + '-' + os.version.replace(/\./g, '-'));
+		}
+
+		return os;
 	},
 	
 	// browserFixes
@@ -1045,6 +1125,8 @@ jQuery(document).ready(function(){
 	lqx.initImgLoadAttr();
 	// get browser type - NOTE: this converts the function into a string
 	lqx.getBrowser = lqx.getBrowser();
+	// get os - NOTE: this converts the function into a string
+	lqx.getOS = lqx.getOS();
 	// execute some browser fixes
 	lqx.browserFixes();
 	// enable function logging
