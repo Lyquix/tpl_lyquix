@@ -1141,7 +1141,8 @@ jQuery(document).ready(function(){
 	lqx.imageCaption();
 	// shows a line break symbol before br elements
 	lqx.lineBreakSymbol();
-	
+	// add listener to dynamically added content to the DOM
+	lqx.initMutationObserver();
 });
 
 // Functions to execute when the page has loaded
