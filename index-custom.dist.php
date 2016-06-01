@@ -56,10 +56,37 @@ foreach($add_css_libraries as $cssurl) {
 <?php
 if($this->params->get('lessjs')): ?>
 <script src="<?php echo $tmpl_url; ?>/js/less<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
-<?php endif; ?>
-<?php if(file_exists($tmpl_path . '/css/ie9.css')): ?>
+<?php endif; 
+if(file_exists($tmpl_path . '/css/ie9.css') || file_exists($tmpl_path . '/css/styles.0.css')): ?>
 <!--[if lte IE 9]>
+<?php if(file_exists($tmpl_path . '/css/styles.0.css')): ?>
+<link href="<?php echo $tmpl_url; ?>/css/styles.0.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/styles.0.css')); ?>" rel="stylesheet" />
+<script>
+// remove/unload main styles.css file
+(function() {
+	var stylesheet = document.getElementById('stylesheet');
+	stylesheet.parentNode.removeChild(stylesheet);
+})();
+</script>
+<?php endif;
+if(file_exists($tmpl_path . '/css/styles.1.css')): ?>
+<link href="<?php echo $tmpl_url; ?>/css/styles.1.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/styles.1.css')); ?>" rel="stylesheet" />
+<?php endif;
+if(file_exists($tmpl_path . '/css/styles.2.css')): ?>
+<link href="<?php echo $tmpl_url; ?>/css/styles.2.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/styles.2.css')); ?>" rel="stylesheet" />
+<?php endif;
+if(file_exists($tmpl_path . '/css/styles.3.css')): ?>
+<link href="<?php echo $tmpl_url; ?>/css/styles.3.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/styles.3.css')); ?>" rel="stylesheet" />
+<?php endif;
+if(file_exists($tmpl_path . '/css/styles.4.css')): ?>
+<link href="<?php echo $tmpl_url; ?>/css/styles.4.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/styles.4.css')); ?>" rel="stylesheet" />
+<?php endif;
+if(file_exists($tmpl_path . '/css/styles.5.css')): ?>
+<link href="<?php echo $tmpl_url; ?>/css/styles.5.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/styles.5.css')); ?>" rel="stylesheet" />
+<?php endif; 
+if(file_exists($tmpl_path . '/css/ie9.css')): ?>
 <link href="<?php echo $tmpl_url; ?>/css/ie9.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/ie9.css')); ?>" rel="stylesheet" />
+<?php endif; ?>
 <![endif]-->
 <?php endif;
 if(file_exists($tmpl_path . '/css/ie8.css')): ?>
