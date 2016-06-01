@@ -1066,13 +1066,12 @@ var lqx = lqx || {
         // handle videos that may be loaded dynamically
 		var mo = window.MutationObserver || window.WebKitMutationObserver;
 		lqx.mutationObserver = new mo(lqx.mutationHandler);
-		lqx.mutationObserver.observe(document.getElementsByTagName('html'), { childList: true, characterData: true, attributes: true, subtree: true });
 
+		lqx.mutationObserver.observe(jQuery('html')[0], { childList: true, characterData: true, attributes: true, subtree: true });
 	},
 	
 	// mutation observer handler
 	mutationHandler : function(mutRecs) {
-		
 		mutRecs.forEach(function(mutRec){
 			
 			// handle type of mutation
