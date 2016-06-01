@@ -775,59 +775,59 @@ var lqx = lqx || {
 	    	
 	    	var elem = jQuery(this);
 	    	var src = elem.attr('src');
-	    	var tag = elem.prop('tagName').toLowerCase();
-	        
-	        if (tag == 'iframe' && typeof src != 'undefined') {
-	            // check youtube players
-	            if (src.indexOf('youtube.com/embed/') != -1) {
-	                // add id if it doesn't have one
-	                if (typeof elem.attr('id') == 'undefined') {
-	                    elem.attr('id', 'youtubePlayer' + (Object.keys(lqx.vars.youtubePlayers).length));
-	                }
-	                var playerId = elem.attr('id');
-	                lqx.vars.youtubePlayers[playerId] = {};
-	                
-	                // reload with API support enabled
-	                if (src.indexOf('enablejsapi=1') == -1) {
-	                    var urlconn = '&';
-	                    if (src.indexOf('?') == -1) {
-	                        urlconn = '?';
-	                    }
-	                    elem.attr('src', src + urlconn + 'enablejsapi=1&version=3');
-	                }
-	                
-	                // add event callbacks to player
-					lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, {
-			            events: {
-			                'onReady': function(e) {
-			                    lqx.youtubePlayerCallback(e, playerId)
-			                },
-			                'onStateChange': function(e) {
-			                    lqx.youtubePlayerCallback(e, playerId)
-			                }
-			            }
-			        });			                            
-	            }
-	            
-	            // check vimeo players
-				if(src.indexOf('player.vimeo.com/video/') != -1) {
-					// set an id if needed
-					if(typeof elem.attr('id') == 'undefined'){
-						elem.attr('id', 'vimeoPlayer' + (Object.keys(lqx.vars.vimeoPlayers).length))
-					}
-					// add player to object list
-					lqx.vars.vimeoPlayers[jQuery(elem).attr('id')] = { };
-					// check player url and add api support
-					if(src.indexOf('api=1') == -1){
-						if(src.indexOf('?') == -1) {
-							urlconn = '?';
+	    	if (typeof elem.prop('tagName') !== 'undefined'){
+		    	var tag = elem.prop('tagName').toLowerCase();
+		        if (tag == 'iframe' && typeof src != 'undefined') {
+		            // check youtube players
+		            if (src.indexOf('youtube.com/embed/') != -1) {
+		                // add id if it doesn't have one
+		                if (typeof elem.attr('id') == 'undefined') {
+		                    elem.attr('id', 'youtubePlayer' + (Object.keys(lqx.vars.youtubePlayers).length));
+		                }
+		                var playerId = elem.attr('id');
+		                lqx.vars.youtubePlayers[playerId] = {};
+		                
+		                // reload with API support enabled
+		                if (src.indexOf('enablejsapi=1') == -1) {
+		                    var urlconn = '&';
+		                    if (src.indexOf('?') == -1) {
+		                        urlconn = '?';
+		                    }
+		                    elem.attr('src', src + urlconn + 'enablejsapi=1&version=3');
+		                }
+		                
+		                // add event callbacks to player
+						lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, {
+				            events: {
+				                'onReady': function(e) {
+				                    lqx.youtubePlayerCallback(e, playerId)
+				                },
+				                'onStateChange': function(e) {
+				                    lqx.youtubePlayerCallback(e, playerId)
+				                }
+				            }
+				        });			                            
+		            }
+		            
+		            // check vimeo players
+					if(src.indexOf('player.vimeo.com/video/') != -1) {
+						// set an id if needed
+						if(typeof elem.attr('id') == 'undefined'){
+							elem.attr('id', 'vimeoPlayer' + (Object.keys(lqx.vars.vimeoPlayers).length))
 						}
-						elem.attr('src', src + urlconn + 'api=1&player_id=vimeoPlayer' + idx);
+						// add player to object list
+						lqx.vars.vimeoPlayers[jQuery(elem).attr('id')] = { };
+						// check player url and add api support
+						if(src.indexOf('api=1') == -1){
+							if(src.indexOf('?') == -1) {
+								urlconn = '?';
+							}
+							elem.attr('src', src + urlconn + 'api=1&player_id=vimeoPlayer' + idx);
+						}
 					}
-				}
-				
-			}
-		
+					
+				}	    		
+	    	}
 		});
 		
 	},
