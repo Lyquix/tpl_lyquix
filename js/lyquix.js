@@ -825,16 +825,7 @@ var lqx = lqx || {
 		                }
 		                
 		                // add event callbacks to player
-						lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, {
-				            events: {
-				                'onReady': function(e) {
-				                    lqx.youtubePlayerCallback(e, playerId)
-				                },
-				                'onStateChange': function(e) {
-				                    lqx.youtubePlayerCallback(e, playerId)
-				                }
-				            }
-				        });			                            
+						onYouTubeIframeAPIReady();		                            
 		            }
 		            
 		            // check vimeo players
@@ -1232,11 +1223,13 @@ jQuery(window).on('screensizechange', function() {
 // callback function called by iframe youtube players when they are ready
 function onYouTubeIframeAPIReady(){
 	for(var playerId in lqx.vars.youtubePlayers) {
-		lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, { 
-			events: { 
-				'onReady': function(e){ lqx.youtubePlayerCallback(e, playerId) }, 
-				'onStateChange': function(e){ lqx.youtubePlayerCallback(e, playerId) } 
-			}
-		});
+		if(typeof lqx.vars.youtubePlayers[playerId].playerObj == 'undefined') {
+			lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, { 
+				events: { 
+					'onReady': function(e){ lqx.youtubePlayerCallback(e, playerId) }, 
+					'onStateChange': function(e){ lqx.youtubePlayerCallback(e, playerId) } 
+				}
+			});
+		}
 	}
 }
