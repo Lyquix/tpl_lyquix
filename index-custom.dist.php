@@ -72,8 +72,6 @@ foreach($doc->_styleSheets as $key => $styleSheet){
 ?> 
     
 <jdoc:include type="head" />
-<link href="<?php echo $tmpl_url; ?>/css/styles.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/styles.' . ($this->params->get('lessjs') ? 'less' : 'css'))); ?>" rel="stylesheet" <?php echo $this->params->get('lessjs') ? 'type="text/less" ' : ''; ?>/>
-<link href="<?php echo $tmpl_url; ?>/css/icons.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/icons.' . ($this->params->get('lessjs') ? 'less' : 'css'))); ?>" rel="stylesheet" <?php echo $this->params->get('lessjs') ? 'type="text/less" ' : ''; ?>/>
 <?php
 $add_css_libraries = explode("\n", trim($this->params->get('add_css_libraries', '')));
 foreach($add_css_libraries as $cssurl) {
@@ -81,13 +79,43 @@ foreach($add_css_libraries as $cssurl) {
 	if($cssurl) {
 		echo '<link href="' . $cssurl . '" rel="stylesheet" />';
 	}
-} 
+}?>
+<link href="<?php echo $tmpl_url; ?>/css/icons.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/icons.' . ($this->params->get('lessjs') ? 'less' : 'css'))); ?>" rel="stylesheet" <?php echo $this->params->get('lessjs') ? 'type="text/less" ' : ''; ?>/>
+<link href="<?php echo $tmpl_url; ?>/css/styles.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/styles.' . ($this->params->get('lessjs') ? 'less' : 'css'))); ?>" id="stylesheet" rel="stylesheet" <?php echo $this->params->get('lessjs') ? 'type="text/less" ' : ''; ?>/>
+<?php
 if($this->params->get('lessjs')): ?>
 <script src="<?php echo $tmpl_url; ?>/js/less<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
-<?php endif; ?>
-<?php if(file_exists($tmpl_path . '/css/ie9.css')): ?>
+<?php endif; 
+if(file_exists($tmpl_path . '/css/ie9.css') || file_exists($tmpl_path . '/css/styles.0.css')): ?>
 <!--[if lte IE 9]>
+<?php if(file_exists($tmpl_path . '/css/styles.0.css')): ?>
+<link href="<?php echo $tmpl_url; ?>/css/styles.0.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/styles.0.css')); ?>" rel="stylesheet" />
+<script>
+// remove/unload main styles.css file
+(function() {
+	var stylesheet = document.getElementById('stylesheet');
+	stylesheet.parentNode.removeChild(stylesheet);
+})();
+</script>
+<?php endif;
+if(file_exists($tmpl_path . '/css/styles.1.css')): ?>
+<link href="<?php echo $tmpl_url; ?>/css/styles.1.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/styles.1.css')); ?>" rel="stylesheet" />
+<?php endif;
+if(file_exists($tmpl_path . '/css/styles.2.css')): ?>
+<link href="<?php echo $tmpl_url; ?>/css/styles.2.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/styles.2.css')); ?>" rel="stylesheet" />
+<?php endif;
+if(file_exists($tmpl_path . '/css/styles.3.css')): ?>
+<link href="<?php echo $tmpl_url; ?>/css/styles.3.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/styles.3.css')); ?>" rel="stylesheet" />
+<?php endif;
+if(file_exists($tmpl_path . '/css/styles.4.css')): ?>
+<link href="<?php echo $tmpl_url; ?>/css/styles.4.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/styles.4.css')); ?>" rel="stylesheet" />
+<?php endif;
+if(file_exists($tmpl_path . '/css/styles.5.css')): ?>
+<link href="<?php echo $tmpl_url; ?>/css/styles.5.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/styles.5.css')); ?>" rel="stylesheet" />
+<?php endif; 
+if(file_exists($tmpl_path . '/css/ie9.css')): ?>
 <link href="<?php echo $tmpl_url; ?>/css/ie9.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/ie9.css')); ?>" rel="stylesheet" />
+<?php endif; ?>
 <![endif]-->
 <?php endif;
 if(file_exists($tmpl_path . '/css/ie8.css')): ?>
@@ -167,7 +195,7 @@ echo $this->params->get('ga_account') ? "<script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 ga('create', '" . $this->params->get('ga_account') . "', 'auto');
 ga('send', 'pageview');
 </script>" : ''; ?>

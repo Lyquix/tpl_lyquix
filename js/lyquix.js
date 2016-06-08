@@ -313,7 +313,9 @@ var lqx = lqx || {
 			// adds width value to img elements that don't have one
 			jQuery('img').each(function(){
 				if(jQuery(this).attr('width') == undefined) {
-					jQuery(this).attr('width', '100%');
+					var img = new Image();
+					img.src = jQuery(this).attr('src'); 
+					jQuery(this).attr('width', img.width);
 				}
 			});
 			// fix for google fonts not rendering in IE10/11
@@ -593,51 +595,56 @@ var lqx = lqx || {
 					// check if it has an href attribute, otherwise it is just a page anchor
 					if(elem.href) {
 						
-						// check if it is an outbound link, track as event
-						if(elem.href.indexOf(location.host) == -1 && lqx.settings.tracking.outbound) {
-							jQuery(elem).click(function(e){
-								// prevent default
-								e.preventDefault ? e.preventDefault() : e.returnValue = !1;
-								var url = elem.href;
-								var label = url;
-								if(jQuery(elem).attr('title')) {
-									label = jQuery(elem).attr('title') + ' [' + url + ']';
-								}
-								var target = (elem.target && !elem.target.match(/^_(self|parent|top)$/i)) ? elem.target : false;
-								ga('send', {
-									'hitType': 'event', 
-									'eventCategory' : 'Outbound Links',
-									'eventAction' : 'click',
-									'eventLabel' : label,
-									'nonInteraction' : true,
-									'hitCallback' : function(){ target ? window.open(url, target) : window.location.href = url; }
+						// skip featherlight video and gallery, video is already handled below, and gallery will be handled by tracking.photogallery
+						if (typeof jQuery(this).attr('data-featherlight') === 'undefined' && typeof jQuery(this).parent().attr('data-featherlight-gallery') === 'undefined'){
+
+							// check if it is an outbound link, track as event
+							if(elem.href.indexOf(location.host) == -1 && lqx.settings.tracking.outbound) {
+
+								jQuery(elem).click(function(e){
+									// prevent default
+									e.preventDefault ? e.preventDefault() : e.returnValue = !1;
+									var url = elem.href;
+									var label = url;
+									if(jQuery(elem).attr('title')) {
+										label = jQuery(elem).attr('title') + ' [' + url + ']';
+									}
+									var target = (elem.target && !elem.target.match(/^_(self|parent|top)$/i)) ? elem.target : false;
+									ga('send', {
+										'hitType': 'event', 
+										'eventCategory' : 'Outbound Links',
+										'eventAction' : 'click',
+										'eventLabel' : label,
+										'nonInteraction' : true,
+										'hitCallback' : function(){ target ? window.open(url, target) : window.location.href = url; }
+									});
 								});
-							});
-						}
-						
-						// check if it is a download link, track as pageview
-						else if(elem.href.match(/\.(gif|png|jpg|jpeg|tif|tiff|svg|webp|bmp|zip|rar|gzip|7z|tar|exe|msi|dmg|txt|pdf|rtf|doc|docx|dot|dotx|xls|xlsx|xlt|xltx|ppt|pptx|pot|potx|mp3|wav|mp4|ogg|webm|wma|mov|avi|wmv|flv|swf|xml|js|json|css|less|sass)$/i) && lqx.settings.tracking.downloads) {
-							jQuery(elem).click(function(e){
-								// prevent default
-								e.preventDefault ? e.preventDefault() : e.returnValue = !1;
-								var url = elem.href;
-								var target = (elem.target && !elem.target.match(/^_(self|parent|top)$/i)) ? elem.target : false;
-								var loc = elem.protocol + '//' + elem.hostname + elem.pathname + elem.search;
-								var page = elem.pathname + elem.search;
-								var title = 'Download: ' + page;
-								if(jQuery(elem).attr('title')) {
-									title = jQuery(elem).attr('title');
-								}
-								ga('send', {
-									'hitType': 'pageview', 
-									'location' : loc,
-									'page' : page,
-									'title' : title,
-									'hitCallback' : function(){ target ? window.open(url, target) : window.location.href = url; }
+							}
+							
+							// check if it is a download link, track as pageview
+							else if(elem.href.match(/\.(gif|png|jpg|jpeg|tif|tiff|svg|webp|bmp|zip|rar|gzip|7z|tar|exe|msi|dmg|txt|pdf|rtf|doc|docx|dot|dotx|xls|xlsx|xlt|xltx|ppt|pptx|pot|potx|mp3|wav|mp4|ogg|webm|wma|mov|avi|wmv|flv|swf|xml|js|json|css|less|sass)$/i) && lqx.settings.tracking.downloads) {
+								jQuery(elem).click(function(e){
+									// prevent default
+									e.preventDefault ? e.preventDefault() : e.returnValue = !1;
+									var url = elem.href;
+									var target = (elem.target && !elem.target.match(/^_(self|parent|top)$/i)) ? elem.target : false;
+									var loc = elem.protocol + '//' + elem.hostname + elem.pathname + elem.search;
+									var page = elem.pathname + elem.search;
+									var title = 'Download: ' + page;
+									if(jQuery(elem).attr('title')) {
+										title = jQuery(elem).attr('title');
+									}
+									ga('send', {
+										'hitType': 'pageview', 
+										'location' : loc,
+										'page' : page,
+										'title' : title,
+										'hitCallback' : function(){ target ? window.open(url, target) : window.location.href = url; }
+									});
 								});
-							});
+							}
 						}
-						
+					
 					}
 				});
 				
@@ -662,7 +669,7 @@ var lqx = lqx || {
 				jQuery(window).on('unload', function(){
 					
 					ga('send', {
-						'hitType': 'event', 
+						'hitType' : 'event', 
 						'eventCategory' : 'Scroll Depth',
 						'eventAction' : lqx.vars.scrollDepthMax,
 						'nonInteraction' : true
@@ -674,7 +681,7 @@ var lqx = lqx || {
 			
 			// track photo galleries
 			if(lqx.settings.tracking.photogallery){
-				jQuery('html').on('click', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]', function(){
+				jQuery('html').on('click', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox], a[data-featherlight-image]', function(){
 					// send event for gallery opened
 					ga('send', {
 						'hitType': 'event', 
@@ -694,6 +701,7 @@ var lqx = lqx || {
 					});
 				
 				});
+
 			}
 			
 			// track video
@@ -721,43 +729,8 @@ var lqx = lqx || {
 				jQuery('iframe').each(function(){
 					
 					var elem = jQuery(this);
-					var src = elem.attr('src');
-					
-					if(typeof src != 'undefined'){
-						// check youtube players
-						if(src.indexOf('youtube.com/embed/') != -1) {
-							// set an id if needed
-							if(typeof elem.attr('id') == 'undefined'){
-								elem.attr('id','youtubePlayer' + (Object.keys(lqx.vars.youtubePlayers).length))
-							}
-							// add player to object list
-							lqx.vars.youtubePlayers[elem.attr('id')] = { };
-							// check player url and add api support
-							if(src.indexOf('enablejsapi=1') == -1){
-								var urlconn = '&';
-								if(src.indexOf('?') == -1) {
-									urlconn = '?';
-								}
-								elem.attr('src', src + urlconn + 'enablejsapi=1&version=3');
-							}
-						}
-						// check vimeo players
-						if(src.indexOf('player.vimeo.com/video/') != -1) {
-							// set an id if needed
-							if(typeof elem.attr('id') == 'undefined'){
-								elem.attr('id', 'vimeoPlayer' + (Object.keys(lqx.vars.vimeoPlayers).length))
-							}
-							// add player to object list
-							lqx.vars.vimeoPlayers[jQuery(elem).attr('id')] = { };
-							// check player url and add api support
-							if(src.indexOf('api=1') == -1){
-								if(src.indexOf('?') == -1) {
-									urlconn = '?';
-								}
-								elem.attr('src', src + urlconn + 'api=1&player_id=vimeoPlayer' + idx);
-							}
-						}
-					}
+			    	// init js api for video player
+			    	lqx.initVideoPlayerAPI(elem);
 												 
 				});
 
@@ -765,89 +738,137 @@ var lqx = lqx || {
 		}
 
 	},
-	
+
+	// handle mutation for featherlight gallery, and send the ga data if a new image is loaded by detecting new added image and pass on the src attribute value
+	featherlightMutationHandler: function(mutRec) {
+		jQuery(mutRec.addedNodes).each(function(){
+	    	var elem = jQuery(this);
+	    	var src = elem.attr('src');
+
+	    	if (typeof elem.prop('tagName') !== 'undefined' && elem.hasClass('featherlight-image')){
+	    		var tag = elem.prop('tagName').toLowerCase();
+
+		    	if (tag == 'img' && typeof src != 'undefined'){
+		    		// send event for image displayed
+					ga('send', {
+						'hitType': 'event', 
+						'eventCategory' : 'Photo Gallery',
+						'eventAction' : 'Display',
+						'eventLabel' : jQuery(this).attr('src')
+					});
+		    	}
+	    	}
+		});
+	},
+
 	// handle video players added dynamically
 	videoPlayerMutationHandler : function(mutRec) {
 		
 		jQuery(mutRec.addedNodes).each(function(){
 	    	
 	    	var elem = jQuery(this);
-	    	var src = elem.attr('src');
-	    	var tag = elem.prop('tagName').toLowerCase();
-	        
-	        if (tag == 'iframe' && typeof src != 'undefined') {
-	            // check youtube players
-	            if (src.indexOf('youtube.com/embed/') != -1) {
-	                // add id if it doesn't have one
-	                if (typeof elem.attr('id') == 'undefined') {
-	                    elem.attr('id', 'youtubePlayer' + (Object.keys(lqx.vars.youtubePlayers).length));
-	                }
-	                var playerId = elem.attr('id');
-	                lqx.vars.youtubePlayers[playerId] = {};
-	                
-	                // reload with API support enabled
-	                if (src.indexOf('enablejsapi=1') == -1) {
-	                    var urlconn = '&';
-	                    if (src.indexOf('?') == -1) {
-	                        urlconn = '?';
-	                    }
-	                    elem.attr('src', src + urlconn + 'enablejsapi=1&version=3');
-	                }
-	                
-	                // add event callbacks to player
-					lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, {
-			            events: {
-			                'onReady': function(e) {
-			                    lqx.youtubePlayerCallback(e, playerId)
-			                },
-			                'onStateChange': function(e) {
-			                    lqx.youtubePlayerCallback(e, playerId)
-			                }
-			            }
-			        });			                            
-	            }
-	            
-	            // check vimeo players
-				if(src.indexOf('player.vimeo.com/video/') != -1) {
-					// set an id if needed
-					if(typeof elem.attr('id') == 'undefined'){
-						elem.attr('id', 'vimeoPlayer' + (Object.keys(lqx.vars.vimeoPlayers).length))
-					}
-					// add player to object list
-					lqx.vars.vimeoPlayers[jQuery(elem).attr('id')] = { };
-					// check player url and add api support
-					if(src.indexOf('api=1') == -1){
-						if(src.indexOf('?') == -1) {
-							urlconn = '?';
-						}
-						elem.attr('src', src + urlconn + 'api=1&player_id=vimeoPlayer' + idx);
-					}
-				}
-				
-			}
-		
+	    	if (typeof elem.prop('tagName') !== 'undefined'){
+		    	var tag = elem.prop('tagName').toLowerCase();
+		        if (tag == 'iframe') {
+			    	// init js api for video player
+			    	lqx.initVideoPlayerAPI(elem);
+				}	    		
+	    	}
 		});
 		
 	},
-	
-	youtubePlayerCallback : function(e, playerId){
-		
-		player = lqx.vars.youtubePlayers[playerId];
-		videoData = e.target.getVideoData()
-		videoTitle = videoData['title'];
-		videoUrl = e.target.getVideoUrl();
-		duration = e.target.getDuration();
-		currentTime = e.target.getCurrentTime();
-		
-		// capture the onready event
-		if(e.data == null){
-			// set player object variables
-			player.progress = 0;
-			player.start = false;
-			player.complete = false;
+
+	// initialize the js api for youtube and vimeo players
+	initVideoPlayerAPI : function(elem) {
+
+		var src = elem.attr('src');
+		var playerId = elem.attr('id');
+        
+        // check youtube players
+        if (src.indexOf('youtube.com/embed/') != -1) {
+            // add id if it doesn't have one
+            if (typeof playerId == 'undefined') {
+                playerId = 'youtubePlayer' + (Object.keys(lqx.vars.youtubePlayers).length);
+                elem.attr('id', playerId);
+            }
+            
+            // reload with API support enabled
+            if (src.indexOf('enablejsapi=1') == -1) {
+                var urlconn = '&';
+                if (src.indexOf('?') == -1) {
+                    urlconn = '?';
+                }
+                elem.attr('src', src + urlconn + 'enablejsapi=1&version=3');
+            }
+
+            // add to list of players
+            if(typeof lqx.vars.youtubePlayers[playerId] == 'undefined') {
+	            lqx.vars.youtubePlayers[playerId] = {};
+	            
+	            // add event callbacks to player
+				onYouTubeIframeAPIReady();
+			}
+        }
+        
+        // check vimeo players
+		if(src.indexOf('player.vimeo.com/video/') != -1) {
+            // add id if it doesn't have one
+            if (typeof playerId == 'undefined') {
+                playerId = 'vimeoPlayer' + (Object.keys(lqx.vars.vimeoPlayers).length);
+                elem.attr('id', playerId);
+            }
+            
+            // reload with API support enabled
+            if (src.indexOf('api=1') == -1) {
+                var urlconn = '&';
+                if (src.indexOf('?') == -1) {
+                    urlconn = '?';
+                }
+                elem.attr('src', src + urlconn + 'api=1&player_id=' + playerId);
+            }
+
+            // add to list of players
+            if(typeof lqx.vars.vimeoPlayers[playerId] == 'undefined') {
+	            lqx.vars.vimeoPlayers[playerId] = {};
+			}
+			
 		}
-		
+
+	},
+	
+	youtubePlayerReady : function(e, playerId){
+		//console.log(playerId, e, lqx.vars.youtubePlayers[playerId], typeof lqx.vars.youtubePlayers[playerId].playerObj.getPlayerState);
+		// check if iframe still exists
+		if(jQuery('#' + playerId).length) {
+			if(typeof lqx.vars.youtubePlayers[playerId].playerObj.getPlayerState != 'function') {
+				//setTimeout(function(){lqx.youtubePlayerReady(e, playerId)}, 100);
+			}
+			else {
+				if(typeof lqx.vars.youtubePlayers[playerId].progress == 'undefined') {
+					// set player object variables
+					lqx.vars.youtubePlayers[playerId].progress = 0;
+					lqx.vars.youtubePlayers[playerId].start = false;
+					lqx.vars.youtubePlayers[playerId].complete = false;
+
+					// get video data
+					var videoData = lqx.vars.youtubePlayers[playerId].playerObj.getVideoData();
+					lqx.vars.youtubePlayers[playerId].title = videoData['title'];
+					lqx.vars.youtubePlayers[playerId].duration = lqx.vars.youtubePlayers[playerId].playerObj.getDuration();
+
+					if(!lqx.vars.youtubePlayers[playerId].start) lqx.youtubePlayerStateChange(e, playerId);
+				}
+			}
+		}
 		else {
+			// iframe no longer exists, remove it from array
+			delete lqx.vars.youtubePlayers[playerId];
+		}
+	},
+
+	youtubePlayerStateChange : function(e, playerId){
+		//console.log(playerId, e, lqx.vars.youtubePlayers[playerId], lqx.vars.youtubePlayers[playerId].playerObj.getPlayerState(), e.target.getPlayerState());
+		// check if iframe still exists
+		if(jQuery('#' + playerId).length) {
 			// player events:
 			// -1 (unstarted, player ready)
 			// 0 (ended)
@@ -857,31 +878,34 @@ var lqx = lqx || {
 			// 5 (video cued / video ready)
 			var label;
 			
-			// making sure we track the complete event just once
-			if(e.target.getPlayerState() == 0 && !player.complete) {
+			// video ended, make sure we track the complete event just once
+			if(lqx.vars.youtubePlayers[playerId].playerObj.getPlayerState() == 0 && !lqx.vars.youtubePlayers[playerId].complete) {
 				label = 'Complete';
-				player.complete = true;
+				lqx.vars.youtubePlayers[playerId].complete = true;
 			}
 			
-			if(e.target.getPlayerState() == 1) {
+			// video playing
+			if(lqx.vars.youtubePlayers[playerId].playerObj.getPlayerState() == 1) {
 				
-				// recursively call this function in 250ms to keep track of video progress
-				player.timer = setTimeout(function(){lqx.youtubePlayerCallback(e, playerId)}, 250);
+				// recursively call this function in 1s to keep track of video progress
+				lqx.vars.youtubePlayers[playerId].timer = setTimeout(function(){lqx.youtubePlayerStateChange(e, playerId)}, 1000);
 				
 				// if this is the first time we get the playing status, track it as start
-				if(!player.start){
+				if(!lqx.vars.youtubePlayers[playerId].start){
 					label = 'Start';
-					player.start = true;
+					lqx.vars.youtubePlayers[playerId].start = true;
 				}
 				
 				else {
 					
-					if(Math.ceil( Math.ceil( (currentTime / duration) * 100 ) / 10 ) - 1 > player.progress){
+					currentTime = lqx.vars.youtubePlayers[playerId].playerObj.getCurrentTime();
+
+					if(Math.ceil( Math.ceil( (currentTime / lqx.vars.youtubePlayers[playerId].duration) * 100 ) / 10 ) - 1 > lqx.vars.youtubePlayers[playerId].progress){
 						
-						player.progress = Math.ceil( Math.ceil( (currentTime / duration) * 100 ) / 10 ) - 1;
+						lqx.vars.youtubePlayers[playerId].progress = Math.ceil( Math.ceil( (currentTime / lqx.vars.youtubePlayers[playerId].duration) * 100 ) / 10 ) - 1;
 						
-						if(player.progress != 10){
-							label = (player.progress * 10) + '%';
+						if(lqx.vars.youtubePlayers[playerId].progress != 10){
+							label = (lqx.vars.youtubePlayers[playerId].progress * 10) + '%';
 						}
 						
 						else {
@@ -890,12 +914,23 @@ var lqx = lqx || {
 					}
 				}
 			}
-			
-			if(label){
-				lqx.videoTrackingEvent(playerId, label, videoTitle);
+
+			// video buffering
+			if(lqx.vars.youtubePlayers[playerId].playerObj.getPlayerState() == 3) {
+				// recursively call this function in 1s to keep track of video progress
+				lqx.vars.youtubePlayers[playerId].timer = setTimeout(function(){lqx.youtubePlayerStateChange(e, playerId)}, 1000);
 			}
 			
+			// send event to GA if label was set
+			if(label){
+				lqx.videoTrackingEvent(playerId, label, lqx.vars.youtubePlayers[playerId].title);
+			}
 		}
+		else {
+			// iframe no longer exists, remove it from array
+			delete lqx.vars.youtubePlayers[playerId];
+		}
+
 	},
 	
 	vimeoReceiveMessage : function(e){
@@ -1064,13 +1099,12 @@ var lqx = lqx || {
         // handle videos that may be loaded dynamically
 		var mo = window.MutationObserver || window.WebKitMutationObserver;
 		lqx.mutationObserver = new mo(lqx.mutationHandler);
-		lqx.mutationObserver.observe(document.getElementsByTagName('html'), { childList: true, characterData: true, attributes: true, subtree: true });
 
+		lqx.mutationObserver.observe(jQuery('html')[0], { childList: true, characterData: true, attributes: true, subtree: true });
 	},
 	
 	// mutation observer handler
 	mutationHandler : function(mutRecs) {
-		
 		mutRecs.forEach(function(mutRec){
 			
 			// handle type of mutation
@@ -1080,7 +1114,9 @@ var lqx = lqx || {
 					// handle addedNodes
 					if (mutRec.addedNodes.length > 0) {
 						// send mutation record to individual handlers
+
 						lqx.videoPlayerMutationHandler(mutRec);
+						lqx.featherlightMutationHandler (mutRec);
 					}
 					
 					// handle removedNodes
@@ -1139,7 +1175,8 @@ jQuery(document).ready(function(){
 	lqx.imageCaption();
 	// shows a line break symbol before br elements
 	lqx.lineBreakSymbol();
-	
+	// add listener to dynamically added content to the DOM
+	lqx.initMutationObserver();
 });
 
 // Functions to execute when the page has loaded
@@ -1200,11 +1237,13 @@ jQuery(window).on('screensizechange', function() {
 // callback function called by iframe youtube players when they are ready
 function onYouTubeIframeAPIReady(){
 	for(var playerId in lqx.vars.youtubePlayers) {
-		lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, { 
-			events: { 
-				'onReady': function(e){ lqx.youtubePlayerCallback(e, playerId) }, 
-				'onStateChange': function(e){ lqx.youtubePlayerCallback(e, playerId) } 
-			}
-		});
+		if(typeof lqx.vars.youtubePlayers[playerId].playerObj == 'undefined') {
+			lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, { 
+				events: { 
+					'onReady': function(e){ lqx.youtubePlayerReady(e, playerId) }, 
+					'onStateChange': function(e){ lqx.youtubePlayerStateChange(e, playerId) } 
+				}
+			});
+		}
 	}
 }
