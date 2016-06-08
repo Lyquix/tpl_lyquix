@@ -114,6 +114,7 @@
 					<option value="1">Yes</option>
 				</field>
 				<field name="add_js_libraries" type="textarea" default="" label="Additional Javascript Libraries" description="Enter one URL per line for additional javascript libraries you need for your project. We recommend: a) remove the protcol (http or https) from the URL, b) use the minified version for the production site" />
+				<field name="remove_css_js_libraries" type="textarea" default="" label="Remove Javascript/CSS&lt;br /&gt;Libraries" description="Enter one URL per line for javascript/css libraries you want to remove from head include for your project. We recommend: a) remove the protcol (http or https) from the URL" />                
 				<field name="min_screen" type="list" label="Minimum Screen Size" default="0" description="Select the minimum screen size that will be allowed">
 					<option value="0">XS</option>
 					<option value="1">SM</option>

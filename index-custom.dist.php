@@ -45,31 +45,22 @@ if($this->params->get('mobiledetect_method', 'php') == 'php') {
 
 <?php 
 /*
-    Code to disable importing certain compoment's javascript and css included on <jdoc:include type="head" />. 
-    Just add the path and file name to the array $dontInclude
+    Code to unset importing certain javascript and css included on <jdoc:include type="head" />
+    from components. Just add the path and file name to the array $dontInclude
 */    
 $doc = JFactory::getDocument();
-JURI::root(true);
-$dontInclude = array(
-    // example:
-    //'/media/com_rsform/css/front.css',
-    //'/media/com_rsform/css/frameworks/responsive/responsive.css'
-    //'/media/com_rsform/css/front.css',
-);
-
-// unset script
-foreach($doc->_scripts as $key => $script){
-    if(in_array($key, $dontInclude)){
-        unset($doc->_scripts[$key]);
-    }
-}     
-// unset css
-foreach($doc->_styleSheets as $key => $styleSheet){
-    if(in_array($key, $dontInclude)){
-        unset($doc->_styleSheets[$key]);
-    }
-}     
-?> 
+$remove_libraries = explode("\n", trim($this->params->get('remove_css_js_libraries', '')));
+foreach($remove_libraries as $js_css_url) {
+	$js_css_url = trim($js_css_url);
+	if($js_css_url) {
+        $ext = pathinfo($js_css_url, PATHINFO_EXTENSION);
+        if($ext == 'css')
+            unset($doc->_styleSheets[$js_css_url]);
+        else if ($ext == 'js')
+            unset($doc->_scripts[$js_css_url]);
+	}
+}
+?>   
     
 <jdoc:include type="head" />
 <?php
