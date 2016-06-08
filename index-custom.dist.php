@@ -42,6 +42,35 @@ if($this->params->get('mobiledetect_method', 'php') == 'php') {
 } ?>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<?php 
+/*
+    Code to disable importing certain compoment's javascript and css included on <jdoc:include type="head" />. 
+    Just add the path and file name to the array $dontInclude
+*/    
+$doc = JFactory::getDocument();
+JURI::root(true);
+$dontInclude = array(
+    // example:
+    //'/media/com_rsform/css/front.css',
+    //'/media/com_rsform/css/frameworks/responsive/responsive.css'
+    //'/media/com_rsform/css/front.css',
+);
+
+// unset script
+foreach($doc->_scripts as $key => $script){
+    if(in_array($key, $dontInclude)){
+        unset($doc->_scripts[$key]);
+    }
+}     
+// unset css
+foreach($doc->_styleSheets as $key => $styleSheet){
+    if(in_array($key, $dontInclude)){
+        unset($doc->_styleSheets[$key]);
+    }
+}     
+?> 
+    
 <jdoc:include type="head" />
 <link href="<?php echo $tmpl_url; ?>/css/styles.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/styles.' . ($this->params->get('lessjs') ? 'less' : 'css'))); ?>" rel="stylesheet" <?php echo $this->params->get('lessjs') ? 'type="text/less" ' : ''; ?>/>
 <link href="<?php echo $tmpl_url; ?>/css/icons.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/icons.' . ($this->params->get('lessjs') ? 'less' : 'css'))); ?>" rel="stylesheet" <?php echo $this->params->get('lessjs') ? 'type="text/less" ' : ''; ?>/>
