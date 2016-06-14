@@ -613,14 +613,13 @@ var lqx = lqx || {
 									if(jQuery(elem).attr('title')) {
 										label = jQuery(elem).attr('title') + ' [' + url + ']';
 									}
-									var target = (elem.target && !elem.target.match(/^_(self|parent|top)$/i)) ? elem.target : false;
 									ga('send', {
 										'hitType' : 'event', 
 										'eventCategory' : 'Outbound Links',
 										'eventAction' : 'click',
 										'eventLabel' : label,
 										'nonInteraction' : true,
-										'hitCallback' : function(){ target ? window.open(url, target) : window.location.href = url; }
+										'hitCallback' : function(){ window.location.href = url; } // regarless of target value link will open in same link, otherwise it is blocked by browser
 									});
 								});
 							}
@@ -631,7 +630,6 @@ var lqx = lqx || {
 									// prevent default
 									e.preventDefault ? e.preventDefault() : e.returnValue = !1;
 									var url = elem.href;
-									var target = (elem.target && !elem.target.match(/^_(self|parent|top)$/i)) ? elem.target : false;
 									var loc = elem.protocol + '//' + elem.hostname + elem.pathname + elem.search;
 									var page = elem.pathname + elem.search;
 									var title = 'Download: ' + page;
@@ -643,7 +641,7 @@ var lqx = lqx || {
 										'location' : loc,
 										'page' : page,
 										'title' : title,
-										'hitCallback' : function(){ target ? window.open(url, target) : window.location.href = url; }
+										'hitCallback' : function(){ window.location.href = url; } // regarless of target value link will open in same link, otherwise it is blocked by browser
 									});
 								});
 							}
