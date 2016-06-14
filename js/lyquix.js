@@ -24,7 +24,10 @@ var lqx = lqx || {
 			darker: -20,
 		},
 		resizeThrottle: {
-			duration: 13,  // in miliseconds 
+			duration: 15,  // in miliseconds 
+		},
+		scrollThrottle: {
+			duration: 15,  // in miliseconds 
 		},
 		bodyScreenSize: {
 			// defines the minimum and maximum screen sizes, 
@@ -43,6 +46,7 @@ var lqx = lqx || {
 	// holds working data
 	vars: {
 		resizeThrottle: false,  // saves current status of resizeThrottle
+		scrollThrottle: false,  // saves current status of scrollThrottle
 		bodyScreenSize: {
 			sizes: ['xs', 'sm', 'md', 'lg', 'xl'],
 		},
@@ -657,8 +661,8 @@ var lqx = lqx || {
 				// get the initial scroll position
 				lqx.vars.scrollDepthMax = Math.ceil(((jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height()) * 10) * 10;
 				
-				// add listener to scroll event
-				jQuery(window).scroll(function(){
+				// add listener to scrollthrottle event
+				jQuery(window).on('scrollthrottle', function(){
 					// capture the hightest scroll point, stop calculating once reached 100
 					if(lqx.vars.scrollDepthMax < 100) {
 						lqx.vars.scrollDepthMax = Math.max(lqx.vars.scrollDepthMax, Math.ceil(((jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height()) * 10) * 10);					
@@ -1191,20 +1195,50 @@ jQuery(window).load(function(){
 	
 });
 
+// Trigger on window scroll
+jQuery(window).scroll(function() {
+
+	// throttling?
+	if(!lqx.vars.scrollThrottle) {
+
+		// trigger custom event 'scrollthrottle'
+		jQuery(document).trigger('scrollthrottle');
+
+		// throttling is now on
+		lqx.vars.scrollThrottle = true;
+		
+		// set time out to turn throttling on and check screen size once more
+		setTimeout(function () { 
+			// trigger custom event 'scrollthrottle'
+			jQuery(document).trigger('scrollthrottle');
+
+			// throttling is now off
+			lqx.vars.scrollThrottle = false; 
+		}, lqx.settings.scrollThrottle.duration);
+		
+	}
+	
+});
+
 // Trigger on window resize
 jQuery(window).resize(function() {
 
 	// throttling?
 	if(!lqx.vars.resizeThrottle) {
 
-		// execute bodyscreenresize function
-		lqx.bodyScreenSize();
+		// trigger custom event 'resizethrottle'
+		jQuery(document).trigger('resizethrottle');
+
 		// throttling is now on
 		lqx.vars.resizeThrottle = true;
+		
 		// set time out to turn throttling on and check screen size once more
 		setTimeout(function () { 
+			// trigger custom event 'resizethrottle'
+			jQuery(document).trigger('resizethrottle');
+
+			// throttling is now off
 			lqx.vars.resizeThrottle = false; 
-			lqx.bodyScreenSize();
 		}, lqx.settings.resizeThrottle.duration);
 		
 	}
@@ -1226,6 +1260,19 @@ jQuery(window).on('screensizechange', function() {
 	lqx.equalHeightRows();
 	// set punctuation marks to hanging
 	lqx.hangingPunctuation();
+
+});
+
+// Trigger on custom event scrollthrottle
+jQuery(window).on('scrollthrottle', function() {
+	
+});
+
+// Trigger on custom event resizethrottle
+jQuery(window).on('resizethrottle', function() {
+	
+	// check screen size
+	lqx.bodyScreenSize();
 
 });
 
