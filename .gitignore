@@ -26,3 +26,4 @@ Desktop.ini
 !/images/default/
 /js/scripts.js
 /js/scripts.min.js
+!/js/scripts.dist.js
