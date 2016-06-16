@@ -44,6 +44,9 @@ Close the if/else block.
 
 
 In the repo you can find the file `index-custom.dist.php` that you can use as the base for your custom template. Just rename it to `index-custom.php`. The component file has a very similar structure.
+
+NOTE: several parts have been moved to separate PHP include files.
+
 ```php
 <?php
 // No direct access

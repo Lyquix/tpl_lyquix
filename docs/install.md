@@ -8,6 +8,8 @@
 ###Initial Setup
 After the initial installation you should see an error in the frontend that reads `File index-custom.php not found.` This is caused because the template is trying to use your custom project files that need to be created. Copy or rename the files `index-custom.dist.php` to `index-custom.php`, and `component-custom.dist.php` to `component-custom.php`.
 
+Several parts of the template have been separated into individual PHP include files for easy management and updates.
+
 Based on your design you need to select if you want to use 4, 5 or 6 block structure. If you don't know which one to use start with 4. You can change it later. You need to copy some of the base LESS files in the `css/less` directory into the `css/less/custom` directory and rename them, as follows:
 
   * `04-blocks-downsized4.less` to `04-blocks-downsized.less`
