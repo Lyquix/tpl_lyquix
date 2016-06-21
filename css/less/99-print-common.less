@@ -15,50 +15,62 @@
 // hide in print
 .print-hide {
     @media print {
-        display: none !important;
+        &, *, *:before, *:after, *:first-letter, *:first-line {
+            display: none !important;
+        }
     }
 }
 // remove background color and images
 .print-no-background { 
     @media print {
-        background: transparent !important;
-        background-image: none !important;
+        &, *, *:before, *:after, *:first-letter, *:first-line {
+            background: transparent !important;
+            background-image: none !important;
+        }
     }
 }
 
 // force text to full black
 .print-text-color-black {
     @media print {
-        color: #000 !important;
+        &, *, *:before, *:after, *:first-letter, *:first-line {
+            color: #000 !important;
+        }
     }
 }
 
 // remove box shadow
 .print-no-box-shadow {
     @media print {
-        box-shadow: none !important;
+        &, *, *:before, *:after, *:first-letter, *:first-line {
+            box-shadow: none !important;
+        }
     }
 }
 
 // remove text shadow
 .print-no-text-shadow {
     @media print {
-        text-shadow: none !important;
+        &, *, *:before, *:after, *:first-letter, *:first-line {
+            text-shadow: none !important;
+        }
     }
-}
+}   
     
     
 // appends the url after links (except anchors and javascript)
 .print-links-href {
     @media print {
-        &:after {
-            content: " (" attr(href) ")";
-        }
-        
-        &[href^="#"],
-        &[href^="javascript:"] {
-            &after {
-                content: "";
+        &, a {
+            &:after, &:visited:after {
+                content: " (" attr(href) ")";
+            }
+            
+            &[href^="#"],
+            &[href^="javascript:"] {
+                &:after, &:visited:after {
+                    content: "";
+                }
             }
         }
     }
@@ -67,8 +79,10 @@
 // appends title after abbreviations
 .print-abbr-title {
     @media print {
-        &:after {
-            content: " (" attr(title) ")";
+        &, abbr {
+            &:after {
+                content: " (" attr(title) ")";
+            }
         }
     }
 }
