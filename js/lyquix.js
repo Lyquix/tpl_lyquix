@@ -663,7 +663,8 @@ var lqx = lqx || {
 				jQuery(window).on('scrollthrottle', function(){
 					// capture the hightest scroll point, stop calculating once reached 100
 					if(lqx.vars.scrollDepthMax < 100) {
-						lqx.vars.scrollDepthMax = Math.max(lqx.vars.scrollDepthMax, Math.ceil(((jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height()) * 10) * 10);					
+						lqx.vars.scrollDepthMax = Math.max(lqx.vars.scrollDepthMax, Math.ceil(((jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height()) * 10) * 10);
+						if(lqx.vars.scrollDepthMax > 100) lqx.vars.scrollDepthMax = 100;
 					}
 				});
 				
