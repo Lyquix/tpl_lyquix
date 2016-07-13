@@ -838,13 +838,10 @@ var lqx = lqx || {
 				}
 				
 			}
-			
 		}
-
 	},
 	
 	youtubePlayerReady : function(e, playerId){
-		//console.log(playerId, e, lqx.vars.youtubePlayers[playerId], typeof lqx.vars.youtubePlayers[playerId].playerObj.getPlayerState);
 		// check if iframe still exists
 		if(jQuery('#' + playerId).length) {
 			if(typeof lqx.vars.youtubePlayers[playerId].playerObj.getPlayerState != 'function') {
@@ -873,7 +870,6 @@ var lqx = lqx || {
 	},
 
 	youtubePlayerStateChange : function(e, playerId){
-		//console.log(playerId, e, lqx.vars.youtubePlayers[playerId], lqx.vars.youtubePlayers[playerId].playerObj.getPlayerState(), e.target.getPlayerState());
 		// check if iframe still exists
 		if(jQuery('#' + playerId).length) {
 			// player events:
@@ -1124,7 +1120,6 @@ var lqx = lqx || {
 				  	var src = jQuery(e.currentTarget).attr('src');
 					if (typeof src != 'undefined'){
 						// send event for image displayed
-						console.log('img tracked');
 						ga('send', {
 							'hitType': 'event', 
 							'eventCategory' : 'Photo Gallery',
@@ -1149,14 +1144,13 @@ var lqx = lqx || {
 					// handle addedNodes
 					if (mutRec.addedNodes.length > 0) {
 						// send mutation record to individual handlers
-
 						lqx.videoPlayerMutationHandler(mutRec);
 						lqx.featherlightMutationHandler (mutRec);
 					}
 					
 					// handle removedNodes
-					if (mutRec.removedNodes.length > 0) {
-					}
+					/*if (mutRec.removedNodes.length > 0) {
+					}*/
 					break;
 					
 				case 'attributes':
