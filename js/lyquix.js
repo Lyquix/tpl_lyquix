@@ -327,12 +327,10 @@ var lqx = lqx || {
 			});
 			// fix for google fonts not rendering in IE10/11
 			if(lqx.getBrowser.version >= 10) {
-				console.log('ie10/11');
 				jQuery('html').css('font-feature-settings', 'normal');
 			}
-			// replaced svg imager for pngs in IE8
-			if(lqx.getBrowser.version < 9) {
-				console.log('ie8');
+			// replaced svg imager for pngs in IE 8 and older
+			if(lqx.getBrowser.version <= 8) {
 				jQuery('img').each(function(){
 					src = jQuery(this).attr('src');
 					if(/\.svg$/i.test (src)) {
