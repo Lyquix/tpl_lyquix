@@ -788,52 +788,55 @@ var lqx = lqx || {
 		var src = elem.attr('src');
 		var playerId = elem.attr('id');
         
-        // check youtube players
-        if (src.indexOf('youtube.com/embed/') != -1) {
-            // add id if it doesn't have one
-            if (typeof playerId == 'undefined') {
-                playerId = 'youtubePlayer' + (Object.keys(lqx.vars.youtubePlayers).length);
-                elem.attr('id', playerId);
-            }
-            
-            // reload with API support enabled
-            if (src.indexOf('enablejsapi=1') == -1) {
-                var urlconn = '&';
-                if (src.indexOf('?') == -1) {
-                    urlconn = '?';
-                }
-                elem.attr('src', src + urlconn + 'enablejsapi=1&version=3');
-            }
-
-            // add to list of players
-            if(typeof lqx.vars.youtubePlayers[playerId] == 'undefined') {
-	            lqx.vars.youtubePlayers[playerId] = {};
+        if(typeof src != 'undefined') {
+	        // check youtube players
+	        if (src.indexOf('youtube.com/embed/') != -1) {
+	            // add id if it doesn't have one
+	            if (typeof playerId == 'undefined') {
+	                playerId = 'youtubePlayer' + (Object.keys(lqx.vars.youtubePlayers).length);
+	                elem.attr('id', playerId);
+	            }
 	            
-	            // add event callbacks to player
-				onYouTubeIframeAPIReady();
-			}
-        }
-        
-        // check vimeo players
-		if(src.indexOf('player.vimeo.com/video/') != -1) {
-            // add id if it doesn't have one
-            if (typeof playerId == 'undefined') {
-                playerId = 'vimeoPlayer' + (Object.keys(lqx.vars.vimeoPlayers).length);
-                elem.attr('id', playerId);
-            }
-            
-            // reload with API support enabled
-            if (src.indexOf('api=1') == -1) {
-                var urlconn = '&';
-                if (src.indexOf('?') == -1) {
-                    urlconn = '?';
-                }
-                elem.attr('src', src + urlconn + 'api=1&player_id=' + playerId);
-            }
+	            // reload with API support enabled
+	            if (src.indexOf('enablejsapi=1') == -1) {
+	                var urlconn = '&';
+	                if (src.indexOf('?') == -1) {
+	                    urlconn = '?';
+	                }
+	                elem.attr('src', src + urlconn + 'enablejsapi=1&version=3');
+	            }
 
-            // add to list of players
-            if(typeof lqx.vars.vimeoPlayers[playerId] == 'undefined') {
-	            lqx.vars.vimeoPlayers[playerId] = {};
+	            // add to list of players
+	            if(typeof lqx.vars.youtubePlayers[playerId] == 'undefined') {
+		            lqx.vars.youtubePlayers[playerId] = {};
+		            
+		            // add event callbacks to player
+					onYouTubeIframeAPIReady();
+				}
+	        }
+	        
+	        // check vimeo players
+			if(src.indexOf('player.vimeo.com/video/') != -1) {
+	            // add id if it doesn't have one
+	            if (typeof playerId == 'undefined') {
+	                playerId = 'vimeoPlayer' + (Object.keys(lqx.vars.vimeoPlayers).length);
+	                elem.attr('id', playerId);
+	            }
+	            
+	            // reload with API support enabled
+	            if (src.indexOf('api=1') == -1) {
+	                var urlconn = '&';
+	                if (src.indexOf('?') == -1) {
+	                    urlconn = '?';
+	                }
+	                elem.attr('src', src + urlconn + 'api=1&player_id=' + playerId);
+	            }
+
+	            // add to list of players
+	            if(typeof lqx.vars.vimeoPlayers[playerId] == 'undefined') {
+		            lqx.vars.vimeoPlayers[playerId] = {};
+				}
+				
 			}
 			
 		}
