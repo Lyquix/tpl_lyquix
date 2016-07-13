@@ -926,7 +926,7 @@ var lqx = lqx || {
 			
 			// send event to GA if label was set
 			if(label){
-				lqx.videoTrackingEvent(playerId, label, lqx.vars.youtubePlayers[playerId].title);
+				lqx.videoTrackingEvent(playerId, label, lqx.vars.youtubePlayers[playerId].title, lqx.vars.youtubePlayers[playerId].progress * 10);
 			}
 		}
 		else {
@@ -993,7 +993,7 @@ var lqx = lqx || {
 			}
 			
 			if(label){
-				lqx.videoTrackingEvent(data.player_id, label, 'Title not available'); // vimeo doesn't provide a mechanism for getting the video title
+				lqx.videoTrackingEvent(data.player_id, label, 'No title', player.progress * 10); // vimeo doesn't provide a mechanism for getting the video title
 			}
 			
 		}
@@ -1016,13 +1016,13 @@ var lqx = lqx || {
 		
 	},
 	
-	videoTrackingEvent : function(playerId, label, title) {
+	videoTrackingEvent : function(playerId, label, title, value) {
 		ga('send', {
 			'hitType': 'event', 
 			'eventCategory' : 'Video',
-			'eventAction' : 'Play',
-			'eventLabel' : label,
-			'eventValue': title + ' (' + jQuery('#' + playerId).attr('src').split('?')[0] + ')'
+			'eventAction' : label,
+			'eventLabel' : title + ' (' + jQuery('#' + playerId).attr('src').split('?')[0] + ')',
+			'eventValue': value
 		});
 
 	},
