@@ -316,10 +316,13 @@ var lqx = lqx || {
 		if(lqx.getBrowser.type == 'msie') {
 			// adds width value to img elements that don't have one
 			jQuery('img').each(function(){
-				if(jQuery(this).attr('width') == undefined) {
-					var img = new Image();
-					img.src = jQuery(this).attr('src'); 
-					jQuery(this).attr('width', img.width);
+				var img = jQuery(this);
+				if(img.attr('width') == undefined) {
+					var newimg = new Image();
+					newimg.onload = function() {
+						img.attr('width', newimg.width);
+					}
+					newimg.src = img.attr('src'); 
 				}
 			});
 			// fix for google fonts not rendering in IE10/11
