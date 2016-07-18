@@ -8,7 +8,7 @@
 	<authorUrl>http://www.lyquix.com</authorUrl>
 	<copyright>Copyright(c)2014-2016 - Lyquix</copyright>
 	<license></license>
-	<version>0.17.0</version>
+	<version>0.18.0</version>
 	<description>Lyquix base template for Joomla 3.x</description>
 	<files>
 		<folder>css</folder>
@@ -157,6 +157,10 @@
 				<field name="mobiledetect_method" type="radio" default="php" label="Mobile Detect Method" description="Selects the method for detecting mobile devices. Adds CSS classes mobile, tablet and phone to the body tag if applicable. Server-side (PHP) is the default method but if your site uses page cache, you should use client-side method.">
 					<option value="php">Server-Side (PHP)</option>
 					<option value="js">Client-Side (JavaScript)</option>
+				</field>
+				<field name="ie9_alert" type="radio" default="0" label="Show IE9 upgrade alert" description="">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
 				</field>
 			</fieldset>
 		</fields>

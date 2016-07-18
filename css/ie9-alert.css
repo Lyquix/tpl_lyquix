@@ -1,0 +1,47 @@
+.ie9-alert {
+    color: black;
+    position: fixed;
+    bottom: 2px;
+    background-color: white;
+    border: 1px solid black;
+    padding: 15px 20px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: Segoe UI, Tahoma, Arial, sans-serif;
+    box-shadow: 0 0 3px #666;
+    width: 75%;
+    max-width: 960px;
+    display: block;
+    text-align: left;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: normal;
+    left: 0;
+    right: 0;
+}
+.ie9-alert:before {
+    display: block;
+    position: relative;
+    content: "";
+    height: 6px;
+    background-color: #f3b000;
+    margin: -14px -18px 10px -20px;
+    left: 1px;
+}
+.ie9-alert a {
+    color: blue;
+}
+.ie9-alert i {
+    display: block;
+    position: absolute;
+    right: 5px;
+    top: calc(50% - 12px);
+    cursor: pointer;
+}
+.ie9-alert i:before {
+    content: "\00d7";
+    font-style: normal;
+    font-weight: bold;
+    color: #999;
+    font-size: 18px;
+}
