@@ -2,13 +2,13 @@
 <!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
 <extension version="3.0" type="template" client="site" method="upgrade">
 	<name>Lyquix</name>
-	<creationDate>2016-07-13</creationDate>
+	<creationDate>2016-07-18</creationDate>
 	<author>Lyquix</author>
 	<authorEmail>info@lyquix.com</authorEmail>
 	<authorUrl>http://www.lyquix.com</authorUrl>
 	<copyright>Copyright(c)2014-2016 - Lyquix</copyright>
 	<license></license>
-	<version>0.16.1</version>
+	<version>0.17.0</version>
 	<description>Lyquix base template for Joomla 3.x</description>
 	<files>
 		<folder>css</folder>
@@ -110,6 +110,18 @@
 					<option value="1">Yes</option>
 				</field>
 				<field name="lodash" type="radio" default="0" label="Load LoDash library" description="">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="es5_shim" type="radio" default="0" label="Load ES5 shim library" description="">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="es5_es6_shim" type="radio" default="0" label="Load ES5 + ES6 shim library" description="">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="json3" type="radio" default="0" label="Load JSON3 library" description="">
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>

@@ -250,6 +250,6 @@ if(!$this->params->get('blank_page',0)) :  ?>
 <?php else:  // output a "blank" page (component only) ?>
 <jdoc:include type="component" />
 <?php endif; // endif for blank page ?>
-<?php include($tmpl_path . '/php/body-post.inc.php'); ?>
+<?php include($tmpl_path . '/php/body-bottom.inc.php'); ?>
 </body>
 </html>
