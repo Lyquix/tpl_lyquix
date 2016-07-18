@@ -5,7 +5,8 @@ if($this->params->get('es5_shim', 0) || $this->params->get('es5_es6_shim', 0)): 
 <?php endif;
 if($this->params->get('es5_es6_shim', 0)): ?>
 <script src="<?php echo $tmpl_url; ?>/js/es6-shim<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/es6-shim' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
-<script src="<?php echo $tmpl_url; ?>/js/es6-sham<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/es6-sham' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script><?php endif;
+<script src="<?php echo $tmpl_url; ?>/js/es6-sham<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/es6-sham' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
+<?php endif;
 if($this->params->get('json3', 0)): ?>
 <script src="<?php echo $tmpl_url; ?>/js/json3<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/json3' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
 <?php endif;
