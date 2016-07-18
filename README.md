@@ -50,7 +50,10 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Incorporates 6 icon libraries: FontAwesome, IcoMoon, IonIcons, MapIcons, TypIcons and WeatherIcons, using consistent classes and allowing for LESS mixings everywhere
   * 7-row, 6-column base layout provides a very good starting point for any design
   * Utility functions for creating the structure and base functionality of menus
+  * Base styles for print version
   * Allows adding custom CSS libraries from template settings
+  * Recommended: use PostCSS Autoprefixer to add support for custom browser prefixes and variations
+  * Recommended: use BLESS to chunk files to avoid issues with IE9
 
 ###Javascript###
 
@@ -58,18 +61,14 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Options to load AngularJS, loDash and additional custom-url javascript libraries
   * Custom script.js URL is appended with date-time of last modification to ensure visitors always load latest version
   * Loads Joomla Bootstrap with jQuery UI
-  * Lyquix Javascript library includes useful functionality for:
-    * Responsiveness: listens to screen resize and rotation events, then sets the attribute "screen" in the body tag based on the screen size, and triggers the custom event screensizechange. This event can then be listened by other functions to implement full responsiveness. Supports down to IE8.
-    * Analytics - tracking of common events using Google Analytics:
-      * Scroll depth
-      * Video events on YouTube and Vimeo players: start, progress milestones, complete
-      * Photo gallery events: gallery open and image view
-      * Download URLs
-      * Exit URLs
-    * Script-supported styling including equal height rows, hanging punctuation, image captions, color shades
+  * Responsiveness: listens to screen resize and rotation events, then sets the attribute "screen" in the body tag based on the screen size, and triggers the custom event screensizechange. This event can then be listened by other functions to implement full responsiveness. Supports down to IE8.
+  * Script-supported styling including equal height rows, hanging punctuation, image captions, color shades
   * Overrides Lyquix Javascript defaults via template settings
   * Loads Google Analytics, AddThis and Disqus if account numbers are set in template settings
   * Uses minified files for production
+  * Template for custom project scripts
+  * Detects browser and operating system, type and version, and adds them as classes to body tag
+  * Custom events: onscreensizechange, scrollthrottle, and resizethrottle
 
 ###Joomla###
 
@@ -78,6 +77,8 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Base templates for index, component, error, offline
   * Displays module positions only if module available
   * Add classes to body tag identifying component, view, task
+  * Easily add custom js and css libraries in template settings
+  * Unset js and css added by Joomla extensions
 
 ###Customization###
 
@@ -90,11 +91,22 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Adds fix IE console
   * Loads html5shiv and selectivzr
   * Adds conditional comments for CSS fixes for IE (only if CSS files exist)
-  * Adds width attributes to images if missing
+  * Automatically loads chunked CSS files for IE9
+  * Adds classes to body tag that identify browser type and version
+  * Adds width attribute to images if missing
   * On IE8 implements a hack for responsiveness to work
   * On IE8 implements fallback of inline svg images to png
   * Hacks for font rendering issues in IE11
   * Displays warning for IE8 and older users
+
+###Tracking with Google Analytics###
+  
+  * Loads Google Analytics universal tracking code when UA- account is set in template settings
+  * Tracking of outbound links as events
+  * Tracking of download file as page views
+  * Tracking of page scroll depth as event
+  * Tracking of photo gallery open and browsing as events
+  * Tracking of video player events (play, percentage, and complete), supports YouTube and Vimeo
 
 ##Documentation##
 

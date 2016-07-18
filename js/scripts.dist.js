@@ -51,10 +51,24 @@ jQuery(window).load(function(){
 	
 });
 
+// on screen orientation change
+jQuery(window).on('orientationchange', function() {
+	
+	/* add handlers to run on screen orientation change */
+	
+});
+
 // on change of screen size: xs, sm, md, lg, xl, as well as rotation
 jQuery(window).on('screensizechange', function() {
 
 	/* add handlers to run on screen changes */
+
+});
+
+// on custom event scrollthrottle
+jQuery(window).on('scrollthrottle', function() {
+	
+	/* add handlers to run when page is scrolled */
 
 });
 
@@ -63,6 +77,13 @@ jQuery(window).scroll(function() {
 
 	/* add handlers to run when page is scrolled */
 	
+});
+
+// on custom event resizethrottle
+jQuery(window).on('resizethrottle', function() {
+	
+	/* add handlers to run when window is resized */
+
 });
 
 // on window resize events

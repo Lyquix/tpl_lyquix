@@ -24,7 +24,10 @@ var lqx = lqx || {
 			darker: -20,
 		},
 		resizeThrottle: {
-			duration: 13,  // in miliseconds 
+			duration: 15,  // in miliseconds 
+		},
+		scrollThrottle: {
+			duration: 15,  // in miliseconds 
 		},
 		bodyScreenSize: {
 			// defines the minimum and maximum screen sizes, 
@@ -43,6 +46,7 @@ var lqx = lqx || {
 	// holds working data
 	vars: {
 		resizeThrottle: false,  // saves current status of resizeThrottle
+		scrollThrottle: false,  // saves current status of scrollThrottle
 		bodyScreenSize: {
 			sizes: ['xs', 'sm', 'md', 'lg', 'xl'],
 		},
@@ -312,20 +316,21 @@ var lqx = lqx || {
 		if(lqx.getBrowser.type == 'msie') {
 			// adds width value to img elements that don't have one
 			jQuery('img').each(function(){
-				if(jQuery(this).attr('width') == undefined) {
-					var img = new Image();
-					img.src = jQuery(this).attr('src'); 
-					jQuery(this).attr('width', img.width);
+				var img = jQuery(this);
+				if(img.attr('width') == undefined) {
+					var newimg = new Image();
+					newimg.onload = function() {
+						img.attr('width', newimg.width);
+					}
+					newimg.src = img.attr('src'); 
 				}
 			});
 			// fix for google fonts not rendering in IE10/11
 			if(lqx.getBrowser.version >= 10) {
-				console.log('ie10/11');
 				jQuery('html').css('font-feature-settings', 'normal');
 			}
-			// replaced svg imager for pngs in IE8
-			if(lqx.getBrowser.version < 9) {
-				console.log('ie8');
+			// replaced svg imager for pngs in IE 8 and older
+			if(lqx.getBrowser.version <= 8) {
 				jQuery('img').each(function(){
 					src = jQuery(this).attr('src');
 					if(/\.svg$/i.test (src)) {
@@ -609,14 +614,13 @@ var lqx = lqx || {
 									if(jQuery(elem).attr('title')) {
 										label = jQuery(elem).attr('title') + ' [' + url + ']';
 									}
-									var target = (elem.target && !elem.target.match(/^_(self|parent|top)$/i)) ? elem.target : false;
 									ga('send', {
-										'hitType': 'event', 
+										'hitType' : 'event', 
 										'eventCategory' : 'Outbound Links',
 										'eventAction' : 'click',
 										'eventLabel' : label,
 										'nonInteraction' : true,
-										'hitCallback' : function(){ target ? window.open(url, target) : window.location.href = url; }
+										'hitCallback' : function(){ window.location.href = url; } // regarless of target value link will open in same link, otherwise it is blocked by browser
 									});
 								});
 							}
@@ -627,7 +631,6 @@ var lqx = lqx || {
 									// prevent default
 									e.preventDefault ? e.preventDefault() : e.returnValue = !1;
 									var url = elem.href;
-									var target = (elem.target && !elem.target.match(/^_(self|parent|top)$/i)) ? elem.target : false;
 									var loc = elem.protocol + '//' + elem.hostname + elem.pathname + elem.search;
 									var page = elem.pathname + elem.search;
 									var title = 'Download: ' + page;
@@ -639,7 +642,7 @@ var lqx = lqx || {
 										'location' : loc,
 										'page' : page,
 										'title' : title,
-										'hitCallback' : function(){ target ? window.open(url, target) : window.location.href = url; }
+										'hitCallback' : function(){ window.location.href = url; } // regarless of target value link will open in same link, otherwise it is blocked by browser
 									});
 								});
 							}
@@ -657,11 +660,12 @@ var lqx = lqx || {
 				// get the initial scroll position
 				lqx.vars.scrollDepthMax = Math.ceil(((jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height()) * 10) * 10;
 				
-				// add listener to scroll event
-				jQuery(window).scroll(function(){
+				// add listener to scrollthrottle event
+				jQuery(window).on('scrollthrottle', function(){
 					// capture the hightest scroll point, stop calculating once reached 100
 					if(lqx.vars.scrollDepthMax < 100) {
-						lqx.vars.scrollDepthMax = Math.max(lqx.vars.scrollDepthMax, Math.ceil(((jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height()) * 10) * 10);					
+						lqx.vars.scrollDepthMax = Math.max(lqx.vars.scrollDepthMax, Math.ceil(((jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height()) * 10) * 10);
+						if(lqx.vars.scrollDepthMax > 100) lqx.vars.scrollDepthMax = 100;
 					}
 				});
 				
@@ -784,60 +788,60 @@ var lqx = lqx || {
 		var src = elem.attr('src');
 		var playerId = elem.attr('id');
         
-        // check youtube players
-        if (src.indexOf('youtube.com/embed/') != -1) {
-            // add id if it doesn't have one
-            if (typeof playerId == 'undefined') {
-                playerId = 'youtubePlayer' + (Object.keys(lqx.vars.youtubePlayers).length);
-                elem.attr('id', playerId);
-            }
-            
-            // reload with API support enabled
-            if (src.indexOf('enablejsapi=1') == -1) {
-                var urlconn = '&';
-                if (src.indexOf('?') == -1) {
-                    urlconn = '?';
-                }
-                elem.attr('src', src + urlconn + 'enablejsapi=1&version=3');
-            }
-
-            // add to list of players
-            if(typeof lqx.vars.youtubePlayers[playerId] == 'undefined') {
-	            lqx.vars.youtubePlayers[playerId] = {};
+        if(typeof src != 'undefined') {
+	        // check youtube players
+	        if (src.indexOf('youtube.com/embed/') != -1) {
+	            // add id if it doesn't have one
+	            if (typeof playerId == 'undefined') {
+	                playerId = 'youtubePlayer' + (Object.keys(lqx.vars.youtubePlayers).length);
+	                elem.attr('id', playerId);
+	            }
 	            
-	            // add event callbacks to player
-				onYouTubeIframeAPIReady();
-			}
-        }
-        
-        // check vimeo players
-		if(src.indexOf('player.vimeo.com/video/') != -1) {
-            // add id if it doesn't have one
-            if (typeof playerId == 'undefined') {
-                playerId = 'vimeoPlayer' + (Object.keys(lqx.vars.vimeoPlayers).length);
-                elem.attr('id', playerId);
-            }
-            
-            // reload with API support enabled
-            if (src.indexOf('api=1') == -1) {
-                var urlconn = '&';
-                if (src.indexOf('?') == -1) {
-                    urlconn = '?';
-                }
-                elem.attr('src', src + urlconn + 'api=1&player_id=' + playerId);
-            }
+	            // reload with API support enabled
+	            if (src.indexOf('enablejsapi=1') == -1) {
+	                var urlconn = '&';
+	                if (src.indexOf('?') == -1) {
+	                    urlconn = '?';
+	                }
+	                elem.attr('src', src + urlconn + 'enablejsapi=1&version=3');
+	            }
 
-            // add to list of players
-            if(typeof lqx.vars.vimeoPlayers[playerId] == 'undefined') {
-	            lqx.vars.vimeoPlayers[playerId] = {};
+	            // add to list of players
+	            if(typeof lqx.vars.youtubePlayers[playerId] == 'undefined') {
+		            lqx.vars.youtubePlayers[playerId] = {};
+		            
+		            // add event callbacks to player
+					onYouTubeIframeAPIReady();
+				}
+	        }
+	        
+	        // check vimeo players
+			if(src.indexOf('player.vimeo.com/video/') != -1) {
+	            // add id if it doesn't have one
+	            if (typeof playerId == 'undefined') {
+	                playerId = 'vimeoPlayer' + (Object.keys(lqx.vars.vimeoPlayers).length);
+	                elem.attr('id', playerId);
+	            }
+	            
+	            // reload with API support enabled
+	            if (src.indexOf('api=1') == -1) {
+	                var urlconn = '&';
+	                if (src.indexOf('?') == -1) {
+	                    urlconn = '?';
+	                }
+	                elem.attr('src', src + urlconn + 'api=1&player_id=' + playerId);
+	            }
+
+	            // add to list of players
+	            if(typeof lqx.vars.vimeoPlayers[playerId] == 'undefined') {
+		            lqx.vars.vimeoPlayers[playerId] = {};
+				}
+				
 			}
-			
 		}
-
 	},
 	
 	youtubePlayerReady : function(e, playerId){
-		//console.log(playerId, e, lqx.vars.youtubePlayers[playerId], typeof lqx.vars.youtubePlayers[playerId].playerObj.getPlayerState);
 		// check if iframe still exists
 		if(jQuery('#' + playerId).length) {
 			if(typeof lqx.vars.youtubePlayers[playerId].playerObj.getPlayerState != 'function') {
@@ -866,7 +870,6 @@ var lqx = lqx || {
 	},
 
 	youtubePlayerStateChange : function(e, playerId){
-		//console.log(playerId, e, lqx.vars.youtubePlayers[playerId], lqx.vars.youtubePlayers[playerId].playerObj.getPlayerState(), e.target.getPlayerState());
 		// check if iframe still exists
 		if(jQuery('#' + playerId).length) {
 			// player events:
@@ -923,7 +926,7 @@ var lqx = lqx || {
 			
 			// send event to GA if label was set
 			if(label){
-				lqx.videoTrackingEvent(playerId, label, lqx.vars.youtubePlayers[playerId].title);
+				lqx.videoTrackingEvent(playerId, label, lqx.vars.youtubePlayers[playerId].title, lqx.vars.youtubePlayers[playerId].progress * 10);
 			}
 		}
 		else {
@@ -990,7 +993,7 @@ var lqx = lqx || {
 			}
 			
 			if(label){
-				lqx.videoTrackingEvent(data.player_id, label, 'Title not available'); // vimeo doesn't provide a mechanism for getting the video title
+				lqx.videoTrackingEvent(data.player_id, label, 'No title', player.progress * 10); // vimeo doesn't provide a mechanism for getting the video title
 			}
 			
 		}
@@ -1013,14 +1016,13 @@ var lqx = lqx || {
 		
 	},
 	
-	videoTrackingEvent : function(playerId, label, title) {
-		
+	videoTrackingEvent : function(playerId, label, title, value) {
 		ga('send', {
 			'hitType': 'event', 
 			'eventCategory' : 'Video',
-			'eventAction' : 'Play',
-			'eventLabel' : label,
-			'eventValue': title + ' (' + jQuery('#' + playerId).attr('src').split('?')[0] + ')'
+			'eventAction' : label,
+			'eventLabel' : title + ' (' + jQuery('#' + playerId).attr('src').split('?')[0] + ')',
+			'eventValue': value
 		});
 
 	},
@@ -1098,9 +1100,37 @@ var lqx = lqx || {
 	initMutationObserver : function(){
         // handle videos that may be loaded dynamically
 		var mo = window.MutationObserver || window.WebKitMutationObserver;
-		lqx.mutationObserver = new mo(lqx.mutationHandler);
+		
+		// check for mutationObserver support , if exists, user the mutation observer object, if not use the listener method.
+		if (typeof mo !== 'undefined'){
+			lqx.mutationObserver = new mo(lqx.mutationHandler);
+			lqx.mutationObserver.observe(jQuery('html')[0], { childList: true, characterData: true, attributes: true, subtree: true });
+		} else {
 
-		lqx.mutationObserver.observe(jQuery('html')[0], { childList: true, characterData: true, attributes: true, subtree: true });
+			// video listener
+			if(lqx.settings.tracking.video){
+				jQuery('html').on('DOMNodeInserted', 'iframe', function(e) {
+					lqx.initVideoPlayerAPI(jQuery(e.currentTarget));
+				});
+			}
+
+			// photogallery listener
+			if(lqx.settings.tracking.photogallery){			
+				jQuery('html').on('DOMNodeInserted', 'img.featherlight-image', function(e) {
+				  	var src = jQuery(e.currentTarget).attr('src');
+					if (typeof src != 'undefined'){
+						// send event for image displayed
+						ga('send', {
+							'hitType': 'event', 
+							'eventCategory' : 'Photo Gallery',
+							'eventAction' : 'Display',
+							'eventLabel' : src
+						});
+					}
+				});
+			}
+
+		}
 	},
 	
 	// mutation observer handler
@@ -1114,14 +1144,13 @@ var lqx = lqx || {
 					// handle addedNodes
 					if (mutRec.addedNodes.length > 0) {
 						// send mutation record to individual handlers
-
 						lqx.videoPlayerMutationHandler(mutRec);
 						lqx.featherlightMutationHandler (mutRec);
 					}
 					
 					// handle removedNodes
-					if (mutRec.removedNodes.length > 0) {
-					}
+					/*if (mutRec.removedNodes.length > 0) {
+					}*/
 					break;
 					
 				case 'attributes':
@@ -1789,20 +1818,50 @@ jQuery(window).load(function(){
 	
 });
 
+// Trigger on window scroll
+jQuery(window).scroll(function() {
+
+	// throttling?
+	if(!lqx.vars.scrollThrottle) {
+
+		// trigger custom event 'scrollthrottle'
+		jQuery(document).trigger('scrollthrottle');
+
+		// throttling is now on
+		lqx.vars.scrollThrottle = true;
+		
+		// set time out to turn throttling on and check screen size once more
+		setTimeout(function () { 
+			// trigger custom event 'scrollthrottle'
+			jQuery(document).trigger('scrollthrottle');
+
+			// throttling is now off
+			lqx.vars.scrollThrottle = false; 
+		}, lqx.settings.scrollThrottle.duration);
+		
+	}
+	
+});
+
 // Trigger on window resize
 jQuery(window).resize(function() {
 
 	// throttling?
 	if(!lqx.vars.resizeThrottle) {
 
-		// execute bodyscreenresize function
-		lqx.bodyScreenSize();
+		// trigger custom event 'resizethrottle'
+		jQuery(document).trigger('resizethrottle');
+
 		// throttling is now on
 		lqx.vars.resizeThrottle = true;
+		
 		// set time out to turn throttling on and check screen size once more
 		setTimeout(function () { 
+			// trigger custom event 'resizethrottle'
+			jQuery(document).trigger('resizethrottle');
+
+			// throttling is now off
 			lqx.vars.resizeThrottle = false; 
-			lqx.bodyScreenSize();
 		}, lqx.settings.resizeThrottle.duration);
 		
 	}
@@ -1824,6 +1883,19 @@ jQuery(window).on('screensizechange', function() {
 	lqx.equalHeightRows();
 	// set punctuation marks to hanging
 	lqx.hangingPunctuation();
+
+});
+
+// Trigger on custom event scrollthrottle
+jQuery(window).on('scrollthrottle', function() {
+	
+});
+
+// Trigger on custom event resizethrottle
+jQuery(window).on('resizethrottle', function() {
+	
+	// check screen size
+	lqx.bodyScreenSize();
 
 });
 

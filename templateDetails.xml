@@ -2,13 +2,13 @@
 <!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
 <extension version="3.0" type="template" client="site" method="upgrade">
 	<name>Lyquix</name>
-	<creationDate>2016-04-11</creationDate>
+	<creationDate>2016-07-18</creationDate>
 	<author>Lyquix</author>
 	<authorEmail>info@lyquix.com</authorEmail>
 	<authorUrl>http://www.lyquix.com</authorUrl>
 	<copyright>Copyright(c)2014-2016 - Lyquix</copyright>
 	<license></license>
-	<version>0.8.2</version>
+	<version>0.18.0</version>
 	<description>Lyquix base template for Joomla 3.x</description>
 	<files>
 		<folder>css</folder>
@@ -113,6 +113,18 @@
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
+				<field name="es5_shim" type="radio" default="0" label="Load ES5 shim library" description="">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="es5_es6_shim" type="radio" default="0" label="Load ES5 + ES6 shim library" description="">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="json3" type="radio" default="0" label="Load JSON3 library" description="">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
 				<field name="add_js_libraries" type="textarea" default="" label="Additional Javascript Libraries" description="Enter one URL per line for additional javascript libraries you need for your project. We recommend: a) remove the protcol (http or https) from the URL, b) use the minified version for the production site" />
 				<field name="remove_css_js_libraries" type="textarea" default="" label="Remove Javascript/CSS&lt;br /&gt;Libraries" description="Enter one URL per line for javascript/css libraries you want to remove from head include for your project. We recommend: a) remove the protcol (http or https) from the URL" />                
 				<field name="min_screen" type="list" label="Minimum Screen Size" default="0" description="Select the minimum screen size that will be allowed">
@@ -145,6 +157,10 @@
 				<field name="mobiledetect_method" type="radio" default="php" label="Mobile Detect Method" description="Selects the method for detecting mobile devices. Adds CSS classes mobile, tablet and phone to the body tag if applicable. Server-side (PHP) is the default method but if your site uses page cache, you should use client-side method.">
 					<option value="php">Server-Side (PHP)</option>
 					<option value="js">Client-Side (JavaScript)</option>
+				</field>
+				<field name="ie9_alert" type="radio" default="0" label="Show IE9 upgrade alert" description="">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
 				</field>
 			</fieldset>
 		</fields>
