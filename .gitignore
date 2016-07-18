@@ -9,6 +9,7 @@ Desktop.ini
 /index-custom.php
 /css/*
 !/css/ie8-alert.css
+!/css/ie9-alert.css
 !/css/css-stylesheet.html
 !/css/icon-fonts.html
 !/css/icons.css
