@@ -41,6 +41,19 @@ var lqx = lqx || {
 			onlyVisible: true,   // ignores non visible elements
 			checkPageLoad: true, // check if there was the page load event when waiting for images
 		},
+		lyqBox: {
+			albumLabel: '%1 of %2',
+	        alwaysShowNavOnTouchDevices: false,
+	        fadeDuration: 500,
+	        fitImagesInViewport: true,
+	        maxWidth: 1920,
+	        maxHeight: 1920,
+	        positionFromTop: 50,
+	        resizeDuration: 700,
+	        showImageNumberLabel: true,
+	        wrapAround: true,
+	        disableScrolling: true
+		}
 	},
 	
 	// holds working data
@@ -1175,42 +1188,26 @@ var lqx = lqx || {
 		});
 	},
 
-	lyqbox : {
+	// lyqbox: functionality for lightbox, galleries, and alerts
+	lyqBox : {
 
-	    defaults: {
-	        albumLabel: '%1 of %2',
-	        alwaysShowNavOnTouchDevices: false,
-	        fadeDuration: 500,
-	        fitImagesInViewport: true,
-	        // maxWidth: 800,
-	        // maxHeight: 600,
-	        positionFromTop: 50,
-	        resizeDuration: 700,
-	        showImageNumberLabel: true,
-	        wrapAround: true,
-	        disableScrolling: true
-	    },
-
-	    initLyqbox: function(options) {
-	    	if (jQuery('span[data-lyqbox]').length) {
-		        console.log('in promise');
+	    init: function() {
+	    	if (jQuery('[data-lyqbox]').length) {
+		        //console.log('in promise');
 		        var self = this;
 		        this.album = [];
 		        this.currentImageIndex = void 0;
-		        this.init();
-
-		        // options
-		        this.options = jQuery.extend({}, this.constructor.defaults);
-		        this.option(options);
+		        this.enable();
+		        this.build();
 
 		        // lyquix addition,
 		        // to handle alertbox and hash url at the same time, we prioritize the alertbox first.
 		        // using promise, we make sure the alertbox shows first, and show the hash url content after the promise is done (alertbox is closed)
-		        var alertPromise = this.alert(jQuery('span[data-lyqbox-type=alert]'));
+		        var alertPromise = this.alert(jQuery('[data-lyqbox-type=alert]'));
 
 		        // check hash after promise is resolved/reject. Rejected is a valid return due to alerbox already shown before/cookie found.
 		        alertPromise.always(function afterAlertCheck() {
-		            console.log('in promise done');
+		            //console.log('in promise done');
 		            self.hash();
 		        });
 	    	} 
@@ -1222,11 +1219,11 @@ var lqx = lqx || {
 	            // get hash value and display the appropriate content
 	            var contentData = window.location.hash.substr(1).split("_");
 
-	            if (jQuery('span[data-lyqbox=' + contentData[0] + '][data-lyqbox-alias=' + contentData[1] + ']').length){
-	            	this.start(jQuery('span[data-lyqbox=' + contentData[0] + '][data-lyqbox-alias=' + contentData[1] + ']'));
-		            console.log('hash found and initiated');
+	            if (jQuery('[data-lyqbox=' + contentData[0] + '][data-lyqbox-alias=' + contentData[1] + ']').length){
+	            	this.start(jQuery('[data-lyqbox=' + contentData[0] + '][data-lyqbox-alias=' + contentData[1] + ']'));
+		            //console.log('hash found and initiated');
 	            } else {
-	            	console.log('hash found in URL but cannot find item matching the hash, rendering normally');
+	            	//console.log('hash found in URL but cannot find item matching the hash, rendering normally');
 	            }
 	        } 
 	    },
@@ -1241,19 +1238,19 @@ var lqx = lqx || {
 	            var cookieName = 'lyqbox-alert-' + alertbox.attr('data-lyqbox');
 	            var alertCookieFound = localStorage.getItem(cookieName);
 	            if (alertCookieFound) {
-	                console.log('cookie found, alertbox skipped ', cookieName);
+	                //console.log('cookie found, alertbox skipped ', cookieName);
 	                deferred.reject();
 	            }
 	            // if no cookie found, show the alertbox
 	            else {
 	                // show the alertbox
 	                self.start(alertbox);
-	                console.log('alert found, no cookie, and initiated');
+	                //console.log('alert found, no cookie, and initiated');
 
 	                // add listener to the close button to save the cookie and return deferred resolved
 	                jQuery('#lyqbox-wrapper').find('.lyqbox-close-button').on('click', function alertBoxCloseButtonClicked() {
 	                    var cookieName = 'lyqbox-alert-' + self.album[self.currentImageIndex].albumId;
-	                    console.log('cookie saved ', cookieName);
+	                    //console.log('cookie saved ', cookieName);
 	                    localStorage.setItem(cookieName, 1);
 
 	                    deferred.resolve();
@@ -1269,19 +1266,8 @@ var lqx = lqx || {
 	        return deferred.promise();
 	    },
 
-	    option: function(options) {
-	        jQuery.extend(this.options, options);
-	    },
-
 	    imageCountLabel: function(currentImageNum, totalImages) {
-	        return lqx.lyqbox.defaults.albumLabel.replace(/%1/g, currentImageNum).replace(/%2/g, totalImages);
-	    },
-
-	    init: function() {
-	        this.enable();
-
-	        // lyquix addition/edit: we use our own function becase we use different class/id names and html structure
-	        this.lyqbox_build();
+	        return lqx.settings.lyqBox.albumLabel.replace(/%1/g, currentImageNum).replace(/%2/g, totalImages);
 	    },
 
 	    // Loop through anchors and areamaps looking for either data-lightbox attributes or rel attributes
@@ -1289,37 +1275,36 @@ var lqx = lqx || {
 	    enable: function() {
 	        var self = this;
 
-	        // lyquix addition, we initialize everything based on span[data-lightbox]
-	        jQuery('body').on('click', 'span[data-lyqbox]', function(event) {
+	        // lyquix addition, we initialize everything based on [data-lightbox]
+	        jQuery('body').on('click', '[data-lyqbox]', function(event) {
 	            self.start(jQuery(event.currentTarget));
 	            return false;
 	        });
 
 	    },
 
-	    // lyquix addition/edit: we build the html per what we want and adjust the lightbox functions
-	    lyqbox_build: function() {
+	    build: function() {
 	        var self = this;
 
 	        // mostly different class/id names
-	        jQuery('<div id="lyqbox-overlay" class="lyqbox-overlay"></div> \
-					<div id="lyqbox-wrapper">\
-						<div class="lyqbox-content-wrapper">\
-							<div class="lyqbox-content">\
-							</div>\
-							<div class="lyqbox-extra-content">\
-								<span class="title"></span>\
-								<span class="caption"></span>\
-								<span class="credit"></span>\
-							</div>\
-							<div class="buttons-and-counter">\
-								<span class="btn-prev"></span>\
-								<span class="btn-next"></span>\
-								<span class="counter"></span>\
-							</div>\
-							<span class="lyqbox-close-button">x</span>\
-						</div>\
-					</div>').appendTo(jQuery('body'));
+	        jQuery('<div id="lyqbox-overlay" class="lyqbox-overlay"></div>' +
+					'<div id="lyqbox-wrapper">' +
+						'<div class="lyqbox-content-wrapper">' +
+							'<div class="lyqbox-content">' +
+							'</div>' +
+							'<div class="lyqbox-extra-content">' +
+								'<span class="title"></span>' +
+								'<span class="caption"></span>' +
+								'<span class="credit"></span>' +
+							'</div>' +
+							'<div class="lyqbox-buttons-and-counter">' +
+								'<span class="lyqbox-button-prev"></span>' +
+								'<span class="lyqbox-button-next"></span>' +
+								'<span class="lyqbox-counter"></span>' +
+							'</div>' +
+							'<span class="lyqbox-close-button">x</span>' +
+						'</div>' +
+					'</div>').appendTo(jQuery('body'));
 
 	        // Cache jQuery objects
 
@@ -1365,21 +1350,21 @@ var lqx = lqx || {
 	        });
 
 	        // lyquix edit: change the button class name
-	        this.$lightbox.find('.btn-prev').on('click', function() {
+	        this.$lightbox.find('.lyqbox-button-prev').on('click', function() {
 	            if (self.currentImageIndex === 0) {
-	                self.lyqbox_changeContent(self.album.length - 1);
+	                self.changeContent(self.album.length - 1);
 	            } else {
-	                self.lyqbox_changeContent(self.currentImageIndex - 1);
+	                self.changeContent(self.currentImageIndex - 1);
 	            }
 	            return false;
 	        });
 
 	        // lyquix edit: change the button class name
-	        this.$lightbox.find('.btn-next').on('click', function() {
+	        this.$lightbox.find('.lyqbox-button-next').on('click', function() {
 	            if (self.currentImageIndex === self.album.length - 1) {
-	                self.lyqbox_changeContent(0);
+	                self.changeContent(0);
 	            } else {
-	                self.lyqbox_changeContent(self.currentImageIndex + 1);
+	                self.changeContent(self.currentImageIndex + 1);
 	            }
 	            return false;
 	        });
@@ -1413,7 +1398,7 @@ var lqx = lqx || {
 	        this.album = [];
 	        var imageNumber = 0;
 
-	        function lyqbox_addToAlbum($link) {
+	        function addToAlbum($link) {
 	            self.album.push({
 	                albumId: $link.attr('data-lyqbox'),
 	                type: $link.attr('data-lyqbox-type'),
@@ -1435,7 +1420,7 @@ var lqx = lqx || {
 	            $links = jQuery($link.prop('tagName') + '[data-lyqbox="' + datalyqboxValue + '"]');
 
 	            for (var i = 0; i < $links.length; i = ++i) {
-	                lyqbox_addToAlbum(jQuery($links[i]));
+	                addToAlbum(jQuery($links[i]));
 	                if ($links[i] === $link[0]) {
 	                    imageNumber = i;
 	                }
@@ -1444,13 +1429,13 @@ var lqx = lqx || {
 
 	        // show prev next button if this is a gallery
 	        if (this.album.length > 1) {
-	            this.$lightbox.find('.buttons-and-counter').removeClass('hide');
+	            this.$lightbox.find('.lyqbox-buttons-and-counter').removeClass('hide');
 	        } else {
-	            this.$lightbox.find('.buttons-and-counter').addClass('hide');
+	            this.$lightbox.find('.lyqbox-buttons-and-counter').addClass('hide');
 	        }
 
 	        // Position Lightbox
-	        var top = $window.scrollTop() + lqx.lyqbox.defaults.positionFromTop;
+	        var top = $window.scrollTop() + lqx.settings.lyqBox.positionFromTop;
 	        var left = $window.scrollLeft();
 	        this.$lightbox.css({
 	            top: top + 'px',
@@ -1458,11 +1443,11 @@ var lqx = lqx || {
 	        }).show();
 
 	        // Disable scrolling of the page while open
-	        if (lqx.lyqbox.defaults.disableScrolling) {
+	        if (lqx.settings.lyqBox.disableScrolling) {
 	            jQuery('body').addClass('lb-disable-scrolling');
 	        }
 	        //lyquix addition
-	        this.lyqbox_changeContent(imageNumber);
+	        this.changeContent(imageNumber);
 	    },
 
 	    loadHTML: function(url) {
@@ -1479,7 +1464,7 @@ var lqx = lqx || {
 	    },
 
 	    // lyquix addition/edit: add our own change image function becase we want to display not just images, but video, html and ajax as well.
-	    lyqbox_changeContent: function(index) {
+	    changeContent: function(index) {
 	        var self = this;
 
 	        this.disableKeyboardNav();
@@ -1511,7 +1496,7 @@ var lqx = lqx || {
 						$image.width(preloader.width);
 						$image.height(preloader.height);
 
-						if (lqx.lyqbox.defaults.fitImagesInViewport) {
+						if (lqx.settings.lyqBox.fitImagesInViewport) {
 							// Fit image inside the viewport.
 							// Take into account the border around the image and an additional 10px gutter on each side.
 
@@ -1522,11 +1507,11 @@ var lqx = lqx || {
 
 
 							// Check if image size is larger then maxWidth|maxHeight in settings
-							if (lqx.lyqbox.defaults.maxWidth && lqx.lyqbox.defaults.maxWidth < maxImageWidth) {
-								maxImageWidth = lqx.lyqbox.defaults.maxWidth;
+							if (lqx.settings.lyqBox.maxWidth && lqx.settings.lyqBox.maxWidth < maxImageWidth) {
+								maxImageWidth = lqx.settings.lyqBox.maxWidth;
 							}
-							if (lqx.lyqbox.defaults.maxHeight && lqx.lyqbox.defaults.maxHeight < maxImageHeight) {
-								maxImageHeight = lqx.lyqbox.defaults.maxHeight;
+							if (lqx.settings.lyqBox.maxHeight && lqx.settings.lyqBox.maxHeight < maxImageHeight) {
+								maxImageHeight = lqx.settings.lyqBox.maxHeight;
 							}
 
 							// Is there a fitting issue?
@@ -1562,7 +1547,7 @@ var lqx = lqx || {
 	                var maxVideoWidth;
 	                // resize the video size by using 16:9 ratio, width is the base for calculations, maxwidth is 80% of the current screen
 
-	                if (lqx.lyqbox.defaults.fitImagesInViewport) {
+	                if (lqx.settings.lyqBox.fitImagesInViewport) {
 	                    windowWidth = jQuery(window).width();
 	                    windowHeight = jQuery(window).height();
 	                    maxVideoWidth = windowWidth * 70 / 100;
@@ -1570,8 +1555,8 @@ var lqx = lqx || {
 	                }
 
 	                // Check if image size is larger then maxWidth|maxHeight in settings
-	                if (lqx.lyqbox.defaults.maxWidth && lqx.lyqbox.defaults.maxWidth < maxVideoWidth) {
-	                    maxVideoWidth = lqx.lyqbox.defaults.maxWidth;
+	                if (lqx.settings.lyqBox.maxWidth && lqx.settings.lyqBox.maxWidth < maxVideoWidth) {
+	                    maxVideoWidth = lqx.settings.lyqBox.maxWidth;
 	                    maxVideoHeight = (maxVideoWidth / 16) * 9;
 	                }
 
@@ -1645,33 +1630,33 @@ var lqx = lqx || {
 	        var alwaysShowNav = false;
 	        try {
 	            document.createEvent('TouchEvent');
-	            alwaysShowNav = (lqx.lyqbox.defaults.alwaysShowNavOnTouchDevices) ? true : false;
+	            alwaysShowNav = (lqx.settings.lyqBox.alwaysShowNavOnTouchDevices) ? true : false;
 	        } catch (e) {}
 
 	        if (this.album.length > 1) {
-	            if (lqx.lyqbox.defaults.wrapAround) {
+	            if (lqx.settings.lyqBox.wrapAround) {
 	                if (alwaysShowNav) {
-	                    this.$lightbox.find('.buttons-and-counter .btn-prev, .buttons-and-counter .btn-next').css('opacity', '1');
+	                    this.$lightbox.find('.lyqbox-button-prev, .lyqbox-button-next').css('opacity', '1');
 	                }
-	                this.$lightbox.find('.buttons-and-counter .btn-prev, .buttons-and-counter .btn-next').removeClass('hide');
+	                this.$lightbox.find('.lyqbox-button-prev, .lyqbox-button-next').removeClass('hide');
 	            } else {
 
 	                if (alwaysShowNav) {
-	                    this.$lightbox.find('.buttons-and-counter .btn-prev, .buttons-and-counter .btn-next').css('opacity', '0');
+	                    this.$lightbox.find('.lyqbox-button-prev, .lyqbox-button-next').css('opacity', '0');
 	                }
 
-	                this.$lightbox.find('.buttons-and-counter .btn-prev, .buttons-and-counter .btn-next').addClass('hide');
+	                this.$lightbox.find('.lyqbox-button-prev, .lyqbox-button-next').addClass('hide');
 
 	                if (this.currentImageIndex != 0) {
-	                    this.$lightbox.find('.buttons-and-counter .btn-prev').removeClass('hide');
+	                    this.$lightbox.find('.lyqbox-button-prev').removeClass('hide');
 	                    if (alwaysShowNav) {
-	                        this.$lightbox.find('.buttons-and-counter .btn-prev').css('opacity', '1');
+	                        this.$lightbox.find('.lyqbox-button-prev').css('opacity', '1');
 	                    }
 	                }
 	                if (this.currentImageIndex != this.album.length - 1) {
-	                    this.$lightbox.find('.buttons-and-counter .btn-next').removeClass('hide');
+	                    this.$lightbox.find('.lyqbox-button-next').removeClass('hide');
 	                    if (alwaysShowNav) {
-	                        this.$lightbox.find('.buttons-and-counter .btn-next').css('opacity', '1');
+	                        this.$lightbox.find('.lyqbox-button-next').css('opacity', '1');
 	                    }
 	                }
 	            }
@@ -1702,11 +1687,11 @@ var lqx = lqx || {
 	                .html(this.album[this.currentImageIndex].credit);
 	        }
 
-	        if (this.album.length > 1 && lqx.lyqbox.defaults.showImageNumberLabel) {
+	        if (this.album.length > 1 && lqx.settings.lyqBox.showImageNumberLabel) {
 	            var labelText = this.imageCountLabel(this.currentImageIndex + 1, this.album.length);
-	            this.$lightbox.find('.buttons-and-counter .counter').text(labelText);
+	            this.$lightbox.find('.lyqbox-counter').text(labelText);
 	        } else {
-	            this.$lightbox.find('.buttons-and-counter .counter').hide();
+	            this.$lightbox.find('.lyqbox-counter').hide();
 	        }
 
 	    },
@@ -1742,15 +1727,15 @@ var lqx = lqx || {
 	            this.end();
 	        } else if (key === 'p' || keycode === KEYCODE_LEFTARROW) {
 	            if (this.currentImageIndex !== 0) {
-	                this.lyqbox_changeContent(this.currentImageIndex - 1);
-	            } else if (lqx.lyqbox.defaults.wrapAround && this.album.length > 1) {
-	                this.lyqbox_changeContent(this.album.length - 1);
+	                this.changeContent(this.currentImageIndex - 1);
+	            } else if (lqx.settings.lyqBox.wrapAround && this.album.length > 1) {
+	                this.changeContent(this.album.length - 1);
 	            }
 	        } else if (key === 'n' || keycode === KEYCODE_RIGHTARROW) {
 	            if (this.currentImageIndex !== this.album.length - 1) {
-	                this.lyqbox_changeContent(this.currentImageIndex + 1);
-	            } else if (lqx.lyqbox.defaults.wrapAround && this.album.length > 1) {
-	                this.lyqbox_changeContent(0);
+	                this.changeContent(this.currentImageIndex + 1);
+	            } else if (lqx.settings.lyqBox.wrapAround && this.album.length > 1) {
+	                this.changeContent(0);
 	            }
 	        }
 	    },
@@ -1759,12 +1744,12 @@ var lqx = lqx || {
 	    end: function() {
 	        this.disableKeyboardNav();
 	        jQuery(window).off('resize', this.sizeOverlay);
-	        this.$lightbox.fadeOut(lqx.lyqbox.defaults.fadeDuration);
+	        this.$lightbox.fadeOut(lqx.settings.lyqBox.fadeDuration);
 	        this.$overlay.removeClass("open").addClass("close");
 	        jQuery('select, object, embed').css({
 	            visibility: 'visible'
 	        });
-	        if (lqx.lyqbox.defaults.disableScrolling) {
+	        if (lqx.settings.lyqBox.disableScrolling) {
 	            jQuery('body').removeClass('lb-disable-scrolling');
 	        }
 	    },
@@ -1803,7 +1788,7 @@ jQuery(document).ready(function(){
 	// add listener to dynamically added content to the DOM
 	lqx.initMutationObserver();
 	// enable lyqbox;
-	lqx.lyqbox.initLyqbox();	
+	lqx.lyqBox.init();	
 });
 
 // Functions to execute when the page has loaded
