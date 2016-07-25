@@ -1,6 +1,6 @@
 <?php
 // Prepare array of classes for body tag
-if(!is_array($body_classes)) $body_classes = array();
+if(@!is_array($body_classes)) $body_classes = array();
 if($home) $body_classes[] = 'home';
 if($phone) $body_classes[] = 'phone';
 if($tablet) $body_classes[] = 'tablet';
