@@ -23,7 +23,13 @@ $remove_css_js_libraries = explode("\n", trim($this->params->get('remove_css_js_
 foreach($remove_css_js_libraries as $js_css_url) {
 	$js_css_url = trim($js_css_url);
 	if($js_css_url) {
-        $ext = pathinfo($js_css_url, PATHINFO_EXTENSION);
+		$url_string = $js_css_url;
+		//check if there is a parameter behind the file extension, if so remove them
+		$qpos = strpos($js_css_url, "?"); 
+  		if ($qpos!==false) $url_string = substr($url_string, 0, $qpos); 
+
+        $ext = pathinfo($url_string, PATHINFO_EXTENSION);
+
         if($ext == 'css')
             unset($doc->_styleSheets[$js_css_url]);
         else if ($ext == 'js')
