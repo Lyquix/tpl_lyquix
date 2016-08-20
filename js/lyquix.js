@@ -63,6 +63,8 @@ var lqx = lqx || {
 		bodyScreenSize: {
 			sizes: ['xs', 'sm', 'md', 'lg', 'xl'],
 		},
+		youTubeIframeAPIReady: false,
+		youTubeIframeAPIReadyAttempts: 0,
 	},
 	
 	// setOptions
@@ -727,6 +729,7 @@ var lqx = lqx || {
 				// load youtube iframe api
 				var tag = document.createElement('script');
 				tag.src = "https://www.youtube.com/iframe_api";
+				tag.onload = function(){lqx.vars.youTubeIframeAPIReady = true;};
 				var firstScriptTag = document.getElementsByTagName('script')[0];
 				firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 				
@@ -1891,14 +1894,21 @@ jQuery(window).on('resizethrottle', function() {
 // onYouTubeIframeAPIReady
 // callback function called by iframe youtube players when they are ready
 function onYouTubeIframeAPIReady(){
-	for(var playerId in lqx.vars.youtubePlayers) {
-		if(typeof lqx.vars.youtubePlayers[playerId].playerObj == 'undefined') {
-			lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, { 
-				events: { 
-					'onReady': function(e){ lqx.youtubePlayerReady(e, playerId) }, 
-					'onStateChange': function(e){ lqx.youtubePlayerStateChange(e, playerId) } 
-				}
-			});
+	if(lqx.vars.youTubeIframeAPIReady && (typeof YT !== "undefined") && YT && YT.Player) {
+		for(var playerId in lqx.vars.youtubePlayers) {
+			if(typeof lqx.vars.youtubePlayers[playerId].playerObj == 'undefined') {
+				lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, { 
+					events: { 
+						'onReady': function(e){ lqx.youtubePlayerReady(e, playerId) }, 
+						'onStateChange': function(e){ lqx.youtubePlayerStateChange(e, playerId) } 
+					}
+				});
+			}
 		}
+	} 
+	else {
+		// keep track how many time we have attempted, retry unless it has been more than 30secs
+		lqx.vars.youTubeIframeAPIReadyAttempts++;
+		if(lqx.vars.youTubeIframeAPIReadyAttempts < 120) setTimeout("onYouTubeIframeAPIReady()",250);
 	}
 }
