@@ -16,24 +16,3 @@ if($home) {
 ?>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<?php 
-// Prevent adding component css and js libraries in <jdoc:include type="head" />
-$doc = JFactory::getDocument();
-$remove_css_js_libraries = explode("\n", trim($this->params->get('remove_css_js_libraries', '')));
-foreach($remove_css_js_libraries as $js_css_url) {
-	$js_css_url = trim($js_css_url);
-	if($js_css_url) {
-		$url_string = $js_css_url;
-		//check if there is a parameter behind the file extension, if so remove them
-		$qpos = strpos($js_css_url, "?"); 
-  		if ($qpos!==false) $url_string = substr($url_string, 0, $qpos); 
-
-        $ext = pathinfo($url_string, PATHINFO_EXTENSION);
-
-        if($ext == 'css')
-            unset($doc->_styleSheets[$js_css_url]);
-        else if ($ext == 'js')
-            unset($doc->_scripts[$js_css_url]);
-	}
-}
-?>

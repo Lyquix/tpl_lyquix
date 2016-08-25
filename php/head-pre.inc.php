@@ -2,6 +2,13 @@
 // Enable Joomla Bootstrap and jQuery UI framework;
 JHtml::_('bootstrap.framework');
 JHtml::_('jquery.ui', array('core', 'sortable'));
+$doc = JFactory::getDocument();
+
+// Prevent adding component css and js libraries in <jdoc:include type="head" />
+$remove_css_libraries = explode("\n", trim($this->params->get('remove_css_libraries', '')));
+foreach($remove_css_libraries as $css_url) unset($doc->_styleSheets[trim($css_url)]);
+$remove_js_libraries = explode("\n", trim($this->params->get('remove_js_libraries', '')));
+foreach($remove_js_libraries as $js_url) unset($doc->_scripts[trim($js_url)]);
 
 // declare some variables
 $home = $mobile = $phone = $tablet = false;
