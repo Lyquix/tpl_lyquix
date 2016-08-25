@@ -1,10 +1,6 @@
 <?php
 // No direct access
 defined('_JEXEC') or die('Restricted access');
-
-$tmpl_url = JURI::root(true) . '/templates/' . $this->template;
-$tmpl_path = JPATH_BASE . '/templates/' . $this->template;
-
 include($tmpl_path . '/php/head-pre.inc.php');
 ?><!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" >
