@@ -84,19 +84,76 @@
 	</positions>
 	<config>
 		<fields name="params">
-			<fieldset name="advanced">
-				<field name="ga_account" type="text" default="" label="Google Analytics Account" description="Enter a Google Analytics property account number to load Google Analytics and send data to the account" />
-				<field name="disqus_shortname" type="text" default="" label="Disqus Shortname" description="Enter your Disqus shortname to load the Disqus library" />
-				<field name="addthis_pubid" type="text" default="" label="AddThis PubID" description="Enter your AddThis pubid number to load the AddThis library" />
-				<field name="google_site_verification" type="text" default="" label="google-site-verification" description="Enter your Google Webmaster Tools site verification number" />
-				<field name="msvalidate" type="text" default="" label="msvalidate.01" description="Enter your Bing/Yahoo site validation number" />
-				<field name="p_domain_verify" type="text" default="" label="p:domain_verify" description="" />
-				<field name="lqx_options" type="text" default="" label="Lyquix Library Options" description="Object of options to override Lyquix default settings" />
+			<fieldset name="basic">
 				<field name="blank_page" type="radio" default="0" label="Blank Page" description="">
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
+			</fieldset>
+			<fieldset name="joomla_tab" label="Joomla">
+				<field name="disable_mootools" type="radio" default="1" label="Disable MooTools" description="">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="enable_jquery" type="radio" default="1" label="Enable jQuery" description="">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="enable_jquery_ui" type="radio" default="" label="Enable jQuery UI" description="">
+					<option value="">No</option>
+					<option value="core">Core</option>
+					<option value="core,sortable">Core + Sortable</option>
+				</field>
+				<field name="enable_bootstrap" type="radio" default="0" label="Enable Bootstrap" description="">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="joomla_js" type="checkboxes" label="Joomla Javascript" description="Check the additional Joomla Javascript libraries that should be loaded">
+					<option value="caption">caption</option>
+					<option value="tooltip">tooltip</option>
+					<option value="combobox">combobox</option>
+					<option value="formvalidation">formvalidation</option>
+					<option value="switcher">switcher</option>
+					<option value="multiselect">multiselect</option>
+					<option value="switcher">switcher</option>
+					<option value="tree">tree</option>
+				</field>
+			</fieldset>
+			<fieldset name="responsive_tab" label="Responsiveness">
+				<field name="min_screen" type="list" label="Minimum Screen Size" default="0" description="Select the minimum screen size that will be allowed">
+					<option value="0">XS</option>
+					<option value="1">SM</option>
+					<option value="2">MD</option>
+					<option value="3">LG</option>
+					<option value="4">XL</option>
+				</field>
+				<field name="max_screen" type="list" label="Maximum Screen Size" default="4" description="Select the maximum screen size that will be allowed">
+					<option value="0">XS</option>
+					<option value="1">SM</option>
+					<option value="2">MD</option>
+					<option value="3">LG</option>
+					<option value="4">XL</option>
+				</field>
+				<field name="fluid_screen" type="checkboxes" label="Fluid Layout Screens" description="Select for what screen sizes should fluid layout be enabled">
+					<option value="xs">XS</option>
+					<option value="sm">SM</option>
+					<option value="md">MD</option>
+					<option value="lg">LG</option>
+					<option value="xl">XL</option>
+				</field>
+				<field name="fluid_device" type="radio" default="any" label="Fluid Layout Devices" description="Select what devices are allowed to have fluid layouts">
+					<option value="any">Any (Mobile and Desktop)</option>
+					<option value="mobile">Mobile only</option>
+					<option value="phone">Phones only</option>
+					<option value="tablet">Tablets only</option>
+				</field>
+			</fieldset>
+			<fieldset name="css_tab" label="CSS">
 				<field name="add_css_libraries" type="textarea" default="" label="Additional CSS Libraries" description="Enter one URL per line for additional javascript libraries you need for your project. We recommend: a) remove the protcol (http or https) from the URL, b) use the minified version for the production site" />
+				<field name="remove_css_libraries" type="textarea" default="" label="Remove CSS Libraries" description="Enter one URL per line for CSS libraries you want to remove from head include for your project. Use the same URL you see in the output HTML (it may be absolute or relative URL)" />
+			</fieldset>
+			<fieldset name="js_tab" label="Javascript">
+				<field name="lqx_options" type="text" default="" label="Lyquix Library Options" description="Object of options to override Lyquix default settings" />
 				<field name="non_min_js" type="radio" default="0" label="Use original JS" description="Uses the original JS files instead of the minified versions. Activate only for development.">
 					<option value="0">No</option>
 					<option value="1">Yes</option>
@@ -126,40 +183,26 @@
 					<option value="1">Yes</option>
 				</field>
 				<field name="add_js_libraries" type="textarea" default="" label="Additional Javascript Libraries" description="Enter one URL per line for additional javascript libraries you need for your project. We recommend: a) remove the protcol (http or https) from the URL, b) use the minified version for the production site" />
-				<field name="min_screen" type="list" label="Minimum Screen Size" default="0" description="Select the minimum screen size that will be allowed">
-					<option value="0">XS</option>
-					<option value="1">SM</option>
-					<option value="2">MD</option>
-					<option value="3">LG</option>
-					<option value="4">XL</option>
-				</field>
-				<field name="max_screen" type="list" label="Maximum Screen Size" default="4" description="Select the maximum screen size that will be allowed">
-					<option value="0">XS</option>
-					<option value="1">SM</option>
-					<option value="2">MD</option>
-					<option value="3">LG</option>
-					<option value="4">XL</option>
-				</field>
-				<field name="fluid_screen" type="checkboxes" label="Fluid Layout Screens" description="Select for what screen sizes should fluid layout be enabled">
-					<option value="xs">XS</option>
-					<option value="sm">SM</option>
-					<option value="md">MD</option>
-					<option value="lg">LG</option>
-					<option value="xl">XL</option>
-				</field>
-				<field name="fluid_device" type="radio" default="any" label="Fluid Layout Devices" description="Select what devices are allowed to have fluid layouts">
-					<option value="any">Any (Mobile and Desktop)</option>
-					<option value="mobile">Mobile only</option>
-					<option value="phone">Phones only</option>
-					<option value="tablet">Tablets only</option>
-				</field>
-				<field name="remove_css_libraries" type="textarea" default="" label="Remove CSS Libraries" description="Enter one URL per line for CSS libraries you want to remove from head include for your project. Use the same URL you see in the output HTML (it may be absolute or relative URL)" />
 				<field name="remove_js_libraries" type="textarea" default="" label="Remove Javascript Libraries" description="Enter one URL per line for Javascript libraries you want to remove from head include for your project. Use the same URL you see in the output HTML (it may be absolute or relative URL)" />
+			</fieldset>
+			<fieldset name="accounts_tab" label="Accounts">
+				<field name="ga_account" type="text" default="" label="Google Analytics Account" description="Enter a Google Analytics property account number to load Google Analytics and send data to the account" />
+				<field name="disqus_shortname" type="text" default="" label="Disqus Shortname" description="Enter your Disqus shortname to load the Disqus library" />
+				<field name="addthis_pubid" type="text" default="" label="AddThis PubID" description="Enter your AddThis pubid number to load the AddThis library" />
+				<field name="google_site_verification" type="text" default="" label="google-site-verification" description="Enter your Google Webmaster Tools site verification number" />
+				<field name="msvalidate" type="text" default="" label="msvalidate.01" description="Enter your Bing/Yahoo site validation number" />
+				<field name="p_domain_verify" type="text" default="" label="p:domain_verify" description="" />
+			</fieldset>
+			<fieldset name="other_tab" label="Other">
 				<field name="mobiledetect_method" type="radio" default="php" label="Mobile Detect Method" description="Selects the method for detecting mobile devices. Adds CSS classes mobile, tablet and phone to the body tag if applicable. Server-side (PHP) is the default method but if your site uses page cache, you should use client-side method.">
 					<option value="php">Server-Side (PHP)</option>
 					<option value="js">Client-Side (JavaScript)</option>
 				</field>
-				<field name="ie9_alert" type="radio" default="0" label="Show IE9 upgrade alert" description="">
+				<field name="ie8_alert" type="radio" default="1" label="IE8 alert" description="Shows an upgrade alert for IE8 and older">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="ie9_alert" type="radio" default="1" label="IE9 alert" description="Shows an uprade alert for IE9">
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
