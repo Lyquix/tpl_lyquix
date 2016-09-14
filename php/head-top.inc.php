@@ -13,6 +13,9 @@ if($home) {
 	echo $this->params->get('p_domain_verify') ? '<meta name="p:domain_verify" content="' . $this->params->get('p_domain_verify') . '"/>' . "\n" : '';
 	echo '<link href="' . JURI::root() . '" rel="canonical" />' . "\n";
 } 
+// Add og:title and og:description tags if not already set
+if(!$doc -> getMetaData('og:title')) $doc -> setMetaData('og:title', $doc -> getTitle());
+if(!$doc -> getMetaData('og:description')) $doc -> setMetaData('og:description', $doc -> getDescription());
 ?>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
