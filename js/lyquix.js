@@ -42,17 +42,31 @@ var lqx = lqx || {
 			checkPageLoad: true, // check if there was the page load event when waiting for images
 		},
 		lyqBox: {
-			albumLabel: '%1 of %2',
-	        alwaysShowNavOnTouchDevices: false,
-	        fadeDuration: 500,
-	        fitImagesInViewport: true,
-	        maxWidth: 1920,
-	        maxHeight: 1920,
-	        positionFromTop: 50,
-	        resizeDuration: 700,
-	        showImageNumberLabel: true,
-	        wrapAround: true,
-	        disableScrolling: true
+			lyqboxHTMLContent: 	'<div class="lyqbox">' +
+									'<div class="content-wrapper">' +
+										'<div class="content"></div>' +
+										'<div class="info">' +
+											'<div class="title"></div>' +
+											'<div class="caption"></div>' +
+											'<div class="credit"></div>' +
+										'</div>' +
+									'</div>' +
+									'<div class="content-wrapper">' +
+										'<div class="content"></div>' +
+										'<div class="info">' +
+											'<div class="title"></div>' +
+											'<div class="caption"></div>' +
+											'<div class="credit"></div>' +
+										'</div>' +
+									'</div>' +
+									'<div class="close"></div>' +
+									'<div class="prev"></div>' +
+									'<div class="next"></div>' +
+									'<div class="counter">' + 
+										'<span class="current"></span>' +
+										' of <span class="total"></span>' +
+									'</div>' +
+								'</div>',	        		
 		}
 	},
 	
@@ -1194,568 +1208,370 @@ var lqx = lqx || {
 	// lyqbox: functionality for lightbox, galleries, and alerts
 	lyqBox : {
 
-	    init: function() {
-	    	if (jQuery('[data-lyqbox]').length) {
-		        //console.log('in promise');
-		        var self = this;
-		        this.album = [];
-		        this.currentImageIndex = void 0;
-		        this.enable();
-		        this.build();
-
-		        // lyquix addition,
-		        // to handle alertbox and hash url at the same time, we prioritize the alertbox first.
-		        // using promise, we make sure the alertbox shows first, and show the hash url content after the promise is done (alertbox is closed)
-		        var alertPromise = this.alert(jQuery('[data-lyqbox-type=alert]'));
-
-		        // check hash after promise is resolved/reject. Rejected is a valid return due to alerbox already shown before/cookie found.
-		        alertPromise.always(function afterAlertCheck() {
-		            //console.log('in promise done');
-		            self.hash();
-		        });
-	    	} 
-	    },
-
-	    // show the hash url content
-	    hash: function() {
-	        if (window.location.hash.substr(1) != "") {
-	            // get hash value and display the appropriate content
-	            var contentData = window.location.hash.substr(1).split("_");
-
-	            if (jQuery('[data-lyqbox=' + contentData[0] + '][data-lyqbox-alias=' + contentData[1] + ']').length){
-	            	this.start(jQuery('[data-lyqbox=' + contentData[0] + '][data-lyqbox-alias=' + contentData[1] + ']'));
-		            //console.log('hash found and initiated');
-	            } else {
-	            	//console.log('hash found in URL but cannot find item matching the hash, rendering normally');
-	            }
-	        } 
-	    },
-
-	    // show alertbox if found.
-	    alert: function(alertbox) {
-	        var self = this;
-	        var deferred = jQuery.Deferred();
-	        // assume that there is only one alertbox at any given time.
-	        if (alertbox.length == 1) {
-	            // check if a cookie for this alertbox exists, if so return deferred reject.
-	            var cookieName = 'lyqbox-alert-' + alertbox.attr('data-lyqbox');
-	            var alertCookieFound = localStorage.getItem(cookieName);
-	            if (alertCookieFound) {
-	                //console.log('cookie found, alertbox skipped ', cookieName);
-	                deferred.reject();
-	            }
-	            // if no cookie found, show the alertbox
-	            else {
-	                // show the alertbox
-	                self.start(alertbox);
-	                //console.log('alert found, no cookie, and initiated');
-
-	                // add listener to the close button to save the cookie and return deferred resolved
-	                jQuery('#lyqbox-wrapper').find('.lyqbox-close-button').on('click', function alertBoxCloseButtonClicked() {
-	                    var cookieName = 'lyqbox-alert-' + self.album[self.currentImageIndex].albumId;
-	                    //console.log('cookie saved ', cookieName);
-	                    localStorage.setItem(cookieName, 1);
-
-	                    deferred.resolve();
-	                    self.end();
-	                    return false;
-	                });
-	            }
-	        }
-	        // if no alertbox is found, return deferred reject to make way to display content for hash url if any found
-	        else {
-	            deferred.reject();
-	        }
-	        return deferred.promise();
-	    },
-
-	    imageCountLabel: function(currentImageNum, totalImages) {
-	        return lqx.settings.lyqBox.albumLabel.replace(/%1/g, currentImageNum).replace(/%2/g, totalImages);
-	    },
-
-	    // Loop through anchors and areamaps looking for either data-lightbox attributes or rel attributes
-	    // that contain 'lightbox'. When these are clicked, start lightbox.
-	    enable: function() {
-	        var self = this;
-
-	        // lyquix addition, we initialize everything based on [data-lightbox]
-	        jQuery('body').on('click', '[data-lyqbox]', function(event) {
-	            self.start(jQuery(event.currentTarget));
-	            return false;
-	        });
-
-	    },
-
-	    build: function() {
-	        var self = this;
-
-	        // mostly different class/id names
-	        jQuery('<div id="lyqbox-overlay" class="lyqbox-overlay"></div>' +
-					'<div id="lyqbox-wrapper">' +
-						'<div class="lyqbox-content-wrapper">' +
-							'<div class="lyqbox-content">' +
-							'</div>' +
-							'<div class="lyqbox-extra-content">' +
-								'<span class="title"></span>' +
-								'<span class="caption"></span>' +
-								'<span class="credit"></span>' +
-							'</div>' +
-							'<div class="lyqbox-buttons-and-counter">' +
-								'<span class="lyqbox-button-prev"></span>' +
-								'<span class="lyqbox-button-next"></span>' +
-								'<span class="lyqbox-counter"></span>' +
-							'</div>' +
-							'<span class="lyqbox-close-button">x</span>' +
-						'</div>' +
-					'</div>').appendTo(jQuery('body'));
-
-	        // Cache jQuery objects
-
-	        // lyquix edits: change class/id names
-	        this.$lightbox = jQuery('#lyqbox-wrapper');
-	        this.$overlay = jQuery('#lyqbox-overlay');
-	        this.$container = this.$lightbox.find('.lyqbox-content');
-	        this.$outerContainer = this.$lightbox.find('.lyqbox-content-wrapper');
-
-	        // Store css values for future lookup
-	        this.containerTopPadding = parseInt(this.$container.css('padding-top'), 10);
-	        this.containerRightPadding = parseInt(this.$container.css('padding-right'), 10);
-	        this.containerBottomPadding = parseInt(this.$container.css('padding-bottom'), 10);
-	        this.containerLeftPadding = parseInt(this.$container.css('padding-left'), 10);
-
-	        // Attach event handlers to the newly minted DOM elements
-	        this.$overlay.on('click', function() {
-	            //console.log('overlay area clicked');
-	            // if this is alert, do nothing
-	            if (self.album[self.currentImageIndex].type == 'alert')
-	                return false;
-
-	            // else exit the lightbox
-	            self.end();
-	            return false;
-	        });
-
-	        this.$lightbox.hide().on('click', function(event) {
-	            //console.log('lightbox area clicked');
-	            // lyquix edit: change the target id per our html
-
-	            // if this is alert, do nothing
-	            if (self.album[self.currentImageIndex].type == 'alert')
-	                return false;
-
-
-	            // else if target is lyqbox-wrapper, exit the lightbox
-	            if (jQuery(event.target).attr('id') === 'lyqbox-wrapper') {
-	                self.end();
-	                return false;
-	            }
-
-	        });
-
-	        // lyquix edit: change the button class name
-	        this.$lightbox.find('.lyqbox-button-prev').on('click', function() {
-	            if (self.currentImageIndex === 0) {
-	                self.changeContent(self.album.length - 1);
-	            } else {
-	                self.changeContent(self.currentImageIndex - 1);
-	            }
-	            return false;
-	        });
-
-	        // lyquix edit: change the button class name
-	        this.$lightbox.find('.lyqbox-button-next').on('click', function() {
-	            if (self.currentImageIndex === self.album.length - 1) {
-	                self.changeContent(0);
-	            } else {
-	                self.changeContent(self.currentImageIndex + 1);
-	            }
-	            return false;
-	        });
-
-	        this.$lightbox.find('.lyqbox-close-button').on('click', function() {
-	            // disable the close button for alertbox, this will be done on the deferred section on alert function to make sure in the case alert and hashurl found, 
-	            // that the alert box is closed properly before showing a hash url content.
-	            if (self.album[self.currentImageIndex].type == 'alert')
-	                return false;
-
-	            // else close the lightbox
-	            self.end();
-	            return false;
-	        });
-
-	    },
-
-	    // Show overlay and lightbox. If the image is part of a set, add siblings to album array.
-	    start: function($link) {
-	        var self = this;
-	        var $window = jQuery(window);
-
-	        $window.on('resize', jQuery.proxy(this.sizeOverlay, this));
-
-	        jQuery('select, object, embed').css({
-	            visibility: 'hidden'
-	        });
-
-	        this.sizeOverlay();
-
-	        this.album = [];
-	        var imageNumber = 0;
-
-	        function addToAlbum($link) {
-	            self.album.push({
-	                albumId: $link.attr('data-lyqbox'),
-	                type: $link.attr('data-lyqbox-type'),
-	                link: $link.attr('data-lyqbox-url'),
-	                title: $link.attr('data-lyqbox-title'),
-	                caption: $link.attr('data-lyqbox-caption'),
-	                credit: $link.attr('data-lyqbox-credit'),
-	                class: $link.attr('data-lyqbox-class'),
-	                alias: $link.attr('data-lyqbox-alias'),
-	                html: $link.attr('data-lyqbox-html'),
-	            });
-	        }
-	        // Support both data-lightbox attribute and rel attribute implementations
-	        var $links;
-
-	        // lyquix addition 
-	        var datalyqboxValue = $link.attr('data-lyqbox');
-	        if (datalyqboxValue) {
-	            $links = jQuery($link.prop('tagName') + '[data-lyqbox="' + datalyqboxValue + '"]');
-
-	            for (var i = 0; i < $links.length; i = ++i) {
-	                addToAlbum(jQuery($links[i]));
-	                if ($links[i] === $link[0]) {
-	                    imageNumber = i;
-	                }
-	            }
-	        }
-
-	        // show prev next button if this is a gallery
-	        if (this.album.length > 1) {
-	            this.$lightbox.find('.lyqbox-buttons-and-counter').removeClass('hide');
-	        } else {
-	            this.$lightbox.find('.lyqbox-buttons-and-counter').addClass('hide');
-	        }
-
-	        // Position Lightbox
-	        var top = $window.scrollTop() + lqx.settings.lyqBox.positionFromTop;
-	        var left = $window.scrollLeft();
-	        this.$lightbox.css({
-	            top: top + 'px',
-	            left: left + 'px'
-	        }).show();
-
-	        // Disable scrolling of the page while open
-	        if (lqx.settings.lyqBox.disableScrolling) {
-	            jQuery('body').addClass('lb-disable-scrolling');
-	        }
-	        //lyquix addition
-	        this.changeContent(imageNumber);
-	    },
-
-	    loadHTML: function(url) {
-	        var self = this,
-	            deferred = jQuery.Deferred();
-	        /* we are using load so one can specify a target with: url.html #targetelement */
-	        var $container = jQuery('<div></div>').load(url, function(response, status) {
-	            if (status !== "error") {
-	                deferred.resolve($container.contents());
-	            }
-	            deferred.fail();
-	        });
-	        return deferred.promise();
-	    },
-
-	    // lyquix addition/edit: add our own change image function becase we want to display not just images, but video, html and ajax as well.
-	    changeContent: function(index) {
-	        var self = this;
-
-	        this.disableKeyboardNav();
-	        var lyqboxContent = this.$lightbox.find('.lyqbox-content');
-	        this.$overlay.removeClass("close").addClass("open");
-	        this.$outerContainer.addClass('animating');
-
-	        switch (this.album[index].type) {
-	            case 'image':
-	                lyqboxContent.html('<img />')
-	                var $image = lyqboxContent.find('img');
-	                // When image to show is preloaded, we send the width and height to sizeContainer()
-
-	                var preloader = new Image();
-	                preloader.src = self.album[index].link;
-	                preloader.onload = function() {
-						var $preloader;
-						var imageHeight;
-						var imageWidth;
-						var maxImageHeight;
-						var maxImageWidth;
-						var windowHeight;
-						var windowWidth;
-
-						$image.attr('src', self.album[index].link);
-
-						$preloader = jQuery(preloader);
-
-						$image.width(preloader.width);
-						$image.height(preloader.height);
-
-						if (lqx.settings.lyqBox.fitImagesInViewport) {
-							// Fit image inside the viewport.
-							// Take into account the border around the image and an additional 10px gutter on each side.
-
-							windowWidth = jQuery(window).width();
-							windowHeight = jQuery(window).height();
-							maxImageWidth = windowWidth - self.containerLeftPadding - self.containerRightPadding - 20;
-							maxImageHeight = windowHeight - self.containerTopPadding - self.containerBottomPadding - 220;
-
-
-							// Check if image size is larger then maxWidth|maxHeight in settings
-							if (lqx.settings.lyqBox.maxWidth && lqx.settings.lyqBox.maxWidth < maxImageWidth) {
-								maxImageWidth = lqx.settings.lyqBox.maxWidth;
-							}
-							if (lqx.settings.lyqBox.maxHeight && lqx.settings.lyqBox.maxHeight < maxImageHeight) {
-								maxImageHeight = lqx.settings.lyqBox.maxHeight;
-							}
-
-							// Is there a fitting issue?
-							if ((preloader.width > maxImageWidth) || (preloader.height > maxImageHeight)) {
-								if ((preloader.width / maxImageWidth) > (preloader.height / maxImageHeight)) {
-									imageWidth = maxImageWidth;
-									imageHeight = parseInt(preloader.height / (preloader.width / imageWidth), 10);
-									$image.width(imageWidth);
-									$image.height(imageHeight);
-								} else {
-									imageHeight = maxImageHeight;
-									imageWidth = parseInt(preloader.width / (preloader.height / imageHeight), 10);
-									$image.width(imageWidth);
-									$image.height(imageHeight);
-								}
-							}
-						}
-						self.$lightbox.find('.lyqbox-content-wrapper').width(preloader.width);
-						self.sizeContainer($image.width(), $image.height());
-					},
-
-					self.currentImageIndex = index;
-	                //console.log(self.album[self.currentImageIndex].albumId, self.album[self.currentImageIndex].alias);
-	                window.location.hash = self.album[self.currentImageIndex].albumId + '_' + self.album[self.currentImageIndex].alias;
-	                break;
-
-	            case 'video':
-	                lyqboxContent.html('<iframe></iframe>');
-	                var $video = lyqboxContent.find('iframe');
-	                $video.attr('src', self.album[index].link);
-
-	                var maxVideoHeight;
-	                var maxVideoWidth;
-	                // resize the video size by using 16:9 ratio, width is the base for calculations, maxwidth is 80% of the current screen
-
-	                if (lqx.settings.lyqBox.fitImagesInViewport) {
-	                    windowWidth = jQuery(window).width();
-	                    windowHeight = jQuery(window).height();
-	                    maxVideoWidth = windowWidth * 70 / 100;
-	                    maxVideoHeight = (maxVideoWidth / 16) * 9;
-	                }
-
-	                // Check if image size is larger then maxWidth|maxHeight in settings
-	                if (lqx.settings.lyqBox.maxWidth && lqx.settings.lyqBox.maxWidth < maxVideoWidth) {
-	                    maxVideoWidth = lqx.settings.lyqBox.maxWidth;
-	                    maxVideoHeight = (maxVideoWidth / 16) * 9;
-	                }
-
-	                $video.attr('width', maxVideoWidth).attr('height', maxVideoHeight);
-
-	                this.currentImageIndex = index; // this precede sizeContainer to make sure the counter text is correct 
-	                self.sizeContainer(maxVideoWidth, maxVideoHeight);
-	                //console.log(self.album[self.currentImageIndex].albumId, self.album[self.currentImageIndex].alias);
-	                window.location.hash = self.album[self.currentImageIndex].albumId + '_' + self.album[self.currentImageIndex].alias;
-
-	                break;
-
-	            case 'alert':
-	                // check if url is not empty
-	                if (self.album[index].link != "") {
-	                    var promise = loadHTML(self.album[index].link);
-
-	                    promise.done(function htmlLoaded(htmlResult) {
-	                        if (htmlResult != '') {
-	                            lyqboxContent.html(htmlResult);
-	                            self.currentImageIndex = index;
-	                        }
-	                    });
-	                } else {
-	                    lyqboxContent.html(self.album[index].html);
-	                    self.currentImageIndex = index;
-	                }
-	                break;
-
-	            default:
-	                break;
-	        }
-	    },
-
-	    // Stretch overlay to fit the viewport
-	    sizeOverlay: function() {
-	        this.$overlay
-	            .width(jQuery(document).width())
-	            .height(jQuery(document).height());
-	    },
-
-	    // Animate the size of the lightbox to fit the image we are showing
-	    sizeContainer: function(imageWidth, imageHeight) {
-	        var self = this;
-
-	        var oldWidth = this.$outerContainer.outerWidth();
-	        var oldHeight = this.$outerContainer.outerHeight();
-	        var newWidth = imageWidth + this.containerLeftPadding + this.containerRightPadding;
-	        var newHeight = imageHeight + this.containerTopPadding + this.containerBottomPadding;
-
-	        function postResize() {
-	            self.$lightbox.find('.lyqbox-content-wrapper').width(newWidth);
-	            self.showImage();
-	        }
-	        postResize();
-	    },
-
-	    // Display the image and its details and begin preload neighboring images.
-	    showImage: function() {
-	        this.updateNav();
-	        this.updateDetails();
-	        //this.preloadNeighboringImages();
-	        this.enableKeyboardNav();
-	    },
-
-	    // Display previous and next navigation if appropriate.
-	    updateNav: function() {
-	        // Check to see if the browser supports touch events. If so, we take the conservative approach
-	        // and assume that mouse hover events are not supported and always show prev/next navigation
-	        // arrows in image sets.
-	        var alwaysShowNav = false;
-	        try {
-	            document.createEvent('TouchEvent');
-	            alwaysShowNav = (lqx.settings.lyqBox.alwaysShowNavOnTouchDevices) ? true : false;
-	        } catch (e) {}
-
-	        if (this.album.length > 1) {
-	            if (lqx.settings.lyqBox.wrapAround) {
-	                if (alwaysShowNav) {
-	                    this.$lightbox.find('.lyqbox-button-prev, .lyqbox-button-next').css('opacity', '1');
-	                }
-	                this.$lightbox.find('.lyqbox-button-prev, .lyqbox-button-next').removeClass('hide');
-	            } else {
-
-	                if (alwaysShowNav) {
-	                    this.$lightbox.find('.lyqbox-button-prev, .lyqbox-button-next').css('opacity', '0');
-	                }
-
-	                this.$lightbox.find('.lyqbox-button-prev, .lyqbox-button-next').addClass('hide');
-
-	                if (this.currentImageIndex != 0) {
-	                    this.$lightbox.find('.lyqbox-button-prev').removeClass('hide');
-	                    if (alwaysShowNav) {
-	                        this.$lightbox.find('.lyqbox-button-prev').css('opacity', '1');
-	                    }
-	                }
-	                if (this.currentImageIndex != this.album.length - 1) {
-	                    this.$lightbox.find('.lyqbox-button-next').removeClass('hide');
-	                    if (alwaysShowNav) {
-	                        this.$lightbox.find('.lyqbox-button-next').css('opacity', '1');
-	                    }
-	                }
-	            }
-	        }
-	    },
-
-	    // Display caption, image number, and closing button.
-	    updateDetails: function() {
-	        var self = this;
-
-	        // Enable anchor clicks in the injected caption html.
-	        // Thanks Nate Wright for the fix. @https://github.com/NateWr
-	        if (typeof this.album[this.currentImageIndex].title !== 'undefined' &&
-	            this.album[this.currentImageIndex].title !== '') {
-	            this.$lightbox.find('.lyqbox-extra-content .title')
-	                .html(this.album[this.currentImageIndex].title);
-	        }
-
-	        if (typeof this.album[this.currentImageIndex].caption !== 'undefined' &&
-	            this.album[this.currentImageIndex].caption !== '') {
-	            this.$lightbox.find('.lyqbox-extra-content .caption')
-	                .html(this.album[this.currentImageIndex].caption);
-	        }
-
-	        if (typeof this.album[this.currentImageIndex].credit !== 'undefined' &&
-	            this.album[this.currentImageIndex].credit !== '') {
-	            this.$lightbox.find('.lyqbox-extra-content .credit')
-	                .html(this.album[this.currentImageIndex].credit);
-	        }
-
-	        if (this.album.length > 1 && lqx.settings.lyqBox.showImageNumberLabel) {
-	            var labelText = this.imageCountLabel(this.currentImageIndex + 1, this.album.length);
-	            this.$lightbox.find('.lyqbox-counter').text(labelText);
-	        } else {
-	            this.$lightbox.find('.lyqbox-counter').hide();
-	        }
-
-	    },
-
-	    // Preload previous and next images in set.
-	    preloadNeighboringImages: function() {
-	        if (this.album.length > this.currentImageIndex + 1) {
-	            var preloadNext = new Image();
-	            preloadNext.src = this.album[this.currentImageIndex + 1].link;
-	        }
-	        if (this.currentImageIndex > 0) {
-	            var preloadPrev = new Image();
-	            preloadPrev.src = this.album[this.currentImageIndex - 1].link;
-	        }
-	    },
-
-	    enableKeyboardNav: function() {
-	        jQuery(document).on('keyup.keyboard', jQuery.proxy(this.keyboardAction, this));
-	    },
-
-	    disableKeyboardNav: function() {
-	        jQuery(document).off('.keyboard');
-	    },
-
-	    keyboardAction: function(event) {
-	        var KEYCODE_ESC = 27;
-	        var KEYCODE_LEFTARROW = 37;
-	        var KEYCODE_RIGHTARROW = 39;
-
-	        var keycode = event.keyCode;
-	        var key = String.fromCharCode(keycode).toLowerCase();
-	        if (keycode === KEYCODE_ESC || key.match(/x|o|c/)) {
-	            this.end();
-	        } else if (key === 'p' || keycode === KEYCODE_LEFTARROW) {
-	            if (this.currentImageIndex !== 0) {
-	                this.changeContent(this.currentImageIndex - 1);
-	            } else if (lqx.settings.lyqBox.wrapAround && this.album.length > 1) {
-	                this.changeContent(this.album.length - 1);
-	            }
-	        } else if (key === 'n' || keycode === KEYCODE_RIGHTARROW) {
-	            if (this.currentImageIndex !== this.album.length - 1) {
-	                this.changeContent(this.currentImageIndex + 1);
-	            } else if (lqx.settings.lyqBox.wrapAround && this.album.length > 1) {
-	                this.changeContent(0);
-	            }
-	        }
-	    },
-
-	    // Closing time. :-(
-	    end: function() {
-	        this.disableKeyboardNav();
-	        jQuery(window).off('resize', this.sizeOverlay);
-	        this.$lightbox.fadeOut(lqx.settings.lyqBox.fadeDuration);
-	        this.$overlay.removeClass("open").addClass("close");
-	        jQuery('select, object, embed').css({
-	            visibility: 'visible'
-	        });
-	        if (lqx.settings.lyqBox.disableScrolling) {
-	            jQuery('body').removeClass('lb-disable-scrolling');
-	        }
-	    },
+		init: function() {
+			if (jQuery('[data-lyqbox]').length) {
+				//console.log('in promise');
+				lqx.lyqBox.album = [];
+				lqx.lyqBox.currentImageIndex = void 0;
+				lqx.lyqBox.enable();
+				lqx.lyqBox.build();
+
+				// to handle alertbox and hash url at the same time, we prioritize the alertbox first.
+				// using promise, we make sure the alertbox shows first, and show the hash url content after the promise is done (alertbox is closed)
+				var alertPromise = lqx.lyqBox.alert(jQuery('[data-lyqbox-type=alert]'));
+
+				// check hash after promise is resolved/reject. Rejected is a valid return due to alerbox already shown before/cookie found.
+				alertPromise.always(function afterAlertCheck() {
+					lqx.lyqBox.hash();
+				});
+			} 
+		},
+
+		// show the hash url content
+		hash: function() {
+			if (window.location.hash.substr(1) != "") {
+				// get hash value and display the appropriate content
+				var contentData = window.location.hash.substr(1).split("_");
+
+				if (jQuery('[data-lyqbox=' + contentData[0] + '][data-lyqbox-alias=' + contentData[1] + ']').length){
+					lqx.lyqBox.start(jQuery('[data-lyqbox=' + contentData[0] + '][data-lyqbox-alias=' + contentData[1] + ']'));
+				}
+			} 
+		},
+
+		// show alertbox if found.
+		alert: function(alertbox) {
+			var deferred = jQuery.Deferred();
+			// assume that there is only one alertbox at any given time.
+			if (alertbox.length == 1) {
+				// check if a cookie for this alertbox exists, if so return deferred reject.
+				var cookieName = 'lyqbox-alert-' + alertbox.attr('data-lyqbox');
+				var alertCookieFound = localStorage.getItem(cookieName);
+				if (alertCookieFound) {
+					deferred.reject();
+				}
+				// if no cookie found, show the alertbox
+				else {
+					// show the alertbox
+					lqx.lyqBox.start(alertbox);
+
+					// add listener to the close button to save the cookie and return deferred resolved
+					jQuery('.lyqbox .close').on('click', function alertBoxCloseButtonClicked() {
+						var cookieName = 'lyqbox-alert-' + lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].albumId;
+						localStorage.setItem(cookieName, 1);
+
+						deferred.resolve();
+						lqx.lyqBox.end();
+						return false;
+					});
+				}
+			}
+			// if no alertbox is found, return deferred reject to make way to display content for hash url if any found
+			else {
+				deferred.reject();
+			}
+			return deferred.promise();
+		},
+
+		// Loop through anchors and areamaps looking for either data-lightbox attributes or rel attributes
+		// that contain 'lightbox'. When these are clicked, start lightbox.
+		enable: function() {
+			// we initialize everything
+			jQuery('body').on('click', '[data-lyqbox]', function(event) {
+				jQuery('.lyqbox').addClass('open');
+				lqx.lyqBox.start(jQuery(event.currentTarget));
+				return false;
+			});
+
+		},
+
+		build: function() {
+			// append html structure
+			jQuery(lqx.settings.lyqBox.lyqboxHTMLContent).appendTo(jQuery('body'));
+
+			// assign the html container class to namespace variable
+			lqx.lyqBox.overlay = jQuery('.lyqbox');
+			
+			// assign active content container to the first .content box
+			lqx.lyqBox.containerActive = lqx.lyqBox.overlay.find('.content-wrapper').first().addClass('active');
+
+			// disable click on content by default
+			lqx.lyqBox.overlay.find('.content').on('click', function() {
+				return false;
+			});	        
+
+			// Attach event handlers to the newly minted DOM elements
+			lqx.lyqBox.overlay.on('click', function() {
+				// if this is alert, do nothing, we only want alert to go away on the close box/button.
+				if (lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].type == 'alert')
+					return false;
+
+				// else exit the lightbox
+				lqx.lyqBox.end();
+				return false;
+			});
+
+			// prev button click handling
+			lqx.lyqBox.overlay.find('.prev').on('click', function() {
+				if (lqx.lyqBox.currentImageIndex === 0) {
+					lqx.lyqBox.changeContent(lqx.lyqBox.album.length - 1);
+				} else {
+					lqx.lyqBox.changeContent(lqx.lyqBox.currentImageIndex - 1);
+				}
+				return false;
+			});
+
+			// next button click handling
+			lqx.lyqBox.overlay.find('.next').on('click', function() {
+				if (lqx.lyqBox.currentImageIndex === lqx.lyqBox.album.length - 1) {
+					lqx.lyqBox.changeContent(0);
+				} else {
+					lqx.lyqBox.changeContent(lqx.lyqBox.currentImageIndex + 1);
+				}
+				return false;
+			});
+
+			// close button click handling
+			lqx.lyqBox.overlay.find('.close').on('click', function() {
+				// disable the close button for alertbox, cookie save handling to prevent the alert box to reappear will be done on the deferred section on alert function to make sure in the case alert and hashurl found, 
+				// that the alert box is closed properly before showing a hash url content.
+				if (lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].type == 'alert')
+					return false;
+
+				// else close the lightbox
+				lqx.lyqBox.end();
+				return false;
+			});
+
+		},
+
+		// Show overlay and lightbox. If the image is part of a set, add siblings to album array.
+		start: function(data) {
+			lqx.lyqBox.album = [];
+			var currentIndex = 0;
+
+			function addToAlbum(data) {
+				lqx.lyqBox.album.push({
+					albumId: data.attr('data-lyqbox'),
+					type: data.attr('data-lyqbox-type'),
+					link: data.attr('data-lyqbox-url'),
+					title: data.attr('data-lyqbox-title'),
+					caption: data.attr('data-lyqbox-caption'),
+					credit: data.attr('data-lyqbox-credit'),
+					class: data.attr('data-lyqbox-class'),
+					alias: data.attr('data-lyqbox-alias'),
+					html: data.attr('data-lyqbox-html'),
+				});
+			}
+
+			var items;
+
+			// build the album, the object which contains all values passed from the attribute 
+			var datalyqboxValue = data.attr('data-lyqbox');
+			if (datalyqboxValue) {
+				items = jQuery(data.prop('tagName') + '[data-lyqbox="' + datalyqboxValue + '"]');
+
+				for (var i = 0; i < items.length; i = ++i) {
+					addToAlbum(jQuery(items[i]));
+					// 
+					if (items[i] === data[0]) {
+						currentIndex = i;
+					}
+				}
+			}
+
+			// change the content to item at index
+			lqx.lyqBox.changeContent(currentIndex);
+		},
+
+		loadHTML: function(url) {
+			var deferred = jQuery.Deferred();
+			// we are using load so one can specify a target with: url.html #targetelement
+			var $container = jQuery('<div></div>').load(url, function(response, status) {
+				if (status !== "error") {
+					deferred.resolve($container.contents());
+				}
+				deferred.fail();
+			});
+			return deferred.promise();
+		},
+
+		// change content, for now we have 3 types, image, iframe and HTML.
+		changeContent: function(index) {
+			lqx.lyqBox.disableKeyboardNav();
+			lqx.lyqBox.overlay.addClass("open");
+
+			// deferred var to be used on alert type lyqbox only, just in case it's loading HTML content from a file
+			var promise = jQuery.Deferred();
+
+			// process the new content
+			switch (lqx.lyqBox.album[index].type) {
+				case 'image':
+					var image = jQuery('<img />');
+					var preloader = new Image();
+					preloader.src = lqx.lyqBox.album[index].link;
+					preloader.onload = function() {
+						var preloaderObject;
+						image.attr('src', lqx.lyqBox.album[index].link);
+
+						preloaderObject = jQuery(preloader);
+
+						lqx.lyqBox.updateContent(image, index, lqx.lyqBox.album[index].type);
+						window.location.hash = lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].albumId + '_' + lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].alias;
+
+						// important line of code to make sure opacity is computed and applied as a starting value to the element so that the css transition works.
+						window.getComputedStyle(image[0]).opacity;
+					}
+
+					break;
+
+				case 'video':
+					var video = jQuery('<iframe></iframe>');
+					video.attr('src', lqx.lyqBox.album[index].link);
+
+					lqx.lyqBox.updateContent('<div class="video-container">' + video.prop('outerHTML') + '</div>', index, lqx.lyqBox.album[index].type);
+
+					window.location.hash = lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].albumId + '_' + lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].alias;
+					break;
+
+				case 'html':
+				case 'alert':
+					// note that the alert lyqbox can grab html content from a file, put the file URL inside the data-lyqbox-url attribute
+					// OR can grab the html content from string, put the string inside the data-lyqbox-html attribute
+					// the priority is given to the data-lyqbox-url attribute first, if this is blank, then data-lyqbox-html will be processed instead.
+
+					// check if url is not empty
+					if (lqx.lyqBox.album[index].link != "" && typeof lqx.lyqBox.album[index].link !== 'undefined' ) {
+						promise = lqx.lyqBox.loadHTML(lqx.lyqBox.album[index].link);
+
+						promise.done(function htmlLoaded(htmlResult) {
+							if (htmlResult != '') 
+								lqx.lyqBox.updateContent(htmlResult, index, lqx.lyqBox.album[index].type);
+						});
+					} else {
+						lqx.lyqBox.updateContent(lqx.lyqBox.album[index].html, index, lqx.lyqBox.album[index].type);
+					}
+					break;
+
+				default:
+					break;
+			}
+		},
+
+		updateContent: function(content, index, type) {
+			lqx.lyqBox.overlay.find('.content-wrapper').not('.active').addClass('active').find('.content').removeClass().addClass('content ' + type).empty().append(content);
+			lqx.lyqBox.containerActive.removeClass('active');
+			lqx.lyqBox.containerActive = lqx.lyqBox.overlay.find('.content-wrapper.active');
+			lqx.lyqBox.currentImageIndex = index;
+			lqx.lyqBox.updateUIandKeyboard();
+		},
+
+		// Display the image and its details and begin preload neighboring images.
+		updateUIandKeyboard: function() {
+			lqx.lyqBox.updateUI();
+			lqx.lyqBox.enableKeyboardNav();
+		},
+
+		// Display caption, image number, and closing button.
+		updateUI: function() {
+
+			// alert type will hide title, caption and credit????
+			if(lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].type != 'alert' ) {
+				// display title
+				if (typeof lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].title !== 'undefined' &&
+					lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].title !== '') {
+					lqx.lyqBox.overlay.find('.title')
+						.html(lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].title);
+				} else  {
+					lqx.lyqBox.overlay.find('.title').html('');
+				}
+				// display caption
+				if (typeof lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].caption !== 'undefined' &&
+					lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].caption !== '') {
+					lqx.lyqBox.overlay.find('.caption')
+						.html(lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].caption);
+				} else  {
+					lqx.lyqBox.overlay.find('.caption').html('');
+				}
+				// display credit
+				if (typeof lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].credit !== 'undefined' &&
+					lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].credit !== '') {
+					lqx.lyqBox.overlay.find('.credit')
+						.html(lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].credit);
+				} else  {
+					lqx.lyqBox.overlay.find('.credit').html('');
+				}
+
+				// display counter (current and total) and nav only if gallery
+				if (lqx.lyqBox.album.length > 1)  {
+					lqx.lyqBox.overlay.find('.current').text(lqx.lyqBox.currentImageIndex + 1);
+					lqx.lyqBox.overlay.find('.total').text(lqx.lyqBox.album.length);
+				} else  {
+					lqx.lyqBox.overlay.find('.prev,.next').addClass('hide');
+					lqx.lyqBox.overlay.find('.counter').addClass('hide');
+				}
+			} else {
+				lqx.lyqBox.overlay.find('.prev,.next').addClass('hide');
+				lqx.lyqBox.overlay.find('.counter').addClass('hide');
+			}
+		},
+
+		enableKeyboardNav: function() {
+			jQuery(document).on('keyup.keyboard', jQuery.proxy(lqx.lyqBox.keyboardAction, lqx.lyqBox));
+		},
+
+		disableKeyboardNav: function() {
+			jQuery(document).off('.keyboard');
+		},
+
+		keyboardAction: function(event) {
+			var KEYCODE_ESC = 27;
+			var KEYCODE_LEFTARROW = 37;
+			var KEYCODE_RIGHTARROW = 39;
+
+			var keycode = event.keyCode;
+			var key = String.fromCharCode(keycode).toLowerCase();
+			if (keycode === KEYCODE_ESC || key.match(/x|o|c/)) {
+				lqx.lyqBox.end();
+			} else if (keycode === KEYCODE_LEFTARROW) {
+				if (lqx.lyqBox.currentImageIndex === 0) {
+					lqx.lyqBox.changeContent(lqx.lyqBox.album.length - 1);
+				} else {
+					lqx.lyqBox.changeContent(lqx.lyqBox.currentImageIndex - 1);
+				}
+			} else if (keycode === KEYCODE_RIGHTARROW) {
+				if (lqx.lyqBox.currentImageIndex === lqx.lyqBox.album.length - 1) {
+					lqx.lyqBox.changeContent(0);
+				} else {
+					lqx.lyqBox.changeContent(lqx.lyqBox.currentImageIndex + 1);
+				}
+			}
+		},
+
+		// This only works in Chrome 9, Firefox 4, Safari 5, Opera 11.50 and in IE 10
+		removeHash: function() { 
+			var scrollV, scrollH, loc = window.location;
+			if ("pushState" in history)
+				history.pushState("", document.title, loc.pathname + loc.search);
+			else {
+				// Prevent scrolling by storing the page's current scroll offset
+				scrollV = document.body.scrollTop;
+				scrollH = document.body.scrollLeft;
+
+				loc.hash = "";
+
+				// Restore the scroll offset, should be flicker free
+				document.body.scrollTop = scrollV;
+				document.body.scrollLeft = scrollH;
+			}
+		},
+
+		// Closing time. :-(
+		end: function() {
+			lqx.lyqBox.disableKeyboardNav();
+			lqx.lyqBox.overlay.removeClass("open");
+			lqx.lyqBox.removeHash();
+		},
 
 	},	
 
