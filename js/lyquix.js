@@ -589,7 +589,7 @@ var lqx = lqx || {
 			B = parseInt(f[2]);
 		return "rgb(" + (Math.round((t - R) * p) + R) + "," + (Math.round((t - G) * p ) + G) + "," + (Math.round((t - B) * p) + B) + ")";
 	},
-     
+	 
 	// initialize google analytics tracking
 	initTracking : function() {
 		
@@ -749,8 +749,8 @@ var lqx = lqx || {
 				jQuery('iframe').each(function(){
 					
 					var elem = jQuery(this);
-			    	// init js api for video player
-			    	lqx.initVideoPlayerAPI(elem);
+					// init js api for video player
+					lqx.initVideoPlayerAPI(elem);
 												 
 				});
 
@@ -762,22 +762,22 @@ var lqx = lqx || {
 	// handle mutation for featherlight gallery, and send the ga data if a new image is loaded by detecting new added image and pass on the src attribute value
 	featherlightMutationHandler: function(mutRec) {
 		jQuery(mutRec.addedNodes).each(function(){
-	    	var elem = jQuery(this);
-	    	var src = elem.attr('src');
+			var elem = jQuery(this);
+			var src = elem.attr('src');
 
-	    	if (typeof elem.prop('tagName') !== 'undefined' && elem.hasClass('featherlight-image')){
-	    		var tag = elem.prop('tagName').toLowerCase();
+			if (typeof elem.prop('tagName') !== 'undefined' && elem.hasClass('featherlight-image')){
+				var tag = elem.prop('tagName').toLowerCase();
 
-		    	if (tag == 'img' && typeof src != 'undefined'){
-		    		// send event for image displayed
+				if (tag == 'img' && typeof src != 'undefined'){
+					// send event for image displayed
 					ga('send', {
 						'hitType': 'event', 
 						'eventCategory' : 'Photo Gallery',
 						'eventAction' : 'Display',
 						'eventLabel' : jQuery(this).attr('src')
 					});
-		    	}
-	    	}
+				}
+			}
 		});
 	},
 
@@ -785,15 +785,15 @@ var lqx = lqx || {
 	videoPlayerMutationHandler : function(mutRec) {
 		
 		jQuery(mutRec.addedNodes).each(function(){
-	    	
-	    	var elem = jQuery(this);
-	    	if (typeof elem.prop('tagName') !== 'undefined'){
-		    	var tag = elem.prop('tagName').toLowerCase();
-		        if (tag == 'iframe') {
-			    	// init js api for video player
-			    	lqx.initVideoPlayerAPI(elem);
+			
+			var elem = jQuery(this);
+			if (typeof elem.prop('tagName') !== 'undefined'){
+				var tag = elem.prop('tagName').toLowerCase();
+				if (tag == 'iframe') {
+					// init js api for video player
+					lqx.initVideoPlayerAPI(elem);
 				}	    		
-	    	}
+			}
 		});
 		
 	},
@@ -803,54 +803,54 @@ var lqx = lqx || {
 
 		var src = elem.attr('src');
 		var playerId = elem.attr('id');
-        
-        if(typeof src != 'undefined') {
-	        // check youtube players
-	        if (src.indexOf('youtube.com/embed/') != -1) {
-	            // add id if it doesn't have one
-	            if (typeof playerId == 'undefined') {
-	                playerId = 'youtubePlayer' + (Object.keys(lqx.vars.youtubePlayers).length);
-	                elem.attr('id', playerId);
-	            }
-	            
-	            // reload with API support enabled
-	            if (src.indexOf('enablejsapi=1') == -1) {
-	                var urlconn = '&';
-	                if (src.indexOf('?') == -1) {
-	                    urlconn = '?';
-	                }
-	                elem.attr('src', src + urlconn + 'enablejsapi=1&version=3');
-	            }
+		
+		if(typeof src != 'undefined') {
+			// check youtube players
+			if (src.indexOf('youtube.com/embed/') != -1) {
+				// add id if it doesn't have one
+				if (typeof playerId == 'undefined') {
+					playerId = 'youtubePlayer' + (Object.keys(lqx.vars.youtubePlayers).length);
+					elem.attr('id', playerId);
+				}
+				
+				// reload with API support enabled
+				if (src.indexOf('enablejsapi=1') == -1) {
+					var urlconn = '&';
+					if (src.indexOf('?') == -1) {
+						urlconn = '?';
+					}
+					elem.attr('src', src + urlconn + 'enablejsapi=1&version=3');
+				}
 
-	            // add to list of players
-	            if(typeof lqx.vars.youtubePlayers[playerId] == 'undefined') {
-		            lqx.vars.youtubePlayers[playerId] = {};
-		            
-		            // add event callbacks to player
+				// add to list of players
+				if(typeof lqx.vars.youtubePlayers[playerId] == 'undefined') {
+					lqx.vars.youtubePlayers[playerId] = {};
+					
+					// add event callbacks to player
 					onYouTubeIframeAPIReady();
 				}
-	        }
-	        
-	        // check vimeo players
+			}
+			
+			// check vimeo players
 			if(src.indexOf('player.vimeo.com/video/') != -1) {
-	            // add id if it doesn't have one
-	            if (typeof playerId == 'undefined') {
-	                playerId = 'vimeoPlayer' + (Object.keys(lqx.vars.vimeoPlayers).length);
-	                elem.attr('id', playerId);
-	            }
-	            
-	            // reload with API support enabled
-	            if (src.indexOf('api=1') == -1) {
-	                var urlconn = '&';
-	                if (src.indexOf('?') == -1) {
-	                    urlconn = '?';
-	                }
-	                elem.attr('src', src + urlconn + 'api=1&player_id=' + playerId);
-	            }
+				// add id if it doesn't have one
+				if (typeof playerId == 'undefined') {
+					playerId = 'vimeoPlayer' + (Object.keys(lqx.vars.vimeoPlayers).length);
+					elem.attr('id', playerId);
+				}
+				
+				// reload with API support enabled
+				if (src.indexOf('api=1') == -1) {
+					var urlconn = '&';
+					if (src.indexOf('?') == -1) {
+						urlconn = '?';
+					}
+					elem.attr('src', src + urlconn + 'api=1&player_id=' + playerId);
+				}
 
-	            // add to list of players
-	            if(typeof lqx.vars.vimeoPlayers[playerId] == 'undefined') {
-		            lqx.vars.vimeoPlayers[playerId] = {};
+				// add to list of players
+				if(typeof lqx.vars.vimeoPlayers[playerId] == 'undefined') {
+					lqx.vars.vimeoPlayers[playerId] = {};
 				}
 				
 			}
@@ -971,8 +971,8 @@ var lqx = lqx || {
 					
 					// set the listeners
 					lqx.vimeoSendMessage(data.player_id, e.origin, 'addEventListener', 'play');
-			        lqx.vimeoSendMessage(data.player_id, e.origin, 'addEventListener', 'finish');
-        			lqx.vimeoSendMessage(data.player_id, e.origin, 'addEventListener', 'playProgress');
+					lqx.vimeoSendMessage(data.player_id, e.origin, 'addEventListener', 'finish');
+					lqx.vimeoSendMessage(data.player_id, e.origin, 'addEventListener', 'playProgress');
 					
 					break;
 				
@@ -1021,14 +1021,14 @@ var lqx = lqx || {
 	vimeoSendMessage : function(playerId, origin, action, value){
 		
 		var data = {
-            method: action
-        };
+			method: action
+		};
 
-        if (value) {
-            data.value = value;
-        }
+		if (value) {
+			data.value = value;
+		}
 
-        document.getElementById(playerId).contentWindow.postMessage(JSON.stringify(data), origin);
+		document.getElementById(playerId).contentWindow.postMessage(JSON.stringify(data), origin);
 		
 	},
 	
@@ -1054,8 +1054,8 @@ var lqx = lqx || {
 
 		// prevent propagation of clicks
 		jQuery('body').on('click', '.horizontal, .vertical, .slide-out', function(e){
-		    // do not propagate click events outside menus
-		    e.stopPropagation();
+			// do not propagate click events outside menus
+			e.stopPropagation();
 		});
 
 		// open/close slide-out menu
@@ -1114,7 +1114,7 @@ var lqx = lqx || {
 	
 	// create a custom mutation observer that will trigger any needed functions
 	initMutationObserver : function(){
-        // handle videos that may be loaded dynamically
+		// handle videos that may be loaded dynamically
 		var mo = window.MutationObserver || window.WebKitMutationObserver;
 		
 		// check for mutationObserver support , if exists, user the mutation observer object, if not use the listener method.
@@ -1133,7 +1133,7 @@ var lqx = lqx || {
 			// photogallery listener
 			if(lqx.settings.tracking.photogallery){			
 				jQuery('html').on('DOMNodeInserted', 'img.featherlight-image', function(e) {
-				  	var src = jQuery(e.currentTarget).attr('src');
+					var src = jQuery(e.currentTarget).attr('src');
 					if (typeof src != 'undefined'){
 						// send event for image displayed
 						ga('send', {
