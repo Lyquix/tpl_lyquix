@@ -16,10 +16,16 @@
 
 .font-serif { font-family: @font-serif; }
 .font-sans-serif { font-family: @font-sans-serif; }
-.font-monospace { font-family: @font-monospace; }
+.font-monospace { 
+	font-family: @font-monospace;
+	// set figures to fixed-width, lining (same height as caps), and slashed zero
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 0, "pnum" 0, "dlig" 0, "tnum" 1,  "lnum" 1, "zero" 1;
+}
 
 .font-smallcaps { font-variant: small-caps; }
 .font-uppercase { text-transform: uppercase; }
+// add small caps font feature
+.font-smallcaps, .font-uppercase { font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0, "smcp" 1; }
 .font-lowercase { text-transform: lowercase; }
 .font-capitalize { text-transform: capitalize; }
 

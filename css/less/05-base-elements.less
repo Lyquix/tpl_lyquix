@@ -74,6 +74,10 @@ h6 {
 	line-height: @line-height-heading;
 	margin: @elem-margin-heading 0;
 }
+h1, h2, h3 {
+	// add discretionary ligatures font feature
+	font-feature-settings: "kern" 1, "liga" 1, "dlig" 1, "calt" 1, "onum" 1, "pnum" 1, "tnum" 0,  "lnum" 0;
+}
 input,textarea,select {
 	background-color: @color-input-bg;
 	font-family: @font-input;

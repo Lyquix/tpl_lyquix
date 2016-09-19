@@ -6,8 +6,11 @@ html {
 	word-break: break-word;
 	// better font rendering
 	text-rendering: auto;
-	// enable ligatures
-	font-feature-settings: "liga";
+	// opentype feature settings:
+	// enable: kerning, basic ligatures (liga), contextual-alternate (calt), old-style figures (onum), proportional figures (pnum)
+	// disable: discretionary ligatures (dlig), tabular figures (tnum), lining figures (lnum)
+	// ref: https://www.microsoft.com/typography/otspec/featurelist.htm
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0;
 	// smooth (momentum) scrolling
     -webkit-overflow-scrolling: touch;
     // font antialiasing on webskit browsers
@@ -141,10 +144,14 @@ sup {
 
 sup {
 	top: -0.5em;
+	// add superscript font feature
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0, "sups" 1;
 }
 
 sub {
 	bottom: -0.25em;
+	// add subscript font- feature
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0, "subs" 1;
 }
 
 // Embedded content
@@ -184,7 +191,7 @@ pre {
 	overflow: auto;
 	white-space: pre-wrap;
 	white-space: -moz-pre-wrap;
-	word-wrap: break-word;   
+	word-wrap: break-word;  
 }
 
 // Address odd `em`-unit font size rendering in all browsers.
@@ -195,6 +202,8 @@ pre,
 samp {
 	font-family: monospace, monospace;
 	font-size: 1em;
+	// set fixed-width figures, lining figures (same height as caps), slashed zero
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 0, "pnum" 0, "dlig" 0, "tnum" 1,  "lnum" 1, "zero" 1;
 }
 
 // Forms
@@ -370,6 +379,8 @@ table {
 td,
 th {
 	padding: 0;
+	// set fixed-width figures, lining figures (same height as caps), slashed zero
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 0, "pnum" 0, "dlig" 0, "tnum" 1,  "lnum" 1, "zero" 1;
 }
 
 
