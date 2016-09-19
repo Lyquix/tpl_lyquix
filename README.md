@@ -70,6 +70,12 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Detects browser and operating system, type and version, and adds them as classes to body tag
   * Custom events: onscreensizechange, scrollthrottle, and resizethrottle
 
+###LyqBox: our own Lightbox###
+
+  * Use a simple HTML structure to generate lightboxes
+  * Create dismissable alerts
+  * Galleries of images, videos, and HTML content
+
 ###Joomla###
 
   * Several module positions for 7-row, 6-column layout, as well as header and footer positions
