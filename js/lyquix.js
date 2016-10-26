@@ -698,7 +698,7 @@ var lqx = lqx || {
 					}
 				});
 				
-				// add listener to link
+				// add listener to page unload
 				jQuery(window).on('unload', function(){
 					
 					ga('send', {
