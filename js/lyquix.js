@@ -16,6 +16,7 @@ var lqx = lqx || {
 			scrolldepth: true,
 			photogallery: true,
 			video: true,
+			activetime: true,
 		},
 		shadeColorPercent: {
 			lighter: 20,
@@ -67,6 +68,11 @@ var lqx = lqx || {
 										' of <span class="total"></span>' +
 									'</div>' +
 								'</div>',	        		
+		},
+		userActive: {
+			idleTime: 5000,	// idle time (ms) before user is set to inactive
+			throttle: 100,	// throttle period (ms)
+			refresh: 250	// refresh period (ms)
 		}
 	},
 	
@@ -768,6 +774,38 @@ var lqx = lqx || {
 												 
 				});
 
+			}
+
+			// track active time
+			if(lqx.settings.tracking.activetime) {
+				// add listener to page unload
+				jQuery(window).on('unload', function(){
+					
+					ga('send', {
+						'hitType' : 'event', 
+						'eventCategory' : 'User Active Time',
+						'eventAction' : 'Percentage',
+						'eventValue' : parseInt(100 * lqx.vars.userActive.activeTime / (lqx.vars.userActive.activeTime + lqx.vars.userActive.inactiveTime)),
+						'nonInteraction' : true
+					});
+					
+					ga('send', {
+						'hitType' : 'event', 
+						'eventCategory' : 'User Active Time',
+						'eventAction' : 'Active Time (ms)',
+						'eventValue' : parseInt(lqx.vars.userActive.activeTime),
+						'nonInteraction' : true
+					});
+					
+					ga('send', {
+						'hitType' : 'event', 
+						'eventCategory' : 'User Active Time',
+						'eventAction' : 'Inactive Time (ms)',
+						'eventValue' : parseInt(lqx.vars.userActive.inactiveTime),
+						'nonInteraction' : true
+					});
+					
+				});
 			}
 		}
 
@@ -1573,7 +1611,83 @@ var lqx = lqx || {
 			lqx.lyqBox.removeHash();
 		},
 
-	},	
+	},
+
+	// trigger events for user active/inactive and count active time
+	initUserActive : function()	{
+
+		// initialize the variables
+		lqx.vars.userActive = {
+			active: true,
+			timer: false,
+			throttle: false,
+			lastChangeTime: (new Date()).getTime(),
+			activeTime: 0,
+			inactiveTime: 0,
+		};
+
+		// add listener to common user action events
+		jQuery(window).on('orientationchange resize focusin', function(){lqx.userActive();});
+		jQuery(document).on('mousedown mousemove mouseup wheel keydown keypress keyup touchstart touchmove touchend', function(){lqx.userActive();});
+		
+		// add listener for window on focus out, become inactive immediately
+		jQuery(window).on('focusout', function(){lqx.userInactive();});
+
+		// refresh active and inactive time counters
+		setInterval(function(){
+			if(lqx.vars.userActive.active) {
+				// update active time
+				lqx.vars.userActive.activeTime += (new Date()).getTime() - lqx.vars.userActive.lastChangeTime;
+			}
+			else {
+				// update inactive time
+				lqx.vars.userActive.inactiveTime += (new Date()).getTime() - lqx.vars.userActive.lastChangeTime;
+			}
+			// update last change time
+			lqx.vars.userActive.lastChangeTime = (new Date()).getTime();
+		}, lqx.settings.userActive.refresh);
+		
+		// initialize active state
+		lqx.userActive();
+
+	},
+
+	// function called to indicate user is currently active (heartbeat)
+	userActive : function() {
+		// if no throttle
+		if(!lqx.vars.userActive.throttle) {
+			lqx.vars.userActive.throttle = true;
+			setTimeout(function(){lqx.vars.userActive.throttle = false;}, lqx.settings.userActive.throttle);
+			// when changing from being inactive
+			if(!lqx.vars.userActive.active) {
+				// set state to active
+				lqx.vars.userActive.active = true;
+				// update inactive time
+				lqx.vars.userActive.inactiveTime += (new Date()).getTime() - lqx.vars.userActive.lastChangeTime;
+				// update last change time
+				lqx.vars.userActive.lastChangeTime = (new Date()).getTime();
+			}
+
+			// set state to active
+			lqx.vars.userActive.active = true;
+
+			// after idle time turn inactive
+			clearTimeout(lqx.vars.userActive.timer);
+			lqx.vars.userActive.timer = setTimeout(function(){lqx.userInactive();}, lqx.settings.userActive.idleTime);
+		}
+	},
+
+	// function called to indicate the user is currently inactive
+	userInactive : function() {
+		// set state to inactive
+		lqx.vars.userActive.active = false;
+		// clear timer
+		clearTimeout(lqx.vars.userActive.timer);
+		// add active time
+		lqx.vars.userActive.activeTime += (new Date()).getTime() - lqx.vars.userActive.lastChangeTime;
+		// update last change time
+		lqx.vars.userActive.lastChangeTime = (new Date()).getTime();
+	}
 
 };
 
@@ -1607,7 +1721,9 @@ jQuery(document).ready(function(){
 	// add listener to dynamically added content to the DOM
 	lqx.initMutationObserver();
 	// enable lyqbox;
-	lqx.lyqBox.init();	
+	lqx.lyqBox.init();
+	// initialize user active time tracking
+	lqx.initUserActive();
 });
 
 // Functions to execute when the page has loaded
