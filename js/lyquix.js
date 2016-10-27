@@ -73,6 +73,13 @@ var lqx = lqx || {
 			idleTime: 5000,	// idle time (ms) before user is set to inactive
 			throttle: 100,	// throttle period (ms)
 			refresh: 250	// refresh period (ms)
+		},
+		ga: {
+			createParams: null,		// example: {default: {trackingId: 'UA-XXXXX-Y', cookieDomain: 'auto', fieldsObject: {}}}, where "default" is the tracker name
+			setParams: null,		// example: {default: {dimension1: 'Age', metric1: 25}}
+			requireParams: null,	// example: {default: {pluginName: 'displayFeatures', pluginOptions: {cookieName: 'mycookiename'}}}
+			provideParams: null,	// example: {default: {pluginName: 'MyPlugin', pluginConstructor: myPluginFunc}}
+			customParamsFuncs: null	// example: {default: myCustomFunc}
 		}
 	},
 	
@@ -613,200 +620,187 @@ var lqx = lqx || {
 	// initialize google analytics tracking
 	initTracking : function() {
 		
-		// check if google analytics have been loaded
-		// NOTE: make sure you are using Google Universal Analytics Code:
-		/*
-		<script>
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-		ga('create', 'UA-XXXX-Y', 'auto');
-		ga('send', 'pageview');
-		</script>
-		*/
-		if(typeof window.ga !== 'undefined'){
+		// NOTE: this function is triggered by lqx.gaReady
 			
-			// track downloads and outbound links
-			if(lqx.settings.tracking.outbound || lqx.settings.tracking.download){
-				// find all a tags and cycle through them
-				jQuery('a').each(function(){
-					var elem = this;
-					// check if it has an href attribute, otherwise it is just a page anchor
-					if(elem.href) {
-						
-						// skip featherlight video and gallery, video is already handled below, and gallery will be handled by tracking.photogallery
-						if (typeof jQuery(this).attr('data-featherlight') === 'undefined' && typeof jQuery(this).parent().attr('data-featherlight-gallery') === 'undefined'){
+		// track downloads and outbound links
+		if(lqx.settings.tracking.outbound || lqx.settings.tracking.download){
+			// find all a tags and cycle through them
+			jQuery('a').each(function(){
+				var elem = this;
+				// check if it has an href attribute, otherwise it is just a page anchor
+				if(elem.href) {
+					
+					// skip featherlight video and gallery, video is already handled below, and gallery will be handled by tracking.photogallery
+					if (typeof jQuery(this).attr('data-featherlight') === 'undefined' && typeof jQuery(this).parent().attr('data-featherlight-gallery') === 'undefined'){
 
-							// check if it is an outbound link, track as event
-							if(elem.href.indexOf(location.host) == -1 && lqx.settings.tracking.outbound) {
+						// check if it is an outbound link, track as event
+						if(elem.href.indexOf(location.host) == -1 && lqx.settings.tracking.outbound) {
 
-								jQuery(elem).click(function(e){
-									// prevent default
-									e.preventDefault ? e.preventDefault() : e.returnValue = !1;
-									var url = elem.href;
-									var label = url;
-									if(jQuery(elem).attr('title')) {
-										label = jQuery(elem).attr('title') + ' [' + url + ']';
-									}
-									ga('send', {
-										'hitType' : 'event', 
-										'eventCategory' : 'Outbound Links',
-										'eventAction' : 'click',
-										'eventLabel' : label,
-										'nonInteraction' : true,
-										'hitCallback' : function(){ window.location.href = url; } // regarless of target value link will open in same link, otherwise it is blocked by browser
-									});
+							jQuery(elem).click(function(e){
+								// prevent default
+								e.preventDefault ? e.preventDefault() : e.returnValue = !1;
+								var url = elem.href;
+								var label = url;
+								if(jQuery(elem).attr('title')) {
+									label = jQuery(elem).attr('title') + ' [' + url + ']';
+								}
+								ga('send', {
+									'hitType' : 'event', 
+									'eventCategory' : 'Outbound Links',
+									'eventAction' : 'click',
+									'eventLabel' : label,
+									'nonInteraction' : true,
+									'hitCallback' : function(){ window.location.href = url; } // regarless of target value link will open in same link, otherwise it is blocked by browser
 								});
-							}
-							
-							// check if it is a download link, track as pageview
-							else if(elem.href.match(/\.(gif|png|jpg|jpeg|tif|tiff|svg|webp|bmp|zip|rar|gzip|7z|tar|exe|msi|dmg|txt|pdf|rtf|doc|docx|dot|dotx|xls|xlsx|xlt|xltx|ppt|pptx|pot|potx|mp3|wav|mp4|ogg|webm|wma|mov|avi|wmv|flv|swf|xml|js|json|css|less|sass)$/i) && lqx.settings.tracking.downloads) {
-								jQuery(elem).click(function(e){
-									// prevent default
-									e.preventDefault ? e.preventDefault() : e.returnValue = !1;
-									var url = elem.href;
-									var loc = elem.protocol + '//' + elem.hostname + elem.pathname + elem.search;
-									var page = elem.pathname + elem.search;
-									var title = 'Download: ' + page;
-									if(jQuery(elem).attr('title')) {
-										title = jQuery(elem).attr('title');
-									}
-									ga('send', {
-										'hitType': 'pageview', 
-										'location' : loc,
-										'page' : page,
-										'title' : title,
-										'hitCallback' : function(){ window.location.href = url; } // regarless of target value link will open in same link, otherwise it is blocked by browser
-									});
-								});
-							}
+							});
 						}
-					
+						
+						// check if it is a download link, track as pageview
+						else if(elem.href.match(/\.(gif|png|jpg|jpeg|tif|tiff|svg|webp|bmp|zip|rar|gzip|7z|tar|exe|msi|dmg|txt|pdf|rtf|doc|docx|dot|dotx|xls|xlsx|xlt|xltx|ppt|pptx|pot|potx|mp3|wav|mp4|ogg|webm|wma|mov|avi|wmv|flv|swf|xml|js|json|css|less|sass)$/i) && lqx.settings.tracking.downloads) {
+							jQuery(elem).click(function(e){
+								// prevent default
+								e.preventDefault ? e.preventDefault() : e.returnValue = !1;
+								var url = elem.href;
+								var loc = elem.protocol + '//' + elem.hostname + elem.pathname + elem.search;
+								var page = elem.pathname + elem.search;
+								var title = 'Download: ' + page;
+								if(jQuery(elem).attr('title')) {
+									title = jQuery(elem).attr('title');
+								}
+								ga('send', {
+									'hitType': 'pageview', 
+									'location' : loc,
+									'page' : page,
+									'title' : title,
+									'hitCallback' : function(){ window.location.href = url; } // regarless of target value link will open in same link, otherwise it is blocked by browser
+								});
+							});
+						}
 					}
-				});
 				
-			}
-			
-		
-			// track scroll depth
-			if(lqx.settings.tracking.scrolldepth){
-				
-				// get the initial scroll position
-				lqx.vars.scrollDepthMax = Math.ceil(((jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height()) * 10) * 10;
-				
-				// add listener to scrollthrottle event
-				jQuery(window).on('scrollthrottle', function(){
-					// capture the hightest scroll point, stop calculating once reached 100
-					if(lqx.vars.scrollDepthMax < 100) {
-						lqx.vars.scrollDepthMax = Math.max(lqx.vars.scrollDepthMax, Math.ceil(((jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height()) * 10) * 10);
-						if(lqx.vars.scrollDepthMax > 100) lqx.vars.scrollDepthMax = 100;
-					}
-				});
-				
-				// add listener to page unload
-				jQuery(window).on('unload', function(){
-					
-					ga('send', {
-						'hitType' : 'event', 
-						'eventCategory' : 'Scroll Depth',
-						'eventAction' : lqx.vars.scrollDepthMax,
-						'nonInteraction' : true
-					});				
-					
-				});					
-				
-			}
-			
-			// track photo galleries
-			if(lqx.settings.tracking.photogallery){
-				jQuery('html').on('click', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox], a[data-featherlight-image]', function(){
-					// send event for gallery opened
-					ga('send', {
-						'hitType': 'event', 
-						'eventCategory' : 'Photo Gallery',
-						'eventAction' : 'Open'
-					});
-				
-				});
-				
-				jQuery('html').on('load', 'img.lb-image', function(){
-					// send event for image displayed
-					ga('send', {
-						'hitType': 'event', 
-						'eventCategory' : 'Photo Gallery',
-						'eventAction' : 'Display',
-						'eventLabel' : jQuery(this).attr('src')
-					});
-				
-				});
-
-			}
-			
-			// track video
-			if(lqx.settings.tracking.video){
-				
-				// load youtube iframe api
-				var tag = document.createElement('script');
-				tag.src = "https://www.youtube.com/iframe_api";
-				tag.onload = function(){lqx.vars.youTubeIframeAPIReady = true;};
-				var firstScriptTag = document.getElementsByTagName('script')[0];
-				firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-				
-				// set listeners for vimeo videos
-				if (window.addEventListener) {
-					window.addEventListener('message', lqx.vimeoReceiveMessage, false);
-				} 
-				else {
-					window.attachEvent('onmessage', lqx.vimeoReceiveMessage, false);
 				}
+			});
+			
+		}
+		
+	
+		// track scroll depth
+		if(lqx.settings.tracking.scrolldepth){
+			
+			// get the initial scroll position
+			lqx.vars.scrollDepthMax = Math.ceil(((jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height()) * 10) * 10;
+			
+			// add listener to scrollthrottle event
+			jQuery(window).on('scrollthrottle', function(){
+				// capture the hightest scroll point, stop calculating once reached 100
+				if(lqx.vars.scrollDepthMax < 100) {
+					lqx.vars.scrollDepthMax = Math.max(lqx.vars.scrollDepthMax, Math.ceil(((jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height()) * 10) * 10);
+					if(lqx.vars.scrollDepthMax > 100) lqx.vars.scrollDepthMax = 100;
+				}
+			});
+			
+			// add listener to page unload
+			jQuery(window).on('unload', function(){
 				
-				// initialize lqx players objects
-				lqx.vars.youtubePlayers = {};
-				lqx.vars.vimeoPlayers = {};
+				ga('send', {
+					'hitType' : 'event', 
+					'eventCategory' : 'Scroll Depth',
+					'eventAction' : lqx.vars.scrollDepthMax,
+					'nonInteraction' : true
+				});				
 				
-				// detect if there are any youtube or vimeo videos, activate js api and add id
-				jQuery('iframe').each(function(){
-					
-					var elem = jQuery(this);
-					// init js api for video player
-					lqx.initVideoPlayerAPI(elem);
-												 
+			});					
+			
+		}
+		
+		// track photo galleries
+		if(lqx.settings.tracking.photogallery){
+			jQuery('html').on('click', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox], a[data-featherlight-image]', function(){
+				// send event for gallery opened
+				ga('send', {
+					'hitType': 'event', 
+					'eventCategory' : 'Photo Gallery',
+					'eventAction' : 'Open'
 				});
-
-			}
-
-			// track active time
-			if(lqx.settings.tracking.activetime) {
-				// add listener to page unload
-				jQuery(window).on('unload', function(){
-					
-					ga('send', {
-						'hitType' : 'event', 
-						'eventCategory' : 'User Active Time',
-						'eventAction' : 'Percentage',
-						'eventValue' : parseInt(100 * lqx.vars.userActive.activeTime / (lqx.vars.userActive.activeTime + lqx.vars.userActive.inactiveTime)),
-						'nonInteraction' : true
-					});
-					
-					ga('send', {
-						'hitType' : 'event', 
-						'eventCategory' : 'User Active Time',
-						'eventAction' : 'Active Time (ms)',
-						'eventValue' : parseInt(lqx.vars.userActive.activeTime),
-						'nonInteraction' : true
-					});
-					
-					ga('send', {
-						'hitType' : 'event', 
-						'eventCategory' : 'User Active Time',
-						'eventAction' : 'Inactive Time (ms)',
-						'eventValue' : parseInt(lqx.vars.userActive.inactiveTime),
-						'nonInteraction' : true
-					});
-					
+			
+			});
+			
+			jQuery('html').on('load', 'img.lb-image', function(){
+				// send event for image displayed
+				ga('send', {
+					'hitType': 'event', 
+					'eventCategory' : 'Photo Gallery',
+					'eventAction' : 'Display',
+					'eventLabel' : jQuery(this).attr('src')
 				});
+			
+			});
+
+		}
+		
+		// track video
+		if(lqx.settings.tracking.video){
+			
+			// load youtube iframe api
+			var tag = document.createElement('script');
+			tag.src = "https://www.youtube.com/iframe_api";
+			tag.onload = function(){lqx.vars.youTubeIframeAPIReady = true;};
+			var firstScriptTag = document.getElementsByTagName('script')[0];
+			firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+			
+			// set listeners for vimeo videos
+			if (window.addEventListener) {
+				window.addEventListener('message', lqx.vimeoReceiveMessage, false);
+			} 
+			else {
+				window.attachEvent('onmessage', lqx.vimeoReceiveMessage, false);
 			}
+			
+			// initialize lqx players objects
+			lqx.vars.youtubePlayers = {};
+			lqx.vars.vimeoPlayers = {};
+			
+			// detect if there are any youtube or vimeo videos, activate js api and add id
+			jQuery('iframe').each(function(){
+				
+				var elem = jQuery(this);
+				// init js api for video player
+				lqx.initVideoPlayerAPI(elem);
+											 
+			});
+
+		}
+
+		// track active time
+		if(lqx.settings.tracking.activetime) {
+			// add listener to page unload
+			jQuery(window).on('unload', function(){
+				
+				ga('send', {
+					'hitType' : 'event', 
+					'eventCategory' : 'User Active Time',
+					'eventAction' : 'Percentage',
+					'eventValue' : parseInt(100 * lqx.vars.userActive.activeTime / (lqx.vars.userActive.activeTime + lqx.vars.userActive.inactiveTime)),
+					'nonInteraction' : true
+				});
+				
+				ga('send', {
+					'hitType' : 'event', 
+					'eventCategory' : 'User Active Time',
+					'eventAction' : 'Active Time (ms)',
+					'eventValue' : parseInt(lqx.vars.userActive.activeTime),
+					'nonInteraction' : true
+				});
+				
+				ga('send', {
+					'hitType' : 'event', 
+					'eventCategory' : 'User Active Time',
+					'eventAction' : 'Inactive Time (ms)',
+					'eventValue' : parseInt(lqx.vars.userActive.inactiveTime),
+					'nonInteraction' : true
+				});
+				
+			});
 		}
 
 	},
@@ -1687,6 +1681,74 @@ var lqx = lqx || {
 		lqx.vars.userActive.activeTime += (new Date()).getTime() - lqx.vars.userActive.lastChangeTime;
 		// update last change time
 		lqx.vars.userActive.lastChangeTime = (new Date()).getTime();
+	},
+
+	// handles the google analytics page view event, setting first custom parameters
+	gaReady : function(tracker) {
+		// execute functions to set custom parameters
+		jQuery.Deferred().done(
+			function(){
+				// create commands
+				if(lqx.settings.ga.createParams && typeof lqx.settings.ga.createParams == 'object') {
+					var params = lqx.settings.ga.createParams;
+					Object.keys(params).forEach(function(tracker){
+						if(tracker == 'default') ga('create', params[tracker].trackingId, params[tracker].cookieDomain, params[tracker].fieldsObject);
+						else ga('create', params[tracker].trackingId, params[tracker].cookieDomain, tracker, params[tracker].fieldsObject);
+					});
+				}
+			},
+			function(){
+				// set commands
+				if(lqx.settings.ga.setParams && typeof lqx.settings.ga.setParams == 'object') {
+					var params = lqx.settings.ga.setParams;
+					Object.keys(params).forEach(function(tracker){
+						var cmd = 'set';
+						if(tracker != 'default') cmd = tracker + '.set';
+						Object.keys(params[tracker]).forEach(function(fieldName){
+							ga(cmd, fieldName, params[tracker][fieldName]);
+						});
+					});
+				}
+				// require commands
+				if(lqx.settings.ga.requireParams && typeof lqx.settings.ga.requireParams == 'object') {
+					var params = lqx.settings.ga.requireParams;
+					Object.keys(params).forEach(function(tracker){
+						var cmd = 'require';
+						if(tracker != 'default') cmd = tracker + '.require';
+						params[tracker].forEach(function(elem){
+							ga(cmd, elem.pluginName, elem.pluginOptions);
+						});
+					});
+				}
+				// provide commands
+				if(lqx.settings.ga.provideParams && typeof lqx.settings.ga.provideParams == 'object') {
+					var params = lqx.settings.ga.provideParams;
+					Object.keys(params).forEach(function(tracker){
+						var cmd = 'provide';
+						if(tracker != 'default') cmd = tracker + '.provide';
+						params[tracker].forEach(function(elem){
+							ga(cmd, elem.pluginName, elem.pluginConstructor);
+						});
+					});
+				}
+			},
+			function(){
+				if(typeof lqx.settings.ga.customParamsFuncs == 'function') {
+					try {
+						lqx.settings.ga.customParamsFuncs();
+					}
+					catch(e) {
+						console.log(e);
+					}
+				}
+			},
+			function(){
+				// send pageview
+				ga('send', 'pageview');
+				// initialize analytics tracking
+				lqx.initTracking();
+			}
+		).resolve();
 	}
 
 };
@@ -1708,8 +1770,6 @@ jQuery(document).ready(function(){
 	lqx.browserFixes();
 	// enable function logging
 	lqx.initLogging();	
-	// add tracking with google analytics
-	lqx.initTracking();
 	// initialize mobile menu functionality
 	lqx.initMobileMenu();
 	// set equal height rows
