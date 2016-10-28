@@ -202,9 +202,8 @@ var lqx = lqx || {
 	// returns the browser name, type and version, and sets body classes
 	// detects major browsers: IE, Edge, Firefox, Chrome, Safari, Opera, Android
 	// based on: https://github.com/ded/bowser
-	// NOTE: don't use this as a function, as it is converted to an object on the first execution
 	// list of user agen strings: http://www.webapps-online.com/online-tools/user-agent-strings/dv
-	getBrowser : function(){
+	getBrowser : (function(){
 		var ua = navigator.userAgent, browser;
 
 		// helper functions to deal with common regex
@@ -277,14 +276,13 @@ var lqx = lqx || {
 		jQuery('body').addClass(browser.type + '-' + browser.version.replace(/\./g, '-'));
 
 		return browser;
-	},
+	}()),
 
 	// returns the os name, type and version, and sets body classes
 	// detects major desktop and mobile os: Windows, Windows Phone, Mac, iOS, Android, Ubuntu, Fedora, ChromeOS
 	// based on bowser: https://github.com/ded/bowser
-	// NOTE: don't use this as a function, as it is converted to an object on the first execution
 	// list of user agent strings: http://www.webapps-online.com/online-tools/user-agent-strings/dv
-	getOS : function() {
+	getOS : (function() {
 		var ua = navigator.userAgent, os;
 
 		// helper functions to deal with common regex
@@ -359,7 +357,7 @@ var lqx = lqx || {
 		}
 
 		return os;
-	},
+	}()),
 	
 	// browserFixes
 	// implements some general browser fixes
