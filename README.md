@@ -28,6 +28,7 @@ This is intended to be the foundation for developers that build custom templates
   * A JS object lqx.mobileDetect is created with the result of mobile detection
   * Responsive and fluid: in the documentation you can find more information about our approach to responsive and fluid design
   * Sets mobile icons
+  * Adds attributes to body tag to identify screen size and orientation for easy use in CSS
 
 ###Grid Layout and Responsive Framework###
 
@@ -53,7 +54,7 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Base styles for print version
   * Allows adding custom CSS libraries from template settings
   * Recommended: use PostCSS Autoprefixer to add support for custom browser prefixes and variations
-  * Recommended: use BLESS to chunk files to avoid issues with IE9
+  * Recommended: use BLESS to chunk files to avoid issues with IE9, which are automatically detected and loaded
 
 ###Javascript###
 
@@ -70,7 +71,7 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Detects browser and operating system, type and version, and adds them as classes to body tag
   * Custom events: onscreensizechange, scrollthrottle, and resizethrottle
 
-###LyqBox: our own Lightbox###
+###LyqBox: our own Lightbox library###
 
   * Use a simple HTML structure to generate lightboxes
   * Create dismissable alerts
@@ -80,11 +81,12 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
 
   * Several module positions for 7-row, 6-column layout, as well as header and footer positions
   * Template configuration fields for Google Analytics, AddThis and Disqus accounts, Google and Yahoo/Bing site verification, blank page option, use less.js during development, use non-minified files during development, fluid screen sizes and fluid devices preferences
+  * Template options for loading frameworks and libraries: loDash, AngularJS, and polyfills for ES5 and ES6
   * Base templates for index, component, error, offline
   * Displays module positions only if module available
   * Add classes to body tag identifying component, view, task
   * Easily add custom js and css libraries in template settings
-  * Unset js and css added by Joomla extensions
+  * Unset js and css added by Joomla and extensions
 
 ###Customization###
 
@@ -92,7 +94,7 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * LESS files can be overriden by adding custom files to the css/less/custom folder. [NOTE: this feature relies on the import keyword 'optional' introduced in LESS 2, and as of this writing it is only supported by the LESS command line compiler]
   * Updated versions of the template will not override or modified customization files
 
-###Dealing with good old IE###
+###Dealing with IE###
 
   * Adds fix IE console
   * Loads html5shiv and selectivzr
@@ -100,19 +102,19 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Automatically loads chunked CSS files for IE9
   * Adds classes to body tag that identify browser type and version
   * Adds width attribute to images if missing
-  * On IE8 implements a hack for responsiveness to work
-  * On IE8 implements fallback of inline svg images to png
   * Hacks for font rendering issues in IE11
-  * Displays warning for IE8 and older users
+  * Displays outdated browser warning for IE8 and IE9 users
 
 ###Tracking with Google Analytics###
   
   * Loads Google Analytics universal tracking code when UA- account is set in template settings
+  * Implements parameter-driven Google Analytics configuration, as well as custom function
   * Tracking of outbound links as events
   * Tracking of download file as page views
   * Tracking of page scroll depth as event
   * Tracking of photo gallery open and browsing as events
   * Tracking of video player events (play, percentage, and complete), supports YouTube and Vimeo
+  * Tracking of active/inactive user time
 
 ##Documentation##
 
@@ -124,17 +126,6 @@ We are slowly moving the documentation into this repo:
   * [Files, positions, configuration: templateDetails.xml](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/xml.md)
   * [Base template files: index.php, component.php](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/template.md)
 
-##To Do##
+##To Do and Ideas##
 
-There is still work to do! Please let us know if you would like to help, find any issues, or have any ideas.
-
-  * Finish the documentation
-  * Update 3rd party libraries as needed
-  * Cross-browser testing of all CSS3-supported styles (and document what is not supported in which browsers)
-
-Some ideas we have and plan on develop next:
-
-  * Styles for related content, and side content
-  * Styles for FLEXIcontent
-  * More module and component overrides - some popular components have very poor frontends
-  * More styles and effects for mobile (e.g. animated menus)
+Refer to the Issues in this repo
