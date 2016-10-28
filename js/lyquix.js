@@ -6,6 +6,7 @@ var lqx = lqx || {
 	
 	// default settings
 	settings : {
+		debug: false,
 		logger: {
 			enable : false, // set to true to enable console logging
 			namespaces : ['window', 'jQuery', 'lqx'] // array of namespaces to be included when logging
@@ -103,6 +104,12 @@ var lqx = lqx || {
 		return lqx.settings;
 	},
 	
+	// internal console log function
+	// use instead of console.log, and control with lqx.settings.debug
+	log : function() {
+		if(lqx.settings.debug) console.log(arguments);
+	},
+
 	// function logging
 	initLogging: function() {
 		if(lqx.settings.logger.enable) {
