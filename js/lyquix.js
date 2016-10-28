@@ -106,9 +106,9 @@ var lqx = lqx || {
 	// function logging
 	initLogging: function() {
 		if(lqx.settings.logger.enable) {
-			for(var i in lqx.settings.logger.namespaces) {
-				lqx.addLoggingToNamespace(lqx.settings.logger.namespaces[i]);
-			}
+			lqx.settings.logger.namespaces.forEach(function(namespace){
+				lqx.addLoggingToNamespace(namespace);
+			});
 		}
 	},
 	
@@ -122,13 +122,11 @@ var lqx = lqx || {
 			namespaceObject = window[nameSpace];
 		}
 		
-		for(var name in namespaceObject){
-			var potentialFunction = namespaceObject[name];
-			
+		Object.keys(namespaceObject).forEach(function(potentialFunction, name){
 			if(Object.prototype.toString.call(potentialFunction) === '[object Function]'){
 				namespaceObject[name] = lqx.getLoggableFunction(potentialFunction, name, nameSpace);
 			}
-		}
+		});
 	},
 	
 	getLoggableFunction : function(func, name, nameSpace) {
