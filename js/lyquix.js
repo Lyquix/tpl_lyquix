@@ -143,24 +143,17 @@ var lqx = lqx || {
 	// adds an attribute "screen" to the body tag that indicates the current size of the screen
 	bodyScreenSize : function() {
 		var w = jQuery(window).width();
-		// xs:    0 -  640
-		// sm:  640 -  960
-		// md:  960 - 1280
-		// lg: 1280 - 1600
-		// xl: 1600 -
 		if(w < lqx.settings.bodyScreenSize.breakPoints[1]) s = 0;
 		if(w >= lqx.settings.bodyScreenSize.breakPoints[1]) s = 1;
 		if(w >= lqx.settings.bodyScreenSize.breakPoints[2]) s = 2;
 		if(w >= lqx.settings.bodyScreenSize.breakPoints[3]) s = 3;
 		if(w >= lqx.settings.bodyScreenSize.breakPoints[4]) s = 4;
+		// adjust calculated size to min and max range
+		if(s < lqx.settings.bodyScreenSize.min) s = lqx.settings.bodyScreenSize.min;
+		if(s > lqx.settings.bodyScreenSize.max) s = lqx.settings.bodyScreenSize.max;
 		if(lqx.vars.bodyScreenSize.sizes[s] != lqx.vars.lastScreenSize) {
-			// adjust calculated size to min and max range
-			if(s < lqx.settings.bodyScreenSize.min) s = lqx.settings.bodyScreenSize.min;
-			if(s > lqx.settings.bodyScreenSize.max) s = lqx.settings.bodyScreenSize.max;
 			// change the body screen attribute
 			jQuery('body').attr('screen',lqx.vars.bodyScreenSize.sizes[s]);
-			// hack to force IE8 to take the new screen size attribute
-			document.getElementsByTagName('body')[0].className = document.getElementsByTagName('body')[0].className;
 			// save last screen size
 			lqx.vars.lastScreenSize = lqx.vars.bodyScreenSize.sizes[s];
 			// trigger custom event 'screensizechange'
