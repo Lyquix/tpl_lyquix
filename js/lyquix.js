@@ -1756,158 +1756,148 @@ var lqx = lqx || {
 				lqx.initTracking();
 			}
 		).resolve();
-	}
+	},
+
+	// self initialization function
+	init : (function(){
+		// Functions to execute when the DOM is ready
+		jQuery(document).ready(function(){
+			// check screen size 
+			lqx.bodyScreenSize();
+			// update orientation attribute in body tag
+			lqx.bodyScreenOrientation();
+			// add image attributes for load error and load complete
+			lqx.initImgLoadAttr();
+			// execute some browser fixes
+			lqx.browserFixes();
+			// enable function logging
+			lqx.initLogging();	
+			// initialize mobile menu functionality
+			lqx.initMobileMenu();
+			// set equal height rows
+			lqx.initEqualHeightRows();
+			// adds image captions using alt property
+			lqx.imageCaption();
+			// shows a line break symbol before br elements
+			lqx.lineBreakSymbol();
+			// add listener to dynamically added content to the DOM
+			lqx.initMutationObserver();
+			// enable lyqbox;
+			lqx.lyqBox.init();
+			// initialize user active time tracking
+			lqx.initUserActive();
+		});
+
+		// Functions to execute when the page has loaded
+		jQuery(window).load(function(){
+			// check screen size to deal with appearing scrollbar
+			lqx.bodyScreenSize();
+			// set punctuation marks to hanging
+			lqx.hangingPunctuation();
+			// set equal height rows
+			lqx.equalHeightRows();
+		});
+
+		// Trigger on window scroll
+		jQuery(window).scroll(function() {
+			// throttling?
+			if(!lqx.vars.scrollThrottle) {
+				// trigger custom event 'scrollthrottle'
+				jQuery(document).trigger('scrollthrottle');
+
+				// throttling is now on
+				lqx.vars.scrollThrottle = true;
+				
+				// set time out to turn throttling on and check screen size once more
+				setTimeout(function () { 
+					// trigger custom event 'scrollthrottle'
+					jQuery(document).trigger('scrollthrottle');
+
+					// throttling is now off
+					lqx.vars.scrollThrottle = false; 
+				}, lqx.settings.scrollThrottle.duration);
+			}
+		});
+
+		// Trigger on window resize
+		jQuery(window).resize(function() {
+			// throttling?
+			if(!lqx.vars.resizeThrottle) {
+				// trigger custom event 'resizethrottle'
+				jQuery(document).trigger('resizethrottle');
+
+				// throttling is now on
+				lqx.vars.resizeThrottle = true;
+				
+				// set time out to turn throttling on and check screen size once more
+				setTimeout(function () { 
+					// trigger custom event 'resizethrottle'
+					jQuery(document).trigger('resizethrottle');
+
+					// throttling is now off
+					lqx.vars.resizeThrottle = false; 
+				}, lqx.settings.resizeThrottle.duration);
+			}
+		});
+
+		// Trigger on screen orientation change
+		jQuery(window).on('orientationchange', function() {
+			// check screen size and trigger 'screensizechange' event 
+			lqx.bodyScreenSize();
+			// update orientation attribute in body tag
+			lqx.bodyScreenOrientation();
+		});
+
+		// Trigger on custom event screen size change
+		jQuery(window).on('screensizechange', function() {
+			// set equal height rows
+			lqx.equalHeightRows();
+			// set punctuation marks to hanging
+			lqx.hangingPunctuation();
+		});
+
+		// Trigger on custom event scrollthrottle
+		jQuery(window).on('scrollthrottle', function() {
+			
+		});
+
+		// Trigger on custom event resizethrottle
+		jQuery(window).on('resizethrottle', function() {
+			// check screen size
+			lqx.bodyScreenSize();
+		});
+
+
+		// Other global functions, callbacks
+		// ***********************************
+
+		// onYouTubeIframeAPIReady
+		// callback function called by iframe youtube players when they are ready
+		window.onYouTubeIframeAPIReady = function(){
+			if(lqx.vars.youTubeIframeAPIReady && (typeof YT !== "undefined") && YT && YT.Player) {
+				for(var playerId in lqx.vars.youtubePlayers) {
+					if(typeof lqx.vars.youtubePlayers[playerId].playerObj == 'undefined') {
+						lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, { 
+							events: { 
+								'onReady': function(e){ lqx.youtubePlayerReady(e, playerId) }, 
+								'onStateChange': function(e){ lqx.youtubePlayerStateChange(e, playerId) } 
+							}
+						});
+					}
+				}
+			} 
+			else {
+				// keep track how many time we have attempted, retry unless it has been more than 30secs
+				lqx.vars.youTubeIframeAPIReadyAttempts++;
+				if(lqx.vars.youTubeIframeAPIReadyAttempts < 120) setTimeout("onYouTubeIframeAPIReady()",250);
+			}
+		}
+
+		return true;
+
+	}())
 
 };
 
 // END Lyquix global object
 // ***********************************
-
-
-// Functions to execute when the DOM is ready
-jQuery(document).ready(function(){
-	
-	// add image attributes for load error and load complete
-	lqx.initImgLoadAttr();
-	// get browser type - NOTE: this converts the function into a string
-	lqx.getBrowser = lqx.getBrowser();
-	// get os - NOTE: this converts the function into a string
-	lqx.getOS = lqx.getOS();
-	// execute some browser fixes
-	lqx.browserFixes();
-	// enable function logging
-	lqx.initLogging();	
-	// initialize mobile menu functionality
-	lqx.initMobileMenu();
-	// set equal height rows
-	lqx.initEqualHeightRows();
-	// adds image captions using alt property
-	lqx.imageCaption();
-	// shows a line break symbol before br elements
-	lqx.lineBreakSymbol();
-	// add listener to dynamically added content to the DOM
-	lqx.initMutationObserver();
-	// enable lyqbox;
-	lqx.lyqBox.init();
-	// initialize user active time tracking
-	lqx.initUserActive();
-});
-
-// Functions to execute when the page has loaded
-jQuery(window).load(function(){
-	
-	// check screen size once again (to deal with appearing scrollbar) 
-	lqx.bodyScreenSize();
-	// set punctuation marks to hanging
-	lqx.hangingPunctuation();
-	// set equal height rows
-	lqx.equalHeightRows();
-	
-});
-
-// Trigger on window scroll
-jQuery(window).scroll(function() {
-
-	// throttling?
-	if(!lqx.vars.scrollThrottle) {
-
-		// trigger custom event 'scrollthrottle'
-		jQuery(document).trigger('scrollthrottle');
-
-		// throttling is now on
-		lqx.vars.scrollThrottle = true;
-		
-		// set time out to turn throttling on and check screen size once more
-		setTimeout(function () { 
-			// trigger custom event 'scrollthrottle'
-			jQuery(document).trigger('scrollthrottle');
-
-			// throttling is now off
-			lqx.vars.scrollThrottle = false; 
-		}, lqx.settings.scrollThrottle.duration);
-		
-	}
-	
-});
-
-// Trigger on window resize
-jQuery(window).resize(function() {
-
-	// throttling?
-	if(!lqx.vars.resizeThrottle) {
-
-		// trigger custom event 'resizethrottle'
-		jQuery(document).trigger('resizethrottle');
-
-		// throttling is now on
-		lqx.vars.resizeThrottle = true;
-		
-		// set time out to turn throttling on and check screen size once more
-		setTimeout(function () { 
-			// trigger custom event 'resizethrottle'
-			jQuery(document).trigger('resizethrottle');
-
-			// throttling is now off
-			lqx.vars.resizeThrottle = false; 
-		}, lqx.settings.resizeThrottle.duration);
-		
-	}
-	
-});
-
-// Trigger on screen orientation change
-jQuery(window).on('orientationchange', function() {
-	
-	// check screen size and trigger 'screensizechange' event 
-	lqx.bodyScreenSize();
-	
-});
-
-// Trigger on custom event screen size change
-jQuery(window).on('screensizechange', function() {
-	
-	// set equal height rows
-	lqx.equalHeightRows();
-	// set punctuation marks to hanging
-	lqx.hangingPunctuation();
-
-});
-
-// Trigger on custom event scrollthrottle
-jQuery(window).on('scrollthrottle', function() {
-	
-});
-
-// Trigger on custom event resizethrottle
-jQuery(window).on('resizethrottle', function() {
-	
-	// check screen size
-	lqx.bodyScreenSize();
-
-});
-
-
-// Other global functions, callbacks
-// ***********************************
-
-// onYouTubeIframeAPIReady
-// callback function called by iframe youtube players when they are ready
-function onYouTubeIframeAPIReady(){
-	if(lqx.vars.youTubeIframeAPIReady && (typeof YT !== "undefined") && YT && YT.Player) {
-		for(var playerId in lqx.vars.youtubePlayers) {
-			if(typeof lqx.vars.youtubePlayers[playerId].playerObj == 'undefined') {
-				lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, { 
-					events: { 
-						'onReady': function(e){ lqx.youtubePlayerReady(e, playerId) }, 
-						'onStateChange': function(e){ lqx.youtubePlayerStateChange(e, playerId) } 
-					}
-				});
-			}
-		}
-	} 
-	else {
-		// keep track how many time we have attempted, retry unless it has been more than 30secs
-		lqx.vars.youTubeIframeAPIReadyAttempts++;
-		if(lqx.vars.youTubeIframeAPIReadyAttempts < 120) setTimeout("onYouTubeIframeAPIReady()",250);
-	}
-}
