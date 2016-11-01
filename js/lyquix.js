@@ -37,6 +37,7 @@ var lqx = lqx || {
 			min: 0,
 			max: 4,
 			breakPoints: [320, 640, 960, 1280, 1600],
+			sizes: ['xs', 'sm', 'md', 'lg', 'xl'],
 		},
 		equalHeightRows: {
 			refreshElems: false, // refreshed the list of elements on each run
@@ -88,9 +89,6 @@ var lqx = lqx || {
 	vars: {
 		resizeThrottle: false,  // saves current status of resizeThrottle
 		scrollThrottle: false,  // saves current status of scrollThrottle
-		bodyScreenSize: {
-			sizes: ['xs', 'sm', 'md', 'lg', 'xl'],
-		},
 		youTubeIframeAPIReady: false,
 		youTubeIframeAPIReadyAttempts: 0,
 	},
@@ -158,11 +156,11 @@ var lqx = lqx || {
 		// adjust calculated size to min and max range
 		if(s < lqx.settings.bodyScreenSize.min) s = lqx.settings.bodyScreenSize.min;
 		if(s > lqx.settings.bodyScreenSize.max) s = lqx.settings.bodyScreenSize.max;
-		if(lqx.vars.bodyScreenSize.sizes[s] != lqx.vars.lastScreenSize) {
+		if(lqx.settings.bodyScreenSize.sizes[s] != lqx.vars.lastScreenSize) {
 			// change the body screen attribute
-			jQuery('body').attr('screen',lqx.vars.bodyScreenSize.sizes[s]);
+			jQuery('body').attr('screen',lqx.settings.bodyScreenSize.sizes[s]);
 			// save last screen size
-			lqx.vars.lastScreenSize = lqx.vars.bodyScreenSize.sizes[s];
+			lqx.vars.lastScreenSize = lqx.settings.bodyScreenSize.sizes[s];
 			// trigger custom event 'screensizechange'
 			jQuery(document).trigger('screensizechange');
 		}
