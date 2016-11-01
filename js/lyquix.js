@@ -171,18 +171,21 @@ var lqx = lqx || {
 	// bodyScreenOrientation
 	// adds an attribute "orientation" to the body tag that indicates the current orientation of the screen
 	bodyScreenOrientation : function() {
-		switch (window.screen.orientation.type ) {
-			case 'portrait-primary' :
-			case 'portrait-secondary' :
-				lqx.vars.lastScreenOrientation = 'portrait';
-				jQuery('body').attr('orientation', 'portrait');
-				break;
+		if('orientation' in window.screen) {
+			switch (window.screen.orientation.type ) {
+				case 'portrait-primary' :
+				case 'portrait-secondary' :
+					lqx.vars.lastScreenOrientation = 'portrait';
+					jQuery('body').attr('orientation', 'portrait');
+					break;
 
-			case 'landscape-primary' :
-			case 'landscape-secondary' :
-				lqx.vars.lastScreenOrientation = 'landscape';
-				jQuery('body').attr('orientation', 'landscape');
-				break;
+				case 'landscape-primary' :
+				case 'landscape-secondary' :
+					lqx.vars.lastScreenOrientation = 'landscape';
+					jQuery('body').attr('orientation', 'landscape');
+					break;
+			}
+		}
 		}
 	},
 	
