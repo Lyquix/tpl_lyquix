@@ -31,64 +31,72 @@ var changeme = changeme || {  // custom project namespace, change to the client 
 		 */
 	},
 	
-	/* add custom functions for your project here */	
+	/* 
+	 *
+	 * add custom functions for your project here 
+	 *
+	*/
+
+	// init: self invoking function that executes listeners once
+	init: (function(){
+
+		// on dom ready
+		jQuery(document).ready(function(){
+			
+			/* add custom code to run on document ready e.g. init functions */
+			
+			
+		});
+
+		// on page load
+		jQuery(window).load(function(){
+
+			/* add handlers to run when the page finishes loading */
+			
+		});
+
+		// on screen orientation change
+		jQuery(window).on('orientationchange', function() {
+			
+			/* add handlers to run on screen orientation change */
+			
+		});
+
+		// on change of screen size: xs, sm, md, lg, xl, as well as rotation
+		jQuery(window).on('screensizechange', function() {
+
+			/* add handlers to run on screen changes */
+
+		});
+
+		// on custom event scrollthrottle
+		jQuery(window).on('scrollthrottle', function() {
+			
+			/* add handlers to run when page is scrolled */
+
+		});
+
+		// on scroll events
+		jQuery(window).scroll(function() {
+
+			/* add handlers to run when page is scrolled */
+			
+		});
+
+		// on custom event resizethrottle
+		jQuery(window).on('resizethrottle', function() {
+			
+			/* add handlers to run when window is resized */
+
+		});
+
+		// on window resize events
+		jQuery(window).resize(function() {
+
+			/* add handlers to run when window is resized */
+			
+		});
+
+	}())
 	
 };
-
-
-// on dom ready
-jQuery(document).ready(function(){
-	
-	/* add custom code to run on document ready e.g. init functions */
-	
-	
-});
-
-// on page load
-jQuery(window).load(function(){
-
-	/* add handlers to run when the page finishes loading */
-	
-});
-
-// on screen orientation change
-jQuery(window).on('orientationchange', function() {
-	
-	/* add handlers to run on screen orientation change */
-	
-});
-
-// on change of screen size: xs, sm, md, lg, xl, as well as rotation
-jQuery(window).on('screensizechange', function() {
-
-	/* add handlers to run on screen changes */
-
-});
-
-// on custom event scrollthrottle
-jQuery(window).on('scrollthrottle', function() {
-	
-	/* add handlers to run when page is scrolled */
-
-});
-
-// on scroll events
-jQuery(window).scroll(function() {
-
-	/* add handlers to run when page is scrolled */
-	
-});
-
-// on custom event resizethrottle
-jQuery(window).on('resizethrottle', function() {
-	
-	/* add handlers to run when window is resized */
-
-});
-
-// on window resize events
-jQuery(window).resize(function() {
-
-	/* add handlers to run when window is resized */
-	
-});
