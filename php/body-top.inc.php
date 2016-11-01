@@ -1,5 +1,7 @@
 <script>
 lqx.bodyScreenSize();
+lqx.vars.siteURL = '<?php echo $site_abs_url; ?>';
+lqx.vars.tmplURL = '<?php echo $site_abs_url . 'templates/' . $this->template; ?>';
 <?php 
 if($this->params->get('mobiledetect_method', 'php') == 'js') echo "lqx.mobileDetect = lqx.mobileDetect();\n"; 
 if($this->params->get('mobiledetect_method', 'php') == 'php'){
