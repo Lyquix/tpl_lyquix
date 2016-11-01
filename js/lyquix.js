@@ -82,6 +82,10 @@ var lqx = lqx || {
 			requireParams: null,	// example: {default: {pluginName: 'displayFeatures', pluginOptions: {cookieName: 'mycookiename'}}}
 			provideParams: null,	// example: {default: {pluginName: 'MyPlugin', pluginConstructor: myPluginFunc}}
 			customParamsFuncs: null	// example: {default: myCustomFunc}
+		},
+		geoLocation: {
+			enable: false,	// perform geolocation
+			gps: false,		// request gps data for precise lat/lon
 		}
 	},
 	
@@ -184,6 +188,49 @@ var lqx = lqx || {
 					break;
 			}
 		}
+	},
+
+	// geoLocate
+	// attempts to locate position of user by means of gps or ip address
+	geoLocate : function() {
+		if(lqx.settings.geoLocation.enable) {
+			// ip2geo to get location info
+			jQuery.ajax({
+				cache: false,
+				complete: function(xhr, status){
+					// if gps enabled, attempt to get lat/lon
+					if(lqx.settings.geoLocation.gps && 'geolocation' in navigator) {
+						navigator.geolocation.getCurrentPosition(function(position) {
+							lqx.vars.geoLocation.lat = position.coords.latitude;
+							lqx.vars.geoLocation.lon = position.coords.longitude;
+							lqx.vars.geoLocation.radius = 0;
+						});
+					}
+					// add location attributes to body tag
+					if(lqx.vars.geoLocation.city) jQuery('body').attr('city', lqx.vars.geoLocation.city);
+					if(lqx.vars.geoLocation.subdivision) jQuery('body').attr('subdivision', lqx.vars.geoLocation.subdivision);
+					if(lqx.vars.geoLocation.country) jQuery('body').attr('country', lqx.vars.geoLocation.country);
+					if(lqx.vars.geoLocation.continent) jQuery('body').attr('continent', lqx.vars.geoLocation.continent);
+					if(lqx.vars.geoLocation.time_zone) jQuery('body').attr('time-zone', lqx.vars.geoLocation.time_zone);
+				},
+				dataType: 'json',
+				error: function(){
+					lqx.vars.geoLocation = {
+						city: null,
+						subdivision: null,
+						country: null,
+						continent: null,
+						time_zone: null,
+						lat: null,
+						lon: null,
+						radius: null
+					}
+				},
+				success: function(data, status, xhr){
+					lqx.vars.geoLocation = data;
+				},
+				url: lqx.vars.tmplURL + '/php/ip2geo/',
+			});
 		}
 	},
 	
@@ -1774,6 +1821,8 @@ var lqx = lqx || {
 			lqx.bodyScreenSize();
 			// update orientation attribute in body tag
 			lqx.bodyScreenOrientation();
+			// geo locate
+			lqx.geoLocate();
 			// add image attributes for load error and load complete
 			lqx.initImgLoadAttr();
 			// execute some browser fixes
