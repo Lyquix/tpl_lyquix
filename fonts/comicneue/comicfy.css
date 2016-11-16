@@ -1,0 +1,66 @@
+@font-face {
+  font-family: 'Comic Neue';
+  src: url('ComicNeue-Light.eot');
+  src: url('ComicNeue-Light.eot?#iefix') format('embedded-opentype'),
+       url('ComicNeue-Light.woff2') format('woff2'),
+       url('ComicNeue-Light.woff') format('woff'),
+       url('ComicNeue-Light.ttf')  format('truetype');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Comic Neue';
+  src: url('ComicNeue-Light-Oblique.eot');
+  src: url('ComicNeue-Light-Oblique.eot?#iefix') format('embedded-opentype'),
+       url('ComicNeue-Light-Oblique.woff2') format('woff2'),
+       url('ComicNeue-Light-Oblique.woff') format('woff'),
+       url('ComicNeue-Light-Oblique.ttf')  format('truetype');
+  font-weight: 300;
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: 'Comic Neue';
+  src: url('ComicNeue-Regular.eot');
+  src: url('ComicNeue-Regular.eot?#iefix') format('embedded-opentype'),
+       url('ComicNeue-Regular.woff2') format('woff2'),
+       url('ComicNeue-Regular.woff') format('woff'),
+       url('ComicNeue-Regular.ttf')  format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Comic Neue';
+  src: url('ComicNeue-Regular-Oblique.eot');
+  src: url('ComicNeue-Regular-Oblique.eot?#iefix') format('embedded-opentype'),
+       url('ComicNeue-Regular-Oblique.woff2') format('woff2'),
+       url('ComicNeue-Regular-Oblique.woff') format('woff'),
+       url('ComicNeue-Regular-Oblique.ttf')  format('truetype');
+  font-weight: 400;
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: 'Comic Neue';
+  src: url('ComicNeue-Bold.eot');
+  src: url('ComicNeue-Bold.eot?#iefix') format('embedded-opentype'),
+       url('ComicNeue-Bold.woff2') format('woff2'),
+       url('ComicNeue-Bold.woff') format('woff'),
+       url('ComicNeue-Bold.ttf')  format('truetype');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Comic Neue';
+  src: url('ComicNeue-Bold-Oblique.eot');
+  src: url('ComicNeue-Bold-Oblique.eot?#iefix') format('embedded-opentype'),
+       url('ComicNeue-Bold-Oblique.woff2') format('woff2'),
+       url('ComicNeue-Bold-Oblique.woff') format('woff'),
+       url('ComicNeue-Bold-Oblique.ttf')  format('truetype');
+  font-weight: 700;
+  font-style: oblique;
+}
+
+* {
+    font-family: 'Comic Sans MS', 'Comic Neue' !important;
+}

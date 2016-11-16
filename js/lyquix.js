@@ -1825,6 +1825,18 @@ var lqx = lqx || {
 			});
 		}
 	},
+
+	// changes all fonts to Comic Sans
+	comicfyFonts: function() {
+		if(typeof lqx.vars.urlParams.comicfy != 'undefined') {
+			var link = document.createElement( "link" );
+			link.href = lqx.vars.tmplURL + "/fonts/comicneue/comicfy.css";
+			link.type = "text/css";
+			link.rel = "stylesheet";
+			document.getElementsByTagName('head')[0].appendChild(link);
+		}
+	},
+
 	// self initialization function
 	init : (function(){
 		// Functions to execute when the DOM is ready
@@ -1867,6 +1879,8 @@ var lqx = lqx || {
 			lqx.hangingPunctuation();
 			// set equal height rows
 			lqx.equalHeightRows();
+			// Easter Egg: add ?comicfy to URL to change all fonts to Comic Sans
+			lqx.comicfyFonts();
 		});
 
 		// Trigger on window scroll
