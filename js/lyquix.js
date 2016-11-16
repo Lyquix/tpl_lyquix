@@ -1813,6 +1813,18 @@ var lqx = lqx || {
 		).resolve();
 	},
 
+	// parses URL parameters into lqx.vars.urlParams
+	parseURLParams: function() {
+		lqx.vars.urlParams = {};
+		var params = window.location.search.substr(1).split('&');
+		if(params.length) {
+			params.forEach(function(param){
+				param = param.split('=', 2);
+				if(param.length == 2) lqx.vars.urlParams[param[0]] = decodeURIComponent(param[1].replace(/\+/g, " "));
+				else lqx.vars.urlParams[param[0]] = null;
+			});
+		}
+	},
 	// self initialization function
 	init : (function(){
 		// Functions to execute when the DOM is ready
@@ -1843,6 +1855,8 @@ var lqx = lqx || {
 			lqx.lyqBox.init();
 			// initialize user active time tracking
 			lqx.initUserActive();
+			// parse URL parameters
+			lqx.parseURLParams();
 		});
 
 		// Functions to execute when the page has loaded
