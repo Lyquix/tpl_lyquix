@@ -5,7 +5,7 @@
 .lyqbox-buttons() {
 	display: block;
 	position: absolute;
-
+	z-index: 3;
 	&:hover {
 		cursor: pointer;
 	}
@@ -59,6 +59,7 @@
 			right: 0px;
 			bottom: 0px;
 			max-width: 100%;
+			z-index: 1;
 
 			&.image img {
 				z-index:0;
@@ -93,6 +94,7 @@
 
 		&.active {
 			opacity: 1;
+			z-index: 2;
 		}
 	}
 
