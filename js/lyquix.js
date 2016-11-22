@@ -1432,12 +1432,23 @@ var lqx = lqx || {
 				if (lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].type == 'alert')
 					return false;
 
+                lqx.lyqBox.stopVideo(lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].type);
+
 				// else close the lightbox
 				lqx.lyqBox.end();
 				return false;
 			});
 
 		},
+
+        // special function remove video iframe from DOM, otherwise it will still play in the background
+        stopVideo: function(type) {
+            if (type == 'video') {
+                lqx.lyqBox.containerActive.find('.content.video .video-container iframe').remove();
+            }
+        },        
+
+
 
 		// Show overlay and lightbox. If the image is part of a set, add siblings to album array.
 		start: function(data) {
@@ -1553,6 +1564,7 @@ var lqx = lqx || {
 		},
 
 		updateContent: function(content, index, type) {
+            lqx.lyqBox.stopVideo(type);
 			lqx.lyqBox.overlay.find('.content-wrapper').not('.active').addClass('active').find('.content').removeClass().addClass('content ' + type).empty().append(content);
 			lqx.lyqBox.containerActive.removeClass('active');
 			lqx.lyqBox.containerActive = lqx.lyqBox.overlay.find('.content-wrapper.active');
