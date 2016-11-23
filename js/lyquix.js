@@ -147,6 +147,43 @@ var lqx = lqx || {
 			return func.apply(this, arguments);
 		}
 	},
+
+	// cookie 
+	// function for handling cookies with ease
+	// inspired by https://github.com/js-cookie/js-cookie and https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie/Simple_document.cookie_framework
+	// lqx.cookie(name) to get value of cookie name
+	// lqx.cookie(name, value) to set cookie name=value
+	// lqx.cookie(name, value, attributes) to set cookie with additional attributes
+	// returns false if no name is passed, returns null if cookie doesn't exist
+	// attributes is an array with any of the following keys:
+	// maxAge: an integer, number of seconds
+	// expires: a Date object
+	// path: string
+	// domain: string
+	// secure: any non-false value
+	// httpOnly: any non-false value
+	cookie: function(name, value, attributes) {
+		var result;
+		if(arguments.length == 0 || !name) return false;
+
+		// get cookie
+		if(arguments.length == 1) {
+			return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(name).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
+		}
+		// set cookie
+		var c = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+		if(typeof attributes == 'object') {
+			if('maxAge' in attributes) c += '; max-age=' + parseInt(attributes.maxAge);
+			if('expires' in attributes && attributes.expires instanceof Date) c += '; expires=' + attributes.expires.toUTCString();
+			if('path' in attributes) c += '; path=' + attributes.path;
+			if('domain' in attributes) c += '; domain=' + attributes.domain;
+			if('secure' in attributes) c += '; secure';
+			if('httpOnly' in attributes) c += '; httponly';
+		}
+		// set cookie
+		document.cookie = c;
+		return true;
+	},
 	
 	// bodyScreenSize
 	// adds an attribute "screen" to the body tag that indicates the current size of the screen
