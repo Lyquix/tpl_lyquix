@@ -74,7 +74,8 @@ var lqx = lqx || {
 		userActive: {
 			idleTime: 5000,	// idle time (ms) before user is set to inactive
 			throttle: 100,	// throttle period (ms)
-			refresh: 250	// refresh period (ms)
+			refresh: 250,	// refresh period (ms)
+			maxTime: 1800000 // max time when tracking stops (ms)
 		},
 		ga: {
 			createParams: null,		// example: {default: {trackingId: 'UA-XXXXX-Y', cookieDomain: 'auto', fieldsObject: {}}}, where "default" is the tracker name
@@ -1723,9 +1724,9 @@ var lqx = lqx || {
 
 		// initialize the variables
 		lqx.vars.userActive = {
-			active: true,
-			timer: false,
-			throttle: false,
+			active: true,		// is user currently active
+			timer: false,		// setTimeout timer
+			throttle: false,	// is throttling currently active
 			lastChangeTime: (new Date()).getTime(),
 			activeTime: 0,
 			inactiveTime: 0,
@@ -1739,17 +1740,22 @@ var lqx = lqx || {
 		jQuery(window).on('focusout', function(){lqx.userInactive();});
 
 		// refresh active and inactive time counters
-		setInterval(function(){
-			if(lqx.vars.userActive.active) {
-				// update active time
-				lqx.vars.userActive.activeTime += (new Date()).getTime() - lqx.vars.userActive.lastChangeTime;
-			}
+		var timer = setInterval(function(){
+			// Stop updating if maxTime is reached
+			if(lqx.vars.userActive.activeTime + lqx.vars.userActive.inactiveTime >= lqx.vars.userActive.maxTime) clearInterval(timer);
+			// Update counters
 			else {
-				// update inactive time
-				lqx.vars.userActive.inactiveTime += (new Date()).getTime() - lqx.vars.userActive.lastChangeTime;
+				if(lqx.vars.userActive.active) {
+					// update active time
+					lqx.vars.userActive.activeTime += (new Date()).getTime() - lqx.vars.userActive.lastChangeTime;
+				}
+				else {
+					// update inactive time
+					lqx.vars.userActive.inactiveTime += (new Date()).getTime() - lqx.vars.userActive.lastChangeTime;
+				}
+				// update last change time
+				lqx.vars.userActive.lastChangeTime = (new Date()).getTime();
 			}
-			// update last change time
-			lqx.vars.userActive.lastChangeTime = (new Date()).getTime();
 		}, lqx.settings.userActive.refresh);
 		
 		// initialize active state
