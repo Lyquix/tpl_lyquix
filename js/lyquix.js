@@ -78,11 +78,14 @@ var lqx = lqx || {
 			maxTime: 1800000 // max time when tracking stops (ms)
 		},
 		ga: {
-			createParams: null,		// example: {default: {trackingId: 'UA-XXXXX-Y', cookieDomain: 'auto', fieldsObject: {}}}, where "default" is the tracker name
-			setParams: null,		// example: {default: {dimension1: 'Age', metric1: 25}}
-			requireParams: null,	// example: {default: {pluginName: 'displayFeatures', pluginOptions: {cookieName: 'mycookiename'}}}
-			provideParams: null,	// example: {default: {pluginName: 'MyPlugin', pluginConstructor: myPluginFunc}}
-			customParamsFuncs: null	// example: {default: myCustomFunc}
+			createParams: null,			// example: {default: {trackingId: 'UA-XXXXX-Y', cookieDomain: 'auto', fieldsObject: {}}}, where "default" is the tracker name
+			setParams: null,			// example: {default: {dimension1: 'Age', metric1: 25}}
+			requireParams: null,		// example: {default: {pluginName: 'displayFeatures', pluginOptions: {cookieName: 'mycookiename'}}}
+			provideParams: null,		// example: {default: {pluginName: 'MyPlugin', pluginConstructor: myPluginFunc}}
+			customParamsFuncs: null,	// example: {default: myCustomFunc}
+			abTestName: null,			// Set a test name to activate A/B Testing Dimension
+			abTestNameDimension: null,		// Set the Google Analytics dimension number to use for test name
+			abTestGroupDimension: null,		// Set the Google Analytics dimension number to use for group
 		},
 		geoLocation: {
 			enable: false,	// perform geolocation
@@ -1847,6 +1850,23 @@ var lqx = lqx || {
 							ga(cmd, elem.pluginName, elem.pluginConstructor);
 						});
 					});
+				}
+				// a/b testing settings
+				if(lqx.settings.ga.abTestName != null && lqx.settings.ga.abTestNameDimension != null && lqx.settings.ga.abTestGroupDimension != null) {
+					// get a/b test group cookie
+					var abTestGroup = lqx.cookie('abTestGroup');
+					console.log(abTestGroup);
+					if(abTestGroup == null) {
+						// set a/b test group
+						if(Math.random() < 0.5) abTestGroup = 'A';
+						else abTestGroup = 'B';
+						lqx.cookie('abTestGroup', abTestGroup, {maxAge: 30*24*60*60, path: '/'});
+					}
+					// set body attribute that can be used by css and js
+					jQuery('body').attr('data-abtest', abTestGroup);
+					// set the GA dimensions
+					ga('set', 'dimension' + lqx.settings.ga.abTestNameDimension, lqx.settings.ga.abTestName);
+					ga('set', 'dimension' + lqx.settings.ga.abTestGroupDimension, abTestGroup);
 				}
 			},
 			function(){
