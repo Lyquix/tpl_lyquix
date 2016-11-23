@@ -1855,7 +1855,6 @@ var lqx = lqx || {
 				if(lqx.settings.ga.abTestName != null && lqx.settings.ga.abTestNameDimension != null && lqx.settings.ga.abTestGroupDimension != null) {
 					// get a/b test group cookie
 					var abTestGroup = lqx.cookie('abTestGroup');
-					console.log(abTestGroup);
 					if(abTestGroup == null) {
 						// set a/b test group
 						if(Math.random() < 0.5) abTestGroup = 'A';
