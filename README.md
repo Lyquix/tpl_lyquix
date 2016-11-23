@@ -97,6 +97,7 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
 ###Dealing with IE###
 
   * Adds fix IE console
+  * Sets X-UA-Compatible tag
   * Loads html5shiv and selectivzr
   * Adds conditional comments for CSS fixes for IE (only if CSS files exist)
   * Automatically loads chunked CSS files for IE9
@@ -115,6 +116,7 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Tracking of photo gallery open and browsing as events
   * Tracking of video player events (play, percentage, and complete), supports YouTube and Vimeo
   * Tracking of active/inactive user time
+  * A/B testing by randomly assigning visitors to A/B groups (via cookie for 30 days), adding attribute to body tag, and setting test name and test group via dimensions
 
 ##Documentation##
 
