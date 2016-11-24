@@ -64,15 +64,6 @@ Flexbox is here but browser support is still uneven and buggy. Until we can rely
 
 In order to achive high performance the list of DOM elements with `equalheightrow` class is not updated on every execution. To force the list to be updated use `lqx.equalHeightRow({refreshElems: true})`.
 
-##gaReady
-
-When a Google Analytics account is set in the template options, the universal analytics code is rendered. Unlike the default that immediately calls `ga('create', 'UA-XXXXX-Y', 'auto');` and `ga('send', 'pageview');`, the template calls `ga(lqx.gaReady);`, which executes several steps:
-
-* set, require and provide commands passed via options
-* A/B testing: set the test name, and dimension numbers for storing test name and assigned group
-* Custom function to execute before pageview
-* Send pageview
-
 ##GeoLocate
 
 GeoLocation uses the user IP address to get an approximate the location of the user, using the GeoLite2 free database that provides the user city, state, country and continent. Optionally, the script can request GPS location for accurate latitude and longitude.
@@ -95,17 +86,46 @@ It adds classes to the `<body>` tag: os, os-major version, and os-major version-
 
 ##Hanging Punctuation
 
+For `<p>` elements inside a parent with `hanging-punctuation` class, the script detects punctuation marks that are on the edge of the block, and pulls them out to provide a better style and reading experience, for example:
+
+![](http://i.imgur.com/UZ0m0UY.png)
+
 ##Image Caption
+
+Adds a caption, using the alt attribute, for images wrapped in elements with `.image.caption` classes. For example:
+
+```
+<div class="image caption">
+    <img src="..." alt="Image Description" />
+</div>
+```
+
+is converted to:
+
+```
+<div class="image caption">
+    <img src="..." alt="Image Description" />
+    <div class="caption">Image Description</div>
+</div>
+```
 
 ##Image Load Attribute
 
 ##log
 
+Use `lqx.log()` instead of `console.log()` for debugging purposes in your code, with the ability to turn output on and off via `lqx.settings.debug`. You don't have to worry about removing debugging lines in your code.
+
 ##Logging
 
 ##lyqBox
 
+Our own lightbox library.
+
 ##Mobile Detect
+
+Requires MobileDetect JS library https://github.com/hgoebl/mobile-detect.js to detect if the current device is mobile, and whether it is a phone or tablet.
+
+It returns an object with three keys: mobile, phone, and tablet. All have boolean values.
 
 ##Mobile Menu
 
@@ -113,16 +133,68 @@ It adds classes to the `<body>` tag: os, os-major version, and os-major version-
 
 ##Parse URL Params
 
+Parses parameters in URL and make them available in array `lqx.vars.urlParams` where keys are the parameter names.
+
 ##Resize Throttle
+
+Custom event can be used to trigger functions on resize but only every 15ms (time can be set via options) instead of continuosly as done by the native resize event. For example:
+
+`jQuery(window).on('resizethrottle', function(){ /* your code here */ });`
 
 ##Screen Size Change
 
+Custom event can be used to trigger functions on screen size change (window is resized past a breakpoint). This can be used in conjunction with `lqx.vars.lastScreenSize` to identify what is the current screen size.
+
+For example:
+
+`jQuery(window).on('screensizechange', function(){ /* your code here */ });`
+
 ##Scroll Throttle
+
+Custom event can be used to trigger functions on scroll but only every 15ms (time can be set via options) instead of continuosly as done by the native scroll event. For example:
+
+`jQuery(window).on('scrollthrottle', function(){ /* your code here */ });`
 
 ##setOptions
 
+Function for overriding default settings. Just run `lqx.setOptions(options)` where options in an object that includes the settings to override, for example:
+
+`lqx.setOptions({debug: true});`
+`lqx.setOptions({ga: {abTestName: "Buy Button Design"}});`
+
 ##Shade Color
 
-##Tracking
+##Google Analytics Custom Tracking
 
-##User Active
+###gaReady
+
+When a Google Analytics account is set in the template options, the universal analytics code is rendered. Unlike the default that immediately calls `ga('create', 'UA-XXXXX-Y', 'auto');` and `ga('send', 'pageview');`, the template calls `ga(lqx.gaReady);`, which executes several steps:
+
+* set, require and provide commands passed via options
+* A/B testing: set the test name, and dimension numbers for storing test name and assigned group
+* Custom function to execute before pageview
+* Send pageview
+
+###Outbound Links
+
+Track outbound links (links pointing to a different site) that users follow when leaving your site. This is recorded as an event that is triggered right before the browser abandons the page.
+
+###Download Links
+
+Track download links, such as PDF files, Microsoft Office files, text files, etc. that don't have Javascript capabilities and normally don't generate a pageview. This custom event tracks the link as a pageview.
+
+###Scroll Depth
+
+Tracks the maximum percentage of a page that was visible to the user. This metric can be used to get a sense on whether users are scrolling down on pages to extend beyond the fold. An event is triggered right before abandoning the page, and reports the maximum tenth percentage (e.g. 10%, 20%, ..., 100%)
+
+###Photo Gallery
+
+Generates events on gallery open, as well as individual events for each image displayed, including the image URL.
+
+###Video Player
+
+Tracks events in YouTube and Vimeo players. It automatically enabled Javascript API if not enabled in the embed code. It tracks Start, progress and completion events, for example: Start, 10%, 20%, ..., 90%, Complete.
+
+###User Active
+
+Keeps track of the time a user is active while viewing a page. It uses several techniques to assess if the user is active or not. Reports the percentage and absolute time that the user has been active and inactive. Tracking stops after 30 minutes.
