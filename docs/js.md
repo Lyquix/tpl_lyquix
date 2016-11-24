@@ -54,11 +54,30 @@ Returns:
 
 ##Comicfy
 
+Want to have a little fun? Just add `?comicfy` to any URL and this function will change all fonts of your site to Comic Sans :)
+
 ##Equal Height Rows
+
+Flexbox is here but browser support is still uneven and buggy. Until we can rely on it we use equal height rows: add the class `equalheightrow` to the block elements you want to have the same height when in the same row. That's it. 
+
+`lqx.initEqualHeightRow()` is executed on document ready to get the list of elements and assess if there are any images still loading. Afterwards `lqx.equalHeightRow()` is executed on every screen size change and screen orientation change. Your custom scripts can call `lqx.equalHeightRow()` to force rows to be re-processes.
+
+In order to achive high performance the list of DOM elements with `equalheightrow` class is not updated on every execution. To force the list to be updated use `lqx.equalHeightRow({refreshElems: true})`.
 
 ##gaReady
 
+When a Google Analytics account is set in the template options, the universal analytics code is rendered. Unlike the default that immediately calls `ga('create', 'UA-XXXXX-Y', 'auto');` and `ga('send', 'pageview');`, the template calls `ga(lqx.gaReady);`, which executes several steps:
+
+* set, require and provide commands passed via options
+* A/B testing: set the test name, and dimension numbers for storing test name and assigned group
+* Custom function to execute before pageview
+* Send pageview
+
 ##GeoLocate
+
+GeoLocation uses IP to get an approximate the location of the user, using the GeoLite2 free database that provides the user city, state, country and continent. Optionally, the script can request GPS location for accurate latitude and longitude.
+
+Once located, the script adds attributes to the `<body>` tag: city, subdivision, country, continent, and time-zone.
 
 ##getBrowser
 
