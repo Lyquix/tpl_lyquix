@@ -75,13 +75,23 @@ When a Google Analytics account is set in the template options, the universal an
 
 ##GeoLocate
 
-GeoLocation uses IP to get an approximate the location of the user, using the GeoLite2 free database that provides the user city, state, country and continent. Optionally, the script can request GPS location for accurate latitude and longitude.
+GeoLocation uses the user IP address to get an approximate the location of the user, using the GeoLite2 free database that provides the user city, state, country and continent. Optionally, the script can request GPS location for accurate latitude and longitude.
+
+The process is done entirely via Javascript and a dedicated PHP script that searches the user IP address in the database, avoiding any issues with cached pages.
 
 Once located, the script adds attributes to the `<body>` tag: city, subdivision, country, continent, and time-zone.
 
 ##getBrowser
 
+This function parses the User Agent string to obtain the browser type and version. It returns an object with three keys: name, type and version. It is implemented as a self-executing function, so it is only executed once and then it becomes an object.
+
+It adds classes to the `<body>` tag: browser, browser-major version, and browser-major version-minor version. For example: msie, msie-9, msie-9-0. 
+
 ##getOS
+
+Similar to getBrowser, this function parses the User Agent string to obtain the operating system type and version. It returns an object with three keys: name, type and version. It is implemented as a self-executing function, so it is only executed once and then it becomes an object.
+
+It adds classes to the `<body>` tag: os, os-major version, and os-major version-minor version. For example: ios, ios-9, ios-9-2. 
 
 ##Hanging Punctuation
 
