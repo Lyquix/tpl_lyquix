@@ -117,9 +117,35 @@ Use `lqx.log()` instead of `console.log()` for debugging purposes in your code, 
 
 ##Logging
 
+Advanced Javascript logging that shows every function call and arguments passed.
+
 ##lyqBox
 
-Our own lightbox library.
+Our own lightbox library. Provides the following features
+
+* 3 types of lightboxes:
+  * Simple lightboxes that may includes images, HTML content, or iframes
+  * Galleries: a collection of multiple content that the user can navigate. Each gallery item has own hash URL that can be used to open page showing specific gallery item.
+  * Alerts: lightbox that opens on page load until user dismisses it
+* Complete separation of styling (CSS) and logic (Javascript)
+* Use CSS animations and transitions
+* Control galleries with left and right arrows in keyboard and swipe gestures
+* Ability to create custom HTML structure
+
+To activate an element in your page with lightbox add the following attributes:
+
+* `data-lyqbox`: Indicates that this is a lyqbox element. Leave empty for single lightboxes, or use an identifier that ties together elements that belong to the same gallery, or as unique identifier for alerts.
+* `data-lyqbox-type`: 
+  * `image`: use for loading images in lightbox
+  * `video`: use for loading a video iframe in lightbox
+  * `html`, `alert`: use for loading HTML content in lightbox
+* `data-lyqbox-url`: mandatory for image and video types. Optional for html and alert types, used to load content from URL.
+* `data-lyqbox-title`: optional item title
+* `data-lyqbox-caption`: optional item caption
+* `data-lyqbox-credit`: optional item credits
+* `data-lyqbox-class`: optional item custom CSS classes
+* `data-lyqbox-alias`: item alias to use in URL hash
+* `data-lyqbox-html`: content for html or alert lightboxes
 
 ##Mobile Detect
 
@@ -129,7 +155,19 @@ It returns an object with three keys: mobile, phone, and tablet. All have boolea
 
 ##Mobile Menu
 
+Adds appropriate listeners to support menus in mobile/touch screens:
+
+* Menu open/close control element (hamburguer icon)
+* Close menu when clicking outside of menu
+* Click listeners to menu items to open/close children menus or open link
+
+To activate just add any of the following classes to a parent element of `ul.menu`: `.horizontal`, `.vertical`, or `.slide-out`.
+
+Adds class "open" to menus that are displaying.
+
 ##Mutation Observer
+
+Handles changes in the HTML structure of the document (mutations) to detect when new video players have been added to the DOM. This allows for proper setup and tracking events.
 
 ##Parse URL Params
 
