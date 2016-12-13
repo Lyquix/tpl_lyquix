@@ -1336,12 +1336,12 @@ var lqx = lqx || {
 	initImgLoadAttr : function() {
 		jQuery('img').each(function(){
 			var elem = jQuery(this);
-			lqx.imageLoaded(elem[0]);
+			lqx.imgLoadAttr(elem[0]);
 		});
 	},
 
 	// check if image has been loaded
-	imageLoaded : function(elem) {
+	imgLoadAttr : function(elem) {
 		var elem = jQuery(elem);
 		if(!elem[0].complete) {
 			// image has not finished loaded (either success or error)
@@ -1371,7 +1371,7 @@ var lqx = lqx || {
 			if (typeof elem.prop('tagName') !== 'undefined'){
 				var tag = elem.prop('tagName').toLowerCase();
 				if (tag == 'img') {
-					lqx.imageLoaded(elem[0]);
+					lqx.imgLoadAttr(elem[0]);
 				}	    		
 			}
 		});
