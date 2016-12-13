@@ -1310,12 +1310,12 @@ var lqx = lqx || {
 					if (mutRec.addedNodes.length > 0) {
 						// send mutation record to individual handlers
 						lqx.videoPlayerMutationHandler(mutRec);
-						lqx.featherlightMutationHandler (mutRec);
+						lqx.featherlightMutationHandler(mutRec);
+						lqx.imageMutationHandler(mutRec);
 					}
 					
 					// handle removedNodes
-					/*if (mutRec.removedNodes.length > 0) {
-					}*/
+					if (mutRec.removedNodes.length > 0) {}
 					break;
 					
 				case 'attributes':
@@ -1332,12 +1332,48 @@ var lqx = lqx || {
 	
 	// image load error and complete attributes
 	initImgLoadAttr : function() {
-		jQuery('body').on('load', 'img', function(){
-			jQuery(this).attr('loadcomplete','');
+		jQuery('img').each(function(){
+			var elem = jQuery(this);
+			lqx.imageLoaded(elem[0]);
 		});
-		jQuery('body').on('error', 'img', function(){
-			jQuery(this).attr('loaderror','');
+	},
+
+	// check if image has been loaded
+	imageLoaded : function(elem) {
+		var elem = jQuery(elem);
+		if(!elem[0].complete) {
+			// image has not finished loaded (either success or error)
+			// add listeners
+			elem.on('load', function(){
+				elem.attr('loadcomplete','');
+			});
+			elem.on('error', function(){
+				elem.attr('loaderror','');
+			});
+		}
+		else {
+			if(elem[0].naturalWidth == 0 && elem[0].naturalHeight == 0) {
+				elem.attr('loaderror','');
+			} else {
+				elem.attr('loadcomplete','');
+			}
+		}
+	},
+
+	// handle images added dynamically
+	imageMutationHandler : function(mutRec) {
+		
+		jQuery(mutRec.addedNodes).each(function(){
+			
+			var elem = jQuery(this);
+			if (typeof elem.prop('tagName') !== 'undefined'){
+				var tag = elem.prop('tagName').toLowerCase();
+				if (tag == 'img') {
+					lqx.imageLoaded(elem[0]);
+				}	    		
+			}
 		});
+		
 	},
 
 	// lyqbox: functionality for lightbox, galleries, and alerts
