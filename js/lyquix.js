@@ -1511,8 +1511,6 @@ var lqx = lqx || {
 				if (lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].type == 'alert')
 					return false;
 
-                lqx.lyqBox.stopVideo(lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].type);
-
 				// else close the lightbox
 				lqx.lyqBox.end();
 				return false;
@@ -1755,6 +1753,7 @@ var lqx = lqx || {
 		end: function() {
 			lqx.lyqBox.disableKeyboardNav();
 			lqx.lyqBox.overlay.removeClass("open");
+			lqx.lyqBox.stopVideo(lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].type);
 			lqx.lyqBox.removeHash();
 		},
 
