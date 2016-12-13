@@ -526,72 +526,74 @@ var lqx = lqx || {
 		}
 		
 		var elemsCount = lqx.vars.equalHeightRowElems.length;
-		
-		// first, revert all elements to auto height
-		lqx.vars.equalHeightRowElems.height('auto').promise().done(function(){
-			// reset some vars
-			var currElem,
+
+		// execute the following in specific order
+		jQuery.Deferred().done(
+
+			// revert all elements to auto height
+			function(){
+				lqx.vars.equalHeightRowElems.height('auto');
+			},
+			// update heights per row
+			function() {
+				// reset some vars
+				var currElem,
 				currElemTop = 0,
 				currElemHeight = 0,
 				currRowElems = new Array(),
 				currRowTop = 0,
 				currRowHeight = 0;
-			
-			// update heights per row
-			lqx.vars.equalHeightRowElems.each(function(i){
-				
-				// current element and its top
-				currElem = jQuery(this);
-				currElemTop = currElem.offset().top;
-				currElemHeight = currElem.height();
-				
-				if(currElemTop != currRowTop) {
-					// new row has started, set the height for the previous row if it has more than one element
-					if(currRowElems.length > 1) {
-						for(var j = 0; j < currRowElems.length; j++) {
-							currRowElems[j].height(currRowHeight);
-						}
-					}
-					// wipe out array of current row elems, start with current element
-					currRowElems = new Array(currElem);
-					// set the top of current row (gets again position of elem after adjusting previous row)
-					currRowTop = currElem.offset().top;;
-					// set the current tallest
-					currRowHeight = currElemHeight;
-				}
-				else {
-					// element in same row, add to array of elements
-					currRowElems.push(currElem);
-					// update the row height if new element is taller
-					currRowHeight = (currElemHeight > currRowHeight) ? currElemHeight : currRowHeight;
-					// if this is the last element in the set, update the last row elements height
-					if(i == elemsCount - 1) {
+
+				lqx.vars.equalHeightRowElems.each(function(i){
+					
+					// current element and its top
+					currElem = jQuery(this);
+					currElemTop = currElem.offset().top;
+					currElemHeight = currElem.height();
+					
+					if(currElemTop != currRowTop) {
+						// new row has started, set the height for the previous row if it has more than one element
 						if(currRowElems.length > 1) {
 							for(var j = 0; j < currRowElems.length; j++) {
 								currRowElems[j].height(currRowHeight);
 							}
 						}
+						// wipe out array of current row elems, start with current element
+						currRowElems = new Array(currElem);
+						// set the top of current row (gets again position of elem after adjusting previous row)
+						currRowTop = currElem.offset().top;;
+						// set the current tallest
+						currRowHeight = currElemHeight;
 					}
-				}
-				
-			}).promise().done(function(){
-				// there may be images waiting to load, in that case wait a little and try again
+					else {
+						// element in same row, add to array of elements
+						currRowElems.push(currElem);
+						// update the row height if new element is taller
+						currRowHeight = (currElemHeight > currRowHeight) ? currElemHeight : currRowHeight;
+						// if this is the last element in the set, update the last row elements height
+						if(i == elemsCount - 1) {
+							if(currRowElems.length > 1) {
+								for(var j = 0; j < currRowElems.length; j++) {
+									currRowElems[j].height(currRowHeight);
+								}
+							}
+						}
+					}
+				});
+			},
+			// there may be images waiting to load, in that case wait a little and try again
+			function(){
 				if(!(lqx.settings.equalHeightRows.checkPageLoad && lqx.vars.equalHeightRowPageLoaded)) {
 					lqx.vars.equalHeightRowImgs.each(function(){
-						// is the image still loading? (this.complete works only in IE)
-						if(this.complete != true || (typeof this.naturalWidth !== "undefined" && this.naturalWidth === 0)) {
+						// is the image still loading?
+						if(!this.complete) {
 							// seems to still be loading
-							// if there wasn't an error, run equalheightrows again in 0.25 secs
-							if(typeof jQuery(this).attr('loaderror') != 'undefined'){
-								// there isn't an error, it means the image has not completed loading yet
-								setTimeout(function(){lqx.equalHeightRows(opts)}, 250);
-								
-							}
+							setTimeout(function(){lqx.equalHeightRows(opts)}, 250);
 						}
 					});
 				}
-			});
-		});
+			}
+		).resolve();
 	},
 	
 	// hangingPunctuation
