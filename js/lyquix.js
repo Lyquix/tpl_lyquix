@@ -1578,6 +1578,11 @@ var lqx = lqx || {
 			return deferred.promise();
 		},
 
+		addHash: function() {
+			if (lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].alias)
+				window.location.hash = lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].albumId + '_' + lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].alias;
+		},
+
 		// change content, for now we have 3 types, image, iframe and HTML.
 		changeContent: function(index) {
 			lqx.lyqBox.disableKeyboardNav();
@@ -1599,7 +1604,7 @@ var lqx = lqx || {
 						preloaderObject = jQuery(preloader);
 
 						lqx.lyqBox.updateContent(image, index, lqx.lyqBox.album[index].type);
-						window.location.hash = lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].albumId + '_' + lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].alias;
+						lqx.lyqBox.addHash();
 
 						// important line of code to make sure opacity is computed and applied as a starting value to the element so that the css transition works.
 						window.getComputedStyle(image[0]).opacity;
@@ -1612,8 +1617,7 @@ var lqx = lqx || {
 					video.attr('src', lqx.lyqBox.album[index].link);
 
 					lqx.lyqBox.updateContent('<div class="video-container">' + video.prop('outerHTML') + '</div>', index, lqx.lyqBox.album[index].type);
-
-					window.location.hash = lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].albumId + '_' + lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].alias;
+					lqx.lyqBox.addHash();
 					break;
 
 				case 'html':
