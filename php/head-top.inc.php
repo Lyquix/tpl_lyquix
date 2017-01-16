@@ -18,5 +18,5 @@ if($home) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <?php
 // Add og:title and og:description tags if not already set
-if(!$doc -> getMetaData('og:title')) $doc -> setMetaData('og:title', $doc -> getTitle());
-if(!$doc -> getMetaData('og:description')) $doc -> setMetaData('og:description', $doc -> getDescription());
+if(!$doc -> getMetaData('og:title')) $doc->addCustomTag('<meta property="og:title" content="' . $doc -> getTitle() . '" />');
+if(!$doc -> getMetaData('og:description')) $doc->addCustomTag('<meta property="og:description" content="' . $doc -> getDescription() . '" />');
