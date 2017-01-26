@@ -90,6 +90,9 @@ var lqx = lqx || {
 		geoLocation: {
 			enable: false,	// perform geolocation
 			gps: false,		// request gps data for precise lat/lon
+		},
+		mobileMenu: {
+			screens: ['sm','xs']
 		}
 	},
 	
@@ -98,8 +101,7 @@ var lqx = lqx || {
 		resizeThrottle: false,  // saves current status of resizeThrottle
 		scrollThrottle: false,  // saves current status of scrollThrottle
 		youTubeIframeAPIReady: false,
-		youTubeIframeAPIReadyAttempts: 0,
-		mobileMenuScreens: ['sm','xs']
+		youTubeIframeAPIReadyAttempts: 0
 	},
 	
 	// setOptions
@@ -1246,7 +1248,7 @@ var lqx = lqx || {
 		var go = function(){ target ? window.open(url, target) : window.location.href = url; };
 		
 		// check if there is a deeper menu
-		if(jQuery.inArray(lqx.vars.lastScreenSize, lqx.vars.mobileMenuScreens) != -1) {		
+		if(jQuery.inArray(lqx.vars.lastScreenSize, lqx.settings.mobileMenu.screens) != -1) {		
 			if(jQuery(li).hasClass('deeper')) {
 				if(jQuery(li).hasClass('open')) {
 					// it is already open, follow the link
