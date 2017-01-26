@@ -1959,6 +1959,11 @@ var lqx = lqx || {
 			document.getElementsByTagName('head')[0].appendChild(link);
 		}
 	},
+	resetMobileMenus: function() {
+		if(jQuery.inArray(lqx.vars.lastScreenSize, lqx.settings.mobileMenu.screens) == -1) {
+			jQuery('.nav .parent').removeClass('open');
+		}		
+	},
 
 	// self initialization function
 	init : (function(){
@@ -2062,6 +2067,8 @@ var lqx = lqx || {
 			lqx.equalHeightRows();
 			// set punctuation marks to hanging
 			lqx.hangingPunctuation();
+			// remove 'open' class from menus if not on mobile screens
+			lqx.resetMobileMenus();
 		});
 
 		// Trigger on custom event scrollthrottle
