@@ -99,6 +99,7 @@ var lqx = lqx || {
 		scrollThrottle: false,  // saves current status of scrollThrottle
 		youTubeIframeAPIReady: false,
 		youTubeIframeAPIReadyAttempts: 0,
+		mobileMenuScreens: ['sm','xs']
 	},
 	
 	// setOptions
@@ -1245,20 +1246,25 @@ var lqx = lqx || {
 		var go = function(){ target ? window.open(url, target) : window.location.href = url; };
 		
 		// check if there is a deeper menu
-		if(jQuery(li).hasClass('deeper')) {
-			if(jQuery(li).hasClass('open')) {
-				// it is already open, follow the link
-				go();
+		if(jQuery.inArray(lqx.vars.lastScreenSize, lqx.vars.mobileMenuScreens) != -1) {		
+			if(jQuery(li).hasClass('deeper')) {
+				if(jQuery(li).hasClass('open')) {
+					// it is already open, follow the link
+					go();
+				}
+				else {
+					// close any siblings (and their children) and then open itself
+					jQuery(li).siblings('li.open').find('li.open').removeClass('open');
+					jQuery(li).siblings('li.open').removeClass('open');
+					jQuery(li).addClass('open');
+				}
 			}
 			else {
-				// close any siblings (and their children) and then open itself
-				jQuery(li).siblings('li.open').find('li.open').removeClass('open');
-				jQuery(li).siblings('li.open').removeClass('open');
-				jQuery(li).addClass('open');
+				// there isn't a sub-menu, follow the link
+				go();
 			}
-		}
-		else {
-			// there isn't a sub-menu, follow the link
+		}	else {
+		
 			go();
 		}
 	},
