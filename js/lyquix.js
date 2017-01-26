@@ -1270,6 +1270,12 @@ var lqx = lqx || {
 			go();
 		}
 	},
+
+	resetMobileMenus: function() {
+		if(jQuery.inArray(lqx.vars.lastScreenSize, lqx.settings.mobileMenu.screens) == -1) {
+			jQuery('.nav .parent').removeClass('open');
+		}		
+	},
 	
 	// create a custom mutation observer that will trigger any needed functions
 	initMutationObserver : function(){
@@ -1958,11 +1964,6 @@ var lqx = lqx || {
 			link.rel = "stylesheet";
 			document.getElementsByTagName('head')[0].appendChild(link);
 		}
-	},
-	resetMobileMenus: function() {
-		if(jQuery.inArray(lqx.vars.lastScreenSize, lqx.settings.mobileMenu.screens) == -1) {
-			jQuery('.nav .parent').removeClass('open');
-		}		
 	},
 
 	// self initialization function
