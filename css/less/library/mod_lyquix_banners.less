@@ -75,7 +75,7 @@
 		.prev, .next {
 			position: absolute;
 			top: 40%;
-			padding: 0 @blk-padding-border-margin-width;
+			padding: 0 @blk-padding-border-margin-right 0 @blk-padding-border-margin-left;
 			font-size: 4em;
 			line-height: 0;
 			cursor: pointer;
@@ -85,7 +85,7 @@
 		}
 		
 		.prev {
-			left: @blk-margin-width;
+			left: @blk-margin-left;
 			
 			&:before {
 				.ion-ios-arrow-left()
@@ -93,7 +93,7 @@
 		}
 		
 		.next {
-			right: @blk-margin-width;
+			right: @blk-margin-right;
 			
 			&:before {
 				.ion-ios-arrow-right()

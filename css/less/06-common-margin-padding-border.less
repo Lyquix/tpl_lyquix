@@ -7,94 +7,94 @@
 // some sides, apply .margin-none and then the sides you need to have
 
 .margin-none { margin: none; }
-.margin-top { margin-top: @blk-margin-width; }
-.margin-right { margin-right: @blk-margin-width; }
-.margin-bottom { margin-bottom: @blk-margin-width; }
-.margin-left { margin-left: @blk-margin-width; }
-.margin-all { margin: @blk-margin-width; }
+.margin-top { margin-top: @blk-margin-top; }
+.margin-right { margin-right: @blk-margin-right; }
+.margin-bottom { margin-bottom: @blk-margin-bottom; }
+.margin-left { margin-left: @blk-margin-left; }
+.margin-all { margin: @blk-margin-top @blk-margin-right @blk-margin-bottom @blk-margin-left; }
 .margin-top-bottom { 
-    margin-top: @blk-margin-width; 
-    margin-bottom: @blk-margin-width; 
+    margin-top: @blk-margin-top; 
+    margin-bottom: @blk-margin-bottom; 
 }
 .margin-left-right { 
-    margin-left: @blk-margin-width; 
-    margin-right: @blk-margin-width; 
+    margin-left: @blk-margin-left; 
+    margin-right: @blk-margin-right; 
 }
 .margin-top-right { 
-    margin-top: @blk-margin-width; 
-    margin-right: @blk-margin-width; 
+    margin-top: @blk-margin-top; 
+    margin-right: @blk-margin-right; 
 }
 .margin-top-left { 
-    margin-top: @blk-margin-width; 
-    margin-left: @blk-margin-width; 
+    margin-top: @blk-margin-top; 
+    margin-left: @blk-margin-left; 
 }
 .margin-bottom-right { 
-    margin-bottom: @blk-margin-width; 
-    margin-right: @blk-margin-width; 
+    margin-bottom: @blk-margin-bottom; 
+    margin-right: @blk-margin-right; 
 }
 .margin-bottom-left { 
-    margin-bottom: @blk-margin-width; 
-    margin-left: @blk-margin-width; 
+    margin-bottom: @blk-margin-bottom; 
+    margin-left: @blk-margin-left; 
 }
 
 .padding-none { padding: none; }
-.padding-top { padding-top: @blk-padding-width; }
-.padding-right { padding-right: @blk-padding-width; }
-.padding-bottom { padding-bottom: @blk-padding-width; }
-.padding-left { padding-left: @blk-padding-width; }
-.padding-all { padding: @blk-padding-width; }
+.padding-top { padding-top: @blk-padding-top; }
+.padding-right { padding-right: @blk-padding-right; }
+.padding-bottom { padding-bottom: @blk-padding-bottom; }
+.padding-left { padding-left: @blk-padding-left; }
+.padding-all { padding: @blk-padding-top @blk-padding-right @blk-padding-bottom @blk-padding-left; }
 .padding-top-bottom { 
-    padding-top: @blk-padding-width; 
-    padding-bottom: @blk-padding-width; 
+    padding-top: @blk-padding-top; 
+    padding-bottom: @blk-padding-bottom; 
 }
 .padding-left-right { 
-    padding-left: @blk-padding-width; 
-    padding-right: @blk-padding-width; 
+    padding-left: @blk-padding-left; 
+    padding-right: @blk-padding-right; 
 }
 .padding-top-right { 
-    padding-top: @blk-padding-width; 
-    padding-right: @blk-padding-width; 
+    padding-top: @blk-padding-top; 
+    padding-right: @blk-padding-right; 
 }
 .padding-top-left { 
-    padding-top: @blk-padding-width; 
-    padding-left: @blk-padding-width; 
+    padding-top: @blk-padding-top; 
+    padding-left: @blk-padding-left; 
 }
 .padding-bottom-right { 
-    padding-bottom: @blk-padding-width; 
-    padding-right: @blk-padding-width; 
+    padding-bottom: @blk-padding-bottom; 
+    padding-right: @blk-padding-right; 
 }
 .padding-bottom-left { 
-    padding-bottom: @blk-padding-width; 
-    padding-left: @blk-padding-width; 
+    padding-bottom: @blk-padding-bottom; 
+    padding-left: @blk-padding-left; 
 }
 
 .border-none { border: none; }
-.border-top { border-top: @blk-border-width solid; }
-.border-right { border-right: @blk-border-width solid; }
-.border-bottom { border-bottom: @blk-border-width solid; }
-.border-left { border-left: @blk-border-width solid; }
-.border-all { border: @blk-border-width solid; }
+.border-top { border-top: @blk-border-top solid; }
+.border-right { border-right: @blk-border-right solid; }
+.border-bottom { border-bottom: @blk-border-bottom solid; }
+.border-left { border-left: @blk-border-left solid; }
+.border-all { border: @blk-border-top @blk-border-right @blk-border-bottom @blk-border-left solid; }
 .border-top-bottom { 
-    border-top: @blk-border-width; 
-    border-bottom: @blk-border-width; 
+    border-top: @blk-border-top; 
+    border-bottom: @blk-border-bottom; 
 }
 .border-left-right { 
-    border-left: @blk-border-width; 
-    border-right: @blk-border-width; 
+    border-left: @blk-border-left; 
+    border-right: @blk-border-right; 
 }
 .border-top-right { 
-    border-top: @blk-border-width; 
-    border-right: @blk-border-width; 
+    border-top: @blk-border-top; 
+    border-right: @blk-border-right; 
 }
 .border-top-left { 
-    border-top: @blk-border-width; 
-    border-left: @blk-border-width; 
+    border-top: @blk-border-top; 
+    border-left: @blk-border-left; 
 }
 .border-bottom-right { 
-    border-bottom: @blk-border-width; 
-    border-right: @blk-border-width; 
+    border-bottom: @blk-border-bottom; 
+    border-right: @blk-border-right; 
 }
 .border-bottom-left { 
-    border-bottom: @blk-border-width; 
-    border-left: @blk-border-width; 
+    border-bottom: @blk-border-bottom; 
+    border-left: @blk-border-left; 
 }
