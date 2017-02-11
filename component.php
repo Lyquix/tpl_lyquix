@@ -4,10 +4,10 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
 *** NOTICE: Do not modify this file!
-*** If you need to customize your template, create a file named custom-component.php
+*** To customize your template, create a file named component-custom.php
+*** You may rename the included file component-custom.dist.php
 **/
 
-// if custom-index.php file exists the whole template is overriden
 if(file_exists(__DIR__ . '/component-custom.php')) :
 	include __DIR__ . '/component-custom.php'; 
 else :
