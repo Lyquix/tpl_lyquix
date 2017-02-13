@@ -367,12 +367,16 @@ var lqx = lqx || {
 			browser.type = browser.name.toLowerCase().replace(/\s/g, '');
 		}
 		// add classes to body
-		// browser type
-		jQuery('body').addClass(browser.type);
-		// browser type and major version
-		jQuery('body').addClass(browser.type + '-' + browser.version.split('.')[0]);
-		// browser type and full version
-		jQuery('body').addClass(browser.type + '-' + browser.version.replace(/\./g, '-'));
+		if(browser.type && browser.version){
+			jQuery(document).ready(function(){
+				// browser type
+				jQuery('body').addClass(browser.type);
+				// browser type and major version
+				jQuery('body').addClass(browser.type + '-' + browser.version.split('.')[0]);
+				// browser type and full version
+				jQuery('body').addClass(browser.type + '-' + browser.version.replace(/\./g, '-'));
+			});
+		}
 
 		return browser;
 	}()),
@@ -444,15 +448,16 @@ var lqx = lqx || {
 				version: getSecondMatch(/cros (.+) (\d+(\.\d+)*)/i)
 			}
 		}
-
 		// add classes to body
 		if(os.type && os.version) {
-			// os type
-			jQuery('body').addClass(os.type);
-			// os type and major version
-			jQuery('body').addClass(os.type + '-' + os.version.split('.')[0]);
-			// os type and full version
-			jQuery('body').addClass(os.type + '-' + os.version.replace(/\./g, '-'));
+			jQuery(document).ready(function(){
+				// os type
+				jQuery('body').addClass(os.type);
+				// os type and major version
+				jQuery('body').addClass(os.type + '-' + os.version.split('.')[0]);
+				// os type and full version
+				jQuery('body').addClass(os.type + '-' + os.version.replace(/\./g, '-'));
+			});
 		}
 
 		return os;
