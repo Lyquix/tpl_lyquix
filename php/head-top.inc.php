@@ -1,10 +1,3 @@
-<!--[if IE]>
-<script>if(typeof console=='undefined'||typeof console.log=='undefined'){console={};console.log=function(){};}</script>
-<![endif]-->
-<!--[if lt IE 9]>
-<script src="<?php echo $tmpl_url; ?>/js/aight<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
-<script src="<?php echo $tmpl_url; ?>/js/selectivizr<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
-<![endif]-->
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <?php 
