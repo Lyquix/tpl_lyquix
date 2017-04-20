@@ -1473,6 +1473,9 @@ var lqx = lqx || {
 				return false;
 			});
 
+			// Add swipe event handler
+			lqx.detectSwipe('.lyqbox .content-wrapper', lqx.lyqBox.swipeHandler);
+
 			// prev button click handling
 			lqx.lyqBox.overlay.find('.prev').on('click', function() {
 				if (lqx.lyqBox.currentImageIndex === 0) {
@@ -1698,6 +1701,12 @@ var lqx = lqx || {
 
 		disableKeyboardNav: function() {
 			jQuery(document).off('.keyboard');
+		},
+
+		swipeHandler: function(sel, dir) {
+			console.log(sel, dir);
+			if(dir == 'lt') lqx.lyqBox.keyboardAction({keyCode: 39}); // swipe to the left equals right arrow
+			if(dir == 'rt') lqx.lyqBox.keyboardAction({keyCode: 37}); // swipe to the right equals left arrow
 		},
 
 		keyboardAction: function(event) {
