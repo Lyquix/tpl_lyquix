@@ -186,7 +186,7 @@ var lqx = lqx || {
 			return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(name).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
 		}
 		// set cookie
-		var c = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+		var c = encodeURIComponent(name) + '=' + encodeURIComponent(value);
 		if(typeof attributes == 'object') {
 			if('maxAge' in attributes) c += '; max-age=' + parseInt(attributes.maxAge);
 			if('expires' in attributes && attributes.expires instanceof Date) c += '; expires=' + attributes.expires.toUTCString();
@@ -724,18 +724,18 @@ var lqx = lqx || {
 			R = (num >> 16) + amt, 
 			G = (num >> 8 & 0x00FF) + amt, 
 			B = (num & 0x0000FF) + amt;
-		return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + ( G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+		return '#' + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + ( G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
 	},
 	
 	// returns a RBG color lighter or darker by percentage
 	shadeRGB : function(color, percent) {
-		var 	f = color.split(","), 
+		var 	f = color.split(','), 
 			t = percent < 0 ? 0 : 255, 
 			p = percent < 0 ? percent * -1 : percent, 
 			R = parseInt(f[0].slice(4)), 
 			G = parseInt(f[1]), 
 			B = parseInt(f[2]);
-		return "rgb(" + (Math.round((t - R) * p) + R) + "," + (Math.round((t - G) * p ) + G) + "," + (Math.round((t - B) * p) + B) + ")";
+		return 'rgb(' + (Math.round((t - R) * p) + R) + ',' + (Math.round((t - G) * p ) + G) + ',' + (Math.round((t - B) * p) + B) + ')';
 	},
 	 
 	// initialize google analytics tracking
@@ -859,7 +859,7 @@ var lqx = lqx || {
 			
 			// load youtube iframe api
 			var tag = document.createElement('script');
-			tag.src = "https://www.youtube.com/iframe_api";
+			tag.src = 'https://www.youtube.com/iframe_api';
 			tag.onload = function(){lqx.vars.youTubeIframeAPIReady = true;};
 			var firstScriptTag = document.getElementsByTagName('script')[0];
 			firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
@@ -1385,9 +1385,9 @@ var lqx = lqx || {
 
 		// show the hash url content
 		hash: function() {
-			if (window.location.hash.substr(1) != "") {
+			if (window.location.hash.substr(1) != '') {
 				// get hash value and display the appropriate content
-				var contentData = window.location.hash.substr(1).split("_");
+				var contentData = window.location.hash.substr(1).split('_');
 
 				if (jQuery('[data-lyqbox=' + contentData[0] + '][data-lyqbox-alias=' + contentData[1] + ']').length){
 					lqx.lyqBox.start(jQuery('[data-lyqbox=' + contentData[0] + '][data-lyqbox-alias=' + contentData[1] + ']'));
@@ -1553,7 +1553,7 @@ var lqx = lqx || {
 			var deferred = jQuery.Deferred();
 			// we are using load so one can specify a target with: url.html #targetelement
 			var $container = jQuery('<div></div>').load(url, function(response, status) {
-				if (status !== "error") {
+				if (status !== 'error') {
 					deferred.resolve($container.contents());
 				}
 				deferred.fail();
@@ -1569,7 +1569,7 @@ var lqx = lqx || {
 		// change content, for now we have 3 types, image, iframe and HTML.
 		changeContent: function(index) {
 			lqx.lyqBox.disableKeyboardNav();
-			lqx.lyqBox.overlay.addClass("open");
+			lqx.lyqBox.overlay.addClass('open');
 
 			// deferred var to be used on alert type lyqbox only, just in case it's loading HTML content from a file
 			var promise = jQuery.Deferred();
@@ -1610,7 +1610,7 @@ var lqx = lqx || {
 					// the priority is given to the data-lyqbox-url attribute first, if this is blank, then data-lyqbox-html will be processed instead.
 
 					// check if url is not empty
-					if (lqx.lyqBox.album[index].link != "" && typeof lqx.lyqBox.album[index].link !== 'undefined' ) {
+					if (lqx.lyqBox.album[index].link != '' && typeof lqx.lyqBox.album[index].link !== 'undefined' ) {
 						promise = lqx.lyqBox.loadHTML(lqx.lyqBox.album[index].link);
 
 						promise.done(function htmlLoaded(htmlResult) {
@@ -1721,14 +1721,14 @@ var lqx = lqx || {
 		// This only works in Chrome 9, Firefox 4, Safari 5, Opera 11.50 and in IE 10
 		removeHash: function() { 
 			var scrollV, scrollH, loc = window.location;
-			if ("pushState" in history)
-				history.pushState("", document.title, loc.pathname + loc.search);
+			if ('pushState' in history)
+				history.pushState('', document.title, loc.pathname + loc.search);
 			else {
 				// Prevent scrolling by storing the page's current scroll offset
 				scrollV = document.body.scrollTop;
 				scrollH = document.body.scrollLeft;
 
-				loc.hash = "";
+				loc.hash = '';
 
 				// Restore the scroll offset, should be flicker free
 				document.body.scrollTop = scrollV;
@@ -1739,7 +1739,7 @@ var lqx = lqx || {
 		// Closing time. :-(
 		end: function() {
 			lqx.lyqBox.disableKeyboardNav();
-			lqx.lyqBox.overlay.removeClass("open");
+			lqx.lyqBox.overlay.removeClass('open');
 			lqx.lyqBox.stopVideo(lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].type);
 			lqx.lyqBox.removeHash();
 		},
@@ -1918,7 +1918,7 @@ var lqx = lqx || {
 		if(params.length) {
 			params.forEach(function(param){
 				param = param.split('=', 2);
-				if(param.length == 2) lqx.vars.urlParams[param[0]] = decodeURIComponent(param[1].replace(/\+/g, " "));
+				if(param.length == 2) lqx.vars.urlParams[param[0]] = decodeURIComponent(param[1].replace(/\+/g, ' '));
 				else lqx.vars.urlParams[param[0]] = null;
 			});
 		}
@@ -1927,10 +1927,10 @@ var lqx = lqx || {
 	// changes all fonts to Comic Sans
 	comicfyFonts: function() {
 		if(typeof lqx.vars.urlParams.comicfy != 'undefined') {
-			var link = document.createElement( "link" );
-			link.href = lqx.vars.tmplURL + "/fonts/comicneue/comicfy.css";
-			link.type = "text/css";
-			link.rel = "stylesheet";
+			var link = document.createElement( 'link' );
+			link.href = lqx.vars.tmplURL + '/fonts/comicneue/comicfy.css';
+			link.type = 'text/css';
+			link.rel = 'stylesheet';
 			document.getElementsByTagName('head')[0].appendChild(link);
 		}
 	},
@@ -2059,7 +2059,7 @@ var lqx = lqx || {
 		// onYouTubeIframeAPIReady
 		// callback function called by iframe youtube players when they are ready
 		window.onYouTubeIframeAPIReady = function(){
-			if(lqx.vars.youTubeIframeAPIReady && (typeof YT !== "undefined") && YT && YT.Player) {
+			if(lqx.vars.youTubeIframeAPIReady && (typeof YT !== 'undefined') && YT && YT.Player) {
 				for(var playerId in lqx.vars.youtubePlayers) {
 					if(typeof lqx.vars.youtubePlayers[playerId].playerObj == 'undefined') {
 						lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, { 
@@ -2074,7 +2074,7 @@ var lqx = lqx || {
 			else {
 				// keep track how many time we have attempted, retry unless it has been more than 30secs
 				lqx.vars.youTubeIframeAPIReadyAttempts++;
-				if(lqx.vars.youTubeIframeAPIReadyAttempts < 120) setTimeout("onYouTubeIframeAPIReady()",250);
+				if(lqx.vars.youTubeIframeAPIReadyAttempts < 120) setTimeout('onYouTubeIframeAPIReady()',250);
 			}
 		}
 
