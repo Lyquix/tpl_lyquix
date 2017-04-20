@@ -1,15 +1,15 @@
 <?php
 if($this->params->get('angularjs', 0)): ?>
-<script src="<?php echo $tmpl_url; ?>/js/angular<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/angular' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
+<script src="<?php echo $cdnjs_url; ?>angular.js/1.6.1/angular<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <?php endif;
 if($this->params->get('lodash', 0)): ?>
-<script src="<?php echo $tmpl_url; ?>/js/lodash<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/lodash' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
+<script src="<?php echo $cdnjs_url; ?>lodash.js/4.17.4/lodash<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <?php endif;
 if($this->params->get('smoothscroll', 0)): ?>
-<script src="<?php echo $tmpl_url; ?>/js/smoothscroll<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/smoothscroll' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
+<script src="<?php echo $cdnjs_url; ?>smoothscroll/1.4.6/SmoothScroll<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <?php endif;
 if($this->params->get('mobiledetect_method', 'php') == 'js'): ?>
-<script src="<?php echo $tmpl_url; ?>/js/mobile-detect<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/mobile-detect' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
+<script src="<?php echo $cdnjs_url; ?>mobile-detect/1.3.6/mobile-detect<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <?php endif;
 $add_js_libraries = explode("\n", trim($this->params->get('add_js_libraries', '')));
 foreach($add_js_libraries as $jsurl) {

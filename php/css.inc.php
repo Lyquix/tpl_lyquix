@@ -10,7 +10,7 @@ foreach($add_css_libraries as $cssurl) {
 <link href="<?php echo $tmpl_url; ?>/css/styles.<?php echo $this->params->get('lessjs') ? 'less' : 'css'; ?>?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/styles.' . ($this->params->get('lessjs') ? 'less' : 'css'))); ?>" id="stylesheet" rel="stylesheet" <?php echo $this->params->get('lessjs') ? 'type="text/less" ' : ''; ?>/>
 
 <?php if($this->params->get('lessjs')): ?>
-<script src="<?php echo $tmpl_url; ?>/js/less<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
+<script src="<?php echo $cdnjs_url; ?>less.js/2.7.2/less<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <?php endif; ?>
 
 <?php if(file_exists($tmpl_path . '/css/styles.0.css')): ?>
