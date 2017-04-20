@@ -93,6 +93,12 @@ var lqx = lqx || {
 		},
 		mobileMenu: {
 			screens: ['sm','xs']
+		},
+		detectSwipe: { // set minimum and maximum horizontal and vertical moves that are consideres swipes
+			minX: 30,
+			maxX: 60,
+			minY: 30,
+			maxY: 60
 		}
 	},
 	
@@ -1933,6 +1939,65 @@ var lqx = lqx || {
 			link.rel = 'stylesheet';
 			document.getElementsByTagName('head')[0].appendChild(link);
 		}
+	},
+
+	// enable swipe detection
+	// sel - element selector
+	// func - name of callback function, will receive selector and direction (up, dn, lt, rt)
+	detectSwipe: function(sel, callback) {
+		var swp = {
+			sX: 0,
+			sY: 0,
+			eX: 0,
+			eY: 0,
+			dir: '',
+			opts: lqx.settings.detectSwipe
+		};
+		elem = jQuery(sel);
+		elem.on('touchstart', function(e) {
+			var t = e.originalEvent.touches[0];
+			swp.sX = t.clientX;
+			swp.sY = t.clientY;
+		});
+		elem.on('touchmove', function(e) {
+			e.preventDefault();
+			var t = e.originalEvent.touches[0];
+			swp.eX = t.clientX;
+			swp.eY = t.clientY;
+		});
+		elem.on('touchend', function(e) {
+			// horizontal swipe
+			if (
+				(Math.abs(swp.eX - swp.sX) > swp.opts.minX)
+				&& 
+				(Math.abs(swp.eY - swp.sY) < swp.opts.maxY)
+				&&
+				(swp.eX > 0)
+			) {
+				if (swp.eX > swp.sX) swp.dir = 'rt';
+				else swp.dir = 'lt';
+			}
+			// vertical swipe
+			else if (
+				(Math.abs(swp.eY - swp.sY) > swp.opts.minY)
+				&& 
+				(Math.abs(swp.eX - swp.sX) < swp.opts.maxX)
+				&&
+				(swp.eY > 0)
+			) {
+				if (swp.eY > swp.sY) swp.dir = 'dn';
+				else swp.dir = 'up';
+			}
+
+			if (swp.dir) {console.log(swp.dir, callback);
+				if (typeof callback == 'function') callback(sel, swp.dir);
+			}
+			swp.dir = '';
+			swp.sX = 0;
+			swp.sY = 0;
+			swp.eX = 0;
+			swp.eY = 0;
+		});
 	},
 
 	// self initialization function
