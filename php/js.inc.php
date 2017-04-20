@@ -16,6 +16,9 @@ if($this->params->get('angularjs', 0)): ?>
 if($this->params->get('lodash', 0)): ?>
 <script src="<?php echo $tmpl_url; ?>/js/lodash<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/lodash' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
 <?php endif;
+if($this->params->get('smoothscroll', 0)): ?>
+<script src="<?php echo $tmpl_url; ?>/js/smoothscroll<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/smoothscroll' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
+<?php endif;
 if($this->params->get('mobiledetect_method', 'php') == 'js'): ?>
 <script src="<?php echo $tmpl_url; ?>/js/mobile-detect<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/mobile-detect' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
 <?php endif;

@@ -170,6 +170,10 @@
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
+				<field name="smoothscroll" type="radio" default="0" label="SmoothScroll library" description="">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
 				<field name="es5_shim" type="radio" default="0" label="Load ES5 shim library" description="">
 					<option value="0">No</option>
 					<option value="1">Yes</option>
