@@ -113,10 +113,18 @@ var lqx = lqx || {
 		return lqx.settings;
 	},
 	
-	// internal console log function
-	// use instead of console.log, and control with lqx.settings.debug
+	// internal console log/warn/error functions
+	// use instead of console.log, console.warn, console.error, and control with lqx.settings.debug
 	log : function() {
 		if(lqx.settings.debug) console.log(arguments);
+	},
+
+	warn : function() {
+		if(lqx.settings.debug) console.warn(arguments);
+	},
+
+	error : function() {
+		if(lqx.settings.debug) console.error(arguments);
 	},
 
 	// function logging
