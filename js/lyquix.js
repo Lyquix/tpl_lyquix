@@ -751,54 +751,49 @@ var lqx = lqx || {
 				// check if it has an href attribute, otherwise it is just a page anchor
 				if(elem.href) {
 					
-					// skip featherlight video and gallery, video is already handled below, and gallery will be handled by tracking.photogallery
-					if (typeof jQuery(this).attr('data-featherlight') === 'undefined' && typeof jQuery(this).parent().attr('data-featherlight-gallery') === 'undefined'){
+					// check if it is an outbound link, track as event
+					if(elem.href.indexOf(location.host) == -1 && lqx.settings.tracking.outbound) {
 
-						// check if it is an outbound link, track as event
-						if(elem.href.indexOf(location.host) == -1 && lqx.settings.tracking.outbound) {
-
-							jQuery(elem).click(function(e){
-								// prevent default
-								e.preventDefault ? e.preventDefault() : e.returnValue = !1;
-								var url = elem.href;
-								var label = url;
-								if(jQuery(elem).attr('title')) {
-									label = jQuery(elem).attr('title') + ' [' + url + ']';
-								}
-								ga('send', {
-									'hitType' : 'event', 
-									'eventCategory' : 'Outbound Links',
-									'eventAction' : 'click',
-									'eventLabel' : label,
-									'nonInteraction' : true,
-									'hitCallback' : function(){ window.location.href = url; } // regarless of target value link will open in same link, otherwise it is blocked by browser
-								});
+						jQuery(elem).click(function(e){
+							// prevent default
+							e.preventDefault ? e.preventDefault() : e.returnValue = !1;
+							var url = elem.href;
+							var label = url;
+							if(jQuery(elem).attr('title')) {
+								label = jQuery(elem).attr('title') + ' [' + url + ']';
+							}
+							ga('send', {
+								'hitType' : 'event', 
+								'eventCategory' : 'Outbound Links',
+								'eventAction' : 'click',
+								'eventLabel' : label,
+								'nonInteraction' : true,
+								'hitCallback' : function(){ window.location.href = url; } // regarless of target value link will open in same link, otherwise it is blocked by browser
 							});
-						}
-						
-						// check if it is a download link, track as pageview
-						else if(elem.href.match(/\.(gif|png|jpg|jpeg|tif|tiff|svg|webp|bmp|zip|rar|gzip|7z|tar|exe|msi|dmg|txt|pdf|rtf|doc|docx|dot|dotx|xls|xlsx|xlt|xltx|ppt|pptx|pot|potx|mp3|wav|mp4|ogg|webm|wma|mov|avi|wmv|flv|swf|xml|js|json|css|less|sass)$/i) && lqx.settings.tracking.downloads) {
-							jQuery(elem).click(function(e){
-								// prevent default
-								e.preventDefault ? e.preventDefault() : e.returnValue = !1;
-								var url = elem.href;
-								var loc = elem.protocol + '//' + elem.hostname + elem.pathname + elem.search;
-								var page = elem.pathname + elem.search;
-								var title = 'Download: ' + page;
-								if(jQuery(elem).attr('title')) {
-									title = jQuery(elem).attr('title');
-								}
-								ga('send', {
-									'hitType': 'pageview', 
-									'location' : loc,
-									'page' : page,
-									'title' : title,
-									'hitCallback' : function(){ window.location.href = url; } // regarless of target value link will open in same link, otherwise it is blocked by browser
-								});
-							});
-						}
+						});
 					}
-				
+					
+					// check if it is a download link, track as pageview
+					else if(elem.href.match(/\.(gif|png|jpg|jpeg|tif|tiff|svg|webp|bmp|zip|rar|gzip|7z|tar|exe|msi|dmg|txt|pdf|rtf|doc|docx|dot|dotx|xls|xlsx|xlt|xltx|ppt|pptx|pot|potx|mp3|wav|mp4|ogg|webm|wma|mov|avi|wmv|flv|swf|xml|js|json|css|less|sass)$/i) && lqx.settings.tracking.downloads) {
+						jQuery(elem).click(function(e){
+							// prevent default
+							e.preventDefault ? e.preventDefault() : e.returnValue = !1;
+							var url = elem.href;
+							var loc = elem.protocol + '//' + elem.hostname + elem.pathname + elem.search;
+							var page = elem.pathname + elem.search;
+							var title = 'Download: ' + page;
+							if(jQuery(elem).attr('title')) {
+								title = jQuery(elem).attr('title');
+							}
+							ga('send', {
+								'hitType': 'pageview', 
+								'location' : loc,
+								'page' : page,
+								'title' : title,
+								'hitCallback' : function(){ window.location.href = url; } // regarless of target value link will open in same link, otherwise it is blocked by browser
+							});
+						});
+					}
 				}
 			});
 			
@@ -836,7 +831,7 @@ var lqx = lqx || {
 		
 		// track photo galleries
 		if(lqx.settings.tracking.photogallery){
-			jQuery('html').on('click', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox], a[data-featherlight-image]', function(){
+			jQuery('html').on('click', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]', function(){
 				// send event for gallery opened
 				ga('send', {
 					'hitType': 'event', 
@@ -924,28 +919,6 @@ var lqx = lqx || {
 			});
 		}
 
-	},
-
-	// handle mutation for featherlight gallery, and send the ga data if a new image is loaded by detecting new added image and pass on the src attribute value
-	featherlightMutationHandler: function(mutRec) {
-		jQuery(mutRec.addedNodes).each(function(){
-			var elem = jQuery(this);
-			var src = elem.attr('src');
-
-			if (typeof elem.prop('tagName') !== 'undefined' && elem.hasClass('featherlight-image')){
-				var tag = elem.prop('tagName').toLowerCase();
-
-				if (tag == 'img' && typeof src != 'undefined'){
-					// send event for image displayed
-					ga('send', {
-						'hitType': 'event', 
-						'eventCategory' : 'Photo Gallery',
-						'eventAction' : 'Display',
-						'eventLabel' : jQuery(this).attr('src')
-					});
-				}
-			}
-		});
 	},
 
 	// handle video players added dynamically
@@ -1308,22 +1281,6 @@ var lqx = lqx || {
 				});
 			}
 
-			// photogallery listener
-			if(lqx.settings.tracking.photogallery){			
-				jQuery('html').on('DOMNodeInserted', 'img.featherlight-image', function(e) {
-					var src = jQuery(e.currentTarget).attr('src');
-					if (typeof src != 'undefined'){
-						// send event for image displayed
-						ga('send', {
-							'hitType': 'event', 
-							'eventCategory' : 'Photo Gallery',
-							'eventAction' : 'Display',
-							'eventLabel' : src
-						});
-					}
-				});
-			}
-
 		}
 	},
 	
@@ -1339,7 +1296,6 @@ var lqx = lqx || {
 					if (mutRec.addedNodes.length > 0) {
 						// send mutation record to individual handlers
 						lqx.videoPlayerMutationHandler(mutRec);
-						lqx.featherlightMutationHandler(mutRec);
 						lqx.imageMutationHandler(mutRec);
 					}
 					
