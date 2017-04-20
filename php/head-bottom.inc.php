@@ -7,5 +7,5 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga(lqx.gaReady);
 </script>" : ''; 
 ?>
-<jdoc:include type="modules" name="head" />
 
+<jdoc:include type="modules" name="head" />

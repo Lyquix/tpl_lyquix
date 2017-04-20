@@ -11,3 +11,4 @@ if($home) {
 // Add og:title and og:description tags if not already set
 if(!$doc -> getMetaData('og:title')) $doc->addCustomTag('<meta property="og:title" content="' . $doc -> getTitle() . '" />');
 if(!$doc -> getMetaData('og:description')) $doc->addCustomTag('<meta property="og:description" content="' . $doc -> getDescription() . '" />');
+?>
