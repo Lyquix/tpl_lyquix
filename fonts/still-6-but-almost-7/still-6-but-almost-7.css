@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'Still 6 But Almost 7';
+  src: url('still-6-but-almost-7.ttf')  format('truetype');
+}
+
+* {
+    font-family: 'Still 6 But Almost 7' !important;
+}

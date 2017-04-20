@@ -1950,6 +1950,16 @@ var lqx = lqx || {
 		}
 	},
 
+	almost7Fonts: function() {
+		if(typeof lqx.vars.urlParams.almost7 != 'undefined') {
+			var link = document.createElement( 'link' );
+			link.href = lqx.vars.tmplURL + '/fonts/still-6-but-almost-7/still-6-but-almost-7.css';
+			link.type = 'text/css';
+			link.rel = 'stylesheet';
+			document.getElementsByTagName('head')[0].appendChild(link);
+		}		
+	},
+
 	// enable swipe detection
 	// sel - element selector
 	// func - name of callback function, will receive selector and direction (up, dn, lt, rt)
@@ -2053,6 +2063,8 @@ var lqx = lqx || {
 			lqx.equalHeightRows();
 			// Easter Egg: add ?comicfy to URL to change all fonts to Comic Sans
 			lqx.comicfyFonts();
+			// Easter Egg: add ?almost7 to URL to change all fonts to Still 6 But Almost 7
+			lqx.almost7Fonts();
 		});
 
 		// Trigger on window scroll
