@@ -179,8 +179,6 @@
 			</fieldset>
 			<fieldset name="accounts_tab" label="Accounts">
 				<field name="ga_account" type="text" default="" label="Google Analytics Account" description="Enter a Google Analytics property account number to load Google Analytics and send data to the account" />
-				<field name="disqus_shortname" type="text" default="" label="Disqus Shortname" description="Enter your Disqus shortname to load the Disqus library" />
-				<field name="addthis_pubid" type="text" default="" label="AddThis PubID" description="Enter your AddThis pubid number to load the AddThis library" />
 				<field name="google_site_verification" type="text" default="" label="google-site-verification" description="Enter your Google Webmaster Tools site verification number" />
 				<field name="msvalidate" type="text" default="" label="msvalidate.01" description="Enter your Bing/Yahoo site validation number" />
 				<field name="p_domain_verify" type="text" default="" label="p:domain_verify" description="" />

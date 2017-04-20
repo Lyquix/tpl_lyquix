@@ -5,7 +5,7 @@ echo $this->params->get('ga_account') ? "<script>
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 ga(lqx.gaReady);
-</script>" : ''; ?>
-<?php echo $this->params->get('addthis_pubid') ? '<script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=' . $this->params->get('addthis_pubid') . '"></script>' : ''; ?>
+</script>" : ''; 
+?>
 <jdoc:include type="modules" name="head" />
 
