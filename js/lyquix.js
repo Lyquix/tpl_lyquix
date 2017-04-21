@@ -2008,9 +2008,8 @@ var lqx = lqx || {
 				else swp.dir = 'up';
 			}
 
-			if (swp.dir) {console.log(swp.dir, callback);
-				if (typeof callback == 'function') callback(sel, swp.dir);
-			}
+			if (swp.dir && typeof callback == 'function') callback(sel, swp.dir);
+			
 			swp.dir = '';
 			swp.sX = 0;
 			swp.sY = 0;
