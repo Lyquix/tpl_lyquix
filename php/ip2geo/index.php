@@ -1,8 +1,15 @@
 <?php
-/*
- * Uses client IP address to obtain client location
- * Responds with a JSON object
+/**
+ * index.php - Uses client IP address to obtain client location, responds with a JSON object
+ *
+ * @version     1.0.0
+ * @package     tpl_lyquix
+ * @author      Lyquix
+ * @copyright   Copyright (C) 2015 - 2017 Lyquix
+ * @license     GNU General Public License version 2 or later
+ * @link        https://github.com/Lyquix/tpl_lyquix
  */
+
 header('Content-Type: application/json');
 $db = 'GeoLite2-City.mmdb'; // download updated database from http://dev.maxmind.com/geoip/geoip2/geolite2/
 require_once 'Reader.php';
