@@ -13,32 +13,46 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-include($tmpl_path . '/php/head-pre.inc.php');
+// Pre-head includes
+include(__DIR__ . '/php/head-pre.inc.php');
+
 ?><!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" >
 <head>
-<?php 
-include($tmpl_path . '/php/head-top.inc.php'); 
+<?php
+// Head top includes
+include(__DIR__ . '/php/head-top.inc.php'); 
 ?>
 <jdoc:include type="head" />
-<?php 
-include($tmpl_path . '/php/css.inc.php');
-include($tmpl_path . '/php/js.inc.php');
-include($tmpl_path . '/php/favicon.inc.php');
-include($tmpl_path . '/php/head-bottom.inc.php');
+<?php
+// CSS includes
+include(__DIR__ . '/php/css.inc.php');
+
+// JavaScript includes
+include(__DIR__ . '/php/js.inc.php');
+
+// Favicons include
+include(__DIR__ . '/php/favicon.inc.php');
+
+// Head bottom includes
+include(__DIR__ . '/php/head-bottom.inc.php');
 ?>
 </head>
 <?php
-include($tmpl_path . '/php/body-pre.inc.php');
+// Pre-body includes
+include(__DIR__ . '/php/body-pre.inc.php');
 ?>
 <body class="<?php echo implode(' ', $body_classes); ?>">
 <?php
-include($tmpl_path . '/php/body-top.inc.php');
+// Body top includes
+include(__DIR__ . '/php/body-top.inc.php');
+
 // if blank-page parameter is set to true, only the component will be output
 if(!$this->params->get('blank_page',0)) :  ?>
 <header>
 	
-	<?php if($this->countModules('util-1') || $this->countModules('util-2') || $this->countModules('util-3') || $this->countModules('util-4') || $this->countModules('util-5') || $this->countModules('util-6')): ?>
+	<?php if($this->countModules('util-1') || $this->countModules('util-2') || $this->countModules('util-3') || 
+		$this->countModules('util-4') || $this->countModules('util-5') || $this->countModules('util-6')): ?>
 	<div class="row util">
 		<div class="container cf">
 			<div class="util-1 blk4 blkgroup">
@@ -63,7 +77,8 @@ if(!$this->params->get('blank_page',0)) :  ?>
 	</div>
 	<?php endif; ?>
 	
-	<?php if($this->countModules('header-1') || $this->countModules('header-2') || $this->countModules('header-3') || $this->countModules('header-4') || $this->countModules('header-5') || $this->countModules('header-6')): ?>
+	<?php if($this->countModules('header-1') || $this->countModules('header-2') || $this->countModules('header-3') || 
+		$this->countModules('header-4') || $this->countModules('header-5') || $this->countModules('header-6')): ?>
 	<div class="row header">
 		<div class="container cf">
 			<div class="header-1 blk4 blkgroup">
@@ -88,7 +103,8 @@ if(!$this->params->get('blank_page',0)) :  ?>
 	</div>
 	<?php endif; ?>
 	
-	<?php if($this->countModules('top-1') || $this->countModules('top-2') || $this->countModules('top-3')|| $this->countModules('top-4') || $this->countModules('top-5') || $this->countModules('top-6')): ?>
+	<?php if($this->countModules('top-1') || $this->countModules('top-2') || $this->countModules('top-3')|| $this->countModules('top-4') || 
+		$this->countModules('top-5') || $this->countModules('top-6')): ?>
 	<div class="row top">
 		<div class="container cf">
 			<div class="top-1 blk4 blkgroup">
@@ -179,7 +195,8 @@ if(!$this->params->get('blank_page',0)) :  ?>
 
 <footer>
 
-	<?php if($this->countModules('bottom-1') || $this->countModules('bottom-2') || $this->countModules('bottom-3') || $this->countModules('bottom-4') || $this->countModules('bottom-5') || $this->countModules('bottom-6')): ?>
+	<?php if($this->countModules('bottom-1') || $this->countModules('bottom-2') || $this->countModules('bottom-3') || 
+		$this->countModules('bottom-4') || $this->countModules('bottom-5') || $this->countModules('bottom-6')): ?>
 	<div class="row bottom">
 		<div class="container cf">
 			<div class="bottom-1 blk4 blkgroup">
@@ -204,7 +221,8 @@ if(!$this->params->get('blank_page',0)) :  ?>
 	</div>
 	<?php endif; ?>
 	
-	<?php if($this->countModules('footer-1') || $this->countModules('footer-2') || $this->countModules('footer-3') || $this->countModules('footer-4') || $this->countModules('footer-5') || $this->countModules('footer-6')): ?>
+	<?php if($this->countModules('footer-1') || $this->countModules('footer-2') || $this->countModules('footer-3') || 
+		$this->countModules('footer-4') || $this->countModules('footer-5') || $this->countModules('footer-6')): ?>
 	<div class="row footer">
 		<div class="container cf">
 			<div class="footer-1 blk4 blkgroup">
@@ -229,7 +247,8 @@ if(!$this->params->get('blank_page',0)) :  ?>
 	</div>
 	<?php endif; ?>
 	
-	<?php if($this->countModules('copyright-1') || $this->countModules('copyright-2') || $this->countModules('copyright-3') || $this->countModules('copyright-4') || $this->countModules('copyright-5') || $this->countModules('copyright-6')): ?>
+	<?php if($this->countModules('copyright-1') || $this->countModules('copyright-2') || $this->countModules('copyright-3') || 
+		$this->countModules('copyright-4') || $this->countModules('copyright-5') || $this->countModules('copyright-6')): ?>
 	<div class="row copyright">
 		<div class="container cf">
 			<div class="copyright-1 blk4 blkgroup">
@@ -258,6 +277,9 @@ if(!$this->params->get('blank_page',0)) :  ?>
 <?php else:  // output a "blank" page (component only) ?>
 <jdoc:include type="component" />
 <?php endif; // endif for blank page ?>
-<?php include($tmpl_path . '/php/body-bottom.inc.php'); ?>
+<?php
+// Body bottom includes
+include(__DIR__ . '/php/body-bottom.inc.php');
+?>
 </body>
 </html>
