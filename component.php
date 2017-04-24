@@ -1,4 +1,15 @@
 <?php
+/**
+ * component.php - Component template file, calls the project custom component template file.
+ *
+ * @version     1.0.0
+ * @package     tpl_lyquix
+ * @author      Lyquix
+ * @copyright   Copyright (C) 2015 - 2017 Lyquix
+ * @license     GNU General Public License version 2 or later
+ * @link        https://github.com/Lyquix/tpl_lyquix
+ */
+
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 

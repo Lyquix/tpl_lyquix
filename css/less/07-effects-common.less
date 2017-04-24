@@ -1,34 +1,41 @@
-// CSS3 effects, transforms and animationsommon classes
-// --------------------------------------------------------------------
+/**
+ * 07-effects-common.less - Base variables and settings for effects, transforms and animations
+ *
+ * @version     1.0.0
+ * @package     tpl_lyquix
+ * @author      Lyquix
+ * @copyright   Copyright (C) 2015 - 2017 Lyquix
+ * @license     GNU General Public License version 2 or later
+ * @link        https://github.com/Lyquix/tpl_lyquix
+ */
 
 // variables for css3 effects and transitions
 // --------------------------------------------------------------------
 @shadow-color:		@gray-darker;
 @glow-color:		@color-primary;
 @tint-color:		@color-primary;
-@duotone-color:	@color-primary-dark;
+@duotone-color:		@color-primary-dark;
 		
 // Duotone color hue calculation:
 // If Red is max, then Hue = (G-B)/(max-min)
 // If Green is max, then Hue = 2.0 + (B-R)/(max-min)
 // If Blue is max, then Hue = 4.0 + (R-G)/(max-min)
 // The result is multiplied by 60 to convert to degrees
-@myR: red(@duotone-color);
-@myG: green(@duotone-color);
-@myB: blue(@duotone-color);
-@myMax: max(@myR, @myG, @myB);
-@myMin: min(@myR, @myG, @myB);
-@myMaxMin: @myMax - @myMin;
-@duotone-color-hue: 60 * (floor(@myR/@myMax) * ((@myG - @myB)/@myMaxMin) + floor(@myG/@myMax) * (2 + (@myB - @myR)/@myMaxMin) + floor(@myB/@myMax) * (4 + (@myR - @myG)/@myMaxMin));
+@myR: 					red(@duotone-color);
+@myG: 					green(@duotone-color);
+@myB: 					blue(@duotone-color);
+@myMax: 				max(@myR, @myG, @myB);
+@myMin: 				min(@myR, @myG, @myB);
+@myMaxMin: 				@myMax - @myMin;
+@duotone-color-hue: 	60 * (floor(@myR/@myMax) * ((@myG - @myB)/@myMaxMin) + floor(@myG/@myMax) * (2 + (@myB - @myR)/@myMaxMin) + floor(@myB/@myMax) * (4 + (@myR - @myG)/@myMaxMin));
 
-@border-radius:	0.5em;
+@border-radius:		0.5em;
 
 @duration-sm:		0.2s;
 @duration-md: 		0.4s;
 @duration-lg:		0.8s;
 
 @default-easing:	ease;
-
 
 // transitions speed classes
 // --------------------------------------------------------------------

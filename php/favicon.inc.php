@@ -1,4 +1,15 @@
-<?php
+<?php 
+/**
+ * favicon.inc.php - Includes favicons
+ *
+ * @version     1.0.0
+ * @package     tpl_lyquix
+ * @author      Lyquix
+ * @copyright   Copyright (C) 2015 - 2017 Lyquix
+ * @license     GNU General Public License version 2 or later
+ * @link        https://github.com/Lyquix/tpl_lyquix
+ */
+
 // use http://www.favicon-generator.org/ to generate all these versions
 $favicons_sizes = [57,60,72,76,114,120,144,152,180];
 foreach($favicons_sizes as $favicon_size) {

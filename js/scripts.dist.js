@@ -1,3 +1,14 @@
+/**
+ * scripts.dist.js - Sample custom project JavaScript code, copy to scripts.js
+ *
+ * @version     1.0.0
+ * @package     tpl_lyquix
+ * @author      Lyquix
+ * @copyright   Copyright (C) 2015 - 2017 Lyquix
+ * @license     GNU General Public License version 2 or later
+ * @link        https://github.com/Lyquix/tpl_lyquix
+ */
+
 // Custom project scripts
 // ============================================================
 
@@ -33,7 +44,12 @@ var changeme = changeme || {  // custom project namespace, change to the client 
 	
 	/* 
 	 *
+	 *
+	 *
 	 * add custom functions for your project here 
+	 *
+	 *
+	 *
 	 *
 	*/
 

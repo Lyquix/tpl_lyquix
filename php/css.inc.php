@@ -1,4 +1,15 @@
-<?php
+<?php 
+/**
+ * css.inc.php - Includes CSS files
+ *
+ * @version     1.0.0
+ * @package     tpl_lyquix
+ * @author      Lyquix
+ * @copyright   Copyright (C) 2015 - 2017 Lyquix
+ * @license     GNU General Public License version 2 or later
+ * @link        https://github.com/Lyquix/tpl_lyquix
+ */
+
 $add_css_libraries = explode("\n", trim($this->params->get('add_css_libraries', '')));
 foreach($add_css_libraries as $cssurl) {
 	$cssurl = trim($cssurl);

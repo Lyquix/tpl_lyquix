@@ -1,4 +1,15 @@
-<?php
+<?php 
+/**
+ * js.inc.php - Includes JavaScript libraries
+ *
+ * @version     1.0.0
+ * @package     tpl_lyquix
+ * @author      Lyquix
+ * @copyright   Copyright (C) 2015 - 2017 Lyquix
+ * @license     GNU General Public License version 2 or later
+ * @link        https://github.com/Lyquix/tpl_lyquix
+ */
+
 if($this->params->get('angularjs', 0)): ?>
 <script src="<?php echo $cdnjs_url; ?>angular.js/1.6.1/angular<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <?php endif;
