@@ -11,8 +11,6 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-//! based on normalize.css
-
 html {
 	font-family: sans-serif;
 	text-size-adjust: none;
@@ -28,6 +26,11 @@ html {
     -webkit-overflow-scrolling: touch;
     // font antialiasing on webskit browsers
     -webkit-font-smoothing: antialiased;
+    // correct line height
+    line-height: 1.15;
+    // prevent font size adjustement in Windows Phone and iOS
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
 }
 
 // Remove default margin.
@@ -196,6 +199,8 @@ figure {
 hr {
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
+	height: 0;
+	overflow: visible;
 }
 
 // Contain overflow in all browsers.
