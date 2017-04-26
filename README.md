@@ -65,7 +65,7 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Responsiveness: listens to screen resize and rotation events, then sets the attribute "screen" in the body tag based on the screen size, and triggers the custom event screensizechange. This event can then be listened by other functions to implement full responsiveness. Supports down to IE8.
   * Script-supported styling including equal height rows, hanging punctuation, image captions, color shades
   * Overrides Lyquix Javascript defaults via template settings
-  * Loads Google Analytics, AddThis and Disqus if account numbers are set in template settings
+  * Loads Google Analytics if account numbers are set in template settings
   * Uses minified files for production
   * Template for custom project scripts
   * Detects browser and operating system, type and version, and adds them as classes to body tag
@@ -98,8 +98,7 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
 
   * Adds fix IE console
   * Sets X-UA-Compatible tag
-  * Loads html5shiv and selectivzr
-  * Adds conditional comments for CSS fixes for IE (only if CSS files exist)
+  * Adds conditional comments for CSS fixes for IE9 (only if CSS files exist)
   * Automatically loads chunked CSS files for IE9
   * Adds classes to body tag that identify browser type and version
   * Adds width attribute to images if missing
@@ -127,6 +126,7 @@ We are slowly moving the documentation into this repo:
   * [Installation and basic setup](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/install.md)
   * [Files, positions, configuration: templateDetails.xml](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/xml.md)
   * [Base template files: index.php, component.php](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/template.md)
+  * [CSS library and functionality](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/css.md)
   * [JavaScript functionality](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/js.md)
 
 ## To Do and Ideas

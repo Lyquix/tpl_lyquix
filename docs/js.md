@@ -52,11 +52,15 @@ Returns:
 * False when no cookie name has been received
 * Null when cookie doesn't exist
 
-##Comicfy
+## detectSwipe
 
-Want to have a little fun? Just add `?comicfy` to any URL and this function will change all fonts of your site to Comic Sans :)
+A simple utility function that allows to assign a listener to DOM elements to detect swipe gestures on touch screens. You must provide the element selector, (e.g. #myelem, or .myelem), and the name of the callback function. The callback function will be passed the element selector, and a string indicating the direction of the swipe: `up`, `dn`, `lt`, and `rt`
 
-##Equal Height Rows
+## Comicfy and Almost 7
+
+Want to have a little fun? Just add `?comicfy` or `?almost7` to any URL and this function will change all fonts of your site to Comic Sans and Still 6 but Almost 7 :)
+
+## Equal Height Rows
 
 Flexbox is here but browser support is still uneven and buggy. Until we can rely on it we use equal height rows: add the class `equalheightrow` to the block elements you want to have the same height when in the same row. That's it. 
 
@@ -109,17 +113,19 @@ is converted to:
 </div>
 ```
 
-##Image Load Attribute
+## Image Load Attribute
 
-##log
+For every image element, adds a `loadcomplete` or `loaderror` attribute. This is useful for styling a scripting.
 
-Use `lqx.log()` instead of `console.log()` for debugging purposes in your code, with the ability to turn output on and off via `lqx.settings.debug`. You don't have to worry about removing debugging lines in your code.
+## Debugging
 
-##Logging
+Use `lqx.log()`, `lqx.error()` and `lqx.warn()` instead of `console.log()`, `console.error()` and `console.warn()` for debugging purposes in your code, with the ability to turn output on and off via `lqx.settings.debug`. You don't have to worry about removing debugging lines in your code.
+
+## Logging
 
 Advanced Javascript logging that shows every function call and arguments passed.
 
-##lyqBox
+## lyqBox
 
 Our own lightbox library. Provides the following features
 
@@ -200,11 +206,13 @@ Function for overriding default settings. Just run `lqx.setOptions(options)` whe
 `lqx.setOptions({debug: true});`
 `lqx.setOptions({ga: {abTestName: "Buy Button Design"}});`
 
-##Shade Color
+## Shade Color
 
-##Google Analytics Custom Tracking
+Calculates lighter and darker shades of color for text, borders and backgrounds. Just add a CSS class to your elements using the following naming convention: combine the name of the property (`color`, `bg`, or `border`), with the name of the shade (`lighter`, `light`, `dark`, or `darker`), for example: color-lighter, bg-dark.
 
-###gaReady
+## Google Analytics Custom Tracking
+
+### gaReady
 
 When a Google Analytics account is set in the template options, the universal analytics code is rendered. Unlike the default that immediately calls `ga('create', 'UA-XXXXX-Y', 'auto');` and `ga('send', 'pageview');`, the template calls `ga(lqx.gaReady);`, which executes several steps:
 
