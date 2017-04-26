@@ -1,7 +1,7 @@
-#templateDetails.xml
+# templateDetails.xml
 This file includes meta data for the template (name, date, etc.), list of files included in the template, list of available module positions, and template options.
 
-###Files
+### Files
 The following files and folders are installed with the template:
 ```xml
 <files>
@@ -23,7 +23,7 @@ The following files and folders are installed with the template:
 </files>
 ```
 
-###Module Positions
+### Module Positions
 The following module positions have been defined:
   * **head** - placed at the end of the <head> tag
   * **main-header** - placed at the top of the <main> tag
@@ -36,7 +36,7 @@ The following module positions have been defined:
   * **body** - placed at the end of the <body> tag
   * All the other positions, such as **util-1** are placed in blocks inside the various rows.
 
-###Configuration Fields
+### Configuration Fields
 The following configuration options are available in the Joomla template manager:
 
   * Basic
@@ -58,15 +58,11 @@ The following configuration options are available in the Joomla template manager
     * Use less.js
     * Load AngularJS
     * Load LoDash
-    * Load ES5 shim
-    * Load ES6 shim
-    * Load JSON3
+    * Load SmoothScroll
     * Additional Javascript libraries
     * Remove Javascript loaded by Joomla or extensions
   * Accounts
     * Google Analytics account number
-    * Disqus shortname
-    * AddThis pubid
     * Google site verification code
     * Bing/Yahoo sites verification code
   * Other

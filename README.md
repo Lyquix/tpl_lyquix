@@ -1,6 +1,6 @@
-#Lyquix Joomla Template#
+# Lyquix Joomla Template
 
-##What is this?##
+## What is this?
 
 Lyquix developed this Joomla template in 2014 for using in client projects. After about one year of development and testing we have decided to make it open source, so that others can use it and contribute to it. Perhaps some of the ideas used in this template can be inspiration for other templates and even for the Joomla project.
 
@@ -10,7 +10,7 @@ The objectives of this template are:
 2. **Provide a fully-featured base template** that includes a useful page structure, common CSS classes, and Javascript code that allows us to be more efficient by avoiding to recreate the wheel on every project, without limiting the flexibility and uniqueness of each project.
 3. **Allow a simple mechanism for updating templates over time**. As we enhance the template in new projects, or fix problems, we want make it easy to deploy those enhancements and fixes to all our clients without having to reverse engineer each project, and without affecting the customizations that we develop for each client.
 
-##Is this template for you?##
+## Is this template for you?
 
 This is intended for advanced developers, or those looking to learn advanced template development. 
 
@@ -18,9 +18,9 @@ If you are looking for a "one-click & go" template, this is not for you. After y
 
 This is intended to be the foundation for developers that build custom templates from scratch. This is not a pre-made template that looks pretty and you tweak to fit your design.
 
-##Features##
+## Features
 
-###Mobile###
+### Mobile
 
   * Sets meta viewport
   * Use MobileDetect to identify if the visitor is using a mobile device, and whether it is a tablet or phone, and adds classes to the body tag
@@ -30,7 +30,7 @@ This is intended to be the foundation for developers that build custom templates
   * Sets mobile icons
   * Adds attributes to body tag to identify screen size and orientation for easy use in CSS
 
-###Grid Layout and Responsive Framework###
+### Grid Layout and Responsive Framework
 
 The template implements a grid layout and responsive framework. Think Bootstrap grid, but with a different overall approach. Our grid layout is based on the following principles:
 
@@ -43,7 +43,7 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Utility classes for layout-only blocks
   * Fluid layout can be activated only where needed: by screen size, and device type (all, mobile only, tablets only, phones only)
 
-###CSS and LESS###
+### CSS and LESS
 
   * Hundreds of common classes for efficiently styling your site with cross-browser compatibility
   * Use LESS for easy customization and maintenance
@@ -56,7 +56,7 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Recommended: use PostCSS Autoprefixer to add support for custom browser prefixes and variations
   * Recommended: use BLESS to chunk files to avoid issues with IE9, which are automatically detected and loaded
 
-###Javascript###
+### Javascript
 
   * Automatically loads less.js and .less files during development only (controlled by template settings)
   * Options to load AngularJS, loDash and additional custom-url javascript libraries
@@ -71,13 +71,13 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Detects browser and operating system, type and version, and adds them as classes to body tag
   * Custom events: onscreensizechange, scrollthrottle, and resizethrottle
 
-###LyqBox: our own Lightbox library###
+### LyqBox: our own Lightbox library
 
   * Use a simple HTML structure to generate lightboxes
   * Create dismissable alerts
   * Galleries of images, videos, and HTML content
 
-###Joomla###
+### Joomla
 
   * Several module positions for 7-row, 6-column layout, as well as header and footer positions
   * Template configuration fields for Google Analytics, AddThis and Disqus accounts, Google and Yahoo/Bing site verification, blank page option, use less.js during development, use non-minified files during development, fluid screen sizes and fluid devices preferences
@@ -88,13 +88,13 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Easily add custom js and css libraries in template settings
   * Unset js and css added by Joomla and extensions
 
-###Customization###
+### Customization
 
   * All PHP templates can be overriden by adding index-custom.php and component-custom.php
   * LESS files can be overriden by adding custom files to the css/less/custom folder. [NOTE: this feature relies on the import keyword 'optional' introduced in LESS 2, and as of this writing it is only supported by the LESS command line compiler]
   * Updated versions of the template will not override or modified customization files
 
-###Dealing with IE###
+### Dealing with IE
 
   * Adds fix IE console
   * Sets X-UA-Compatible tag
@@ -106,7 +106,7 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Hacks for font rendering issues in IE11
   * Displays outdated browser warning for IE8 and IE9 users
 
-###Tracking with Google Analytics###
+### Tracking with Google Analytics
   
   * Loads Google Analytics universal tracking code when UA- account is set in template settings
   * Implements parameter-driven Google Analytics configuration, as well as custom function
@@ -118,7 +118,7 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
   * Tracking of active/inactive user time
   * A/B testing by randomly assigning visitors to A/B groups (via cookie for 30 days), adding attribute to body tag, and setting test name and test group via dimensions
 
-##Documentation##
+## Documentation
 
 Since this started as an internal project, the documentation was initially developed as a Google Doc. We have made that document public now and you can find it here https://goo.gl/ZncfgQ
 
@@ -129,6 +129,6 @@ We are slowly moving the documentation into this repo:
   * [Base template files: index.php, component.php](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/template.md)
   * [JavaScript functionality](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/js.md)
 
-##To Do and Ideas##
+## To Do and Ideas
 
 Refer to the Issues in this repo

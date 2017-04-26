@@ -1,4 +1,4 @@
-#Template Files
+# Template Files
 In order to allow for customization of your template, without overriding template files we have modified the files `index.php` and `component.php` to look for your custom template files, `index-custom.php` and `component-custom.php` respectively.
 
 You can see that several parts of the template have been separated into individual PHP include files for easy management and updates. You can find those files in the php directory:
@@ -49,5 +49,5 @@ You can see that several parts of the template have been separated into individu
 
 
 
-###raw.php
+### raw.php
 Provides an alternative template file that generates a raw output from the component. This is useful for generating output such as JSON or binary files.
