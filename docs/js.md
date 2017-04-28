@@ -244,3 +244,32 @@ Tracks events in YouTube and Vimeo players. It automatically enabled Javascript 
 ### User Active
 
 Keeps track of the time a user is active while viewing a page. It uses several techniques to assess if the user is active or not. Reports the percentage and absolute time that the user has been active and inactive. Tracking stops after 30 minutes.
+
+## Browser Support
+
+Use the: MDN JavaScript Reference for documentation on Javascript functionality, as well as caniuse.com and kangax.github.io/compat-table/es6/ to find out browser support for specific features. 
+
+When writing Javascript check whether the functionality is fully supported by the latest and two previous versions of the following browsers:
+
+ * Google Chrome
+ * Firefox
+ * Safari
+ * iOS Chrome
+ * iOS Safari
+ * Android Chrome
+ * Android Browser
+ * Microsoft Edge
+ * Microsoft Edge Mobile
+
+### Support for Internet Explorer
+
+ECMAScript 5 is mostly supported by IE9 and older, but ECMAScript 6 is not properly supported by any version of IE. 
+
+We will phase out support for old versions of Internet Explorer on the following dates (3 years after the next version was released):
+
+ * IE9: September 2015
+ * IE10: October 2016
+ * IE11: July 2018
+
+This means that we will start incorporating ECMAScript 6 features without shims or polyfills on July 2018.
+

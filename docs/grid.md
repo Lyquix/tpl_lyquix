@@ -80,7 +80,7 @@ On our framework you define what screen sizes are fluid by adding classes .blkfl
 
 Until now we have seen block sizes in terms of whole numbers: .blk1, .blk2, .blk3, but the framework provides additional fractional and percentage block sizes to meet the needs of your design.
 
-__Fractional__: any fraction with numerator and denominator between 1 and 10 has been defined as a block size, for example: .blk3/4, .blk1/6, .blk7/8, etc. Keep in mind that on the irreducible fractions are defined, for example, 2/4 does not exist because it can be reduced to 1/2.
+__Fractional__: any fraction with numerator and denominator between 1 and 10 has been defined as a block size, for example: .blk3/4, .blk1/6, .blk7/8, etc. Keep in mind that only the irreducible fractions are defined, for example, 2/4 does not exist because it can be reduced to 1/2.
 
 __Percentage__: all percentage sizes from 5% to 95% in increments of 5 have been defined, for example: .blk5%, .blk70%, .blk35%.
 

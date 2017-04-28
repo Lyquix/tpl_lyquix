@@ -61,15 +61,55 @@ The template implements a grid layout and responsive framework. Think Bootstrap 
 
 ## Base Styles
 
+Defines several variables for font sizes, lines heights, and margins. We recommend using these variables in your custom rules.
+
+Create a base style for HTML tags: colors, sizes, font families, line heights, margins, etc.
+
 ## Common Classes
+
+Provides a library of common CSS classes that should be employed in your site, including:
+
+ * Clear, hide, floating: includes classes for showing/hiding elements on specific screen sizes or device types 
+ * Margins, borders, paddings
+ * Colors: a vast array of classes for setting text, background and border colors using the site color palette
+ * Fonts: several classes for assigning different font families and font variations and effects
+ * Image, galleries, video
+ * Author, dates, read more
+ * Paragraphs: several styling rules for paragraphs
+ * Columns: basic classes for easily setting multi-column blocks
+ * Lists: bullet styles
+ * Dividers: several styled dividers for use in hr elements or as borders of boxes
+ * Menus: basic styling for drop down and mobile menus, works in conjunction with Javascript
 
 ## Effects
 
+Provides a library of CSS classes for effects and transitions that should be employed in your site, including:
+
+ * Box and text effects: shadow, tint, opacity, flip, enlarge, shrink, rotate
+ * Image effects: black & white, sepia, tint, glow, blur, saturate, hue rotation, brightness, contrast
+ * Hover and focus effects: glow, shadow, tint, opacity, round corners, enlarge, shrink, rotate
+
 ## Joomla
+
+Styles for Joomla system messages and pagination structures
 
 ## Lyquix
 
+Minimal styling for LyqBox lightbox
+
 ## Print Styles
+
+The library provides some minimal normalization for print view, preventing elements from breaking on page-breaks.
+
+We include several classes that can be added to elements to help style the print version of the site. This includes:
+
+ * Page break rules
+ * Hide element in print view
+ * Remove background
+ * Force text color to black
+ * Remove text and box shadows
+ * Display href property of links
+ * Display title attribute of abbreviations
 
 ## Custom Project Styles
 
@@ -86,7 +126,7 @@ You can use all these classes and attributes to further customize the user exper
 
 ```css
 body[screen=xs] .my-class {}
-body[orientation=landscape][screen=xs] .my-class
+body[orientation=landscape][screen=xs] .my-class {}
 body.mobile .my-class {}
 body.phone .my-class {}
 body.chrome .my-class {}
@@ -95,7 +135,31 @@ body.windows .my-class {}
 body.ios-10 .my-class{}
 ```
 
-### IE9
+## Browser Support
+
+When writing CSS, we do not include vendor prefixes. This is not a task for humans, instead we use PostCSS when processing LESS file to automatically add vendor prefixes to support your target user's browsers.
+
+Use MDN CSS Reference for documentation on CSS properties, and caniuse.com to find out browser support for the most recent CSS properties. 
+
+In general we only use properties that are fully supported (or if partially supported it must provide the expected functionality) by the latest and two previous versions of the following browsers:
+
+ * Google Chrome
+ * Firefox
+ * Safari
+ * iOS Chrome
+ * iOS Safari
+ * Android Chrome
+ * Android Browser
+ * Microsoft Edge
+ * Microsoft Edge Mobile
+
+### Internet Explorer
+
+We are planning to phase out support for old versions of Internet Explorer on the following dates (3 years after the next version was released):
+
+ * IE9: September 2015
+ * IE10: October 2016
+ * IE11: July 2018
 
 If you need to load styles specific for IE9, you only need to create the file `css/ie9.css` and it will be automatically detected and loaded using IE conditional comment tags.
 
