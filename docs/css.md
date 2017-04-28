@@ -2,7 +2,7 @@
 
 ## File Structure
 
-All the styling files are located in the `css` directory. We implement LESS as CSS pre-processor language. This provides with the following advantages:
+All the styling files are located in the `css` directory. We use LESS as CSS pre-processor language. This provides with the following advantages:
 
  * Ability to use variables, mixins, nested rules, and operators
  * Distribute code among several files and directories to facilitate its maintenance
@@ -30,7 +30,7 @@ Creates variables used for assigning colors to HTML base elements. You should us
 
 ## Fonts
 
-It loads a base Google Fonts: Open Sans (sans-serif), Playfair Display (serif), and Roboto Mono (monospace) to provide consistent look across devices even if no other custom fonts are defined.
+It loads three base Google Fonts: Open Sans (sans-serif), Playfair Display (serif), and Roboto Mono (monospace) to provide consistent look across devices even if no other custom fonts are defined.
 
 Creates several variables for assigning fonts to HTML elements. You should use the same variables when creating your custom rules.
 
@@ -42,11 +42,22 @@ The file `css/less/03-font-icons.less` is an icon fonts library that loads FontA
  * Add the classes `.icon-lg` or `.icon-xl` for larger icons (32px and 64px)
  * Add the class for the specific icon, for example: `.fa-check` or `.ion-wifi`. You can find the complete set of icons in `css/icon-fonts.html`
 
- You can use the `.icon()` and any of the icon mixings in your custom rules, either directly on elements, or on the `:before` or `:after` pseudo-elements. 
+You can use the `.icon()` and any of the icon mixings in your custom rules, either directly on elements, or on the `:before` or `:after` pseudo-elements. 
 
-To Do:
+## Grid and Responsive Layout
 
-## Blocks
+The template implements a grid layout and responsive framework. Think Bootstrap grid, but with a different overall approach. Our grid layout is based on the following principles:
+
+ * On a macro level the design is broken down into columns
+ * We define 5 screen sizes, we call them `xs`, `sm`, `md`, `lg` and `xl`. The smallest screen (smartphone in portrait orientation) has one column and is 320px wide. The other screen sizes are multiples of the smallest screen and they have 2, 3, 4, and 5 columns
+ * Columns are further divided into blocks. The block is the fundamental layout unit. The template can be configured to have 4, 5 or 6 blocks on the smallest screen size, to fit your design needs
+ * In addition to the simple numeric block sizes, we have fractional sizes and percentage sizes to meet all design needs
+ * You can configure the template to specify the sizes of content, padding, border and margin of the standard blocks to fit your design needs
+ * Automatic downsizing: large blocks are automatically downsized to fit in a small screens
+ * Utility classes for layout-only blocks
+ * Fluid layout can be activated only where needed: by screen size (xs and/or sm screens), and device type (all, mobile only, tablets only, phones only)
+
+[Read more about our grid and responsive layout](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/grid.md)
 
 ## Base Styles
 
@@ -56,10 +67,36 @@ To Do:
 
 ## Joomla
 
-## Lyquix Extensions
-
-## Responsiveness
+## Lyquix
 
 ## Print Styles
 
-## Custom Styles
+## Custom Project Styles
+
+## Full User Experience Customization
+
+On page load the Javascript library run functions that identify and add classes or attributes on the body tag for:
+
+ * Browser name and version
+ * Operating system name and version
+ * Screen size (xs, sm, md, lg, xl) and orientation (landscape, portrait)
+ * Device type (mobile, phone, tablet)
+
+You can use all these classes and attributes to further customize the user experience by creating rules that are custom to specific devices. Examples include:
+
+```css
+body[screen=xs] .my-class {}
+body[orientation=landscape][screen=xs] .my-class
+body.mobile .my-class {}
+body.phone .my-class {}
+body.chrome .my-class {}
+body.ie-10 .my-class {}
+body.windows .my-class {}
+body.ios-10 .my-class{}
+```
+
+### IE9
+
+If you need to load styles specific for IE9, you only need to create the file `css/ie9.css` and it will be automatically detected and loaded using IE conditional comment tags.
+
+We recommend using [Bless](http://blesscss.com/) to break large styles.css files into smaller chunks that can be read by IE9 (there is a limit on the number of selectors allowed in a single CSS file). This process will create files `styles.0.css`, `styles.1.css`, and so on... these chunks are automatically detected and loaded for IE9.
