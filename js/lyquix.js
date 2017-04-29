@@ -768,7 +768,7 @@ var lqx = lqx || {
 				if(elem.href) {
 					
 					// check if it is an outbound link, track as event
-					if(elem.href.indexOf(location.host) == -1 && lqx.settings.tracking.outbound) {
+					if(lqx.settings.tracking.outbound && elem.host != location.host) {
 
 						jQuery(elem).click(function(e){
 							// prevent default
@@ -789,8 +789,8 @@ var lqx = lqx || {
 						});
 					}
 					
-					// check if it is a download link, track as pageview
-					else if(elem.href.match(/\.(gif|png|jpg|jpeg|tif|tiff|svg|webp|bmp|zip|rar|gzip|7z|tar|exe|msi|dmg|txt|pdf|rtf|doc|docx|dot|dotx|xls|xlsx|xlt|xltx|ppt|pptx|pot|potx|mp3|wav|mp4|ogg|webm|wma|mov|avi|wmv|flv|swf|xml|js|json|css|less|sass)$/i) && lqx.settings.tracking.downloads) {
+					// check if it is a download link (not a webpage) and track as pageview
+					else if(lqx.settings.tracking.downloads && elem.pathname.match(/\.(htm|html|php)$/i)[1] == null ) {
 						jQuery(elem).click(function(e){
 							// prevent default
 							e.preventDefault ? e.preventDefault() : e.returnValue = !1;
