@@ -633,14 +633,14 @@ var lqx = lqx || {
 	hangingPunctuation : function(){
 		
 		lqx.vars.hangingMarks = {
-			'\u201c': 'medium',     // � - ldquo - left smart double quote
-			'\u2018': 'small',      // � - lsquo - left smart single quote
-			'\u0022': 'medium',     // " - ldquo - left dumb double quote
-			'\u0027': 'small',      // ' - lsquo - left dumb single quote
-			'\u00AB': 'large',      // � - laquo - left double angle quote
-			'\u2039': 'medium',     // � - lsaquo - left single angle quote
-			'\u201E': 'medium',     // � - bdquo - left smart double low quote
-			'\u201A': 'small',      // � - sbquo - left smart single low quote
+			'\u201c': 'medium',     // “ - &ldquo; - left smart double quote
+			'\u2018': 'small',      // ‘ - &lsquo; - left smart single quote
+			'\u0022': 'medium',     // “ - &ldquo; - left dumb double quote
+			'\u0027': 'small',      // ‘ - &lsquo; - left dumb single quote
+			'\u00AB': 'large',      // « - &laquo; - left double angle quote
+			'\u2039': 'medium',     // ‹ - &lsaquo; - left single angle quote
+			'\u201E': 'medium',     // „ - &bdquo; - left smart double low quote
+			'\u201A': 'small',      // ‚ - &sbquo; - left smart single low quote
 		};
 		
 		// lops over the P descendants of the elements with class hanging-punctuation
