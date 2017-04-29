@@ -784,7 +784,7 @@ var lqx = lqx || {
 								'eventAction' : 'click',
 								'eventLabel' : label,
 								'nonInteraction' : true,
-								'hitCallback' : function(){ window.location.href = url; } // regarless of target value link will open in same link, otherwise it is blocked by browser
+								'hitCallback' : function(){ window.location.href = url; } // regarless of target value link will open in same window, otherwise it is blocked by browser
 							});
 						});
 					}
@@ -806,7 +806,7 @@ var lqx = lqx || {
 								'location' : loc,
 								'page' : page,
 								'title' : title,
-								'hitCallback' : function(){ window.location.href = url; } // regarless of target value link will open in same link, otherwise it is blocked by browser
+								'hitCallback' : function(){ window.location.href = url; } // regarless of target value link will open in same window, otherwise it is blocked by browser
 							});
 						});
 					}
