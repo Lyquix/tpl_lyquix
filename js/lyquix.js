@@ -36,13 +36,13 @@ var lqx = lqx || {
 			darker: -20,
 		},
 		resizeThrottle: {
-			duration: 15,  // in miliseconds 
+			duration: 15,  // in miliseconds
 		},
 		scrollThrottle: {
-			duration: 15,  // in miliseconds 
+			duration: 15,  // in miliseconds
 		},
 		bodyScreenSize: {
-			// defines the minimum and maximum screen sizes, 
+			// defines the minimum and maximum screen sizes,
 			// use 0 through 4 to represent xs to xl screen sizes
 			min: 0,
 			max: 4,
@@ -75,7 +75,7 @@ var lqx = lqx || {
 									'<div class="close"></div>' +
 									'<div class="prev"></div>' +
 									'<div class="next"></div>' +
-									'<div class="counter">' + 
+									'<div class="counter">' +
 										'<span class="current"></span>' +
 										' of <span class="total"></span>' +
 									'</div>' +
@@ -176,10 +176,10 @@ var lqx = lqx || {
 			console.log(arguments);
 			
 			return func.apply(this, arguments);
-		}
+		};
 	},
 
-	// cookie 
+	// cookie
 	// function for handling cookies with ease
 	// inspired by https://github.com/js-cookie/js-cookie and https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie/Simple_document.cookie_framework
 	// lqx.cookie(name) to get value of cookie name
@@ -195,7 +195,7 @@ var lqx = lqx || {
 	// httpOnly: any non-false value
 	cookie: function(name, value, attributes) {
 		var result;
-		if(arguments.length == 0 || !name) return false;
+		if(arguments.length === 0 || !name) return false;
 
 		// get cookie
 		if(arguments.length == 1) {
@@ -292,7 +292,7 @@ var lqx = lqx || {
 						lat: null,
 						lon: null,
 						radius: null
-					}
+					};
 				},
 				success: function(data, status, xhr){
 					lqx.vars.geoLocation = data;
@@ -307,14 +307,14 @@ var lqx = lqx || {
 	mobileDetect : function() {
 		var md = new MobileDetect(window.navigator.userAgent);
 		var r = {mobile: false, phone: false, tablet: false};
-		if(md.mobile() != null) {
+		if(md.mobile() !== null) {
 			r.mobile = true;
 			jQuery('body').addClass('mobile');
-			if(md.phone() != null){
+			if(md.phone() !== null){
 				r.phone = true;
 				jQuery('body').addClass('phone');
 			}
-			if(md.tablet() != null){
+			if(md.tablet() !== null){
 				r.tablet = true;
 				jQuery('body').addClass('tablet');
 			}
@@ -346,48 +346,48 @@ var lqx = lqx || {
 				name: 'Opera',
 				type: 'opera',
 				version: getFirstMatch(/version\/(\d+(\.\d+)?)/i) || getFirstMatch(/(?:opera|opr)[\s\/](\d+(\.\d+)?)/i)
-			}
+			};
 		}  else if (/msie|trident/i.test(ua)) {
 			browser = {
 				name: 'Internet Explorer',
 				type: 'msie',
 				version: getFirstMatch(/(?:msie |rv:)(\d+(\.\d+)?)/i)
-			}
+			};
 		} else if (/chrome.+? edge/i.test(ua)) {
 			browser = {
 				name: 'Microsft Edge',
 				type: 'msedge',
 				version: getFirstMatch(/edge\/(\d+(\.\d+)?)/i)
-			}
+			};
 		} else if (/chrome|crios|crmo/i.test(ua)) {
 			browser = {
 				name: 'Google Chrome',
 				type: 'chrome',
 				version: getFirstMatch(/(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i)
-			}
+			};
 		} else if (/firefox/i.test(ua)) {
 			browser = {
 				name: 'Firefox',
 				type: 'firefox',
 				version: getFirstMatch(/(?:firefox)[ \/](\d+(\.\d+)?)/i)
-			}
+			};
 		} else if (!(/like android/i.test(ua)) && /android/i.test(ua)) {
 			browser = {
 				name: 'Android',
 				type: 'android',
 				version: getFirstMatch(/version\/(\d+(\.\d+)?)/i)
-			}
+			};
 		} else if (/safari/i.test(ua)) {
 			browser = {
 				name: 'Safari',
 				type: 'safari',
 				version: getFirstMatch(/version\/(\d+(\.\d+)?)/i)
-			}
+			};
 		} else {
 			browser = {
 				name: getFirstMatch(/^(.*)\/(.*) /),
 				version: getSecondMatch(/^(.*)\/(.*) /)
-			}
+			};
 			browser.type = browser.name.toLowerCase().replace(/\s/g, '');
 		}
 		// add classes to body
@@ -428,49 +428,49 @@ var lqx = lqx || {
 				name: 'iOS',
 				type: 'ios',
 				version: getFirstMatch(/os (\d+([_\s]\d+)*) like mac os x/i).replace(/[_\s]/g, '.')
-			}
+			};
 		} else if(/windows phone/i.test(ua)) {
 			os = {
 				name: 'Windows Phone',
 				type: 'windowsphone',
 				version: getFirstMatch(/windows phone (?:os)?\s?(\d+(\.\d+)*)/i)
-			}
+			};
 		} else if(!(/like android/i.test(ua)) && /android/i.test(ua)) {
 			os = {
 				name: 'Android',
 				type: 'android',
 				version: getFirstMatch(/android[ \/-](\d+(\.\d+)*)/i)
-			}
+			};
 		} else if(/windows nt/i.test(ua)) {
 			os = {
 				name: 'Windows',
 				type: 'windows',
 				version: getFirstMatch(/windows nt (\d+(\.\d+)*)/i)
-			}
+			};
 		} else if(/mac os x/i.test(ua)) {
 			os = {
 				name: 'Mac OS X',
 				type: 'macosx',
 				version: getFirstMatch(/mac os x (\d+([_\s]\d+)*)/i).replace(/[_\s]/g, '.')
-			}
+			};
 		} else if(/ubuntu/i.test(ua)) {
 			os = {
 				name: 'Ubuntu',
 				type: 'ubuntu',
 				version: getFirstMatch(/ubuntu\/(\d+(\.\d+)*)/i)
-			}
+			};
 		} else if(/fedora/i.test(ua)) {
 			os = {
 				name: 'Fedora',
 				type: 'fedora',
 				version: getFirstMatch(/fedora\/(\d+(\.\d+)*)/i)
-			}
+			};
 		} else if(/CrOS/.test(ua)) {
 			os = {
 				name: 'Chrome OS',
 				type: 'chromeos',
 				version: getSecondMatch(/cros (.+) (\d+(\.\d+)*)/i)
-			}
+			};
 		}
 		// add classes to body
 		if(os.type && os.version) {
@@ -494,12 +494,12 @@ var lqx = lqx || {
 			// adds width value to img elements that don't have one
 			jQuery('img').each(function(){
 				var img = jQuery(this);
-				if(img.attr('width') == undefined) {
+				if(img.attr('width') === undefined) {
 					var newimg = new Image();
 					newimg.onload = function() {
 						img.attr('width', newimg.width);
-					}
-					newimg.src = img.attr('src'); 
+					};
+					newimg.src = img.attr('src');
 				}
 			});
 			// fix for google fonts not rendering in IE10/11
@@ -511,7 +511,7 @@ var lqx = lqx || {
 				jQuery('img').each(function(){
 					src = jQuery(this).attr('src');
 					if(/\.svg$/i.test (src)) {
-						jQuery(this).attr('src', src.replace('.svg', '.png')); 
+						jQuery(this).attr('src', src.replace('.svg', '.png'));
 					}
 				});
 			}
@@ -523,7 +523,7 @@ var lqx = lqx || {
 	initEqualHeightRows : function() {
 		// get elements, check if we will ignore not visible elements
 		if(lqx.settings.equalHeightRows.onlyVisible) {
-			lqx.vars.equalHeightRowElems = jQuery('.equalheightrow:visible'); 
+			lqx.vars.equalHeightRowElems = jQuery('.equalheightrow:visible');
 		}
 		else {
 			lqx.vars.equalHeightRowElems = jQuery('.equalheightrow');
@@ -549,7 +549,7 @@ var lqx = lqx || {
 		
 		if(s.refreshElems || typeof lqx.vars.equalHeightRowElems == 'undefined') {
 			if(lqx.settings.equalHeightRows.onlyVisible) {
-				lqx.vars.equalHeightRowElems = jQuery('.equalheightrow:visible'); 
+				lqx.vars.equalHeightRowElems = jQuery('.equalheightrow:visible');
 			}
 			else {
 				lqx.vars.equalHeightRowElems = jQuery('.equalheightrow');
@@ -572,7 +572,7 @@ var lqx = lqx || {
 				var currElem,
 				currElemTop = 0,
 				currElemHeight = 0,
-				currRowElems = new Array(),
+				currRowElems = [],
 				currRowTop = 0,
 				currRowHeight = 0;
 
@@ -582,18 +582,19 @@ var lqx = lqx || {
 					currElem = jQuery(this);
 					currElemTop = currElem.offset().top;
 					currElemHeight = currElem.height();
+          var j = 0;
 					
 					if(currElemTop != currRowTop) {
 						// new row has started, set the height for the previous row if it has more than one element
 						if(currRowElems.length > 1) {
-							for(var j = 0; j < currRowElems.length; j++) {
+							for(j = 0; j < currRowElems.length; j++) {
 								currRowElems[j].height(currRowHeight);
 							}
 						}
 						// wipe out array of current row elems, start with current element
 						currRowElems = new Array(currElem);
 						// set the top of current row (gets again position of elem after adjusting previous row)
-						currRowTop = currElem.offset().top;;
+						currRowTop = currElem.offset().top;
 						// set the current tallest
 						currRowHeight = currElemHeight;
 					}
@@ -605,7 +606,7 @@ var lqx = lqx || {
 						// if this is the last element in the set, update the last row elements height
 						if(i == elemsCount - 1) {
 							if(currRowElems.length > 1) {
-								for(var j = 0; j < currRowElems.length; j++) {
+								for(j = 0; j < currRowElems.length; j++) {
 									currRowElems[j].height(currRowHeight);
 								}
 							}
@@ -620,7 +621,7 @@ var lqx = lqx || {
 						// is the image still loading?
 						if(!this.complete) {
 							// seems to still be loading
-							setTimeout(function(){lqx.equalHeightRows(opts)}, 250);
+							setTimeout(function(){lqx.equalHeightRows(opts);}, 250);
 						}
 					});
 				}
@@ -687,12 +688,15 @@ var lqx = lqx || {
 	shadeColor : function(){
 		
 		// cycle through the various properties
-		for (var i in ['color', 'bg', 'border']) {
+		['color', 'bg', 'border'].forEach(function(i) {
 			
 			// cycle through the various shades
-			for (var j in ['lighter', 'light', 'dark', 'darker']) {
+			['lighter', 'light', 'dark', 'darker'].forEach(function(j) {
 				
-				// set the correct css property name
+				// set the css class
+				var c = '.' + i + '-' + j;
+
+				// set the css property name
 				var prop;
 				switch(i) {
 					case 'color':
@@ -706,54 +710,50 @@ var lqx = lqx || {
 						break;
 				}
 				
-				// set the correct css class
-				var c = '.' + i + '-' + j;
-				
 				// cycle through all elements
-				jQuery(c).each(function(idx, elem){ 
+				jQuery(c).each(function(idx, elem){
 					// get the color for the element
 					var color = jQuery(elem).css(prop);
 					
 					// if color is in hex use shadeHex, otherwise use shadeRGB
 					if(color.charAt(0) == '#'){
-						color = shadeHex(color, lqx.settings.shadeColorPercent[j]);
+						color = lqx.shadeHex(color, lqx.settings.shadeColorPercent[j]);
 					}
 					else {
-						color = shadeRGB(color, lqx.settings.shadeColorPercent[j]);
+						color = lqx.shadeRGB(color, lqx.settings.shadeColorPercent[j]);
 					}
 					
 					// update color for element
 					jQuery(elem).css(prop, color);
 				});
 				
-			}
+			});
 			
-		}
-		
+		});
 		
 	},
 	
 	// returns a HEX color lighter or darker by percentage
 	shadeHex : function(color, percent) {
-		var 	num = parseInt(color.slice(1),16), 
-			amt = Math.round(2.55 * percent), 
-			R = (num >> 16) + amt, 
-			G = (num >> 8 & 0x00FF) + amt, 
+		var 	num = parseInt(color.slice(1),16),
+			amt = Math.round(2.55 * percent),
+			R = (num >> 16) + amt,
+			G = (num >> 8 & 0x00FF) + amt,
 			B = (num & 0x0000FF) + amt;
 		return '#' + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + ( G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
 	},
 	
 	// returns a RBG color lighter or darker by percentage
 	shadeRGB : function(color, percent) {
-		var 	f = color.split(','), 
-			t = percent < 0 ? 0 : 255, 
-			p = percent < 0 ? percent * -1 : percent, 
-			R = parseInt(f[0].slice(4)), 
-			G = parseInt(f[1]), 
+		var 	f = color.split(','),
+			t = percent < 0 ? 0 : 255,
+			p = percent < 0 ? percent * -1 : percent,
+			R = parseInt(f[0].slice(4)),
+			G = parseInt(f[1]),
 			B = parseInt(f[2]);
 		return 'rgb(' + (Math.round((t - R) * p) + R) + ',' + (Math.round((t - G) * p ) + G) + ',' + (Math.round((t - B) * p) + B) + ')';
 	},
-	 
+	
 	// initialize google analytics tracking
 	initTracking : function() {
 		
@@ -771,15 +771,14 @@ var lqx = lqx || {
 					if(lqx.settings.tracking.outbound && elem.host != location.host) {
 
 						jQuery(elem).click(function(e){
-							// prevent default
-							e.preventDefault ? e.preventDefault() : e.returnValue = !1;
+							e.preventDefault();
 							var url = elem.href;
 							var label = url;
 							if(jQuery(elem).attr('title')) {
 								label = jQuery(elem).attr('title') + ' [' + url + ']';
 							}
 							ga('send', {
-								'hitType' : 'event', 
+								'hitType' : 'event',
 								'eventCategory' : 'Outbound Links',
 								'eventAction' : 'click',
 								'eventLabel' : label,
@@ -790,10 +789,9 @@ var lqx = lqx || {
 					}
 					
 					// check if it is a download link (not a webpage) and track as pageview
-					else if(lqx.settings.tracking.downloads && elem.pathname.match(/\.(htm|html|php)$/i)[1] == null ) {
+					else if(lqx.settings.tracking.downloads && elem.pathname.match(/\.(htm|html|php)$/i)[1] === null ) {
 						jQuery(elem).click(function(e){
-							// prevent default
-							e.preventDefault ? e.preventDefault() : e.returnValue = !1;
+							e.preventDefault();
 							var url = elem.href;
 							var loc = elem.protocol + '//' + elem.hostname + elem.pathname + elem.search;
 							var page = elem.pathname + elem.search;
@@ -802,7 +800,7 @@ var lqx = lqx || {
 								title = jQuery(elem).attr('title');
 							}
 							ga('send', {
-								'hitType': 'pageview', 
+								'hitType': 'pageview',
 								'location' : loc,
 								'page' : page,
 								'title' : title,
@@ -835,7 +833,7 @@ var lqx = lqx || {
 			jQuery(window).on('unload', function(){
 				
 				ga('send', {
-					'hitType' : 'event', 
+					'hitType' : 'event',
 					'eventCategory' : 'Scroll Depth',
 					'eventAction' : lqx.vars.scrollDepthMax,
 					'nonInteraction' : true
@@ -850,7 +848,7 @@ var lqx = lqx || {
 			jQuery('html').on('click', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]', function(){
 				// send event for gallery opened
 				ga('send', {
-					'hitType': 'event', 
+					'hitType': 'event',
 					'eventCategory' : 'Photo Gallery',
 					'eventAction' : 'Open'
 				});
@@ -860,7 +858,7 @@ var lqx = lqx || {
 			jQuery('html').on('load', 'img.lb-image', function(){
 				// send event for image displayed
 				ga('send', {
-					'hitType': 'event', 
+					'hitType': 'event',
 					'eventCategory' : 'Photo Gallery',
 					'eventAction' : 'Display',
 					'eventLabel' : jQuery(this).attr('src')
@@ -883,7 +881,7 @@ var lqx = lqx || {
 			// set listeners for vimeo videos
 			if (window.addEventListener) {
 				window.addEventListener('message', lqx.vimeoReceiveMessage, false);
-			} 
+			}
 			else {
 				window.attachEvent('onmessage', lqx.vimeoReceiveMessage, false);
 			}
@@ -898,7 +896,7 @@ var lqx = lqx || {
 				var elem = jQuery(this);
 				// init js api for video player
 				lqx.initVideoPlayerAPI(elem);
-											 
+											
 			});
 
 		}
@@ -909,7 +907,7 @@ var lqx = lqx || {
 			jQuery(window).on('unload', function(){
 				
 				ga('send', {
-					'hitType' : 'event', 
+					'hitType' : 'event',
 					'eventCategory' : 'User Active Time',
 					'eventAction' : 'Percentage',
 					'eventValue' : parseInt(100 * lqx.vars.userActive.activeTime / (lqx.vars.userActive.activeTime + lqx.vars.userActive.inactiveTime)),
@@ -917,7 +915,7 @@ var lqx = lqx || {
 				});
 				
 				ga('send', {
-					'hitType' : 'event', 
+					'hitType' : 'event',
 					'eventCategory' : 'User Active Time',
 					'eventAction' : 'Active Time (ms)',
 					'eventValue' : parseInt(lqx.vars.userActive.activeTime),
@@ -925,7 +923,7 @@ var lqx = lqx || {
 				});
 				
 				ga('send', {
-					'hitType' : 'event', 
+					'hitType' : 'event',
 					'eventCategory' : 'User Active Time',
 					'eventAction' : 'Inactive Time (ms)',
 					'eventValue' : parseInt(lqx.vars.userActive.inactiveTime),
@@ -959,6 +957,7 @@ var lqx = lqx || {
 
 		var src = elem.attr('src');
 		var playerId = elem.attr('id');
+		var urlconn;
 		
 		if(typeof src != 'undefined') {
 			// check youtube players
@@ -971,7 +970,7 @@ var lqx = lqx || {
 				
 				// reload with API support enabled
 				if (src.indexOf('enablejsapi=1') == -1) {
-					var urlconn = '&';
+					urlconn = '&';
 					if (src.indexOf('?') == -1) {
 						urlconn = '?';
 					}
@@ -997,7 +996,7 @@ var lqx = lqx || {
 				
 				// reload with API support enabled
 				if (src.indexOf('api=1') == -1) {
-					var urlconn = '&';
+					urlconn = '&';
 					if (src.indexOf('?') == -1) {
 						urlconn = '?';
 					}
@@ -1028,7 +1027,7 @@ var lqx = lqx || {
 
 					// get video data
 					var videoData = lqx.vars.youtubePlayers[playerId].playerObj.getVideoData();
-					lqx.vars.youtubePlayers[playerId].title = videoData['title'];
+					lqx.vars.youtubePlayers[playerId].title = videoData.title;
 					lqx.vars.youtubePlayers[playerId].duration = lqx.vars.youtubePlayers[playerId].playerObj.getDuration();
 
 					if(!lqx.vars.youtubePlayers[playerId].start) lqx.youtubePlayerStateChange(e, playerId);
@@ -1054,7 +1053,7 @@ var lqx = lqx || {
 			var label;
 			
 			// video ended, make sure we track the complete event just once
-			if(lqx.vars.youtubePlayers[playerId].playerObj.getPlayerState() == 0 && !lqx.vars.youtubePlayers[playerId].complete) {
+			if(lqx.vars.youtubePlayers[playerId].playerObj.getPlayerState() === 0 && !lqx.vars.youtubePlayers[playerId].complete) {
 				label = 'Complete';
 				lqx.vars.youtubePlayers[playerId].complete = true;
 			}
@@ -1063,7 +1062,7 @@ var lqx = lqx || {
 			if(lqx.vars.youtubePlayers[playerId].playerObj.getPlayerState() == 1) {
 				
 				// recursively call this function in 1s to keep track of video progress
-				lqx.vars.youtubePlayers[playerId].timer = setTimeout(function(){lqx.youtubePlayerStateChange(e, playerId)}, 1000);
+				lqx.vars.youtubePlayers[playerId].timer = setTimeout(function(){lqx.youtubePlayerStateChange(e, playerId);}, 1000);
 				
 				// if this is the first time we get the playing status, track it as start
 				if(!lqx.vars.youtubePlayers[playerId].start){
@@ -1093,7 +1092,7 @@ var lqx = lqx || {
 			// video buffering
 			if(lqx.vars.youtubePlayers[playerId].playerObj.getPlayerState() == 3) {
 				// recursively call this function in 1s to keep track of video progress
-				lqx.vars.youtubePlayers[playerId].timer = setTimeout(function(){lqx.youtubePlayerStateChange(e, playerId)}, 1000);
+				lqx.vars.youtubePlayers[playerId].timer = setTimeout(function(){lqx.youtubePlayerStateChange(e, playerId);}, 1000);
 			}
 			
 			// send event to GA if label was set
@@ -1150,7 +1149,7 @@ var lqx = lqx || {
 						if(player.progress != 10){
 							label = (player.progress * 10) + '%';
 						}
-						 
+						
 					}
 					
 					break;
@@ -1190,7 +1189,7 @@ var lqx = lqx || {
 	
 	videoTrackingEvent : function(playerId, label, title, value) {
 		ga('send', {
-			'hitType': 'event', 
+			'hitType': 'event',
 			'eventCategory' : 'Video',
 			'eventAction' : label,
 			'eventLabel' : title + ' (' + jQuery('#' + playerId).attr('src').split('?')[0] + ')',
@@ -1203,7 +1202,7 @@ var lqx = lqx || {
 		
 		// add listeners to A tags in mobile menu
 		jQuery('body').on('click', '.horizontal ul.menu a, .vertical ul.menu a, .slide-out ul.menu a', function(e){
-			// prevent links to work until we 
+			// prevent links to work until we
 			e.preventDefault();
 			lqx.mobileMenu(this);
 		});
@@ -1221,7 +1220,7 @@ var lqx = lqx || {
 				jQuery(elem).removeClass('open');
 			}
 			else {
-				jQuery(elem).addClass('open')
+				jQuery(elem).addClass('open');
 			}
 		});
 
@@ -1236,12 +1235,12 @@ var lqx = lqx || {
 	mobileMenu : function(elem) {
 		/*
 		 * keep in mind the various joomla classes for menu items:
-		 * 
+		 *
 		 * .parent  - is applied when the menu item is parent to other menu items
 		 * .deeper  - is applied when a sub-menu was rendered in the html
 		 * .active  - is applied to the whole pathway of active menu items
 		 * .current - is applied only to the specific menu item of the current page
-		 * 
+		 *
 		 */
 		
 		var li = jQuery(elem).parent();
@@ -1341,7 +1340,7 @@ var lqx = lqx || {
 
 	// check if image has been loaded
 	imgLoadAttr : function(elem) {
-		var elem = jQuery(elem);
+		elem = jQuery(elem);
 		if(!elem[0].complete) {
 			// image has not finished loaded (either success or error)
 			// add listeners
@@ -1353,7 +1352,7 @@ var lqx = lqx || {
 			});
 		}
 		else {
-			if(elem[0].naturalWidth == 0 && elem[0].naturalHeight == 0) {
+			if(elem[0].naturalWidth === 0 && elem[0].naturalHeight === 0) {
 				elem.attr('loaderror','');
 			} else {
 				elem.attr('loadcomplete','');
@@ -1396,19 +1395,19 @@ var lqx = lqx || {
 				alertPromise.always(function afterAlertCheck() {
 					lqx.lyqBox.hash();
 				});
-			} 
+			}
 		},
 
 		// show the hash url content
 		hash: function() {
-			if (window.location.hash.substr(1) != '') {
+			if (window.location.hash.substr(1) !== '') {
 				// get hash value and display the appropriate content
 				var contentData = window.location.hash.substr(1).split('_');
 
 				if (jQuery('[data-lyqbox=' + contentData[0] + '][data-lyqbox-alias=' + contentData[1] + ']').length){
 					lqx.lyqBox.start(jQuery('[data-lyqbox=' + contentData[0] + '][data-lyqbox-alias=' + contentData[1] + ']'));
 				}
-			} 
+			}
 		},
 
 		// show alertbox if found.
@@ -1470,7 +1469,7 @@ var lqx = lqx || {
 			// disable click on content by default
 			lqx.lyqBox.overlay.find('.content').on('click', function() {
 				return false;
-			});	        
+			});
 
 			// Attach event handlers to the newly minted DOM elements
 			lqx.lyqBox.overlay.on('click', function() {
@@ -1508,7 +1507,7 @@ var lqx = lqx || {
 
 			// close button click handling
 			lqx.lyqBox.overlay.find('.close').on('click', function() {
-				// disable the close button for alertbox, cookie save handling to prevent the alert box to reappear will be done on the deferred section on alert function to make sure in the case alert and hashurl found, 
+				// disable the close button for alertbox, cookie save handling to prevent the alert box to reappear will be done on the deferred section on alert function to make sure in the case alert and hashurl found,
 				// that the alert box is closed properly before showing a hash url content.
 				if (lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].type == 'alert')
 					return false;
@@ -1525,10 +1524,9 @@ var lqx = lqx || {
             if (type == 'video') {
                 lqx.lyqBox.containerActive.find('.content.video .video-container iframe').remove();
             }
-        },        
+        },
 
-
-
+        
 		// Show overlay and lightbox. If the image is part of a set, add siblings to album array.
 		start: function(data) {
 			lqx.lyqBox.album = [];
@@ -1550,14 +1548,14 @@ var lqx = lqx || {
 
 			var items;
 
-			// build the album, the object which contains all values passed from the attribute 
+			// build the album, the object which contains all values passed from the attribute
 			var datalyqboxValue = data.attr('data-lyqbox');
 			if (datalyqboxValue) {
 				items = jQuery(data.prop('tagName') + '[data-lyqbox="' + datalyqboxValue + '"]');
 
 				for (var i = 0; i < items.length; i = ++i) {
 					addToAlbum(jQuery(items[i]));
-					// 
+					//
 					if (items[i] === data[0]) {
 						currentIndex = i;
 					}
@@ -1610,7 +1608,7 @@ var lqx = lqx || {
 
 						// important line of code to make sure opacity is computed and applied as a starting value to the element so that the css transition works.
 						window.getComputedStyle(image[0]).opacity;
-					}
+					};
 
 					break;
 
@@ -1629,11 +1627,11 @@ var lqx = lqx || {
 					// the priority is given to the data-lyqbox-url attribute first, if this is blank, then data-lyqbox-html will be processed instead.
 
 					// check if url is not empty
-					if (lqx.lyqBox.album[index].link != '' && typeof lqx.lyqBox.album[index].link !== 'undefined' ) {
+					if (lqx.lyqBox.album[index].link !== '' && typeof lqx.lyqBox.album[index].link !== 'undefined' ) {
 						promise = lqx.lyqBox.loadHTML(lqx.lyqBox.album[index].link);
 
 						promise.done(function htmlLoaded(htmlResult) {
-							if (htmlResult != '') 
+							if (htmlResult !== '')
 								lqx.lyqBox.updateContent(htmlResult, index, lqx.lyqBox.album[index].type);
 						});
 					} else {
@@ -1744,7 +1742,7 @@ var lqx = lqx || {
 		},
 
 		// This only works in Chrome 9, Firefox 4, Safari 5, Opera 11.50 and in IE 10
-		removeHash: function() { 
+		removeHash: function() {
 			var scrollV, scrollH, loc = window.location;
 			if ('pushState' in history)
 				history.pushState('', document.title, loc.pathname + loc.search);
@@ -1867,9 +1865,10 @@ var lqx = lqx || {
 				}
 			},
 			function(){
+				var params;
 				// set commands
 				if(lqx.settings.ga.setParams && typeof lqx.settings.ga.setParams == 'object') {
-					var params = lqx.settings.ga.setParams;
+					params = lqx.settings.ga.setParams;
 					Object.keys(params).forEach(function(tracker){
 						var cmd = 'set';
 						if(tracker != 'default') cmd = tracker + '.set';
@@ -1880,7 +1879,7 @@ var lqx = lqx || {
 				}
 				// require commands
 				if(lqx.settings.ga.requireParams && typeof lqx.settings.ga.requireParams == 'object') {
-					var params = lqx.settings.ga.requireParams;
+					params = lqx.settings.ga.requireParams;
 					Object.keys(params).forEach(function(tracker){
 						var cmd = 'require';
 						if(tracker != 'default') cmd = tracker + '.require';
@@ -1891,7 +1890,7 @@ var lqx = lqx || {
 				}
 				// provide commands
 				if(lqx.settings.ga.provideParams && typeof lqx.settings.ga.provideParams == 'object') {
-					var params = lqx.settings.ga.provideParams;
+					params = lqx.settings.ga.provideParams;
 					Object.keys(params).forEach(function(tracker){
 						var cmd = 'provide';
 						if(tracker != 'default') cmd = tracker + '.provide';
@@ -1901,10 +1900,10 @@ var lqx = lqx || {
 					});
 				}
 				// a/b testing settings
-				if(lqx.settings.ga.abTestName != null && lqx.settings.ga.abTestNameDimension != null && lqx.settings.ga.abTestGroupDimension != null) {
+				if(lqx.settings.ga.abTestName !== null && lqx.settings.ga.abTestNameDimension !== null && lqx.settings.ga.abTestGroupDimension !== null) {
 					// get a/b test group cookie
 					var abTestGroup = lqx.cookie('abTestGroup');
-					if(abTestGroup == null) {
+					if(abTestGroup === null) {
 						// set a/b test group
 						if(Math.random() < 0.5) abTestGroup = 'A';
 						else abTestGroup = 'B';
@@ -1997,10 +1996,8 @@ var lqx = lqx || {
 		elem.on('touchend', function(e) {
 			// horizontal swipe
 			if (
-				(Math.abs(swp.eX - swp.sX) > swp.opts.minX)
-				&& 
-				(Math.abs(swp.eY - swp.sY) < swp.opts.maxY)
-				&&
+				(Math.abs(swp.eX - swp.sX) > swp.opts.minX) &&
+				(Math.abs(swp.eY - swp.sY) < swp.opts.maxY) &&
 				(swp.eX > 0)
 			) {
 				if (swp.eX > swp.sX) swp.dir = 'rt';
@@ -2008,10 +2005,8 @@ var lqx = lqx || {
 			}
 			// vertical swipe
 			else if (
-				(Math.abs(swp.eY - swp.sY) > swp.opts.minY)
-				&& 
-				(Math.abs(swp.eX - swp.sX) < swp.opts.maxX)
-				&&
+				(Math.abs(swp.eY - swp.sY) > swp.opts.minY) &&
+				(Math.abs(swp.eX - swp.sX) < swp.opts.maxX) &&
 				(swp.eY > 0)
 			) {
 				if (swp.eY > swp.sY) swp.dir = 'dn';
@@ -2032,7 +2027,7 @@ var lqx = lqx || {
 	init : (function(){
 		// Functions to execute when the DOM is ready
 		jQuery(document).ready(function(){
-			// check screen size 
+			// check screen size
 			lqx.bodyScreenSize();
 			// update orientation attribute in body tag
 			lqx.bodyScreenOrientation();
@@ -2087,12 +2082,12 @@ var lqx = lqx || {
 				lqx.vars.scrollThrottle = true;
 				
 				// set time out to turn throttling on and check screen size once more
-				setTimeout(function () { 
+				setTimeout(function () {
 					// trigger custom event 'scrollthrottle'
 					jQuery(document).trigger('scrollthrottle');
 
 					// throttling is now off
-					lqx.vars.scrollThrottle = false; 
+					lqx.vars.scrollThrottle = false;
 				}, lqx.settings.scrollThrottle.duration);
 			}
 		});
@@ -2108,19 +2103,19 @@ var lqx = lqx || {
 				lqx.vars.resizeThrottle = true;
 				
 				// set time out to turn throttling on and check screen size once more
-				setTimeout(function () { 
+				setTimeout(function () {
 					// trigger custom event 'resizethrottle'
 					jQuery(document).trigger('resizethrottle');
 
 					// throttling is now off
-					lqx.vars.resizeThrottle = false; 
+					lqx.vars.resizeThrottle = false;
 				}, lqx.settings.resizeThrottle.duration);
 			}
 		});
 
 		// Trigger on screen orientation change
 		jQuery(window).on('orientationchange', function() {
-			// check screen size and trigger 'screensizechange' event 
+			// check screen size and trigger 'screensizechange' event
 			lqx.bodyScreenSize();
 			// update orientation attribute in body tag
 			lqx.bodyScreenOrientation();
@@ -2147,7 +2142,6 @@ var lqx = lqx || {
 			lqx.bodyScreenSize();
 		});
 
-
 		// Other global functions, callbacks
 		// ***********************************
 
@@ -2155,23 +2149,23 @@ var lqx = lqx || {
 		// callback function called by iframe youtube players when they are ready
 		window.onYouTubeIframeAPIReady = function(){
 			if(lqx.vars.youTubeIframeAPIReady && (typeof YT !== 'undefined') && YT && YT.Player) {
-				for(var playerId in lqx.vars.youtubePlayers) {
+				lqx.vars.youtubePlayers.forEach(function(playerId) {
 					if(typeof lqx.vars.youtubePlayers[playerId].playerObj == 'undefined') {
-						lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, { 
-							events: { 
-								'onReady': function(e){ lqx.youtubePlayerReady(e, playerId) }, 
-								'onStateChange': function(e){ lqx.youtubePlayerStateChange(e, playerId) } 
+						lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, {
+							events: {
+								'onReady': function(e){lqx.youtubePlayerReady(e, playerId);},
+								'onStateChange': function(e){lqx.youtubePlayerStateChange(e, playerId);}
 							}
 						});
 					}
-				}
-			} 
+				});
+			}
 			else {
 				// keep track how many time we have attempted, retry unless it has been more than 30secs
 				lqx.vars.youTubeIframeAPIReadyAttempts++;
-				if(lqx.vars.youTubeIframeAPIReadyAttempts < 120) setTimeout('onYouTubeIframeAPIReady()',250);
+				if(lqx.vars.youTubeIframeAPIReadyAttempts < 120) setTimeout(function(){onYouTubeIframeAPIReady();},250);
 			}
-		}
+		};
 
 		return true;
 
