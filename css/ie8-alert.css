@@ -1,4 +1,15 @@
-.ie8-alert {
+/**
+ * ie8-alert.css - Styles for IE8 alert box
+ *
+ * @version     1.0.2
+ * @package     tpl_lyquix
+ * @author      Lyquix
+ * @copyright   Copyright (C) 2015 - 2017 Lyquix
+ * @license     GNU General Public License version 2 or later
+ * @link        https://github.com/Lyquix/tpl_lyquix
+ */
+
+ .ie8-alert {
 	background-color:#ffffe7; 
 	background-image:url('../images/ie8-alert.gif'); 
 	background-position:left; 

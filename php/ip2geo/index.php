@@ -2,7 +2,7 @@
 /**
  * index.php - Uses client IP address to obtain client location, responds with a JSON object
  *
- * @version     1.0.1
+ * @version     1.0.2
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2017 Lyquix

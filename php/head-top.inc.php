@@ -2,7 +2,7 @@
 /**
  * head-top.inc.php - Includes for top of <head> tag
  *
- * @version     1.0.1
+ * @version     1.0.2
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2017 Lyquix

@@ -1,7 +1,7 @@
 /**
  * scripts.dist.js - Sample custom project JavaScript code, copy to scripts.js
  *
- * @version     1.0.1
+ * @version     1.0.2
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2017 Lyquix

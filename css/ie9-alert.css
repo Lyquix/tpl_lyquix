@@ -1,4 +1,15 @@
-.ie9-alert {
+/**
+ * ie9-alert.css - Styles for IE9 alert box
+ *
+ * @version     1.0.2
+ * @package     tpl_lyquix
+ * @author      Lyquix
+ * @copyright   Copyright (C) 2015 - 2017 Lyquix
+ * @license     GNU General Public License version 2 or later
+ * @link        https://github.com/Lyquix/tpl_lyquix
+ */
+
+ .ie9-alert {
     color: black;
     position: fixed;
     bottom: 2px;

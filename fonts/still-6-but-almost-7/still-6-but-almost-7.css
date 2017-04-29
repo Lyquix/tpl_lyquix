@@ -1,3 +1,14 @@
+/**
+ * still-6-but-almost-7.css - Changes all fonts to use Still 6 But Almost 7
+ *
+ * @version     1.0.2
+ * @package     tpl_lyquix
+ * @author      Lyquix
+ * @copyright   Copyright (C) 2015 - 2017 Lyquix
+ * @license     GNU General Public License version 2 or later
+ * @link        https://github.com/Lyquix/tpl_lyquix
+ */
+
 @font-face {
   font-family: 'Still 6 But Almost 7';
   src: url('still-6-but-almost-7.ttf')  format('truetype');
