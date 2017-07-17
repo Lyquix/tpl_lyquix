@@ -19,6 +19,12 @@ if($this->params->get('lodash', 0)): ?>
 if($this->params->get('smoothscroll', 0)): ?>
 <script src="<?php echo $cdnjs_url; ?>smoothscroll/1.4.6/SmoothScroll<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <?php endif;
+if($this->params->get('momentjs', 0)): ?>
+<script src="<?php echo $cdnjs_url; ?>moment.js/2.18.1/moment<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
+<?php endif;
+if($this->params->get('dotdotdot', 0)): ?>
+<script src="<?php echo $cdnjs_url; ?>jQuery.dotdotdot/1.7.4/jquery.dotdotdot<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
+<?php endif;
 if($this->params->get('mobiledetect_method', 'php') == 'js'): ?>
 <script src="<?php echo $cdnjs_url; ?>mobile-detect/1.3.6/mobile-detect<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <?php endif;
