@@ -1950,7 +1950,7 @@ var lqx = lqx || {
 
 	// changes all fonts to Comic Sans
 	comicfyFonts: function() {
-		if(typeof lqx.vars.urlParams.comicfy != 'undefined') {
+		if('comicfy' in lqx.vars.urlParams) {
 			var link = document.createElement( 'link' );
 			link.href = lqx.vars.tmplURL + '/fonts/comicneue/comicfy.css';
 			link.type = 'text/css';
@@ -1960,7 +1960,7 @@ var lqx = lqx || {
 	},
 
 	almost7Fonts: function() {
-		if(typeof lqx.vars.urlParams.almost7 != 'undefined') {
+		if('almost7' in lqx.vars.urlParams) {
 			var link = document.createElement( 'link' );
 			link.href = lqx.vars.tmplURL + '/fonts/still-6-but-almost-7/still-6-but-almost-7.css';
 			link.type = 'text/css';
