@@ -109,7 +109,11 @@ var lqx = lqx || {
 			maxX: 60,
 			minY: 30,
 			maxY: 60
-		}
+		},
+		uniqueFormURL: {
+			enable: true, // add a unique string to form URLs to bypass caching
+			selector: 'form', // define a specific jQuery selector to use when choosing what forms to edit
+		},
 	},
 	
 	// holds working data
@@ -2023,6 +2027,24 @@ var lqx = lqx || {
 		});
 	},
 
+	// add unique value to the query string of form's action URL, to avoid caching problem
+	uniqueFormURL: function() {
+		if(lqx.settings.uniqueFormURL.enable) {
+			var forms = jQuery(lqx.settings.uniqueFormURL.selector);
+			if(forms.length) {
+				var d = new Date();
+				var s = (d.getTime() * 1000 + d.getMilliseconds()).toString(32) + (parseInt(Math.random()*10e6)).toString(32);
+
+				forms.each(function(){
+					var action = jQuery(this).attr('action');
+					if(action.length) {
+						jQuery(this).attr('action',action + (action.indexOf('?') !== -1 ? '&' : '?') + s)
+					}
+				});
+			}
+		}
+	},
+
 	// self initialization function
 	init : (function(){
 		// Functions to execute when the DOM is ready
@@ -2055,6 +2077,8 @@ var lqx = lqx || {
 			lqx.initUserActive();
 			// parse URL parameters
 			lqx.parseURLParams();
+			// add a unique string to form URLs to bypass caching
+			lqx.uniqueFormURL();
 		});
 
 		// Functions to execute when the page has loaded
