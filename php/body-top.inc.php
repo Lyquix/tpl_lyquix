@@ -2,7 +2,7 @@
 /**
  * body-top.inc.php - Includes for top of <body> tag
  *
- * @version     1.0.2
+ * @version     1.0.3
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2017 Lyquix
