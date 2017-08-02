@@ -2037,7 +2037,7 @@ var lqx = lqx || {
 
 				forms.each(function(){
 					var action = jQuery(this).attr('action');
-					if(action.length) {
+					if(typeof action != 'undefined') {
 						jQuery(this).attr('action',action + (action.indexOf('?') !== -1 ? '&' : '?') + s)
 					}
 				});
