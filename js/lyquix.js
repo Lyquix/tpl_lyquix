@@ -1470,22 +1470,6 @@ var lqx = lqx || {
 			// assign active content container to the first .content box
 			lqx.lyqBox.containerActive = lqx.lyqBox.overlay.find('.content-wrapper').first().addClass('active');
 
-			// disable click on content by default
-			lqx.lyqBox.overlay.find('.content').on('click', function() {
-				return false;
-			});
-
-			// Attach event handlers to the newly minted DOM elements
-			lqx.lyqBox.overlay.on('click', function() {
-				// if this is alert, do nothing, we only want alert to go away on the close box/button.
-				if (lqx.lyqBox.album[lqx.lyqBox.currentImageIndex].type == 'alert')
-					return false;
-
-				// else exit the lightbox
-				lqx.lyqBox.end();
-				return false;
-			});
-
 			// Add swipe event handler
 			lqx.detectSwipe('.lyqbox .content-wrapper', lqx.lyqBox.swipeHandler);
 
