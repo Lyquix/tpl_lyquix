@@ -24,6 +24,9 @@ if($this->params->get('momentjs', 0)): ?>
 <?php endif;
 if($this->params->get('dotdotdot', 0)): ?>
 <script src="<?php echo $cdnjs_url; ?>jQuery.dotdotdot/1.7.4/jquery.dotdotdot<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
+<?php endif; 
+if($this->params->get('logerr', 0)): ?>
+<script src="<?php echo $cdnjs_url; ?>logerr/1.2.0/logerr<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <?php endif;
 if($this->params->get('mobiledetect_method', 'php') == 'js'): ?>
 <script src="<?php echo $cdnjs_url; ?>mobile-detect/1.3.6/mobile-detect<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
