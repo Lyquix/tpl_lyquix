@@ -24,9 +24,12 @@ if($this->params->get('momentjs', 0)): ?>
 <?php endif;
 if($this->params->get('dotdotdot', 0)): ?>
 <script src="<?php echo $cdnjs_url; ?>jQuery.dotdotdot/1.7.4/jquery.dotdotdot<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
-<?php endif; 
+<?php endif;
 if($this->params->get('logerr', 0)): ?>
 <script src="<?php echo $cdnjs_url; ?>logerr/1.2.0/logerr<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
+<?php endif;
+if($this->params->get('voca', 0)): ?>
+<script src="<?php echo $cdnjs_url; ?>voca/1.3.0/voca<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <?php endif;
 if($this->params->get('mobiledetect_method', 'php') == 'js'): ?>
 <script src="<?php echo $cdnjs_url; ?>mobile-detect/1.3.6/mobile-detect<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
@@ -49,4 +52,5 @@ foreach($add_js_libraries as $jsurl) {
 });</script>
 <?php if($this->params->get('lqx_options', '{}') != '{}') : ?>
 <script>lqx.setOptions(<?php echo $this->params->get('lqx_options', '{}'); ?>);</script>
+<script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
 <?php endif; ?>
