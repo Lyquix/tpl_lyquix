@@ -25,9 +25,6 @@ if($this->params->get('momentjs', 0)): ?>
 if($this->params->get('dotdotdot', 0)): ?>
 <script src="<?php echo $cdnjs_url; ?>jQuery.dotdotdot/1.7.4/jquery.dotdotdot<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <?php endif;
-if($this->params->get('logerr', 0)): ?>
-<script src="<?php echo $cdnjs_url; ?>logerr/1.2.0/logerr<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
-<?php endif;
 if($this->params->get('voca', 0)): ?>
 <script src="<?php echo $cdnjs_url; ?>voca/1.3.0/voca<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <?php endif;

@@ -23,4 +23,10 @@ if($home) {
 // Add og:title and og:description tags if not already set
 if(!$doc -> getMetaData('og:title')) $doc->addCustomTag('<meta property="og:title" content="' . htmlentities($doc -> getTitle()) . '" />');
 if(!$doc -> getMetaData('og:description')) $doc->addCustomTag('<meta property="og:description" content="' . htmlentities($doc -> getDescription()) . '" />');
+if($this->params->get('logerr', 0)): ?>
+<script src="<?php echo $cdnjs_url; ?>logerr/1.2.0/logerr<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
+<script>
+    Logerr.init();
+</script>
+<?php endif;
 ?>
