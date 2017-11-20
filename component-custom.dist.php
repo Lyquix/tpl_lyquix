@@ -50,7 +50,7 @@ include(__DIR__ . '/php/body-top.inc.php');
 <jdoc:include type="component" />
 <?php
 // Body bottom includes
-include(__DIR__ . '/php/body-post.inc.php');
+include(__DIR__ . '/php/body-bottom.inc.php');
 ?>
 </body>
 </html>
