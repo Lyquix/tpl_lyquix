@@ -24,10 +24,6 @@ foreach($add_css_libraries as $cssurl) {
 <script src="<?php echo $cdnjs_url; ?>less.js/2.7.2/less<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <?php endif; ?>
 
-<?php if($this->params->get('aos')): ?>
-<link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet"/>
-<?php endif; ?>
-
 <?php if(file_exists($tmpl_path . '/css/styles.0.css')): ?>
 <!--[if lte IE 9]>
 <script>

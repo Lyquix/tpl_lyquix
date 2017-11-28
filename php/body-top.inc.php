@@ -22,10 +22,3 @@ if($this->params->get('mobiledetect_method', 'php') == 'php'){
 }
 ?>
 </script>
-<?php if($this->params->get('aos', 0)): ?>
-<script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
-<script>
-    AOS.init();
-    console.log('initialized AOS');
-</script>
-<?php endif;
