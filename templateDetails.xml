@@ -186,10 +186,6 @@
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
-				<field name="voca" type="radio" default="0" label="Voca library" description="">
-					<option value="0">No</option>
-					<option value="1">Yes</option>
-				</field>
 				<field name="aos" type="radio" default="0" label="Animate on Scroll library" description="">
 					<option value="0">No</option>
 					<option value="1">Yes</option>
