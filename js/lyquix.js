@@ -262,6 +262,17 @@ var lqx = lqx || {
 		}
 	},
 
+	// bodyURLparts
+	// adds attributes domain, path and hash to the body tag
+	bodyURLparts : function() {
+		jQuery('body').attr('domain', window.location.hostname);
+		jQuery('body').attr('path', window.location.pathname);
+		jQuery('body').attr('hash', window.location.hash.substring(1));
+		jQuery(window).hashchange(function(){
+			jQuery('body').attr('hash', window.location.hash.substring(1));
+		});
+	},
+
 	// geoLocate
 	// attempts to locate position of user by means of gps or ip address
 	geoLocate : function() {
@@ -2037,6 +2048,8 @@ var lqx = lqx || {
 			lqx.bodyScreenSize();
 			// update orientation attribute in body tag
 			lqx.bodyScreenOrientation();
+			// update URL parts attributes in body tag
+			lqx.bodyURLparts();
 			// geo locate
 			lqx.geoLocate();
 			// add image attributes for load error and load complete
