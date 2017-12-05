@@ -14,7 +14,4 @@
 lqx.bodyScreenSize();
 lqx.vars.siteURL = '<?php echo $site_abs_url; ?>';
 lqx.vars.tmplURL = '<?php echo $site_abs_url . 'templates/' . $this->template; ?>';
-<?php 
-echo "lqx.mobileDetect = lqx.mobileDetect();\n"; 
-?>
 </script>

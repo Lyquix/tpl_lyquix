@@ -319,7 +319,7 @@ var lqx = lqx || {
 	
 	// uses the mobile-detect.js library to detect if the browser is a mobile device
 	// add the classes mobile, phone and tablet to the body tag if applicable
-	mobileDetect : function() {
+	mobileDetect : (function() {
 		var md = new MobileDetect(window.navigator.userAgent);
 		var r = {mobile: false, phone: false, tablet: false};
 		if(md.mobile() !== null) {
@@ -335,7 +335,7 @@ var lqx = lqx || {
 			}
 		}
 		return r;
-	},
+	}()),
 	
 	// returns the browser name, type and version, and sets body classes
 	// detects major browsers: IE, Edge, Firefox, Chrome, Safari, Opera, Android
@@ -2072,6 +2072,8 @@ var lqx = lqx || {
 			lqx.lyqBox.init();
 			// initialize user active time tracking
 			lqx.initUserActive();
+			// mobile detect function
+			lqx.mobileDetect();
 			// parse URL parameters
 			lqx.parseURLParams();
 			// add a unique string to form URLs to bypass caching
