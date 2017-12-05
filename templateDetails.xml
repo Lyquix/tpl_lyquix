@@ -196,10 +196,6 @@
 				<field name="p_domain_verify" type="text" default="" label="p:domain_verify" description="" />
 			</fieldset>
 			<fieldset name="other_tab" label="Other">
-				<field name="mobiledetect_method" type="radio" default="php" label="Mobile Detect Method" description="Selects the method for detecting mobile devices. Adds CSS classes mobile, tablet and phone to the body tag if applicable. Server-side (PHP) is the default method but if your site uses page cache, you should use client-side method.">
-					<option value="php">Server-Side (PHP)</option>
-					<option value="js">Client-Side (JavaScript)</option>
-				</field>
 				<field name="ie8_alert" type="radio" default="1" label="IE8 alert" description="Shows an upgrade alert for IE8 and older">
 					<option value="0">No</option>
 					<option value="1">Yes</option>

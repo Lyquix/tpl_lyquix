@@ -13,8 +13,6 @@
 // Prepare array of classes for body tag
 if(@!is_array($body_classes)) $body_classes = array();
 if($home) $body_classes[] = 'home';
-if($phone) $body_classes[] = 'phone';
-if($tablet) $body_classes[] = 'tablet';
 $body_classes[] = JRequest::getVar('option');
 $body_classes[] = 'view_' . JRequest::getVar('view');
 if(JRequest::getVar('task')) $body_classes[] = 'task_'.JRequest::getVar('task');
