@@ -268,7 +268,7 @@ var lqx = lqx || {
 		jQuery('body').attr('domain', window.location.hostname);
 		jQuery('body').attr('path', window.location.pathname);
 		jQuery('body').attr('hash', window.location.hash.substring(1));
-		jQuery(window).hashchange(function(){
+		jQuery(window).on('hashchange',function(){
 			jQuery('body').attr('hash', window.location.hash.substring(1));
 		});
 	},
