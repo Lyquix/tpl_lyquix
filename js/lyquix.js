@@ -160,10 +160,9 @@ var lqx = lqx || {
 	// addLoggingToNamespace: adds function logging to a namespace (for global functions use "window")
 	addLoggingToNamespace : function(nameSpace){
 		
-		if(nameSpace == 'window') {
-			namespaceObject = window;
-		}
-		else {
+		var namespaceObject = window;
+
+		if(nameSpace != 'window') {
 			namespaceObject = window[nameSpace];
 		}
 		
@@ -199,7 +198,6 @@ var lqx = lqx || {
 	// secure: any non-false value
 	// httpOnly: any non-false value
 	cookie: function(name, value, attributes) {
-		var result;
 		if(arguments.length === 0 || !name) return false;
 
 		// get cookie
@@ -751,7 +749,7 @@ var lqx = lqx || {
 	
 	// returns a HEX color lighter or darker by percentage
 	shadeHex : function(color, percent) {
-		var 	num = parseInt(color.slice(1),16),
+		var num = parseInt(color.slice(1),16),
 			amt = Math.round(2.55 * percent),
 			R = (num >> 16) + amt,
 			G = (num >> 8 & 0x00FF) + amt,
@@ -761,7 +759,7 @@ var lqx = lqx || {
 	
 	// returns a RBG color lighter or darker by percentage
 	shadeRGB : function(color, percent) {
-		var 	f = color.split(','),
+		var f = color.split(','),
 			t = percent < 0 ? 0 : 255,
 			p = percent < 0 ? percent * -1 : percent,
 			R = parseInt(f[0].slice(4)),
@@ -1088,7 +1086,7 @@ var lqx = lqx || {
 				
 				else {
 					
-					currentTime = lqx.vars.youtubePlayers[playerId].playerObj.getCurrentTime();
+					var currentTime = lqx.vars.youtubePlayers[playerId].playerObj.getCurrentTime();
 
 					if(Math.ceil( Math.ceil( (currentTime / lqx.vars.youtubePlayers[playerId].duration) * 100 ) / 10 ) - 1 > lqx.vars.youtubePlayers[playerId].progress){
 						
@@ -1262,7 +1260,14 @@ var lqx = lqx || {
 		var li = jQuery(elem).parent();
 		var url = elem.href;
 		var target = (elem.target && !elem.target.match(/^_(self|parent|top)$/i)) ? elem.target : false;
-		var go = function(){ target ? window.open(url, target) : window.location.href = url; };
+		var go = function(){
+			if(target){
+				window.open(url, target);
+			}
+			else {
+				window.location.href = url;
+			}
+		};
 		
 		// check if there is a deeper menu
 		if(jQuery.inArray(lqx.vars.lastScreenSize, lqx.settings.mobileMenu.screens) != -1) {		
@@ -1607,7 +1612,7 @@ var lqx = lqx || {
 						lqx.lyqBox.addHash();
 
 						// important line of code to make sure opacity is computed and applied as a starting value to the element so that the css transition works.
-						window.getComputedStyle(image[0]).opacity;
+						window.getComputedStyle(image[0]).opacity();
 					};
 
 					break;
@@ -1981,7 +1986,7 @@ var lqx = lqx || {
 			dir: '',
 			opts: lqx.settings.detectSwipe
 		};
-		elem = jQuery(sel);
+		var elem = jQuery(sel);
 		elem.on('touchstart', function(e) {
 			var t = e.originalEvent.touches[0];
 			swp.sX = t.clientX;
@@ -2034,7 +2039,7 @@ var lqx = lqx || {
 				forms.each(function(){
 					var action = jQuery(this).attr('action');
 					if(typeof action != 'undefined') {
-						jQuery(this).attr('action',action + (action.indexOf('?') !== -1 ? '&' : '?') + s)
+						jQuery(this).attr('action',action + (action.indexOf('?') !== -1 ? '&' : '?') + s);
 					}
 				});
 			}
