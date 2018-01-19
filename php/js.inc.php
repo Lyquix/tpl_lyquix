@@ -26,7 +26,7 @@ if($this->params->get('dotdotdot', 0)): ?>
 <script src="<?php echo $cdnjs_url; ?>jQuery.dotdotdot/1.7.4/jquery.dotdotdot<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
 <?php endif; ?>
 <script src="<?php echo $cdnjs_url; ?>mobile-detect/1.3.6/mobile-detect<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js"></script>
-<?php endif;
+<?php
 $add_js_libraries = explode("\n", trim($this->params->get('add_js_libraries', '')));
 foreach($add_js_libraries as $jsurl) {
 	$jsurl = trim($jsurl);
