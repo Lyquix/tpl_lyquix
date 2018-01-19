@@ -121,7 +121,8 @@ var lqx = lqx || {
 		resizeThrottle: false,  // saves current status of resizeThrottle
 		scrollThrottle: false,  // saves current status of scrollThrottle
 		youTubeIframeAPIReady: false,
-		youTubeIframeAPIReadyAttempts: 0
+		youTubeIframeAPIReadyAttempts: 0,
+		urlParams: {},
 	},
 	
 	// setOptions
