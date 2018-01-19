@@ -2073,8 +2073,6 @@ var lqx = lqx || {
 			lqx.lyqBox.init();
 			// initialize user active time tracking
 			lqx.initUserActive();
-			// mobile detect function
-			lqx.mobileDetect();
 			// parse URL parameters
 			lqx.parseURLParams();
 			// add a unique string to form URLs to bypass caching
