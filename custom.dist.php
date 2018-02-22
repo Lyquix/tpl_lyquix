@@ -23,7 +23,7 @@ include(__DIR__ . '/inc/head-pre.inc.php');
 // Head top includes
 include(__DIR__ . '/inc/head-top.inc.php'); 
 ?>
-<jdoc:include type="head" />
+<jdoc:include type="metas" />
 <?php
 // CSS includes
 include(__DIR__ . '/inc/css.inc.php');
