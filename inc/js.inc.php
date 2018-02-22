@@ -123,7 +123,7 @@ $scripts_filename = md5(json_encode($scripts)) . '.js';
 
 // Check if file has already been created
 if(!file_exists($tmpl_path . '/js/' . $scripts_filename)) {
-	// Create file
+	// Prepare file
 	$scripts_data = "/* " . $scripts_filename . " */\n";
 	foreach($scripts as $idx => $script) {
 		if(array_key_exists('data', $script)) {
@@ -140,6 +140,7 @@ if(!file_exists($tmpl_path . '/js/' . $scripts_filename)) {
 			$scripts_data .= file_get_contents($script['url']) . "\n";
 		} 
 	}
+	// Save file
 	file_put_contents($tmpl_path . '/js/' . $scripts_filename, $scripts_data);
 	unset($scripts_data);
 }
