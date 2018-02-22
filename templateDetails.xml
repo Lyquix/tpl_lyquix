@@ -2,27 +2,29 @@
 <!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
 <extension version="3.0" type="template" client="site" method="upgrade">
 	<name>Lyquix</name>
-	<creationDate>2017-11-28</creationDate>
+	<creationDate>2018-02-24</creationDate>
 	<author>Lyquix</author>
 	<authorEmail>info@lyquix.com</authorEmail>
 	<authorUrl>http://www.lyquix.com</authorUrl>
-	<copyright>Copyright(c) 2014-2017 Lyquix</copyright>
+	<copyright>Copyright(c) 2014-2018 Lyquix</copyright>
 	<license></license>
 	<version>2.0.0</version>
 	<description>Lyquix base template for Joomla 3.x</description>
 	<files>
 		<folder>css</folder>
+		<folder>docs</folder>
+		<folder>fonts</folder>
 		<folder>html</folder>
 		<folder>images</folder>
+		<folder>inc</folder>
 		<folder>js</folder>
-		<folder>fonts</folder>
 		<folder>php</folder>
 		<filename>component.php</filename>
-		<filename>component-custom.dist.php</filename>
+		<filename>custom.dist.php</filename>
 		<filename>index.html</filename>
 		<filename>index.php</filename>
-		<filename>index-custom.dist.php</filename>
 		<filename>raw.php</filename>
+		<filename>README.md</filename>
 		<filename>templateDetails.xml</filename>
 		<filename>template_preview.png</filename>
 		<filename>template_thumbnail.png</filename>

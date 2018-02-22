@@ -15,20 +15,17 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
 *** NOTICE: Do not modify this file!
-*** To customize your template, create a file named component-custom.php
-*** You may rename the included file component-custom.dist.php
+*** To customize your template, create a file named custom.php
+*** You may rename the included file custom.dist.php
 **/
 
-if(file_exists(__DIR__ . '/component-custom.php')) :
-	include __DIR__ . '/component-custom.php'; 
+if(file_exists(__DIR__ . '/custom.php')) :
+	include __DIR__ . '/custom.php'; 
 else :
 ?><!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" >
-	<head>
-		<jdoc:include type="head" />
-	</head>
+<html>
 	<body>
-		File <span style="font-family: monospace;"><?php echo JPATH_BASE . '/templates/' . $this->template; ?>/component-custom.php</span> not found.
+		File <span style="font-family: monospace;"><?php echo JPATH_BASE . '/templates/' . $this->template; ?>/custom.php</span> not found.
 	</body>
 </html>
-<?php endif; // endif for including custom-index.php
+<?php endif; // endif for including custom.php

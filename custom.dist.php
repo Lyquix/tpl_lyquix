@@ -14,41 +14,41 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Pre-head includes
-include(__DIR__ . '/php/head-pre.inc.php');
+include(__DIR__ . '/inc/head-pre.inc.php');
 
 ?><!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" >
 <head>
 <?php
 // Head top includes
-include(__DIR__ . '/php/head-top.inc.php'); 
+include(__DIR__ . '/inc/head-top.inc.php'); 
 ?>
 <jdoc:include type="head" />
 <?php
 // CSS includes
-include(__DIR__ . '/php/css.inc.php');
+include(__DIR__ . '/inc/css.inc.php');
 
 // JavaScript includes
-include(__DIR__ . '/php/js.inc.php');
+include(__DIR__ . '/inc/js.inc.php');
 
 // Favicons include
-include(__DIR__ . '/php/favicon.inc.php');
+include(__DIR__ . '/inc/favicon.inc.php');
 
 // Head bottom includes
-include(__DIR__ . '/php/head-bottom.inc.php');
+include(__DIR__ . '/inc/head-bottom.inc.php');
 ?>
 </head>
 <?php
 // Pre-body includes
-include(__DIR__ . '/php/body-pre.inc.php');
+include(__DIR__ . '/inc/body-pre.inc.php');
 ?>
 <body class="<?php echo implode(' ', $body_classes); ?>">
 <?php
 // Body top includes
-include(__DIR__ . '/php/body-top.inc.php');
+include(__DIR__ . '/inc/body-top.inc.php');
 
 // if blank-page parameter is set to true, only the component will be output
-if(!$this->params->get('blank_page',0)) :  ?>
+if($this->params->get('blank_page',0) != 0 && JFactory::getApplication() -> input-> get('tmpl') != 'component') :  ?>
 <header>
 	
 	<?php if($this->countModules('util-1') || $this->countModules('util-2') || $this->countModules('util-3') || 
@@ -275,11 +275,12 @@ if(!$this->params->get('blank_page',0)) :  ?>
 	
 </footer>
 <?php else:  // output a "blank" page (component only) ?>
+<jdoc:include type="message" />
 <jdoc:include type="component" />
 <?php endif; // endif for blank page ?>
 <?php
 // Body bottom includes
-include(__DIR__ . '/php/body-bottom.inc.php');
+include(__DIR__ . '/inc/body-bottom.inc.php');
 ?>
 </body>
 </html>
