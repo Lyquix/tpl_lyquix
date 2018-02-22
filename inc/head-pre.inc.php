@@ -16,7 +16,7 @@ $site_abs_url = JURI::root();
 $site_rel_url = JURI::root(true);
 $tmpl_url = $site_rel_url . '/templates/' . $this->template;
 $tmpl_path = JPATH_BASE . '/templates/' . $this->template;
-$cdnjs_url = '//cdnjs.cloudflare.com/ajax/libs/';
+$cdnjs_url = 'http' . ($_SERVER['HTTPS'] ? 's' : '') . '://cdnjs.cloudflare.com/ajax/libs/';
 
 // Prevent adding component css and js libraries in <jdoc:include type="head" />
 $remove_css_libraries = explode("\n", trim($this->params->get('remove_css_libraries', '')));

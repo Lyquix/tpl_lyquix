@@ -164,7 +164,7 @@
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
-				<field name="angularjs" type="radio" default="0" label="Load AngularJS library" description="">
+				<field name="vuejs" type="radio" default="0" label="Load Vue.js library" description="">
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
