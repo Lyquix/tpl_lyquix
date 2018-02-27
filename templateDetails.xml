@@ -198,11 +198,15 @@
 				<field name="p_domain_verify" type="text" default="" label="p:domain_verify" description="" />
 			</fieldset>
 			<fieldset name="other_tab" label="Other">
-				<field name="ie8_alert" type="radio" default="1" label="IE8 alert" description="Shows an upgrade alert for IE8 and older">
+				<field name="ie9_alert" type="radio" default="1" label="IE9 alert" description="Shows an uprade alert for IE9">
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
-				<field name="ie9_alert" type="radio" default="1" label="IE9 alert" description="Shows an uprade alert for IE9">
+				<field name="ie10_alert" type="radio" default="1" label="IE10 alert" description="Shows an uprade alert for IE10">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="ie11_alert" type="radio" default="0" label="IE11 alert" description="Shows an uprade alert for IE11">
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>

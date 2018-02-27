@@ -1,5 +1,5 @@
 /**
- * ie9-alert.css - Styles for IE9 alert box
+ * ie-alert.css - Styles for IE9 alert box
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -9,7 +9,8 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
- .ie9-alert {
+ .ie-alert {
+    display: none;
     color: black;
     position: fixed;
     bottom: 2px;
@@ -30,7 +31,7 @@
     left: 0;
     right: 0;
 }
-.ie9-alert:before {
+.ie-alert:before {
     display: block;
     position: relative;
     content: "";
@@ -39,20 +40,25 @@
     margin: -14px -18px 10px -20px;
     left: 1px;
 }
-.ie9-alert a {
+.ie-alert a {
     color: blue;
 }
-.ie9-alert i {
+.ie-alert i {
     display: block;
     position: absolute;
     right: 5px;
     top: calc(50% - 12px);
     cursor: pointer;
 }
-.ie9-alert i:before {
+.ie-alert i:before {
     content: "\00d7";
     font-style: normal;
     font-weight: bold;
     color: #999;
     font-size: 18px;
+}
+body.msie-9 .ie-alert.ie9,
+body.msie-10 .ie-alert.ie10,
+body.msie-11 .ie-alert.ie11 {
+    display: block;
 }
