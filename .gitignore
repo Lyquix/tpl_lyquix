@@ -28,4 +28,5 @@ Desktop.ini
 /js/scripts.js
 /js/scripts.min.js
 !/js/scripts.dist.js
+/inc/ip2geo/GeoLite2-Country.mmdb
 /inc/ip2geo/GeoLite2-City.mmdb

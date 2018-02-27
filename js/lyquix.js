@@ -311,7 +311,7 @@ var lqx = lqx || {
 				success: function(data, status, xhr){
 					lqx.vars.geoLocation = data;
 				},
-				url: lqx.vars.tmplURL + '/php/ip2geo/',
+				url: lqx.vars.tmplURL + '/inc/ip2geo/',
 			});
 		}
 	},
