@@ -4,28 +4,5 @@ Thumbs.db
 Desktop.ini
 
 # gitignore for tpl_lyquix
-/*.log
-/component-custom.php
-/index-custom.php
-/css/*
-!/css/ie-alert.css
-!/css/css-stylesheet.html
-!/css/icon-fonts.html
-!/css/icons.css
-!/css/icons.less
-!/css/index.html
-!/css/styles.less
-!/css/template.less
-!/css/less/
-/css/less/custom/*
-!/css/less/custom/custom.dist.less
-!/css/less/custom/index.html
-/images/*
-!/images/index.html
-!/images/ie8-alert.gif
-!/images/default/
-/js/scripts.js
-/js/scripts.min.js
-!/js/scripts.dist.js
 /inc/ip2geo/GeoLite2-Country.mmdb
 /inc/ip2geo/GeoLite2-City.mmdb
