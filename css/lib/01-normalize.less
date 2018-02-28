@@ -1,7 +1,7 @@
 /**
  * 01-normalize.less - Normalize CSS styles for consistent cross-browser experience
  *
- * Based on https://github.com/necolas/normalize.css
+ * Loosely based on https://github.com/necolas/normalize.css
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -11,40 +11,50 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+*,
+*:before,
+*:after {
+	// Set box-sizing to inherit
+	box-sizing: inherit;
+}
+
 html {
+	// Set default font to sans-serif
 	font-family: sans-serif;
-	text-size-adjust: none;
+
+	// Force words to be broken to fit container
 	word-break: break-word;
-	// better font rendering
+	
+	// Better font rendering
 	text-rendering: auto;
-	// opentype feature settings:
+	
+	// OpenType feature settings:
 	// enable: kerning, basic ligatures (liga), contextual-alternate (calt), old-style figures (onum), proportional figures (pnum)
 	// disable: discretionary ligatures (dlig), tabular figures (tnum), lining figures (lnum)
 	// ref: https://www.microsoft.com/typography/otspec/featurelist.htm
 	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0;
-	// smooth (momentum) scrolling
+	
+	// Smooth (momentum) scrolling in iOS
 	-webkit-overflow-scrolling: touch;
-	// font antialiasing on webskit browsers
+	
+	// Font antialiasing on webskit browsers
 	-webkit-font-smoothing: antialiased;
-	// correct line height
+	
+	// Correct line height for all browsers
 	line-height: 1.15;
-	// prevent font size adjustement in Windows Phone and iOS
+	
+	// Prevent font size adjustement
 	-ms-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
-}
 
-// Remove default margin.
+	// Set box-sizing to border-box
+	box-sizing: border-box;
+}
 
 body {
+	// Remove default margin.
 	margin: 0;
 }
-
-// HTML5 display definitions
-// ==========================================================================
-
-// Correct `block` display not defined for any HTML5 element in IE 8/9.
-// Correct `block` display not defined for `details` or `summary` in IE 10/11 and Firefox.
-// Correct `block` display not defined for `main` in IE 11.
 
 article,
 aside,
@@ -57,101 +67,89 @@ hgroup,
 main,
 menu,
 nav,
-section,
-summary {
+section {
+	// Correct `block` display for HTML5 elements in IE 9
 	display: block;
 }
 
-// 1. Correct `inline-block` display not defined in IE 8/9.
-// 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
-
 audio,
 canvas,
-progress,
 video {
-	display: inline-block; 
-	vertical-align: baseline; 
+	// Correct `inline-block` display for elements in IE 9
+	display: inline-block;
 }
 
-// Prevent modern browsers from displaying `audio` without controls.
-// Remove excess height in iOS 5 devices.
-
-audio:not([controls]) {
-	display: none;
-	height: 0;
+summary {
+	// Correct display in all browsers
+	display: list-item;
 }
 
-// Add the correct vertical alignment in Chrome, Firefox, and Opera.
-
-progress {
-    vertical-align: baseline;
+h1 {
+	// Correct the font size and margin on `h1` elements within `section` and  `article` contexts in Chrome, Firefox, and Safari.
+	font-size: 2em;
+	margin: 0.67em 0;
 }
-
-// Address `[hidden]` styling not present in IE 8/9/10.
-// Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
 
 [hidden],
 template {
+	// `[hidden]` styling not present in IE 8/9/10.
+	// Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
 	display: none;
 }
 
-// Links
-// ==========================================================================
-
-// Remove the gray background color from active links in IE 10.
-
 a {
+	// Remove the gray background color from active links in IE 10.
 	background-color: transparent;
+	// Remove gaps in links underline in iOS 8+ and Safari 8+.
+	-webkit-text-decoration-skip: objects;
 }
-
-// Improve readability when focused and also mouse hovered in all browsers.
 
 a:active,
 a:hover {
+	// Improve readability when focused and also mouse hovered in all browsers.
 	outline-width: 0;
 }
 
-// Text-level semantics
-// ==========================================================================
-
-// Address styling not present in IE 8/9/10/11, Safari, and Chrome.
-
 abbr[title] {
+	// Styling for in IE 8/9/10/11, Safari, and Chrome.
     border-bottom: none;
     text-decoration: underline;
     text-decoration: underline dotted;
 }
 
-// Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
+b,
+strong {
+	// Prevent the duplicate application of `bolder` by the next rule in Safari 6.
+	font-weight: inherit;
+}
 
 b,
 strong {
-	font-weight: bold;
+	// Set to `bolder` in Firefox 4+, Safari, and Chrome.
+	font-weight: bolder;
 }
 
-// Address styling not present in Safari and Chrome.
 
 dfn {
+	// Styling not present in Safari and Chrome.
 	font-style: italic;
 }
 
-// Address styling not present in IE 8/9.
-
 mark {
+	// Styling not present in IE 8/9.
 	background-color: #ff0;
 	color: #000;
 }
 
-// Address inconsistent and variable font size in all browsers.
-
 small {
+	// Inconsistent and variable font size in all browsers.
 	font-size: 80%;
 }
 
-// Prevent `sub` and `sup` affecting `line-height` in all browsers.
 
 sub,
 sup {
+	// Prevent `sub` and `sup` affecting `line-height` in all browsers.
 	font-size: 75%;
 	line-height: 0;
 	position: relative;
@@ -159,245 +157,201 @@ sup {
 }
 
 sup {
+	// Set `sup` position
 	top: -0.5em;
-	// add superscript font feature
+	// Add superscript font feature
 	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0, "sups" 1;
 }
 
 sub {
+	// Set `sub` position
 	bottom: -0.25em;
-	// add subscript font- feature
+	// Add subscript font feature
 	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0, "subs" 1;
 }
 
-// Embedded content
-// ==========================================================================
-
-// Remove border when inside `a` element in IE 8/9/10.
-
 img {
+	// Remove border when inside `a` element in IE 8/9/10.
 	border-style: none;
 }
 
-// Correct overflow not hidden in IE 9/10/11.
-
 svg:not(:root) {
+	// Correct overflow not hidden in IE 9/10/11.
 	overflow: hidden;
 }
 
-// Grouping content
-// ==========================================================================
-
-// Address margin not present in IE 8/9 and Safari.
+audio:not([controls]) {
+	// Prevent modern browsers from displaying `audio` without controls.
+	display: none;
+	// Remove excess height in iOS 5 devices.
+	height: 0;
+}
 
 figure {
+	// Address margin not present in IE 8/9 and Safari.
 	margin: 1em 40px;
 }
 
-// Address differences between Firefox and other browsers.
 
 hr {
-	-moz-box-sizing: content-box;
-	box-sizing: content-box;
+	// Correct styling in Firefox, show overflow in IE/Edge
 	height: 0;
 	overflow: visible;
 }
 
-// Contain overflow in all browsers.
-
 pre {
+	// Contain overflow in all browsers.
 	overflow: auto;
 	white-space: pre-wrap;
 	white-space: -moz-pre-wrap;
 	word-wrap: break-word;  
 }
 
-// Address odd `em`-unit font size rendering in all browsers.
-
 code,
 kbd,
 pre,
 samp {
+	// Correct inheritance and scaling of font in all browsers
 	font-family: monospace, monospace;
+	// Correct `em` sizing in all browser
 	font-size: 1em;
-	// set fixed-width figures, lining figures (same height as caps), slashed zero
+	// Set fixed-width figures, lining figures (same height as caps), slashed zero
 	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 0, "pnum" 0, "dlig" 0, "tnum" 1,  "lnum" 1, "zero" 1;
 }
-
-// Forms
-// ==========================================================================
-
-// Known limitation: by default, Chrome and Safari on OS X allow very limited
-// styling of `select`, unless a `border` property is set.
-
-// 1. Correct color not being inherited.
-//    Known issue: affects color of disabled elements.
-// 2. Correct font properties not being inherited.
-// 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
 
 button,
 input,
 optgroup,
 select,
 textarea {
-	color: inherit;
-	font: inherit;
+	// Set text styles
+	font-family: inherit;
+	font-size: 100%;
+	line-height: 1.15em;
+	// Remove margin in Firefox and Safari
 	margin: 0;
 }
-
-// Restore the font weight unset by the previous rule.
-
-optgroup {
-    font-weight: bold;
-}
-
-// Address `overflow` set to `hidden` in IE 8/9/10/11.
 
 button,
 input,
 select {
+	// Set `overflow` to `hidden` in IE 8/9/10/11.
 	overflow: visible;
 }
 
-// Address inconsistent `text-transform` inheritance for `button` and `select`.
-// All other form control elements do not inherit `text-transform` values.
-// Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
-// Correct `select` style inheritance in Firefox.
-
 button,
 select {
+	// Inconsistent `text-transform` inheritance for `button` and `select`.
 	text-transform: none;
 }
 
-// 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
-//    and `video` controls.
-// 2. Correct inability to style clickable `input` types in iOS.
-// 3. Improve usability and consistency of cursor style between image-type
-//    `input` and others.
-
 button,
-html input[type="button"],
+html [type="button"],
 [type="reset"],
 [type="submit"] {
+	// Avoid WebKit bug in Android 4.0.* where destroys native `audio` and `video` controls.
+	// Correct inability to style clickable `input` types in iOS.
 	-webkit-appearance: button;
-	cursor: pointer;
 }
-
-// Re-set default cursor for disabled elements.
-
-button[disabled],
-html input[disabled] {
-	cursor: default;
-}
-
-// Remove inner padding and border in Firefox 4+.
 
 button::-moz-focus-inner,
-input::-moz-focus-inner {
-	border: 0;
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+	// Remove the inner border and padding in Firefox.
+ 	border-style: none;
 	padding: 0;
 }
 
-
-// Restore the focus styles unset by the previous rule.
-
 button:-moz-focusring,
-input:-moz-focusring {
-    outline: 1px dotted ButtonText;
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+	// Restore the focus styles unset by the previous rule.
+	outline: 1px dotted ButtonText;
 }
 
-// Address Firefox 4+ setting `line-height` on `input` using `!important` in
-// the UA stylesheet.
-
 input {
+	// Firefox 4+ sets `line-height` on `input` using `!important`
 	line-height: normal;
 }
 
-// It's recommended that you don't attempt to style these elements.
-// Firefox's implementation doesn't respect box-sizing, padding, or width.
-// 1. Address box sizing set to `content-box` in IE 8/9/10.
-// 2. Remove excess padding in IE 8/9/10.
-
 [type="checkbox"],
 [type="radio"] {
-	box-sizing: border-box;
+	// Remove excess padding in IE 8/9/10
 	padding: 0;
 }
 
-// Fix the cursor style for Chrome's increment/decrement buttons. For certain
-// `font-size` values of the `input`, it causes the cursor style of the
-// decrement button to change from `default` to `text`.
-
 [type="number"]::-webkit-inner-spin-button,
 [type="number"]::-webkit-outer-spin-button {
+	// Correct the cursor style of increment and decrement buttons in Chrome.
 	height: auto;
 }
 
-// 1. Address `appearance` set to `searchfield` in Safari and Chrome.
-// 2. Address `box-sizing` set to `border-box` in Safari and Chrome
-//    (include `-moz` to future-proof).
-
 [type="search"] {
+	// Correct the odd appearance in Chrome and Safari
 	-webkit-appearance: textfield;
-	box-sizing: content-box;
+	// Correct the outline style in Safari
+	outline-offset: -2px;
 }
-
-// Remove inner padding and search cancel button in Safari and Chrome on OS X.
-// Safari (but not Chrome) clips the cancel button when the search input has
-// padding (and `textfield` appearance).
 
 [type="search"]::-webkit-search-cancel-button,
 [type="search"]::-webkit-search-decoration {
+	// Remove the inner padding and cancel buttons in Chrome and Safari on macOS
 	-webkit-appearance: none;
 }
 
-// Define consistent border, margin, and padding.
-
 fieldset {
+	// Define consistent border, margin, and padding.
 	border: 1px solid #c0c0c0;
 	margin: 0 2px;
 	padding: 0.35em 0.625em 0.75em;
 }
 
-// 1. Correct `color` not being inherited in IE 8/9/10/11.
-// 2. Remove padding so people aren't caught out if they zero out fieldsets.
-
 legend {
-    box-sizing: border-box;
-    color: inherit;
-    display: table;
-    max-width: 100%;
-    padding: 0;
-    white-space: normal;
+	// Correct the color inheritance from `fieldset` elements in IE.
+	color: inherit;
+	// Correct text wrapping in IE/Edge
+	display: table;
+	max-width: 100%;
+	white-space: normal;
+	// Remove unnecessary padding
+	padding: 0;
 }
 
-// Remove default vertical scrollbar in IE 8/9/10/11.
+progress {
+	// Correct `inline-block` display for elements in IE 9
+	display: inline-block;
+	// Add the correct vertical alignment in Chrome, Firefox, and Opera.
+	vertical-align: baseline;
+}
 
 textarea {
+	// Remove default vertical scrollbar in IE 8/9/10/11.
 	overflow: auto;
 }
 
-// Don't inherit the `font-weight` (applied by a rule above).
-// NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
-
 optgroup {
-	font-weight: bold;
+	// Don't inherit the `font-weight` (applied by a rule above).
+	font-weight: bolder;
 }
 
-// Tables
-// ==========================================================================
-
-// Remove most spacing between table cells.
+::-webkit-file-upload-button {
+	// Correct the inability to style clickable types in iOS and Safari
+	-webkit-appearance: button;
+	// Change font properties to `inherit` in Safari
+	font: inherit;
+}
 
 table {
+	// Collapse borders and remove border spacing
 	border-collapse: collapse;
 	border-spacing: 0;
 }
 
 td,
 th {
-	padding: 0;
-	// set fixed-width figures, lining figures (same height as caps), slashed zero
+	// Set fixed-width figures, lining figures (same height as caps), slashed zero
 	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 0, "pnum" 0, "dlig" 0, "tnum" 1,  "lnum" 1, "zero" 1;
 }
 
