@@ -1,5 +1,5 @@
 /**
- * 10.lyquix-lyqbox.scss - Base styles for LyqBox lightbox
+ * lyqbox.scss - Base styles for LyqBox lightbox
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -9,7 +9,7 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-// shared button style, used by prev, next and close
+// Shared button style, used by prev, next and close
 .lyqbox-buttons() {
 	display: block;
 	position: absolute;
@@ -24,7 +24,7 @@
 	}
 }
 
-// style for lyqbox items, these are the thumbnails that when clicked will launch the lyqBox
+// Style for lyqbox items, these are the thumbnails that when clicked will launch the lyqBox
 .lyqbox-item {
 	cursor: pointer;
 	display: inline-block;
@@ -33,7 +33,7 @@
 	margin: 1px;
 }
 
-// style for the lyqBox overlay
+// Style for the lyqBox overlay
 .lyqbox {
 	position: fixed;
 	width: 100%;
@@ -55,7 +55,7 @@
 		transition-delay: 0s;
 	}
 
-	// container of img, iframe or HTML
+	// Container of img, iframe or HTML
 	.content-wrapper {
 		opacity: 0;
 		transition: opacity .5s;
@@ -86,7 +86,7 @@
 			}
 
 			.video-container {
-				.video-16-9();
+				@extend .video-16-9;
 				iframe {
 					border: none;
 				}
@@ -106,11 +106,11 @@
 		}
 	}
 
-	// close button
+	// Close button
 	.close {
-		.lyqbox-buttons();
-	    right: 10px;
-	    top: 10px;		
+		@extend .lyqbox-buttons;
+		right: 10px;
+		top: 10px;		
 
 		&:after {
 			.ion-ios-close-empty();
@@ -119,7 +119,7 @@
 
 	// prev button
 	.prev {
-		.lyqbox-buttons();
+		@extend .lyqbox-buttons;
 		top: calc(~'50% - 2em');
 		left: 10px;
 
@@ -130,7 +130,7 @@
 
 	// next button
 	.next {
-		.lyqbox-buttons();
+		@extend .lyqbox-buttons;
 		top: calc(~'50% - 2em');
 		right: 10px;
 

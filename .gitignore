@@ -4,5 +4,5 @@ Thumbs.db
 Desktop.ini
 
 # gitignore for tpl_lyquix
-/inc/ip2geo/GeoLite2-Country.mmdb
+.sass-cache
 /inc/ip2geo/GeoLite2-City.mmdb

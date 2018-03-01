@@ -11,44 +11,16 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-*,
-*:before,
-*:after {
-	// Set box-sizing to inherit
-	box-sizing: inherit;
-}
-
 html {
 	// Set default font to sans-serif
 	font-family: sans-serif;
 
-	// Force words to be broken to fit container
-	word-break: break-word;
-	
-	// Better font rendering
-	text-rendering: auto;
-	
-	// OpenType feature settings:
-	// enable: kerning, basic ligatures (liga), contextual-alternate (calt), old-style figures (onum), proportional figures (pnum)
-	// disable: discretionary ligatures (dlig), tabular figures (tnum), lining figures (lnum)
-	// ref: https://www.microsoft.com/typography/otspec/featurelist.htm
-	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0;
-	
-	// Smooth (momentum) scrolling in iOS
-	-webkit-overflow-scrolling: touch;
-	
-	// Font antialiasing on webskit browsers
-	-webkit-font-smoothing: antialiased;
-	
 	// Correct line height for all browsers
 	line-height: 1.15;
 	
 	// Prevent font size adjustement
 	-ms-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
-
-	// Set box-sizing to border-box
-	box-sizing: border-box;
 }
 
 body {
@@ -146,7 +118,6 @@ small {
 	font-size: 80%;
 }
 
-
 sub,
 sup {
 	// Prevent `sub` and `sup` affecting `line-height` in all browsers.
@@ -159,15 +130,11 @@ sup {
 sup {
 	// Set `sup` position
 	top: -0.5em;
-	// Add superscript font feature
-	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0, "sups" 1;
 }
 
 sub {
 	// Set `sub` position
 	bottom: -0.25em;
-	// Add subscript font feature
-	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0, "subs" 1;
 }
 
 img {
@@ -199,24 +166,18 @@ hr {
 	overflow: visible;
 }
 
-pre {
-	// Contain overflow in all browsers.
-	overflow: auto;
-	white-space: pre-wrap;
-	white-space: -moz-pre-wrap;
-	word-wrap: break-word;  
-}
-
 code,
 kbd,
 pre,
 samp {
+	// Contain overflow in all browsers.
+	overflow: auto;
+	white-space: pre-wrap;
+	word-wrap: break-word;  
 	// Correct inheritance and scaling of font in all browsers
 	font-family: monospace, monospace;
 	// Correct `em` sizing in all browser
 	font-size: 1em;
-	// Set fixed-width figures, lining figures (same height as caps), slashed zero
-	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 0, "pnum" 0, "dlig" 0, "tnum" 1,  "lnum" 1, "zero" 1;
 }
 
 button,
@@ -342,17 +303,3 @@ optgroup {
 	// Change font properties to `inherit` in Safari
 	font: inherit;
 }
-
-table {
-	// Collapse borders and remove border spacing
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
-td,
-th {
-	// Set fixed-width figures, lining figures (same height as caps), slashed zero
-	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 0, "pnum" 0, "dlig" 0, "tnum" 1,  "lnum" 1, "zero" 1;
-}
-
-

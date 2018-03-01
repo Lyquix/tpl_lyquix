@@ -1,0 +1,210 @@
+/**
+ * styles.scss - Generates the main CSS file for the template, style.css 
+ *
+ * @version     2.0.0
+ * @package     tpl_lyquix
+ * @author      Lyquix
+ * @copyright   Copyright (C) 2015 - 2018 Lyquix
+ * @license     GNU General Public License version 2 or later
+ * @link        https://github.com/Lyquix/tpl_lyquix
+ */
+
+// Normalize user agent styles across browsers
+@import "lib/normalize.scss";
+
+// Base colors
+$color-bg:				#ffffff;	// Background color
+$color-copy: 			#333333;	// Base copy color
+
+// Brand colors
+$color-primary:			#7ea52e;	// Primary brand color
+$color-secondary:		#8c8d88;	// Secondary brand color
+
+// Accent colors
+$color-accent-1:		#cc0000;	// Accent color #1
+$color-accent-2:		#2a8691;	// Accent color #2
+$color-accent-3:		#95675d;	// Accent color #3
+$color-accent-4:		#ffcc00;	// Accent color #4
+$color-accent-5:		#d1a10d;	// Accent color #5
+
+// Prepare color palette
+@import "lib/colors.scss";
+
+// Headings colors
+$color-headings:			$color-primary-dark;		// Color for headings
+$color-h1:					$color-headings;			// Color for h1
+$color-h2:					$color-headings;			// Color for h2
+$color-h3:					$color-headings;			// Color for h3
+$color-h4:					$color-headings;			// Color for h4
+$color-h5:					$color-headings;			// Color for h5
+$color-h6:					$color-headings;			// Color for h6
+
+// Links colors
+$color-link:				$color-primary-dark;		// Color for normal links
+$color-link-hover:			$color-primary;				// Color for links on hover
+
+// Forms colors
+$color-input:				$color-copy;				// Color for form elements
+$color-input-bg:			$color-bg;					// Background color for form elements
+$color-input-border:		$gray-light;				// Border color for form elements
+$color-button:				$gray-lighter;				// Color for buttons
+$color-button-bg:			$color-primary-dark;		// Background color for buttons
+$color-label:				$color-copy;				// Color for labels
+$color-checkbox:			$color-primary-dark;		// Color for checkboxes
+$color-checkbox-checked:	$color-primary-light;		// Color for checked checkboxes
+$color-radio:				$color-primary-dark;		// Color for radio buttons
+$color-radio-checked:		$color-primary-light;		// Color for selected radio buttons
+
+// Horizontal ruler color
+$color-hr:					$color-copy;
+
+// Blockquote color
+$color-blockquote:			$color-copy;
+
+// Tables colors
+$color-td:					$color-copy;			// Data cell color
+$color-td-border:			$gray-light;			// Data cell border color
+$color-td-bg:				$color-bg;				// Data cell background color
+$color-th:					$color-copy-dark;		// Header cell color
+$color-th-border:			$gray-light;			// Header cell border color
+$color-th-bg:				$gray-lighter;			// Header cell background color
+
+// List bullets color
+$color-bullets:				$color-primary-dark;
+
+// Font sizes
+$font-size-base:		16px;						// Font size for body copy
+$font-size-h1:			2    * $font-size-base;		// Font size for h1
+$font-size-h2:			1.5  * $font-size-base;		// Font size for h2
+$font-size-h3:			1.17 * $font-size-base;		// Font size for h3
+$font-size-h4:			1.12 * $font-size-base;		// Font size for h4
+$font-size-h5:			0.83 * $font-size-base;		// Font size for h5
+$font-size-h6:			0.75 * $font-size-base;		// Font size for h6
+$font-size-big:			1.25 * $font-size-base;		// Font size for large text
+$font-size-small:		0.8  * $font-size-base;		// Font size for small text
+
+// Line height
+$line-height-base:		1.4;						// Line height for body copy
+$line-height-heading:	0.8 * $line-height-base;	// Line height for headings
+$line-height-big:		0.8 * $line-height-base;	// Line height for large text
+$line-height-small:		1   * $line-height-base;	// Line height for small text
+
+// Margins
+$elem-margin-base:		1em;						// Marging for body copy
+$elem-margin-heading:	0.67 * $elem-margin-base;	// Marging for headings
+$elem-margin-input:		0.25 * $elem-margin-base;	// Margin for input elements
+
+// Load web fonts
+@import url('//fonts.googleapis.com/css?family=Open+Sans|Playfair+Display|Roboto+Mono');
+
+// Common font families
+$font-sans-serif:		'Open Sans', sans-serif;		// Sans-serif font
+$font-serif:			'Playfair Display', serif;		// Serif font
+$font-monospace:		'Roboto Mono', monospace;		// Monospace font
+
+// Body copy font
+$font-copy:				$font-sans-serif;
+
+// Headings font
+$font-headings:			$font-serif;		// Font family for headings
+$font-h1:				$font-headings;		// Font family for h1
+$font-h2:				$font-headings;		// Font family for h2
+$font-h3:				$font-headings;		// Font family for h3
+$font-h4:				$font-headings;		// Font family for h4
+$font-h5:				$font-headings;		// Font family for h5
+$font-h6:				$font-headings;		// Font family for h6
+
+// Forms font
+$font-input:			$font-copy;		// Font family for form elements
+$font-label:			$font-copy;		// Font family for labels
+$font-button:			$font-copy;		// Font family for buttons
+
+// Blockquote font
+$font-blockquote:		$font-copy;
+
+// Tables font
+$font-th:				$font-copy;		// Font family for heading cells
+$font-td:				$font-copy;		// Font family for data cells
+
+// Base styles
+@import "lib/base.scss";
+
+// Array of screen sizes
+$screen-sizes: xs sm md lg xl;
+
+// Container margins
+$container-margin-xs:		0;
+$container-margin-sm:		0;
+$container-margin-md:		0;
+$container-margin-lg:		0;
+$container-margin-xl:		0;
+
+// Container max width
+$container-max-width-xs:	none;
+$container-max-width-sm:	none;
+$container-max-width-md:	none;
+$container-max-width-lg:	none;
+$container-max-width-xl:	none;
+
+// Container class
+@import "lib/container.scss";
+
+// Grid column and row gap size
+$grid-column-gap:		10px;
+$grid-row-gap:			10px;
+
+// Grid classes
+@import "lib/grid.scss";
+
+// FlexBox classes
+@import "lib/flexbox.scss";
+
+// Block sizes
+$blk-margin: 				5px; 	// Margin size for all sides
+$blk-border: 				1px; 	// Border size for all sides
+$blk-padding: 				4px; 	// Padding size for all sides
+
+$blk-margin-top-bottom: 	$blk-margin;		// Margin size top-bottom
+$blk-border-top-bottom: 	$blk-border;		// Border size top-bottom
+$blk-padding-top-bottom: 	$blk-padding;		// Padding size top-bottom
+
+$blk-margin-left-right: 	$blk-margin;		// Margin size left-right
+$blk-border-left-right: 	$blk-border;		// Border size left-right
+$blk-padding-left-right: 	$blk-padding;		// Padding size left-right
+
+$blk-margin-top: 			$blk-margin-top-bottom;		// Margin size top
+$blk-border-top: 			$blk-border-top-bottom;		// Border size top
+$blk-padding-top: 			$blk-padding-top-bottom;	// Padding size top
+
+$blk-margin-right: 			$blk-margin-left-right;		// Margin size right
+$blk-border-right: 			$blk-border-left-right;		// Border size right
+$blk-padding-right: 		$blk-padding-left-right;	// Padding size right
+
+$blk-margin-bottom: 		$blk-margin-top-bottom;		// Margin size bottom
+$blk-border-bottom: 		$blk-border-top-bottom;		// Border size bottom
+$blk-padding-bottom: 		$blk-padding-top-bottom;	// Padding size bottom
+
+$blk-margin-left: 			$blk-margin-left-right;		// Margin size left
+$blk-border-left: 			$blk-border-left-right;		// Border size left
+$blk-padding-left: 			$blk-padding-left-right;	// Padding size left
+
+// Blocks classes
+@import "lib/blocks.scss";
+
+// Common classes
+@import "lib/common.scss";
+
+// Print styles
+@import "lib/print.scss";
+
+// Joomla styles
+@import "lib/joomla.scss";
+
+// FLEXIcontent styles
+@import "lib/flexicontent.scss";
+
+// LyqBox
+@import "lib/lyqbox.scss";
+
+// Custom styles for project
+@import "custom/custom.scss";
