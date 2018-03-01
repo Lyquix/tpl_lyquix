@@ -1,5 +1,5 @@
 /**
- * 04-blocks.scss - Defines block sizes and rules for consistent layouts
+ * blocks.scss - Common rules for blocks
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -9,23 +9,205 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-// Blocks base dimensions
-// --------------------------------------------------------------------
-// Depending on the desired layout copy either 04-blocks-size4.scss, 
-// 04-blocks-size5.scss or 04-blocks-size6.scss to this file and customize if needed
-@import (less) "custom/04-blocks-size.scss";			
+// Base block rules
+%blk {
+	margin: $blk-margin-top $blk-margin-right $blk-margin-bottom $blk-margin-left;
+	border-width: $blk-border-top $blk-border-right $blk-border-bottom $blk-border-left;
+	padding: $blk-padding-top $blk-padding-right $blk-padding-bottom $blk-padding-left;
+	display: block;
+}
 
-// Common block classes
-// --------------------------------------------------------------------
-@import (less) "04-blocks-common.scss";	
+@mixin blk {
+	// Fraction classes
+	@for $d from 1 through 10 {
+		@for $n from 1 through $d {
+			.blk#{$n}\/#{$d} {@extend %blk;}
+		}
+	}
+	// Percentage classes
+	@for $p from 1 through 20 {
+		.blk#{$p * 5}\% {@extend %blk;}
+	}
+	// Screen-specific fraction classes
+	@each $s in $screen-sizes {
+		@for $d from 1 through 10 {
+			@for $n from 1 through $d {
+				.blk#{$n}\/#{$d}-#{$s} {@extend %blk;}
+			}
+		}
+	}
+	// Screen-specific percentage classes
+	@each $s in $screen-sizes {
+		@for $p from 1 through 20 {
+			.blk#{$p * 5}\%-#{$s} {@extend %blk;}
+		}
+	}
+}
 
-// Downsized blocks
-// --------------------------------------------------------------------
-// Depending on the desired layout copy either 04-blocks-downsized4.scss, 
-// 04-blocks-downsized5.scss or 04-blocks-downsized6.scss to this file and customize if needed
-@import (less) "custom/04-blocks-downsized.scss";
+@include blk;
 
-// Fluid blocks
-// --------------------------------------------------------------------
-@import (less) "custom/04-blocks-fluid.scss";	
+// Left-right margin size
+$m: $blk-margin-left + $blk-margin-right;
 
+// Block width - Fraction classes
+@for $d from 1 through 10 {
+	@for $n from 1 through $d {
+		$pc: percentage($n/$d);
+		.blk#{$n}\/#{$d} {width: calc(#{$pc} - #{$m});}
+	}
+}
+// Block width - Percentage classes
+@for $p from 1 through 20 {
+	$pc: percentage($p * 0.05);
+	.blk#{$p * 5}\% {width: calc(#{$pc} - #{$m});}
+}
+// Block width - Screen-specific fraction classes
+@each $s in $screen-sizes {
+	@for $d from 1 through 10 {
+		@for $n from 1 through $d {
+			$pc: percentage($n/$d);
+			body[screen=#{$s}] .blk#{$n}\/#{$d}-#{$s} {width: calc(#{$pc} - #{$m});}
+		}
+	}
+}
+// Block width - Screen-specific percentage classes
+@each $s in $screen-sizes {
+	@for $p from 1 through 20 {
+		$pc: percentage($p * 0.05);
+		body[screen=#{$s}] .blk#{$p * 5}\%-#{$s} {width: calc(#{$pc} - #{$m});}
+	}
+}
+
+// Bleed to margin
+%bleed-margin {
+	margin: 0;
+	border: 0;
+	padding: 0;
+}
+
+@mixin bleed-margin {
+	// Fraction classes
+	@for $d from 1 through 10 {
+		@for $n from 1 through $d {
+			.bleed-margin.blk#{$n}\/#{$d} {@extend %bleed-margin;}
+		}
+	}
+	// Percentage classes
+	@for $p from 1 through 20 {
+		.bleed-margin.blk#{$p * 5}\% {@extend %bleed-margin;}
+	}
+	// Screen-specific fraction classes
+	@each $s in $screen-sizes {
+		@for $d from 1 through 10 {
+			@for $n from 1 through $d {
+				.bleed-margin.blk#{$n}\/#{$d}-#{$s} {@extend %bleed-margin;}
+			}
+		}
+	}
+	// Screen-specific percentage classes
+	@each $s in $screen-sizes {
+		@for $p from 1 through 20 {
+			.bleed-margin.blk#{$p * 5}\%-#{$s} {@extend %bleed-margin;}
+		}
+	}
+	// Fraction classes
+	@for $d from 1 through 10 {
+		@for $n from 1 through $d {
+			$pc: percentage($n/$d);
+			.bleed-margin.blk#{$n}\/#{$d} {width: #{$pc};}
+		}
+	}
+	// Percentage classes
+	@for $p from 1 through 20 {
+		$pc: percentage($p * 0.05);
+		.bleed-margin.blk#{$p * 5}\% {width: #{$pc};}
+	}
+	// Screen-specific fraction classes
+	@each $s in $screen-sizes {
+		@for $d from 1 through 10 {
+			@for $n from 1 through $d {
+				$pc: percentage($n/$d);
+				.bleed-margin.blk#{$n}\/#{$d}-#{$s} {width: #{$pc};}
+			}
+		}
+	}
+	// Screen-specific percentage classes
+	@each $s in $screen-sizes {
+		@for $p from 1 through 20 {
+			$pc: percentage($p * 0.05);
+			.bleed-margin.blk#{$p * 5}\%-#{$s} {width: #{$pc};}
+		}
+	}
+}
+
+@include bleed-margin;
+
+
+// Bleed to border
+%bleed-border {
+	border: 0;
+	padding: 0;
+}
+
+@mixin bleed-border {
+	// Fraction classes
+	@for $d from 1 through 10 {
+		@for $n from 1 through $d {
+			.bleed-border.blk#{$n}\/#{$d} {@extend %bleed-border;}
+		}
+	}
+	// Percentage classes
+	@for $p from 1 through 20 {
+		.bleed-border.blk#{$p * 5}\% {@extend %bleed-border;}
+	}
+	// Screen-specific fraction classes
+	@each $s in $screen-sizes {
+		@for $d from 1 through 10 {
+			@for $n from 1 through $d {
+				.bleed-border.blk#{$n}\/#{$d}-#{$s} {@extend %bleed-border;}
+			}
+		}
+	}
+	// Screen-specific percentage classes
+	@each $s in $screen-sizes {
+		@for $p from 1 through 20 {
+			.bleed-border.blk#{$p * 5}\%-#{$s} {@extend %bleed-border;}
+		}
+	}
+}
+
+@include bleed-border;
+
+// Bleed to padding
+%bleed-padding {
+	padding: 0;
+}
+
+@mixin bleed-padding {
+	// Fraction classes
+	@for $d from 1 through 10 {
+		@for $n from 1 through $d {
+			.bleed-padding.blk#{$n}\/#{$d} {@extend %bleed-padding;}
+		}
+	}
+	// Percentage classes
+	@for $p from 1 through 20 {
+		.bleed-padding.blk#{$p * 5}\% {@extend %bleed-padding;}
+	}
+	// Screen-specific fraction classes
+	@each $s in $screen-sizes {
+		@for $d from 1 through 10 {
+			@for $n from 1 through $d {
+				.bleed-padding.blk#{$n}\/#{$d}-#{$s} {@extend %bleed-padding;}
+			}
+		}
+	}
+	// Screen-specific percentage classes
+	@each $s in $screen-sizes {
+		@for $p from 1 through 20 {
+			.bleed-padding.blk#{$p * 5}\%-#{$s} {@extend %bleed-padding;}
+		}
+	}
+}
+
+@include bleed-padding;

@@ -1,5 +1,5 @@
-	/**
- * 02-colors.scss - Color styles
+/**
+ * colors.scss - Calculates a complete color palette based on brand and standard colors
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -9,9 +9,57 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-@import (less) "02-colors-branding.scss";					// defines the custom branding colors for the site
-@import (less,optional) "custom/02-colors-branding.scss";	// optional custom override
-@import (less) "02-colors-palette.scss";					// derives the complete palette from branding colors and standard colors
-@import (less,optional) "custom/02-colors-palette.scss";	// optional custom override
-@import (less) "02-colors-elements.scss";					// assigns colors to element-color variables
-@import (less,optional) "custom/02-colors-elements.scss";	// optional custom override
+// Grays
+$gray-darker:            	#222;
+$gray-dark:              	#444;
+$gray:                   	#999;
+$gray-light:             	#ccc;
+$gray-lighter:           	#eee;
+
+// Background and copy
+$color-bg-darker:			adjust_color($color-bg, $lightness: 20%);
+$color-bg-dark:				adjust_color($color-bg, $lightness: 10%);
+$color-bg-light:			adjust_color($color-bg, $lightness: -10%);
+$color-bg-lighter:			adjust_color($color-bg, $lightness: -20%);
+
+$color-copy-darker:			adjust_color($color-copy, $lightness: 20%);
+$color-copy-dark:			adjust_color($color-copy, $lightness: 10%);
+$color-copy-light:			adjust_color($color-copy, $lightness: -10%);
+$color-copy-lighter:		adjust_color($color-copy, $lightness: -20%);
+
+// Brand colors
+$color-primary-darker:		adjust_color($color-primary, $lightness: 20%);
+$color-primary-dark:		adjust_color($color-primary, $lightness: 10%);
+$color-primary-light:		adjust_color($color-primary, $lightness: -10%);
+$color-primary-lighter:		adjust_color($color-primary, $lightness: -20%);
+
+$color-secondary-dark:		adjust_color($color-secondary, $lightness: 10%);
+$color-secondary-light:		adjust_color($color-secondary, $lightness: -10%);
+$color-secondary-lighter:	adjust_color($color-secondary, $lightness: -20%);
+$color-secondary-darker:	adjust_color($color-secondary, $lightness: 20%);
+
+// Accent colors
+$color-accent-1-darker:		adjust_color($color-accent-1, $lightness: 20%);
+$color-accent-1-dark:		adjust_color($color-accent-1, $lightness: 10%);
+$color-accent-1-light:		adjust_color($color-accent-1, $lightness: -10%);
+$color-accent-1-lighter:	adjust_color($color-accent-1, $lightness: -20%);
+
+$color-accent-2-darker:		adjust_color($color-accent-2, $lightness: 20%);
+$color-accent-2-dark:		adjust_color($color-accent-2, $lightness: 10%);
+$color-accent-2-light:		adjust_color($color-accent-2, $lightness: -10%);
+$color-accent-2-lighter:	adjust_color($color-accent-2, $lightness: -20%);
+
+$color-accent-3-darker:		adjust_color($color-accent-3, $lightness: 20%);
+$color-accent-3-dark:		adjust_color($color-accent-3, $lightness: 10%);
+$color-accent-3-light:		adjust_color($color-accent-3, $lightness: -10%);
+$color-accent-3-lighter:	adjust_color($color-accent-3, $lightness: -20%);
+
+$color-accent-4-darker:		adjust_color($color-accent-4, $lightness: 20%);
+$color-accent-4-dark:		adjust_color($color-accent-4, $lightness: 10%);
+$color-accent-4-light:		adjust_color($color-accent-4, $lightness: -10%);
+$color-accent-4-lighter:	adjust_color($color-accent-4, $lightness: -20%);
+
+$color-accent-5-darker:		adjust_color($color-accent-5, $lightness: 20%);
+$color-accent-5-dark:		adjust_color($color-accent-5, $lightness: 10%);
+$color-accent-5-light:		adjust_color($color-accent-5, $lightness: -10%);
+$color-accent-5-lighter:	adjust_color($color-accent-5, $lightness: -20%);

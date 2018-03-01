@@ -1,0 +1,136 @@
+/**
+ * grid.scss - Common classes for CSS Grid
+ *
+ * @version     2.0.0
+ * @package     tpl_lyquix
+ * @author      Lyquix
+ * @copyright   Copyright (C) 2015 - 2018 Lyquix
+ * @license     GNU General Public License version 2 or later
+ * @link        https://github.com/Lyquix/tpl_lyquix
+ */
+
+// Container
+.grid-container {
+	display: grid;
+	justify-items: stretch;
+	align-items: stretch;
+	grid-column-gap: $grid-column-gap;
+	grid-row-gap: $grid-row-gap;
+}
+
+@mixin grid-template {
+	// Column classes
+	@for $c from 1 through 10 {
+		.grid-cols-#{$c} {grid-template-columns: repeat(#{$c}, auto);}
+	}
+	// Row classes
+	@for $r from 1 through 10 {
+		.grid-rows-#{$r} {grid-template-rows: repeat(#{$r}, auto);}
+	}
+	// Screen-specific column classes
+	@each $s in $screen-sizes {
+		@for $c from 1 through 10 {
+			body[screen=#{$s}] .grid-cols-#{$c}-#{$s} {grid-template-columns: repeat(#{$c}, auto);}
+		}
+	}
+	// Screen-specific row classes
+	@each $s in $screen-sizes {
+		@for $r from 1 through 10 {
+			body[screen=#{$s}] .grid-rows-#{$r}-#{$s} {grid-template-columns: repeat(#{$r}, auto);}
+		}
+	}
+}
+
+@include grid-template;
+
+// Justify items
+.grid-justify-start {
+	justify-items: start;
+}
+
+.grid-justify-end {
+	justify-items: end;
+}
+
+.grid-justify-center {
+	justify-items: center;
+}
+
+.grid-justify-stretch {
+	justify-items: stretch;
+}
+
+// Align items
+.grid-align-start {
+	align-items: start;
+}
+
+.grid-align-end {
+	align-items: end;
+}
+
+.grid-align-center {
+	align-items: center;
+}
+
+.grid-align-stretch {
+	align-items: stretch;
+}
+
+// Justify content
+.grid-justify-start {
+	justify-content: start;
+}
+
+.grid-justify-end {
+	justify-content: end;
+}
+
+.grid-justify-center {
+	justify-content: center;
+}
+
+.grid-justify-stretch {
+	justify-content: stretch;
+}
+
+.grid-justify-space-around {
+	justify-content: space-around;
+}
+
+.grid-justify-space-between {
+	justify-content: space-between;
+}
+
+.grid-justify-space-evenly {
+	justify-content: space-evenly;
+}
+
+// Align content
+.grid-align-start {
+	align-content: start;
+}
+
+.grid-align-end {
+	align-content: end;
+}
+
+.grid-align-center {
+	align-content: center;
+}
+
+.grid-align-stretch {
+	align-content: stretch;
+}
+
+.grid-align-space-around {
+	align-content: space-around;
+}
+
+.grid-align-space-between {
+	align-content: space-between;
+}
+
+.grid-align-space-evenly {
+	align-content: space-evenly;
+}

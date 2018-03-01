@@ -1,5 +1,5 @@
 /**
- * 05-base.scss - Basic styling for various elements
+ * base.scss - Sets sizes, colors, typography and other styles for base tags
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -9,7 +9,259 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-@import (less) "05-base-vars.scss";						// variables for base styles
-@import (less,optional) "custom/05-base-vars.scss";		// override of variables
-@import (less) "05-base-elements.scss";					// base element styles
-@import (less,optional) "custom/05-base-elements.scss";	// override
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+html {
+	font-size: $font-size-base;  
+	word-break: break-word;
+	text-rendering: auto;
+	-webkit-overflow-scrolling: touch;
+	-webkit-font-smoothing: antialiased;
+	box-sizing: border-box;
+	
+	// OpenType feature settings:
+	// enable: kerning, basic ligatures (liga), contextual-alternate (calt), old-style figures (onum), proportional figures (pnum)
+	// disable: discretionary ligatures (dlig), tabular figures (tnum), lining figures (lnum)
+	// ref: https://www.microsoft.com/typography/otspec/featurelist.htm
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0;
+}
+
+body {
+	background-color: $color-bg;
+	font-family: $font-copy;
+	font-size: $font-size-base;
+	color: $color-copy;
+	line-height: $line-height-base;
+}
+
+p {
+	margin: $elem-margin-base 0;
+}
+
+code,
+kbd,
+pre,
+samp {
+	font-family: $font-monospace;
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 0, "pnum" 0, "dlig" 0, "tnum" 1,  "lnum" 1, "zero" 1;
+}
+
+a {
+	color: $color-link;
+	text-decoration: none;
+	outline: none;
+	
+	&:hover {
+		color: $color-link-hover;
+		text-decoration: underline;
+	}
+}
+
+img {
+	max-width: 100%;
+}
+
+h1 {
+	font-family: $font-h1;
+	color: $color-h1;
+	font-size: $font-size-h1;
+	line-height: $line-height-heading;
+	margin: $elem-margin-heading 0;
+}
+
+h2 {
+	font-family: $font-h2;
+	color: $color-h2;
+	font-size: $font-size-h2;
+	line-height: $line-height-heading;
+	margin: $elem-margin-heading 0;
+}
+
+h3 {
+	font-family: $font-h3;
+	color: $color-h3;
+	font-size: $font-size-h3;
+	line-height: $line-height-heading;
+	margin: $elem-margin-heading 0;
+}
+
+h4 {
+	font-family: $font-h4;
+	color: $color-h4;
+	font-size: $font-size-h4;
+	line-height: $line-height-heading;
+	margin: $elem-margin-heading 0;
+}
+
+h5 {
+	font-family :$font-h5;
+	color: $color-h5;
+	font-size: $font-size-h5;
+	line-height: $line-height-heading;
+	margin: $elem-margin-heading 0;
+}
+
+h6 {
+	font-family:$font-h6;
+	color: $color-h6;
+	font-size: $font-size-h6;
+	line-height: $line-height-heading;
+	margin: $elem-margin-heading 0;
+}
+
+h1, 
+h2, 
+h3 {
+	// Add discretionary ligatures
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 1, "tnum" 0,  "lnum" 0;
+}
+
+sup {
+	// Add superscript font feature
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0, "sups" 1;
+}
+
+sub {
+	// Add subscript font feature
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0, "subs" 1;
+}
+
+input,
+textarea,
+select {
+	background-color: $color-input-bg;
+	font-family: $font-input;
+	color: $color-input;
+	outline: none;
+	padding: $elem-margin-input;
+	margin: 0 $elem-margin-input;
+	border: 1px solid $color-input-border;
+}
+
+input[type=checkbox],
+input[type=file],
+input[type=image],
+input[type=radio] {
+	background-color:transparent;
+	border-color: transparent;
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled {
+	background-color: $gray-lighter;
+}
+
+input[type=submit],
+input[type=button],
+input[type=reset],
+button {
+	background-color: $color-button-bg;
+	color: $color-button;
+	font-family: $font-button;
+	font-weight: bold;
+	padding: 0.5em 2em;
+	margin: 0 $elem-margin-input;
+	border: none;
+	
+	&:hover {
+		text-decoration: none;
+		background-color: lighten($color-button-bg,10%);
+		color: $color-bg;
+	}
+}
+
+input[type=submit]:disabled,
+input[type=button]:disabled,
+input[type=reset]:disabled,
+button:disabled {
+	background-color: $gray;
+	color: $color-button;
+	
+	&:hover {
+		background-color: $gray-light;
+	}
+}
+
+label {
+	font-family: $font-label;
+	color: $color-label;
+}
+
+blockquote {
+	font-family: $font-blockquote;
+	color: $color-blockquote;
+	margin: $elem-margin-base 0;
+	padding: 0 2em;
+	font-size: $font-size-big;
+	line-height: $line-height-big;
+	quotes: "\201C""\201D""\2018""\2019";
+	position: relative;
+	
+	&:before {
+		font-family: Georgia, serif;
+		content: open-quote;
+		font-size: 4em;
+		position: absolute;
+		top: 0.2em;
+		left: 0;
+	}
+
+	&:after {
+		font-family: Georgia, serif;
+		content: close-quote;
+		font-size: 4em;
+		line-height: 0;
+		position: absolute;
+		bottom: -0.2em;
+		right: 0;
+	}
+}
+
+hr {
+	border: 1px solid $color-hr;
+	color: $color-hr;
+	background-color: $color-hr;
+	margin: $elem-margin-base 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	max-width: 100%;
+}
+
+td,
+th {
+	text-align: left;
+	padding: 0.5em;
+	vertical-align: top;
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 0, "pnum" 0, "dlig" 0, "tnum" 1,  "lnum" 1, "zero" 1;
+}
+
+th {
+	font-family: $font-th;
+	color: $color-th;
+	border-bottom: 1px solid $color-th-border;
+	background-color: $color-th-bg;	
+}
+
+td {
+	font-family: $font-td;
+	color: $color-td;
+	border-bottom: 1px solid $color-td-border;
+	background-color: $color-td-bg;
+}
+
+ul,
+ol {
+	padding-left: 2em;
+}
+
+li {
+	margin: 0.67em 0;
+}

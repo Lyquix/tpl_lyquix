@@ -1,0 +1,42 @@
+/**
+ * container.scss - Width and margin for main container
+ *
+ * @version     2.0.0
+ * @package     tpl_lyquix
+ * @author      Lyquix
+ * @copyright   Copyright (C) 2015 - 2018 Lyquix
+ * @license     GNU General Public License version 2 or later
+ * @link        https://github.com/Lyquix/tpl_lyquix
+ */
+
+// Container
+body[screen=xs] .container {
+	margin-left: $container-margin-xs;
+	margin-right: $container-margin-xs;
+	max-width: $container-max-width-xs;
+}
+
+body[screen=sm] .container {
+	margin-left: $container-margin-sm;
+	margin-right: $container-margin-sm;
+	max-width: $container-max-width-sm;
+}
+
+body[screen=md] .container {
+	margin-left: $container-margin-md;
+	margin-right: $container-margin-md;
+	max-width: $container-max-width-md;
+}
+
+body[screen=lg] .container {
+	margin-left: $container-margin-lg;
+	margin-right: $container-margin-lg;
+	max-width: $container-max-width-lg;
+}
+
+body[screen=xl] .container {
+	margin-left: $container-margin-xl;
+	margin-right: $container-margin-xl;
+	max-width: $container-max-width-xl;
+}
+
