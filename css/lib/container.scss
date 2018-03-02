@@ -10,33 +10,11 @@
  */
 
 // Container
-body[screen=xs] .container {
-	margin-left: $container-margin-xs;
-	margin-right: $container-margin-xs;
-	max-width: $container-max-width-xs;
+@each $s in $screen-sizes {
+	$i: index($screen-sizes, $s);
+	body[screen=#{$s}] .container {
+		margin-left: nth($container-margin, $i);
+		margin-right: nth($container-margin, $i);
+		max-width: nth($container-max-width, $i);
+	}
 }
-
-body[screen=sm] .container {
-	margin-left: $container-margin-sm;
-	margin-right: $container-margin-sm;
-	max-width: $container-max-width-sm;
-}
-
-body[screen=md] .container {
-	margin-left: $container-margin-md;
-	margin-right: $container-margin-md;
-	max-width: $container-max-width-md;
-}
-
-body[screen=lg] .container {
-	margin-left: $container-margin-lg;
-	margin-right: $container-margin-lg;
-	max-width: $container-max-width-lg;
-}
-
-body[screen=xl] .container {
-	margin-left: $container-margin-xl;
-	margin-right: $container-margin-xl;
-	max-width: $container-max-width-xl;
-}
-

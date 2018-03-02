@@ -27,6 +27,9 @@ $color-accent-3:		#95675d;	// Accent color #3
 $color-accent-4:		#ffcc00;	// Accent color #4
 $color-accent-5:		#d1a10d;	// Accent color #5
 
+// Lightness scale - darker, dark, light, lighter
+$color-lightness-scale: -20% -10% 10% 20%;
+
 // Prepare color palette
 @import "lib/colors.scss";
 
@@ -82,6 +85,9 @@ $font-size-h5:			0.83 * $font-size-base;		// Font size for h5
 $font-size-h6:			0.75 * $font-size-base;		// Font size for h6
 $font-size-big:			1.25 * $font-size-base;		// Font size for large text
 $font-size-small:		0.8  * $font-size-base;		// Font size for small text
+$font-size-icon:		1    * $font-size-base;		// Font size for icons
+$font-size-icon-lg:		2    * $font-size-base;		// Font size for large icons
+$font-size-icon-xl:		4    * $font-size-base;		// Font size for extra large icons
 
 // Line height
 $line-height-base:		1.4;						// Line height for body copy
@@ -132,19 +138,11 @@ $font-td:				$font-copy;		// Font family for data cells
 // Array of screen sizes
 $screen-sizes: xs sm md lg xl;
 
-// Container margins
-$container-margin-xs:		0;
-$container-margin-sm:		0;
-$container-margin-md:		0;
-$container-margin-lg:		0;
-$container-margin-xl:		0;
+// Container margins - array from xs to xl
+$container-margin: 0 0 0 0 0;
 
-// Container max width
-$container-max-width-xs:	none;
-$container-max-width-sm:	none;
-$container-max-width-md:	none;
-$container-max-width-lg:	none;
-$container-max-width-xl:	none;
+// Container max width - array from xs to xl
+$container-max-width: none none none none none;
 
 // Container class
 @import "lib/container.scss";
@@ -207,4 +205,4 @@ $blk-padding-left: 			$blk-padding-left-right;	// Padding size left
 @import "lib/lyqbox.scss";
 
 // Custom styles for project
-@import "custom/custom.scss";
+//@import "custom/custom.scss";

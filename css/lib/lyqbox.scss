@@ -10,17 +10,13 @@
  */
 
 // Shared button style, used by prev, next and close
-.lyqbox-buttons() {
+%lyqbox-buttons {
+	@extend .icon-xl;
 	display: block;
 	position: absolute;
 	z-index: 3;
 	&:hover {
 		cursor: pointer;
-	}
-
-	&:after {
-		.icon();
-		font-size: 3.8rem;
 	}
 }
 
@@ -108,34 +104,34 @@
 
 	// Close button
 	.close {
-		@extend .lyqbox-buttons;
+		@extend %lyqbox-buttons;
 		right: 10px;
 		top: 10px;		
 
 		&:after {
-			.ion-ios-close-empty();
+			content: '\000D7';	// times (multiplication symbol)
 		}
 	}
 
 	// prev button
 	.prev {
-		@extend .lyqbox-buttons;
+		@extend %lyqbox-buttons;
 		top: calc(~'50% - 2em');
 		left: 10px;
 
 		&:after {
-			.ion-ios-arrow-left();
+			content: '\027E8';	// left angle bracket
 		}					
 	}
 
 	// next button
 	.next {
-		@extend .lyqbox-buttons;
+		@extend %lyqbox-buttons;
 		top: calc(~'50% - 2em');
 		right: 10px;
 
 		&:after {
-			.ion-ios-arrow-right();
+			content: '\027E9';	// left angle bracket
 		}
 	}
 

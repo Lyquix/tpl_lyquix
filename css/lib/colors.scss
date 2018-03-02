@@ -17,49 +17,49 @@ $gray-light:             	#ccc;
 $gray-lighter:           	#eee;
 
 // Background and copy
-$color-bg-darker:			adjust_color($color-bg, $lightness: 20%);
-$color-bg-dark:				adjust_color($color-bg, $lightness: 10%);
-$color-bg-light:			adjust_color($color-bg, $lightness: -10%);
-$color-bg-lighter:			adjust_color($color-bg, $lightness: -20%);
+$color-bg-darker:			adjust_color($color-bg, $lightness: nth($color-lightness-scale, 1));
+$color-bg-dark:				adjust_color($color-bg, $lightness: nth($color-lightness-scale, 2));
+$color-bg-light:			adjust_color($color-bg, $lightness: nth($color-lightness-scale, 3));
+$color-bg-lighter:			adjust_color($color-bg, $lightness: nth($color-lightness-scale, 4));
 
-$color-copy-darker:			adjust_color($color-copy, $lightness: 20%);
-$color-copy-dark:			adjust_color($color-copy, $lightness: 10%);
-$color-copy-light:			adjust_color($color-copy, $lightness: -10%);
-$color-copy-lighter:		adjust_color($color-copy, $lightness: -20%);
+$color-copy-darker:			adjust_color($color-copy, $lightness: nth($color-lightness-scale, 1));
+$color-copy-dark:			adjust_color($color-copy, $lightness: nth($color-lightness-scale, 2));
+$color-copy-light:			adjust_color($color-copy, $lightness: nth($color-lightness-scale, 3));
+$color-copy-lighter:		adjust_color($color-copy, $lightness: nth($color-lightness-scale, 4));
 
 // Brand colors
-$color-primary-darker:		adjust_color($color-primary, $lightness: 20%);
-$color-primary-dark:		adjust_color($color-primary, $lightness: 10%);
-$color-primary-light:		adjust_color($color-primary, $lightness: -10%);
-$color-primary-lighter:		adjust_color($color-primary, $lightness: -20%);
+$color-primary-darker:		adjust_color($color-primary, $lightness: nth($color-lightness-scale, 1));
+$color-primary-dark:		adjust_color($color-primary, $lightness: nth($color-lightness-scale, 2));
+$color-primary-light:		adjust_color($color-primary, $lightness: nth($color-lightness-scale, 3));
+$color-primary-lighter:		adjust_color($color-primary, $lightness: nth($color-lightness-scale, 4));
 
-$color-secondary-dark:		adjust_color($color-secondary, $lightness: 10%);
-$color-secondary-light:		adjust_color($color-secondary, $lightness: -10%);
-$color-secondary-lighter:	adjust_color($color-secondary, $lightness: -20%);
-$color-secondary-darker:	adjust_color($color-secondary, $lightness: 20%);
+$color-secondary-darker:	adjust_color($color-secondary, $lightness: nth($color-lightness-scale, 1));
+$color-secondary-dark:		adjust_color($color-secondary, $lightness: nth($color-lightness-scale, 2));
+$color-secondary-light:		adjust_color($color-secondary, $lightness: nth($color-lightness-scale, 3));
+$color-secondary-lighter:	adjust_color($color-secondary, $lightness: nth($color-lightness-scale, 4));
 
 // Accent colors
-$color-accent-1-darker:		adjust_color($color-accent-1, $lightness: 20%);
-$color-accent-1-dark:		adjust_color($color-accent-1, $lightness: 10%);
-$color-accent-1-light:		adjust_color($color-accent-1, $lightness: -10%);
-$color-accent-1-lighter:	adjust_color($color-accent-1, $lightness: -20%);
+$color-accent-1-darker:		adjust_color($color-accent-1, $lightness: nth($color-lightness-scale, 1));
+$color-accent-1-dark:		adjust_color($color-accent-1, $lightness: nth($color-lightness-scale, 2));
+$color-accent-1-light:		adjust_color($color-accent-1, $lightness: nth($color-lightness-scale, 3));
+$color-accent-1-lighter:	adjust_color($color-accent-1, $lightness: nth($color-lightness-scale, 4));
 
-$color-accent-2-darker:		adjust_color($color-accent-2, $lightness: 20%);
-$color-accent-2-dark:		adjust_color($color-accent-2, $lightness: 10%);
-$color-accent-2-light:		adjust_color($color-accent-2, $lightness: -10%);
-$color-accent-2-lighter:	adjust_color($color-accent-2, $lightness: -20%);
+$color-accent-2-darker:		adjust_color($color-accent-2, $lightness: nth($color-lightness-scale, 1));
+$color-accent-2-dark:		adjust_color($color-accent-2, $lightness: nth($color-lightness-scale, 2));
+$color-accent-2-light:		adjust_color($color-accent-2, $lightness: nth($color-lightness-scale, 3));
+$color-accent-2-lighter:	adjust_color($color-accent-2, $lightness: nth($color-lightness-scale, 4));
 
-$color-accent-3-darker:		adjust_color($color-accent-3, $lightness: 20%);
-$color-accent-3-dark:		adjust_color($color-accent-3, $lightness: 10%);
-$color-accent-3-light:		adjust_color($color-accent-3, $lightness: -10%);
-$color-accent-3-lighter:	adjust_color($color-accent-3, $lightness: -20%);
+$color-accent-3-darker:		adjust_color($color-accent-3, $lightness: nth($color-lightness-scale, 1));
+$color-accent-3-dark:		adjust_color($color-accent-3, $lightness: nth($color-lightness-scale, 2));
+$color-accent-3-light:		adjust_color($color-accent-3, $lightness: nth($color-lightness-scale, 3));
+$color-accent-3-lighter:	adjust_color($color-accent-3, $lightness: nth($color-lightness-scale, 4));
 
-$color-accent-4-darker:		adjust_color($color-accent-4, $lightness: 20%);
-$color-accent-4-dark:		adjust_color($color-accent-4, $lightness: 10%);
-$color-accent-4-light:		adjust_color($color-accent-4, $lightness: -10%);
-$color-accent-4-lighter:	adjust_color($color-accent-4, $lightness: -20%);
+$color-accent-4-darker:		adjust_color($color-accent-4, $lightness: nth($color-lightness-scale, 1));
+$color-accent-4-dark:		adjust_color($color-accent-4, $lightness: nth($color-lightness-scale, 2));
+$color-accent-4-light:		adjust_color($color-accent-4, $lightness: nth($color-lightness-scale, 3));
+$color-accent-4-lighter:	adjust_color($color-accent-4, $lightness: nth($color-lightness-scale, 4));
 
-$color-accent-5-darker:		adjust_color($color-accent-5, $lightness: 20%);
-$color-accent-5-dark:		adjust_color($color-accent-5, $lightness: 10%);
-$color-accent-5-light:		adjust_color($color-accent-5, $lightness: -10%);
-$color-accent-5-lighter:	adjust_color($color-accent-5, $lightness: -20%);
+$color-accent-5-darker:		adjust_color($color-accent-5, $lightness: nth($color-lightness-scale, 1));
+$color-accent-5-dark:		adjust_color($color-accent-5, $lightness: nth($color-lightness-scale, 2));
+$color-accent-5-light:		adjust_color($color-accent-5, $lightness: nth($color-lightness-scale, 3));
+$color-accent-5-lighter:	adjust_color($color-accent-5, $lightness: nth($color-lightness-scale, 4));

@@ -58,7 +58,7 @@
 }
 .show, 
 .on {
-	display: inherit;
+	display: unset;
 }
 
 .display-block { 
@@ -71,6 +71,16 @@
 	display: inline-block;
 }
 
+// Hide & show for desktop
+body:not(.mobile):not(.tablet):not(.phone) {
+	.desktop-hide {
+		display: none;
+	}
+	.desktop-show {
+		display: unset;
+	}
+}
+
 // Hide & show for mobile devices
 body.mobile {
 	.mobile-hide,
@@ -81,75 +91,32 @@ body.mobile {
 	.mobile-show,
 	.tablet-show,
 	.phone-show { 
-		display: inherit; 
-	}
-}
-body.tablet {
-	.tablet-hide { 
-		display: none; 
-	}
-	.tablet-show { 
-		display: inherit; 
-	}
-}
-body.phone {
-	.phone-hide { 
-		display: none; 
-	}
-	.phone-show { 
-		display: inherit; 
+		display: unset; 
 	}
 }
 
-// Hide & show for desktop
-body:not(.mobile):not(.tablet):not(.phone) {
-	.desktop-hide {
-		display: none;
-	}
-	.desktop-show {
-		display: inherit;
+// Show and hide for devices, browsers, o/s, home
+$show-hide-names: tablet phone msie firefox chrome safari windows macosx ios android home;
+@each $n in $show-hide-names {
+	body.#{$n} {
+		.#{$n}-hide {
+			display: none;
+		}
+		.#{$n}-show {
+			display: unset;
+		}
 	}
 }
 
 // Hide & show for screen sizes
-body[screen=xs] {
-	.xs-hide {
-		display: none;
-	}
-	.xs-show {
-		display: inherit;
-	}
-}
-body[screen=sm] {
-	.sm-hide {
-		display: none;
-	}
-	.sm-show {
-		display: inherit;
-	}
-}
-body[screen=md] {
-	.md-hide {
-		display: none;
-	}
-	.md-show {
-		display: inherit;
-	}
-}
-body[screen=lg] {
-	.lg-hide {
-		display: none;
-	}
-	.lg-show {
-		display: inherit;
-	}
-}
-body[screen=xl] {
-	.xl-hide {
-		display: none;
-	}
-	.xl-show {
-		display: inherit;
+@each $s in $screen-sizes {
+	body[screen=#{$s}] {
+		.#{$s}-hide {
+			display: none;
+		}
+		.#{$s}-show {
+			display: unset;
+		}
 	}
 }
 
@@ -564,5 +531,97 @@ body[screen=xl] {
 		width: 100%;
 		height: 100%;
 	}
+}
+
+// Font icons
+@mixin icon {
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	font-size: $font-size-icon;
+}
+.icon,
+.icon-lg,
+.icon-xl {
+	&:before {
+		@include icon;
+	}
+}
+
+.icon-lg:before {
+	font-size: $font-size-icon-lg;
+}
+
+.icon-xl:before {
+	font-size: $font-size-icon-xl;
+}
+
+// Rotate
+@for $a from 0 through 24 {
+	.rotate-#{$a * 15} {transform: rotate(#{$a * 15}deg);}
+}
+
+// Rotate on hover
+@for $a from 0 through 24 {
+	.rotate-#{$a * 15}-hover:hover {transform: rotate(#{$a * 15}deg);}
+}
+
+// Scale
+@for $p from 0 through 40 {
+	.scale-#{$p * 5} {transform: scale(#{$p * 0.05});}
+}
+
+// Scale on hover
+@for $p from 0 through 40 {
+	.scale-#{$p * 5}-hover:hover {transform: scale(#{$p * 0.05});}
+}
+
+// Filters
+$filter-names: brightness contrast grayscale invert opacity sepia;
+@each $f in $filter-names {
+	@for $p from 0 through 20 {
+		$pc: percentage($p * 0.05);
+		.#{$f}-#{$p * 5} {filter: #{$f + "(" + $pc + ")"};}
+	}
+	// On hover
+	@for $p from 0 through 20 {
+		$pc: percentage($p * 0.05);
+		.#{$f}-#{$p * 5}-hover:hover {filter: #{$f + "(" + $pc + ")"};}
+	}
+}
+
+// Saturate
+@for $p from 0 through 40 {
+	$pc: percentage($p * 0.05);
+	.saturate-#{$p * 5} {filter: saturate(#{$pc});}
+}
+
+// Saturate on hover
+@for $p from 0 through 40 {
+	$pc: percentage($p * 0.05);
+	.saturate-#{$p * 5}-hover:hover {filter: saturate(#{$pc});}
+}
+
+// Hue rotate
+@for $a from 0 through 24 {
+	.hue-rotate-#{$a * 15} {filter: hue-rotate(#{$a * 15}deg);}
+}
+
+// Hue rotate on hover
+@for $a from 0 through 24 {
+	.hue-rotate-#{$a * 15}-hover:hover {filter: hue-rotate(#{$a * 15}deg);}
+}
+
+// Duotone rotate
+@for $a from 0 through 24 {
+	.duotone-#{$a * 15} {filter: sepia(100%) hue-rotate(#{$a * 15}deg);}
+}
+
+// Duotone rotate on hover
+@for $a from 0 through 24 {
+	.duotone-#{$a * 15}-hover:hover {filter: sepia(100%) hue-rotate(#{$a * 15}deg);}
 }
 

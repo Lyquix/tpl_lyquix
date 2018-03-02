@@ -130,6 +130,8 @@ $color-error-border:		adjust_color(adjust_color($color-error-bg, $hue: -10), $li
 }
 
 
+
+
 // Breadcrumbs
 ul.breadcrumb {
 	list-style: none;
@@ -189,24 +191,20 @@ ul.breadcrumb {
 					}
 					
 					&.first a:before {
-						// Double left
 						display: inline;
-						content: '\0226A';
+						content: '\027EA';	// left double angle bracket
 					}
 					&.prev a:before {
-						// Single left
 						display: inline;
-						content: '\0003C';
+						content: '\027E8';	// left angle bracket
 					}
 					&.next a:before {
-						// Single right
 						display: inline;
-						content: '\0003E';
+						content: '\027E9';	// right angle bracket
 					}
 					&.last a:before {
-						// Double right
 						display: inline;
-						content: '\0226B';
+						content: '\027EB';	// right double angle bracket
 					}
 				}
 				
@@ -224,14 +222,12 @@ ul.breadcrumb {
 					}
 					
 					&.first:before {
-						// Double left
 						display: inline;
-						content: '\0226A';
+						content: '\027EA';	// left double angle bracket
 					}
 					&.prev:before {
-						// Single left
 						display: inline;
-						content: '\0003C';
+						content: '\027E8';	// left angle bracket
 					}
 					&.page {
 						@extend .font-bold;
@@ -239,14 +235,12 @@ ul.breadcrumb {
 						color: $color-copy;
 					}
 					&.next:before {
-						// Single right
 						display: inline;
-						content: '\0003E';
+						content: '\027E9';	// right angle bracket
 					}
 					&.last:before {
-						// Double right
 						display: inline;
-						content: '\0226B';
+						content: '\027EB';	// right double angle bracket
 					}
 				}
 			}
