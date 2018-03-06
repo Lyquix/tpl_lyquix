@@ -19,4 +19,4 @@ ga(lqx.gaReady);
 </script>" : ''; 
 ?>
 
-<jdoc:include type="modules" name="head" />
+<jdoc:include type="modules" name="head-scripts" />

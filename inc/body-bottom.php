@@ -16,10 +16,10 @@ $ie11 = $this->params->get('ie11_alert',0);
 
 if($ie9 || $ie10 || $ie11) : ?>
 <link href="<?php echo $tmpl_url; ?>/css/ie-alert.css" rel="stylesheet" />
-<div class="ie-alert<?php echo ($ie9 ? ' ie9' : '') . ($ie10 ? ' ie10' : '') . ($ie11 ? ' ie11' : ''); ?>">You are using an unsupported version of Internet Explorer. To ensure security, performance, and full functionality, <a href="http://browsehappy.com/?locale=<?php echo $this->language; ?>">please upgrade to an up-to-date browser.</a><i></i></div>
+<div class="ie-alert<?php echo ($ie9 ? ' ie9' : '') . ($ie10 ? ' ie10' : '') . ($ie11 ? ' ie11' : ''); ?>">You are using an unsupported version of Internet Explorer. To ensure security, performance, and full functionality, <a href="http://browsehappy.com/?locale=en">please upgrade to an up-to-date browser.</a><i></i></div>
 <script>
 jQuery('.ie-alert i').click(function(){jQuery('.ie-alert').hide();});
 </script>
 <?php endif;
 
-<jdoc:include type="modules" name="body" />
+<jdoc:include type="modules" name="body-scripts" />
