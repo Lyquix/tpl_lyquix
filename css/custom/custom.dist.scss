@@ -1,0 +1,33 @@
+/**
+ * custom.scss - Main SCSS file for custom styles
+ *
+ * @version     2.0.0
+ * @package     tpl_lyquix
+ * @author      Lyquix
+ * @copyright   Copyright (C) 2015 - 2018 Lyquix
+ * @license     GNU General Public License version 2 or later
+ * @link        https://github.com/Lyquix/tpl_lyquix
+ */
+
+// Text
+@import "text.scss";
+
+// Buttons
+@import "buttons.scss"
+
+// Forms
+@import "forms.scss";
+
+// Header
+@import "header.scss";
+
+// Footer
+@import "footer.scss";
+
+// Website sections
+@import "home.scss";
+@import "category-???.scss";
+@import "item-???.scss";
+
+// Search
+@import "search.scss";
