@@ -191,6 +191,21 @@ $blk-padding-left: 			$blk-padding-left-right;	// Padding size left
 
 // Common classes
 @import "lib/common.scss";
+	@include common-clear;
+	@include common-float;
+	@include common-hide-show;
+	@include common-font-text;
+	@include common-text-color;
+	@include common-bg-color;
+	@include common-border-color;
+	@include common-margin;
+	@include common-border;
+	@include common-padding;
+	@include common-columns;
+	@include common-video;
+	@include common-icon;
+	@include common-rotate-scale;
+	@include common-filter;
 
 // Print styles
 @import "lib/print.scss";
