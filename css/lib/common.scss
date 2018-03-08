@@ -351,6 +351,173 @@
 }
 
 @mixin common-menu {
+	/**
+	 * Add classes to a parent of the menu <ul> element.
+	 * This system assumes that the menu element is ul.menu
+	 * 
+	 * You must select one of the following orientations:
+	 * .horizontal  - top level items are arranged in a single row
+	 * .vertical    - top level items are stacked in a single column
+	 * 
+	 * By default, sub-menus are hidden, to show them add classes:
+	 * .level-2  - enables the 2nd level menu items
+	 * .level-3  - enables the 3rd level menu items
+	 * 
+	 * By default, sub-menus open down and right, to open left add class:
+	 * .open-left - open sub-menus to the left
+	 *
+	 * In vertical menus, to open sub-menus stacked (accordion), add class:
+	 * .stacked  - open sub-menus stacked, only for vertical menus
+	 * 
+	 * Sub-menus open on hover for non-mobile devices. For mobile devices, they open on click.
+	 * JS for adding/removing .open class on click:
+	 *
+	 *	jQuery('html').on('click', 'body.mobile .menu .parent', function(e){
+	 *		e.stopPropagation();
+	 *		jQuery(e.target).toggleClass('open');
+	 *		jQuery(e.target).siblings().removeClass('open');
+	 *	});
+	 *
+	 * Demo: https://codepen.io/lyquix/pen/geOgQb
+	 *
+	 */
+
+	// Default <ul>, <li> and <a> styling
+	.horizontal, 
+	.vertical { 
+		ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+		li {
+			position: relative;
+			&.parent,
+			&.menu-item-has-children {
+				& > a {
+					margin-right: 2em;
+				}
+				&:after {
+					display: block;
+					content: "\25BC";
+					position: absolute;
+					right: 0.5em;
+					top: 0.5em;
+				}	
+			}
+			ul {
+				position: absolute;
+			}
+		}
+		a {
+			display: block;
+		}
+	}
+
+	// Hide sub-menus by default
+	.horizontal, 
+	.vertical {
+		ul.menu > li ul {
+			display: none;
+		}
+		&.level-2 {
+			ul.menu > li > ul {
+				& > li > ul {
+					display: none;
+				}
+			}
+		}
+	}
+
+	// Horizontal positioning
+	.horizontal {
+		ul.menu > li {
+			float: left;
+		}
+		&.level-3 {
+			ul.menu > li > ul > li > ul {
+				left: 100%;
+				top: 0;
+			}
+			&.open-left {
+				ul.menu > li > ul > li > ul {
+					left: auto;
+					right: 100%;
+				}
+			}
+		}
+	}
+
+	// Vertical positioning
+	.vertical {
+		&.level-2 {
+			ul.menu {
+				display: inline-block;
+				& > li > ul {
+					left: 100%;
+					top: 0;
+				}
+			}
+			&.open-left {
+				ul.menu > li > ul {
+					left: auto;
+					right: 100%;
+				}
+			}
+			&.level-3 {
+				ul.menu > li > ul > li > ul {
+					left: 100%;
+					top: 0;
+				}
+				&.open-left {
+					ul.menu > li > ul > li > ul {
+						left: auto;
+						right: 100%;
+					}
+				}
+			}
+		}
+		&.stacked {
+			&.level-2 {
+				ul.menu > li > ul {
+					position: static;
+				}
+				&.level-3 {
+					ul.menu > li > ul > li > ul {
+						position: static;
+					}
+				}
+			}
+		}
+	}
+
+	// In desktop use hover event to expand lower levels
+	body:not(.mobile) {
+		.level-2 {
+			ul.menu > li:hover > ul {
+				display: block;
+			}
+			&.level-3 {
+				ul.menu > li:hover > ul > li:hover > ul {
+					display: block;
+				}
+			}
+		}
+	}
+
+	// In mobile use the class .open (added on click with javascript) to expand lower levels
+	body.mobile {
+		.level-2 {
+			ul.menu > li.open > ul {
+				display: block;
+			}
+			&.level-3 {
+				ul.menu > li.open > ul > li.open > ul {
+					display: block;
+				}
+			}
+		}
+	}
 
 }
 
