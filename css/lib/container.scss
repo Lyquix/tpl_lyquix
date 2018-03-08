@@ -9,7 +9,6 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-// Container
 @each $s in $screen-sizes {
 	$i: index($screen-sizes, $s);
 	body[screen=#{$s}] .container {

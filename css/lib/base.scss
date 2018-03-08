@@ -9,6 +9,7 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+// Set box-sizing property to inherit
 *,
 *:before,
 *:after {
@@ -16,11 +17,17 @@
 }
 
 html {
-	font-size: $font-size-base;  
+	// Break long words to fit container  
 	word-break: break-word;
+
+	// Improve text rendering
 	text-rendering: auto;
-	-webkit-overflow-scrolling: touch;
 	-webkit-font-smoothing: antialiased;
+
+	// Add momentum scrolling for iOS
+	-webkit-overflow-scrolling: touch;
+
+	// Set box-sizing to border-box
 	box-sizing: border-box;
 	
 	// OpenType feature settings:
@@ -37,6 +44,8 @@ body {
 	color: $color-copy;
 	line-height: $line-height-base;
 }
+body[screen=sm] {font-size: $font-size-base-sm;}
+body[screen=xs] {font-size: $font-size-base-xs;}
 
 p {
 	margin: $elem-margin-base 0;
@@ -72,6 +81,8 @@ h1 {
 	line-height: $line-height-heading;
 	margin: $elem-margin-heading 0;
 }
+body[screen=sm] h1 {font-size: $font-size-h1-sm;}
+body[screen=xs] h1 {font-size: $font-size-h1-xs;}
 
 h2 {
 	font-family: $font-h2;
@@ -80,6 +91,8 @@ h2 {
 	line-height: $line-height-heading;
 	margin: $elem-margin-heading 0;
 }
+body[screen=sm] h2 {font-size: $font-size-h2-sm;}
+body[screen=xs] h2 {font-size: $font-size-h2-xs;}
 
 h3 {
 	font-family: $font-h3;
@@ -88,6 +101,8 @@ h3 {
 	line-height: $line-height-heading;
 	margin: $elem-margin-heading 0;
 }
+body[screen=sm] h3 {font-size: $font-size-h3-sm;}
+body[screen=xs] h3 {font-size: $font-size-h3-xs;}
 
 h4 {
 	font-family: $font-h4;

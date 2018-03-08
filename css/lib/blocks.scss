@@ -9,205 +9,185 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-// Base block rules
-%blk {
-	margin: $blk-margin-top $blk-margin-right $blk-margin-bottom $blk-margin-left;
-	border-width: $blk-border-top $blk-border-right $blk-border-bottom $blk-border-left;
-	padding: $blk-padding-top $blk-padding-right $blk-padding-bottom $blk-padding-left;
+// Display property placeholder
+%blk-display {
 	display: block;
 }
 
-@mixin blk {
-	// Fraction classes
-	@for $d from 1 through 10 {
-		@for $n from 1 through $d {
-			.blk#{$n}\/#{$d} {@extend %blk;}
-		}
-	}
-	// Percentage classes
-	@for $p from 1 through 20 {
-		.blk#{$p * 5}\% {@extend %blk;}
-	}
-	// Screen-specific fraction classes
-	@each $s in $screen-sizes {
-		@for $d from 1 through 10 {
-			@for $n from 1 through $d {
-				.blk#{$n}\/#{$d}-#{$s} {@extend %blk;}
-			}
-		}
-	}
-	// Screen-specific percentage classes
-	@each $s in $screen-sizes {
-		@for $p from 1 through 20 {
-			.blk#{$p * 5}\%-#{$s} {@extend %blk;}
-		}
-	}
-}
-
-@include blk;
-
-// Left-right margin size
-$m: $blk-margin-left + $blk-margin-right;
-
-// Block width - Fraction classes
-@for $d from 1 through 10 {
+// Set display property for fraction classes
+@for $d from 1 through $blk-denominator {
 	@for $n from 1 through $d {
-		$pc: percentage($n/$d);
-		.blk#{$n}\/#{$d} {width: calc(#{$pc} - #{$m});}
-	}
-}
-// Block width - Percentage classes
-@for $p from 1 through 20 {
-	$pc: percentage($p * 0.05);
-	.blk#{$p * 5}\% {width: calc(#{$pc} - #{$m});}
-}
-// Block width - Screen-specific fraction classes
-@each $s in $screen-sizes {
-	@for $d from 1 through 10 {
-		@for $n from 1 through $d {
-			$pc: percentage($n/$d);
-			body[screen=#{$s}] .blk#{$n}\/#{$d}-#{$s} {width: calc(#{$pc} - #{$m});}
-		}
-	}
-}
-// Block width - Screen-specific percentage classes
-@each $s in $screen-sizes {
-	@for $p from 1 through 20 {
-		$pc: percentage($p * 0.05);
-		body[screen=#{$s}] .blk#{$p * 5}\%-#{$s} {width: calc(#{$pc} - #{$m});}
+		.blk#{$n}\/#{$d} {@extend %blk-display;}
 	}
 }
 
-// Bleed to margin
-%bleed-margin {
+// Set display property for percentage classes
+@for $p from 1 through (100 / $blk-pct-step) {
+	.blk#{$p * $blk-pct-step}\% {@extend %blk-display;}
+}
+
+// Cycle through each screen size
+@each $s in $screen-sizes {
+	// Index matching screen size array
+	$i: index($screen-sizes, $s);
+
+	// Margin, border and padding width placeholder
+	%blk-margin-border-padding-#{$s} {
+		margin: nth($blk-margin-top, $i) nth($blk-margin-right, $i) nth($blk-margin-bottom, $i) nth($blk-margin-left, $i);
+		border-width: nth($blk-border-top, $i) nth($blk-border-right, $i) nth($blk-border-bottom, $i) nth($blk-border-left, $i);
+		padding: nth($blk-padding-top, $i) nth($blk-padding-right, $i) nth($blk-padding-bottom, $i) nth($blk-padding-left, $i);
+	}
+
+	// Left-right margin to be substracted from width
+	$m: nth($blk-margin-left, $i) + nth($blk-margin-right, $i);
+
+	// Cycle through all $n/$d fractions
+	@for $d from 1 through $blk-denominator {
+		@for $n from 1 through $d {
+			// Set display property for fraction-screen classes
+			.blk#{$n}\/#{$d}-#{$s} {@extend %blk-display;}
+
+			// Set margin, border, padding for fraction classes
+			body[screen=#{$s}] .blk#{$n}\/#{$d} {
+				@extend %blk-margin-border-padding-#{$s};
+			}
+
+			// Set width and margin, border, padding for fraction and fraction-screen classes
+			$pc: percentage($n/$d);
+			body[screen=#{$s}] .blk#{$n}\/#{$d}, body[screen=#{$s}] .blk#{$n}\/#{$d}-#{$s} {
+				width: calc(#{$pc} - #{$m});
+				@extend %blk-margin-border-padding-#{$s};
+			}
+		}
+	}
+
+	// Cycle through all percent steps
+	@for $p from 1 through (100 / $blk-pct-step) {
+		// Set display property for percentage-screen classes
+		.blk#{$p * $blk-pct-step}\%-#{$s} {@extend %blk-display;}
+
+		// Set margin, border, padding for percentage classes
+		body[screen=#{$s}] .blk#{$p * $blk-pct-step}\% {
+			@extend %blk-margin-border-padding-#{$s};
+		}
+
+		// Set width and margin, border, padding for percentage and percentage-screen classes
+		$pc: percentage($p * $blk-pct-step / 100);
+		body[screen=#{$s}] .blk#{$p * $blk-pct-step}\%, body[screen=#{$s}] .blk#{$p * $blk-pct-step}\%-#{$s} {
+			width: calc(#{$pc} - #{$m});
+			@extend %blk-margin-border-padding-#{$s};
+		}
+	}
+}
+
+// Bleed to margin placeholder
+%blk-bleed-margin {
 	margin: 0;
-	border: 0;
+	border-width: 0;
 	padding: 0;
 }
 
-@mixin bleed-margin {
+// Bleed to margin mixin
+@mixin blk-bleed-margin {
 	// Fraction classes
-	@for $d from 1 through 10 {
+	@for $d from 1 through $blk-denominator {
 		@for $n from 1 through $d {
-			.bleed-margin.blk#{$n}\/#{$d} {@extend %bleed-margin;}
-		}
-	}
-	// Percentage classes
-	@for $p from 1 through 20 {
-		.bleed-margin.blk#{$p * 5}\% {@extend %bleed-margin;}
-	}
-	// Screen-specific fraction classes
-	@each $s in $screen-sizes {
-		@for $d from 1 through 10 {
-			@for $n from 1 through $d {
-				.bleed-margin.blk#{$n}\/#{$d}-#{$s} {@extend %bleed-margin;}
-			}
-		}
-	}
-	// Screen-specific percentage classes
-	@each $s in $screen-sizes {
-		@for $p from 1 through 20 {
-			.bleed-margin.blk#{$p * 5}\%-#{$s} {@extend %bleed-margin;}
-		}
-	}
-	// Fraction classes
-	@for $d from 1 through 10 {
-		@for $n from 1 through $d {
+			// Set margin, border, width to zero
+			body[screen] .bleed-margin.blk#{$n}\/#{$d} {@extend %blk-bleed-margin;}
+
+			// Reset width
 			$pc: percentage($n/$d);
-			.bleed-margin.blk#{$n}\/#{$d} {width: #{$pc};}
-		}
-	}
-	// Percentage classes
-	@for $p from 1 through 20 {
-		$pc: percentage($p * 0.05);
-		.bleed-margin.blk#{$p * 5}\% {width: #{$pc};}
-	}
-	// Screen-specific fraction classes
-	@each $s in $screen-sizes {
-		@for $d from 1 through 10 {
-			@for $n from 1 through $d {
-				$pc: percentage($n/$d);
-				.bleed-margin.blk#{$n}\/#{$d}-#{$s} {width: #{$pc};}
+			%blk-bleed-margin-#{$n}-#{$d}-width {width: #{$pc};}
+			body[screen] .bleed-margin.blk#{$n}\/#{$d} {@extend %blk-bleed-margin-#{$n}-#{$d}-width;}
+
+			// Fraction-screen classes
+			@each $s in $screen-sizes {
+				body[screen] .bleed-margin.blk#{$n}\/#{$d}-#{$s} {
+					@extend %blk-bleed-margin;
+					@extend %blk-bleed-margin-#{$n}-#{$d}-width;
+				}
 			}
 		}
 	}
-	// Screen-specific percentage classes
-	@each $s in $screen-sizes {
-		@for $p from 1 through 20 {
-			$pc: percentage($p * 0.05);
-			.bleed-margin.blk#{$p * 5}\%-#{$s} {width: #{$pc};}
+	// Percentage classes
+	@for $p from 1 through (100 / $blk-pct-step) {
+		// Set margin, border, width to zero
+		body[screen] .bleed-margin.blk#{$p * $blk-pct-step}\% {@extend %blk-bleed-margin;}
+		
+		// Reset width
+		$pc: percentage($p * $blk-pct-step / 100);
+		%blk-bleed-margin-#{$p * $blk-pct-step}pct-width {width: #{$pc};}
+		body[screen] .bleed-margin.blk#{$p * $blk-pct-step}\% {@extend %blk-bleed-margin-#{$p * $blk-pct-step}pct-width;}
+		
+		// Percentage-screen classes
+		@each $s in $screen-sizes {
+			body[screen] .bleed-margin.blk#{$p * $blk-pct-step}\%-#{$s} {
+				@extend %blk-bleed-margin;
+				@extend %blk-bleed-margin-#{$p * $blk-pct-step}pct-width;
+			}
 		}
 	}
 }
 
-@include bleed-margin;
-
-
-// Bleed to border
-%bleed-border {
-	border: 0;
+// Bleed to border placeholder
+%blk-bleed-border {
+	border-width: 0;
 	padding: 0;
 }
 
-@mixin bleed-border {
+// Bleed to border mixin
+@mixin blk-bleed-border {
 	// Fraction classes
-	@for $d from 1 through 10 {
+	@for $d from 1 through $blk-denominator {
 		@for $n from 1 through $d {
-			.bleed-border.blk#{$n}\/#{$d} {@extend %bleed-border;}
-		}
-	}
-	// Percentage classes
-	@for $p from 1 through 20 {
-		.bleed-border.blk#{$p * 5}\% {@extend %bleed-border;}
-	}
-	// Screen-specific fraction classes
-	@each $s in $screen-sizes {
-		@for $d from 1 through 10 {
-			@for $n from 1 through $d {
-				.bleed-border.blk#{$n}\/#{$d}-#{$s} {@extend %bleed-border;}
+			// Set border, width to zero
+			body[screen] .bleed-border.blk#{$n}\/#{$d} {@extend %blk-bleed-border;}
+
+			// Fraction-screen classes
+			@each $s in $screen-sizes {
+				body[screen] .bleed-border.blk#{$n}\/#{$d}-#{$s} {@extend %blk-bleed-border;}
 			}
 		}
 	}
-	// Screen-specific percentage classes
-	@each $s in $screen-sizes {
-		@for $p from 1 through 20 {
-			.bleed-border.blk#{$p * 5}\%-#{$s} {@extend %bleed-border;}
+	// Percentage classes
+	@for $p from 1 through (100 / $blk-pct-step) {
+		// Set border, width to zero
+		body[screen] .bleed-border.blk#{$p * $blk-pct-step}\% {@extend %blk-bleed-border;}
+		
+		// Percentage-screen classes
+		@each $s in $screen-sizes {
+			body[screen] .bleed-border.blk#{$p * $blk-pct-step}\%-#{$s} {@extend %blk-bleed-border;}
 		}
 	}
 }
 
-@include bleed-border;
-
-// Bleed to padding
-%bleed-padding {
+// Bleed to padding placeholder
+%blk-bleed-padding {
 	padding: 0;
 }
 
-@mixin bleed-padding {
+// Bleed to padding mixin
+@mixin blk-bleed-padding {
 	// Fraction classes
-	@for $d from 1 through 10 {
+	@for $d from 1 through $blk-denominator {
 		@for $n from 1 through $d {
-			.bleed-padding.blk#{$n}\/#{$d} {@extend %bleed-padding;}
-		}
-	}
-	// Percentage classes
-	@for $p from 1 through 20 {
-		.bleed-padding.blk#{$p * 5}\% {@extend %bleed-padding;}
-	}
-	// Screen-specific fraction classes
-	@each $s in $screen-sizes {
-		@for $d from 1 through 10 {
-			@for $n from 1 through $d {
-				.bleed-padding.blk#{$n}\/#{$d}-#{$s} {@extend %bleed-padding;}
+			// Set padding to zero
+			body[screen] .bleed-padding.blk#{$n}\/#{$d} {@extend %blk-bleed-padding;}
+
+			// Fraction-screen classes
+			@each $s in $screen-sizes {
+				body[screen] .bleed-padding.blk#{$n}\/#{$d}-#{$s} {@extend %blk-bleed-padding;}
 			}
 		}
 	}
-	// Screen-specific percentage classes
-	@each $s in $screen-sizes {
-		@for $p from 1 through 20 {
-			.bleed-padding.blk#{$p * 5}\%-#{$s} {@extend %bleed-padding;}
+	// Percentage classes
+	@for $p from 1 through (100 / $blk-pct-step) {
+		// Set padding to zero
+		body[screen] .bleed-padding.blk#{$p * $blk-pct-step}\% {@extend %blk-bleed-padding;}
+		
+		// Percentage-screen classes
+		@each $s in $screen-sizes {
+			body[screen] .bleed-padding.blk#{$p * $blk-pct-step}\%-#{$s} {@extend %blk-bleed-padding;}
 		}
 	}
 }
-
-@include bleed-padding;

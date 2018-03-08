@@ -13,8 +13,8 @@
 @import "lib/normalize.scss";
 
 // Base colors
-$color-bg:				#ffffff;	// Background color
-$color-copy: 			#333333;	// Base copy color
+$color-bg:				#f0f0f0;	// Background color
+$color-copy: 			#303030;	// Base copy color
 
 // Brand colors
 $color-primary:			#7ea52e;	// Primary brand color
@@ -27,36 +27,37 @@ $color-accent-3:		#95675d;	// Accent color #3
 $color-accent-4:		#ffcc00;	// Accent color #4
 $color-accent-5:		#d1a10d;	// Accent color #5
 
-// Lightness scale - darker, dark, light, lighter
-$color-lightness-scale: -20% -10% 10% 20%;
-
-// Prepare color palette
-@import "lib/colors.scss";
+// Grays
+$gray-darker:			#222;
+$gray-dark:				#444;
+$gray:					#999;
+$gray-light:			#ccc;
+$gray-lighter:			#eee;
 
 // Headings colors
-$color-headings:			$color-primary-dark;		// Color for headings
-$color-h1:					$color-headings;			// Color for h1
-$color-h2:					$color-headings;			// Color for h2
-$color-h3:					$color-headings;			// Color for h3
-$color-h4:					$color-headings;			// Color for h4
-$color-h5:					$color-headings;			// Color for h5
-$color-h6:					$color-headings;			// Color for h6
+$color-headings:			$color-primary;		// Color for headings
+$color-h1:					$color-headings;	// Color for h1
+$color-h2:					$color-headings;	// Color for h2
+$color-h3:					$color-headings;	// Color for h3
+$color-h4:					$color-headings;	// Color for h4
+$color-h5:					$color-headings;	// Color for h5
+$color-h6:					$color-headings;	// Color for h6
 
 // Links colors
-$color-link:				$color-primary-dark;		// Color for normal links
-$color-link-hover:			$color-primary;				// Color for links on hover
+$color-link:				$color-primary;		// Color for normal links
+$color-link-hover:			$color-primary;		// Color for links on hover
 
 // Forms colors
-$color-input:				$color-copy;				// Color for form elements
-$color-input-bg:			$color-bg;					// Background color for form elements
-$color-input-border:		$gray-light;				// Border color for form elements
-$color-button:				$gray-lighter;				// Color for buttons
-$color-button-bg:			$color-primary-dark;		// Background color for buttons
-$color-label:				$color-copy;				// Color for labels
-$color-checkbox:			$color-primary-dark;		// Color for checkboxes
-$color-checkbox-checked:	$color-primary-light;		// Color for checked checkboxes
-$color-radio:				$color-primary-dark;		// Color for radio buttons
-$color-radio-checked:		$color-primary-light;		// Color for selected radio buttons
+$color-input:				$color-copy;		// Color for form elements
+$color-input-bg:			$color-bg;			// Background color for form elements
+$color-input-border:		$gray-light;		// Border color for form elements
+$color-button:				$gray-lighter;		// Color for buttons
+$color-button-bg:			$color-primary;		// Background color for buttons
+$color-label:				$color-copy;		// Color for labels
+$color-checkbox:			$color-primary;		// Color for checkboxes
+$color-checkbox-checked:	$color-primary;		// Color for checked checkboxes
+$color-radio:				$color-primary;		// Color for radio buttons
+$color-radio-checked:		$color-primary;		// Color for selected radio buttons
 
 // Horizontal ruler color
 $color-hr:					$color-copy;
@@ -65,21 +66,29 @@ $color-hr:					$color-copy;
 $color-blockquote:			$color-copy;
 
 // Tables colors
-$color-td:					$color-copy;			// Data cell color
-$color-td-border:			$gray-light;			// Data cell border color
-$color-td-bg:				$color-bg;				// Data cell background color
-$color-th:					$color-copy-dark;		// Header cell color
-$color-th-border:			$gray-light;			// Header cell border color
-$color-th-bg:				$gray-lighter;			// Header cell background color
+$color-td:					$color-copy;		// Data cell color
+$color-td-border:			$gray-light;		// Data cell border color
+$color-td-bg:				$color-bg;			// Data cell background color
+$color-th:					$color-copy;		// Header cell color
+$color-th-border:			$gray-light;		// Header cell border color
+$color-th-bg:				$gray-lighter;		// Header cell background color
 
 // List bullets color
-$color-bullets:				$color-primary-dark;
+$color-bullets:				$color-primary;
 
 // Font sizes
 $font-size-base:		16px;						// Font size for body copy
+$font-size-base-sm:		16px;						// Font size for body copy in sm
+$font-size-base-xs:		16px;						// Font size for body copy in xs
 $font-size-h1:			2    * $font-size-base;		// Font size for h1
+$font-size-h1-sm:		1.9  * $font-size-base;		// Font size for h1 in sm
+$font-size-h1-xs:		1.8  * $font-size-base;		// Font size for h1 in xs
 $font-size-h2:			1.5  * $font-size-base;		// Font size for h2
+$font-size-h2-sm:		1.4  * $font-size-base;		// Font size for h2 in sm
+$font-size-h2-xs:		1.3  * $font-size-base;		// Font size for h2 in xs
 $font-size-h3:			1.17 * $font-size-base;		// Font size for h3
+$font-size-h3-sm:		1.1  * $font-size-base;		// Font size for h3 in sm
+$font-size-h4-xs:		1    * $font-size-base;		// Font size for h3 in xs
 $font-size-h4:			1.12 * $font-size-base;		// Font size for h4
 $font-size-h5:			0.83 * $font-size-base;		// Font size for h5
 $font-size-h6:			0.75 * $font-size-base;		// Font size for h6
@@ -157,10 +166,14 @@ $grid-row-gap:			10px;
 // FlexBox classes
 @import "lib/flexbox.scss";
 
+// Blocks
+$blk-denominator:			10;		// Maximum fraction denominator
+$blk-pct-step:				5;		// Percentage step
+
 // Block sizes
-$blk-margin: 				5px; 	// Margin size for all sides
-$blk-border: 				1px; 	// Border size for all sides
-$blk-padding: 				4px; 	// Padding size for all sides
+$blk-margin: 				5px 5px 5px 5px 5px; 	// Margin size for all sides (array from xs to xl)
+$blk-border: 				0 0 0 0 0;		 		// Border size for all sides (array from xs to xl)
+$blk-padding: 				0 0 0 0 0; 				// Padding size for all sides (array from xs to xl)
 
 $blk-margin-top-bottom: 	$blk-margin;		// Margin size top-bottom
 $blk-border-top-bottom: 	$blk-border;		// Border size top-bottom
@@ -188,6 +201,9 @@ $blk-padding-left: 			$blk-padding-left-right;	// Padding size left
 
 // Blocks classes
 @import "lib/blocks.scss";
+	@include blk-bleed-margin;
+	@include blk-bleed-border;
+	@include blk-bleed-padding;
 
 // Common classes
 @import "lib/common.scss";
@@ -195,17 +211,15 @@ $blk-padding-left: 			$blk-padding-left-right;	// Padding size left
 	@include common-float;
 	@include common-hide-show;
 	@include common-font-text;
-	@include common-text-color;
-	@include common-bg-color;
-	@include common-border-color;
-	@include common-margin;
-	@include common-border;
-	@include common-padding;
+	@include common-color;
 	@include common-columns;
 	@include common-video;
 	@include common-icon;
 	@include common-rotate-scale;
 	@include common-filter;
+	@include common-menu;
+	@include common-tabs;
+	@include common-accordions;
 
 // Print styles
 @import "lib/print.scss";

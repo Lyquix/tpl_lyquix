@@ -23,20 +23,10 @@
 	@for $c from 1 through 10 {
 		.grid-cols-#{$c} {grid-template-columns: repeat(#{$c}, auto);}
 	}
-	// Row classes
-	@for $r from 1 through 10 {
-		.grid-rows-#{$r} {grid-template-rows: repeat(#{$r}, auto);}
-	}
 	// Screen-specific column classes
 	@each $s in $screen-sizes {
 		@for $c from 1 through 10 {
 			body[screen=#{$s}] .grid-cols-#{$c}-#{$s} {grid-template-columns: repeat(#{$c}, auto);}
-		}
-	}
-	// Screen-specific row classes
-	@each $s in $screen-sizes {
-		@for $r from 1 through 10 {
-			body[screen=#{$s}] .grid-rows-#{$r}-#{$s} {grid-template-columns: repeat(#{$r}, auto);}
 		}
 	}
 }

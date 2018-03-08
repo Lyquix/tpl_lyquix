@@ -56,12 +56,6 @@ summary {
 	display: list-item;
 }
 
-h1 {
-	// Correct the font size and margin on `h1` elements within `section` and  `article` contexts in Chrome, Firefox, and Safari.
-	font-size: 2em;
-	margin: 0.67em 0;
-}
-
 [hidden],
 template {
 	// `[hidden]` styling not present in IE 8/9/10.
