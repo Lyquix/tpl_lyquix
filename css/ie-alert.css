@@ -10,55 +10,55 @@
  */
 
  .ie-alert {
-    display: none;
-    color: black;
-    position: fixed;
-    bottom: 2px;
-    background-color: white;
-    border: 1px solid black;
-    padding: 15px 20px;
-    margin-left: auto;
-    margin-right: auto;
-    font-family: Segoe UI, Tahoma, Arial, sans-serif;
-    box-shadow: 0 0 3px #666;
-    width: 75%;
-    max-width: 960px;
-    display: block;
-    text-align: left;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: normal;
-    left: 0;
-    right: 0;
+	display: none;
+	color: black;
+	position: fixed;
+	bottom: 2px;
+	background-color: white;
+	border: 1px solid black;
+	padding: 15px 20px;
+	margin-left: auto;
+	margin-right: auto;
+	font-family: Segoe UI, Tahoma, Arial, sans-serif;
+	box-shadow: 0 0 3px #666;
+	width: 75%;
+	max-width: 960px;
+	display: block;
+	text-align: left;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	left: 0;
+	right: 0;
 }
 .ie-alert:before {
-    display: block;
-    position: relative;
-    content: "";
-    height: 6px;
-    background-color: #f3b000;
-    margin: -14px -18px 10px -20px;
-    left: 1px;
+	display: block;
+	position: relative;
+	content: "";
+	height: 6px;
+	background-color: #f3b000;
+	margin: -14px -18px 10px -20px;
+	left: 1px;
 }
 .ie-alert a {
-    color: blue;
+	color: blue;
 }
 .ie-alert i {
-    display: block;
-    position: absolute;
-    right: 5px;
-    top: calc(50% - 12px);
-    cursor: pointer;
+	display: block;
+	position: absolute;
+	right: 5px;
+	top: calc(50% - 12px);
+	cursor: pointer;
 }
 .ie-alert i:before {
-    content: "\00d7";
-    font-style: normal;
-    font-weight: bold;
-    color: #999;
-    font-size: 18px;
+	content: "\00d7";
+	font-style: normal;
+	font-weight: bold;
+	color: #999;
+	font-size: 18px;
 }
 body.msie-9 .ie-alert.ie9,
 body.msie-10 .ie-alert.ie10,
 body.msie-11 .ie-alert.ie11 {
-    display: block;
+	display: block;
 }
