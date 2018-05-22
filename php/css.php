@@ -83,7 +83,7 @@ function rel2absURL($rel, $base) {
 
 	// Return protocol-neutral URLs
 	if(strpos($rel, "//") === 0) {
-		return $base_parts['scheme'] . ':' . $rel;
+		return ($base_parts['scheme'] ? $base_parts['scheme'] . ':' . $rel : $rel);
 	}
 
 	// Return if already absolute URL
