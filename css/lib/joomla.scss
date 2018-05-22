@@ -139,7 +139,7 @@ ul.breadcrumb {
 	
 	li {
 		display: inline;
-		@extend .small;
+		@extend .small !optional;
 		@extend .text-uppercase;
 		
 		span.ider {
@@ -178,7 +178,7 @@ ul.breadcrumb {
 				&.active {
 					a {
 						display: inline-block;
-						background-color: $color-primary-dark;
+						background-color: darken($color-primary,10%);
 						color: $color-bg;
 						padding: 0.33em 0.67em;
 						border-radius: 0.33em;
