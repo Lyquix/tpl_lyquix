@@ -20,6 +20,6 @@ if($ie9 || $ie10 || $ie11) : ?>
 <script>
 jQuery('.ie-alert i').click(function(){jQuery('.ie-alert').hide();});
 </script>
-<?php endif;
+<?php endif; ?>
 
 <jdoc:include type="modules" name="body-scripts" />
