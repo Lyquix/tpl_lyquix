@@ -320,13 +320,13 @@
 	// Saturate
 	@for $p from 0 through 40 {
 		$pc: percentage($p * 0.05);
-		.saturate-#{$p * 5} {filter: saturate(#{$pc});}
+		.saturate-#{$p * 5} {filter: saturate($pc);}
 	}
 
 	// Saturate on hover
 	@for $p from 0 through 40 {
 		$pc: percentage($p * 0.05);
-		.saturate-#{$p * 5}-hover:hover {filter: saturate(#{$pc});}
+		.saturate-#{$p * 5}-hover:hover {filter: saturate($pc);}
 	}
 
 	// Hue rotate
@@ -525,6 +525,6 @@
 
 }
 
-@mixin common-accordion {
+@mixin common-accordions {
 
 }
