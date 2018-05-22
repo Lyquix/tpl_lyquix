@@ -122,7 +122,7 @@ if(file_exists($tmpl_path . '/js/scripts.js')) {
 $scripts_filename = md5(json_encode($scripts)) . '.js';
 
 // Check if file has already been created
-if(!file_exists($tmpl_path . '/js/' . $scripts_filename)) {
+if(!file_exists($tmpl_path . '/dist/' . $scripts_filename)) {
 	// Prepare file
 	$scripts_data = "/* " . $scripts_filename . " */\n";
 	foreach($scripts as $idx => $script) {
@@ -141,11 +141,11 @@ if(!file_exists($tmpl_path . '/js/' . $scripts_filename)) {
 		} 
 	}
 	// Save file
-	file_put_contents($tmpl_path . '/js/' . $scripts_filename, $scripts_data);
+	file_put_contents($tmpl_path . '/dist/' . $scripts_filename, $scripts_data);
 	unset($scripts_data);
 }
 ?>
-<script src="<?php echo $tmpl_url . '/js/' . $scripts_filename; ?>"></script>
+<script src="<?php echo $tmpl_url . '/dist/' . $scripts_filename; ?>"></script>
 <?php
 
 // Set Options

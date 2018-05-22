@@ -118,7 +118,7 @@ function rel2absURL($rel, $base) {
 }
 
 // Check if file has already been created
-if(!file_exists($tmpl_path . '/css/' . $stylesheet_filename)) {
+if(!file_exists($tmpl_path . '/dist/' . $stylesheet_filename)) {
 	// Regular expression to find url in files
 	$regex = '/url\(\s*[\"\\\']?([^\"\\\'\)]+)[\"\\\']?\s*\)/';
 
@@ -151,8 +151,8 @@ if(!file_exists($tmpl_path . '/css/' . $stylesheet_filename)) {
 		} 
 	}
 	// Save file
-	file_put_contents($tmpl_path . '/css/' . $stylesheet_filename, $stylesheet_data);
+	file_put_contents($tmpl_path . '/dist/' . $stylesheet_filename, $stylesheet_data);
 	unset($stylesheet_data);
 }
 ?>
-<link href="<?php echo $tmpl_url . '/css/' . $stylesheet_filename; ?>" rel="stylesheet" />
+<link href="<?php echo $tmpl_url . '/dist/' . $stylesheet_filename; ?>" rel="stylesheet" />
