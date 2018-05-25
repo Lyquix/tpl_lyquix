@@ -294,6 +294,9 @@ var lqx = lqx || {
 					if(lqx.vars.geoLocation.country) jQuery('body').attr('country', lqx.vars.geoLocation.country);
 					if(lqx.vars.geoLocation.continent) jQuery('body').attr('continent', lqx.vars.geoLocation.continent);
 					if(lqx.vars.geoLocation.time_zone) jQuery('body').attr('time-zone', lqx.vars.geoLocation.time_zone);
+					if(lqx.vars.geoLocation.lat) jQuery('body').attr('latitude', lqx.vars.geoLocation.lat);
+					if(lqx.vars.geoLocation.lon) jQuery('body').attr('longitude', lqx.vars.geoLocation.lon);
+					if(lqx.vars.geoLocation.radius) jQuery('body').attr('radius', lqx.vars.geoLocation.radius);
 					// trigger custom event 'geolocateready'
 					jQuery(document).trigger('geolocateready');
 				},
