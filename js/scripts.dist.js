@@ -113,6 +113,13 @@ var changeme = changeme || {  // custom project namespace, change to the client 
 			
 		});
 
+		// on custom event geolocateready
+		jQuery(window).on('geolocateready', function() {
+			
+			/* add handlers to run when page geolocation is ready */
+
+		});
+
 	}())
 	
 };
