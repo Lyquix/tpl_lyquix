@@ -294,6 +294,8 @@ var lqx = lqx || {
 					if(lqx.vars.geoLocation.country) jQuery('body').attr('country', lqx.vars.geoLocation.country);
 					if(lqx.vars.geoLocation.continent) jQuery('body').attr('continent', lqx.vars.geoLocation.continent);
 					if(lqx.vars.geoLocation.time_zone) jQuery('body').attr('time-zone', lqx.vars.geoLocation.time_zone);
+					// trigger custom event 'geolocateready'
+					jQuery(document).trigger('geolocateready');
 				},
 				dataType: 'json',
 				error: function(){
