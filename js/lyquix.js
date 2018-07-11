@@ -521,25 +521,16 @@ var lqx = lqx || {
 					newimg.src = img.attr('src');
 				}
 			});
-			// fix for google fonts not rendering in IE10/11
+			// fixes for IE10/11
 			if(lqx.getBrowser.version >= 10) {
+				// fix for google fonts not rendering in IE10/11
 				jQuery('<style>html, sup, sub, samp, td, th, h1, h2, h3, .font-monospace, .font-smallcaps, .font-uppercase {font-feature-settings: normal;}</style>').appendTo('head');
-			}
-			// replace svg images for pngs in IE 8 and older
-			if(lqx.getBrowser.version <= 8) {
-				jQuery('img').each(function(){
-					src = jQuery(this).attr('src');
-					if(/\.svg$/i.test (src)) {
-						jQuery(this).attr('src', src.replace('.svg', '.png'));
-					}
-				});
-			}
-			//add classes with grid row and column css if the user is on IE
-			if(jQuery('.msie').length) {
+				
+				// Fix for CSS grid
 				var gridElems = jQuery('*').filter(function() {
-				   	if (jQuery(this).css('display') == '-ms-grid') {
+					if (jQuery(this).css('display') == '-ms-grid') {
 						return true;
-				   	}
+					}
 				});
 
 				if(gridElems.length) {
@@ -559,10 +550,9 @@ var lqx = lqx || {
 							});
 						});
 					}
-					jQuery(window).on('screensizechange', function() {
+					jQuery(window).on('load screensizechange', function() {
 						lqx.vars.fixGrid();
 					});
-					lqx.vars.fixGrid();
 				}
 			}
 		}
