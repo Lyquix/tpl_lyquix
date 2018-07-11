@@ -534,6 +534,37 @@ var lqx = lqx || {
 					}
 				});
 			}
+			//add classes with grid row and column css if the user is on IE
+			if(jQuery('.msie').length) {
+				var gridElems = jQuery('*').filter(function() {
+				   	if (jQuery(this).css('display') == '-ms-grid') {
+						return true;
+				   	}
+				});
+
+				if(gridElems.length) {
+					lqx.vars.gridElems = gridElems;
+					lqx.vars.fixGrid = function(){
+						lqx.vars.gridElems.each(function(){
+							var colCount = jQuery(this).css('-ms-grid-columns').split(' ').length;
+							var row = 1;
+							var col = 1;
+							gridElem.children().each(function(){
+								jQuery(this).css({'-ms-grid-column': col, '-ms-grid-column-span': '1', '-ms-grid-row': row, '-ms-grid-row-span': '1'});
+								col++;
+								if (col > colCount) {
+									row++;
+									col = 1;
+								}
+							});
+						});
+					}
+					jQuery(window).on('screensizechange', function() {
+						lqx.vars.fixGrid();
+					}
+					lqx.vars.fixGrid();
+				}
+			}
 		}
 	},
 	
