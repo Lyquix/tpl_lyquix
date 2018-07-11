@@ -561,7 +561,7 @@ var lqx = lqx || {
 					}
 					jQuery(window).on('screensizechange', function() {
 						lqx.vars.fixGrid();
-					}
+					});
 					lqx.vars.fixGrid();
 				}
 			}
