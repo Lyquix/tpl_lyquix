@@ -209,10 +209,16 @@
 
 // Columns
 @mixin common-columns {
-	@for $c from 1 through 10 {
-		.columns-#{$c} {
-			column-count: #{$c};
-			column-gap: $blk-margin-left + $blk-border-left + $blk-padding-left + $blk-padding-right + $blk-border-right + $blk-margin-right;
+	// Cycle through each screen size
+	@each $s in $screen-sizes {
+		// Index matching screen size array
+		$i: index($screen-sizes, $s);
+		
+		@for $c from 1 through 10 {
+			body[screen=#{$s}] .columns-#{$c}-#{$s} {
+				column-count: #{$c};
+				column-gap: nth($blk-margin-left, $i) + nth($blk-border-left, $i) + nth($blk-padding-left, $i) + nth($blk-padding-right, $i) + nth($blk-border-right, $i) + nth($blk-margin-right, $i);
+			}
 		}
 	}
 }
