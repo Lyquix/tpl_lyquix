@@ -83,7 +83,7 @@ function rel2absURL($rel, $base) {
 
 	// Return protocol-neutral URLs
 	if(strpos($rel, "//") === 0) {
-		return ($base_parts['scheme'] ? $base_parts['scheme'] . ':' . $rel : $rel);
+		return (array_key_exists('scheme', $base_parts) ? $base_parts['scheme'] . ':' . $rel : $rel);
 	}
 
 	// Return if already absolute URL
@@ -117,11 +117,19 @@ function rel2absURL($rel, $base) {
 	return ($base_parts['scheme'] ? $base_parts['scheme'] . '://' : '') . $abs;
 }
 
+// Check if dist directory exists
+if (!is_dir($tmpl_path . '/dist/')) {
+	mkdir($tmpl_path . '/dist/');
+}
+
 // Check if file has already been created
 if(!file_exists($tmpl_path . '/dist/' . $stylesheet_filename)) {
+	// Delete old .css files in the folder
+	foreach (glob($tmpl_path . '/dist/*.css') as $oldcss) {
+		unlink($oldcss);
+	}
 	// Regular expression to find url in files
 	$regex = '/url\(\s*[\"\\\']?([^\"\\\'\)]+)[\"\\\']?\s*\)/';
-
 	// Prepare file
 	$stylesheet_data = "/* " . $stylesheet_filename . " */\n";
 	foreach($stylesheets as $idx => $stylesheet) {
@@ -155,4 +163,4 @@ if(!file_exists($tmpl_path . '/dist/' . $stylesheet_filename)) {
 	unset($stylesheet_data);
 }
 ?>
-<link href="<?php echo $tmpl_url . '/dist/' . $stylesheet_filename; ?>" rel="stylesheet" />
+<link href="<?php echo $tmpl_url . '/dist/' . $stylesheet_filename; ?>" rel="stylesheet" media="none" onload="media='all'" />

@@ -33,20 +33,18 @@ include(__DIR__ . '/php/js.php');
 
 // Favicons include
 include(__DIR__ . '/php/favicon.php');
-
-// Head bottom includes
-include(__DIR__ . '/php/head-bottom.php');
 ?>
+<jdoc:include type="modules" name="head-scripts" />
 </head>
 <?php
 // Pre-body includes
 include(__DIR__ . '/php/body-pre.php');
 ?>
 <body class="<?php echo implode(' ', $body_classes); ?>">
+<script>
+lqx.ready(<?php echo json_encode($lqx_options); ?>);
+</script>
 <?php
-// Body top includes
-include(__DIR__ . '/php/body-top.php');
-
 // if blank-page parameter is set to true, only the component will be output
 if($this->params->get('blank_page',0) != 0 && JFactory::getApplication() -> input-> get('tmpl') != 'component') :  ?>
 <header>

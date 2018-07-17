@@ -121,8 +121,17 @@ if(file_exists($tmpl_path . '/js/scripts.js')) {
 // Unique filename based on scripts, last update, and order
 $scripts_filename = md5(json_encode($scripts)) . '.js';
 
+// Check if dist directory exists
+if (!is_dir($tmpl_path . '/dist/')) {
+	mkdir($tmpl_path . '/dist/');
+}
+
 // Check if file has already been created
 if(!file_exists($tmpl_path . '/dist/' . $scripts_filename)) {
+	// Delete old .js files in the folder
+	foreach (glob($tmpl_path . '/dist/*.js') as $oldjs) {
+		unlink($oldjs);
+	}
 	// Prepare file
 	$scripts_data = "/* " . $scripts_filename . " */\n";
 	foreach($scripts as $idx => $script) {
@@ -147,27 +156,23 @@ if(!file_exists($tmpl_path . '/dist/' . $scripts_filename)) {
 ?>
 <script src="<?php echo $tmpl_url . '/dist/' . $scripts_filename; ?>"></script>
 <?php
-
-// Set Options
-$lqxOptions = array(
-	'bodyScreenSize' => array(
-		'min' => $this->params->get('min_screen', 0),
-		'max' => $this->params->get('max_screen', 4)
+// Set lqx options
+$lqx_options = array(
+	'responsive' => array(
+		'minIndex' => $this->params->get('min_screen', 0),
+		'maxIndex' => $this->params->get('max_screen', 4)
 	),
-	'ga' => array(
+	'siteURL' => $site_abs_url,
+	'tmplURL' => $site_abs_url . 'templates/' . $this->template
+);
+
+if($this->params->get('ga_account')) {
+	$lqx_options['analytics'] = array(
 		'createParams' => array(
 			'default' => array(
 				'trackingId' => $this->params->get('ga_account'),
 				'cookieDomain' => 'auto'
 			)
 		)
-	)
-);
-?>
-<script>
-lqx.setOptions({
-	bodyScreenSize: {min: <?php echo $this->params->get('min_screen', 0); ?>, max: <?php echo $this->params->get('max_screen', 4); ?>}<?php if($this->params->get('ga_account')) : ?>,
-	ga: {createParams: {default: {trackingId: '<?php echo $this->params->get('ga_account'); ?>', cookieDomain: 'auto'}}}<?php endif; ?>
-});
-lqx.setOptions(<?php echo $this->params->get('lqx_options', '{}'); ?>);
-</script>
+	);
+}
