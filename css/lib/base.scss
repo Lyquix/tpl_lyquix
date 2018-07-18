@@ -35,6 +35,9 @@ html {
 	// disable: discretionary ligatures (dlig), tabular figures (tnum), lining figures (lnum)
 	// ref: https://www.microsoft.com/typography/otspec/featurelist.htm
 	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0;
+
+	// Set default font-size to 10px, then use rem units for the rest of the stylesheet
+	font-size: 10px; 
 }
 
 body {
