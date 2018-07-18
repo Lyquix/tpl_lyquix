@@ -10,14 +10,6 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-// Logerr
-if($this->params->get('logerr', 0)): ?>
-<script src="<?php echo $cdnjs_url; ?>logerr/1.2.0/logerr<?php echo $non_min_js ? '' : '.min'; ?>.js"></script>
-<script>
-Logerr.init();
-</script>
-<?php endif;
-
 // Array to store all scripts to be loaded
 $scripts = array();
 
