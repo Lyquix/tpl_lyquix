@@ -191,3 +191,35 @@
 		}
 	}
 }
+
+// blkcenter place holder
+%blk-center {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+// blk-center mixin
+@mixin blk-center {
+	// Fraction classes
+	@for $d from 1 through $blk-denominator {
+		@for $n from 1 through $d {
+			// Set padding to zero
+			body[screen] .blkcenter.blk#{$n}\/#{$d} {@extend %blk-center;}
+
+			// Fraction-screen classes
+			@each $s in $screen-sizes {
+				body[screen] .blkcenter.blk#{$n}\/#{$d}-#{$s} {@extend %blk-center;}
+			}
+		}
+	}
+	// Percentage classes
+	@for $p from 1 through (100 / $blk-pct-step) {
+		// Set padding to zero
+		body[screen] .blkcenter.blk#{$p * $blk-pct-step}\% {@extend %blk-center;}
+		
+		// Percentage-screen classes
+		@each $s in $screen-sizes {
+			body[screen] .blkcenter.blk#{$p * $blk-pct-step}\%-#{$s} {@extend %blk-center;}
+		}
+	}
+}
