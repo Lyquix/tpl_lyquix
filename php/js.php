@@ -164,3 +164,6 @@ if($this->params->get('ga_account')) {
 		)
 	);
 }
+
+// Merge with options from template settings
+$lqx_options = array_merge($lqx_options, json_decode($this->params->get('lqx_options', '{}'), true));
