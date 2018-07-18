@@ -11,48 +11,49 @@
 
 if(lqx && typeof lqx.analytics == 'undefined') {
 	lqx.analytics = (function(){
-		var defaults = {
-			settings: {
-				downloads: true,
-				outbound: true,
-				scrollDepth: true,
-				photoGallery: true,
-				video: true,
-				userActive: {
-					enabled: true,
-					idleTime: 5000,	// idle time (ms) before user is set to inactive
-					throttle: 100,	// throttle period (ms)
-					refresh: 250,	// refresh period (ms)
-					maxTime: 1800000 // max time when tracking stops (ms)
-				},
-				// Google Analytics settings
-				createParams: null,			// example: {default: {trackingId: 'UA-XXXXX-Y', cookieDomain: 'auto', fieldsObject: {}}}, where "default" is the tracker name
-				setParams: null,			// example: {default: {dimension1: 'Age', metric1: 25}}
-				requireParams: null,		// example: {default: {pluginName: 'displayFeatures', pluginOptions: {cookieName: 'mycookiename'}}}
-				provideParams: null,		// example: {default: {pluginName: 'MyPlugin', pluginConstructor: myPluginFunc}}
-				customParamsFuncs: null,	// example: {default: myCustomFunc}
-				abTestName: null,			// Set a test name to activate A/B Testing Dimension
-				abTestNameDimension: null,		// Set the Google Analytics dimension number to use for test name
-				abTestGroupDimension: null,		// Set the Google Analytics dimension number to use for group
+		var opts = {
+			downloads: true,
+			outbound: true,
+			scrollDepth: true,
+			photoGallery: true,
+			video: true,
+			userActive: {
+				enabled: true,
+				idleTime: 5000,	// idle time (ms) before user is set to inactive
+				throttle: 100,	// throttle period (ms)
+				refresh: 250,	// refresh period (ms)
+				maxTime: 1800000 // max time when tracking stops (ms)
 			},
-			vars: {
-				scrollDepthMax: null,
-				youTubeIframeAPIReady: false,
-				youtubePlayers: {},
-				vimeoPlayers: {},
-				userActive: null
-			}
+			// Google Analytics opts
+			createParams: null,			// example: {default: {trackingId: 'UA-XXXXX-Y', cookieDomain: 'auto', fieldsObject: {}}}, where "default" is the tracker name
+			setParams: null,			// example: {default: {dimension1: 'Age', metric1: 25}}
+			requireParams: null,		// example: {default: {pluginName: 'displayFeatures', pluginOptions: {cookieName: 'mycookiename'}}}
+			provideParams: null,		// example: {default: {pluginName: 'MyPlugin', pluginConstructor: myPluginFunc}}
+			customParamsFuncs: null,	// example: {default: myCustomFunc}
+			abTestName: null,			// Set a test name to activate A/B Testing Dimension
+			abTestNameDimension: null,		// Set the Google Analytics dimension number to use for test name
+			abTestGroupDimension: null,		// Set the Google Analytics dimension number to use for group
+		};
+
+		var vars = {
+			scrollDepthMax: null,
+			youTubeIframeAPIReady: false,
+			youtubePlayers: {},
+			vimeoPlayers: {},
+			userActive: null
 		};
 
 		var init = function(){
 			// Initialize only if enabled
-			if(lqx.settings.analytics.enabled) {
-				// Copy default settings and vars
-				jQuery.extend(lqx.settings.analytics, defaults.settings);
-				jQuery.extend(lqx.vars.analytics, defaults.vars);
+			if(lqx.opts.analytics.enabled) {
+				// Copy default opts and vars
+				jQuery.extend(lqx.opts.analytics, opts);
+				opts = lqx.opts.analytics;
+				jQuery.extend(lqx.vars.analytics, vars);
+				vars = lqx.vars.analytics;
 
 				lqx.vars.window.on('lqxready', function() {
-					if(lqx.settings.analytics.createParams && lqx.settings.analytics.createParams.default && lqx.settings.analytics.createParams.default.trackingId) {
+					if(opts.createParams && opts.createParams.default && opts.createParams.default.trackingId) {
 						gaCode();
 					}
 				});
@@ -77,8 +78,8 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 			jQuery.Deferred().done(
 				function(){
 					// Create commands
-					if(lqx.settings.analytics.createParams && typeof lqx.settings.analytics.createParams == 'object') {
-						var params = lqx.settings.analytics.createParams;
+					if(opts.createParams && typeof opts.createParams == 'object') {
+						var params = opts.createParams;
 						Object.keys(params).forEach(function(tracker){
 							if(tracker == 'default') ga('create', params[tracker].trackingId, params[tracker].cookieDomain, params[tracker].fieldsObject);
 							else ga('create', params[tracker].trackingId, params[tracker].cookieDomain, tracker, params[tracker].fieldsObject);
@@ -90,8 +91,8 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					var params;
 					
 					// Set commands
-					if(lqx.settings.analytics.setParams && typeof lqx.settings.analytics.setParams == 'object') {
-						params = lqx.settings.analytics.setParams;
+					if(opts.setParams && typeof opts.setParams == 'object') {
+						params = opts.setParams;
 						Object.keys(params).forEach(function(tracker){
 							var cmd = 'set';
 							if(tracker != 'default') cmd = tracker + '.set';
@@ -102,8 +103,8 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					}
 					
 					// Require commands
-					if(lqx.settings.analytics.requireParams && typeof lqx.settings.analytics.requireParams == 'object') {
-						params = lqx.settings.analytics.requireParams;
+					if(opts.requireParams && typeof opts.requireParams == 'object') {
+						params = opts.requireParams;
 						Object.keys(params).forEach(function(tracker){
 							var cmd = 'require';
 							if(tracker != 'default') cmd = tracker + '.require';
@@ -114,8 +115,8 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					}
 					
 					// Provide commands
-					if(lqx.settings.analytics.provideParams && typeof lqx.settings.analytics.provideParams == 'object') {
-						params = lqx.settings.analytics.provideParams;
+					if(opts.provideParams && typeof opts.provideParams == 'object') {
+						params = opts.provideParams;
 						Object.keys(params).forEach(function(tracker){
 							var cmd = 'provide';
 							if(tracker != 'default') cmd = tracker + '.provide';
@@ -125,8 +126,8 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						});
 					}
 					
-					// A/B testing settings
-					if(lqx.settings.analytics.abTestName !== null && lqx.settings.analytics.abTestNameDimension !== null && lqx.settings.analytics.abTestGroupDimension !== null) {
+					// A/B testing opts
+					if(opts.abTestName !== null && opts.abTestNameDimension !== null && opts.abTestGroupDimension !== null) {
 						// get a/b test group cookie
 						var abTestGroup = lqx.utils.cookie('abTestGroup');
 						if(abTestGroup === null) {
@@ -139,15 +140,15 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						lqx.vars.body.attr('data-abtest', abTestGroup);
 						
 						// Set the GA dimensions
-						ga('set', 'dimension' + lqx.settings.analytics.abTestNameDimension, lqx.settings.analytics.abTestName);
-						ga('set', 'dimension' + lqx.settings.analytics.abTestGroupDimension, abTestGroup);
+						ga('set', 'dimension' + opts.abTestNameDimension, opts.abTestName);
+						ga('set', 'dimension' + opts.abTestGroupDimension, abTestGroup);
 					}
 				},
 				
 				function(){
-					if(typeof lqx.settings.analytics.customParamsFuncs == 'function') {
+					if(typeof opts.customParamsFuncs == 'function') {
 						try {
-							lqx.settings.analytics.customParamsFuncs();
+							opts.customParamsFuncs();
 						}
 						catch(e) {
 							lqx.error(e);
@@ -168,7 +169,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 		// initialize google analytics tracking
 		var initTracking = function() {
 			// track downloads and outbound links
-			if(lqx.settings.analytics.outbound || lqx.settings.analytics.download){
+			if(opts.outbound || opts.download){
 				// find all a tags and cycle through them
 				jQuery('a').each(function(){
 					var elem = this;
@@ -176,7 +177,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					if(elem.href) {
 
 						// check if it is an outbound link, track as event
-						if(lqx.settings.analytics.outbound && elem.host != location.host) {
+						if(opts.outbound && elem.host != location.host) {
 
 							jQuery(elem).click(function(e){
 								e.preventDefault();
@@ -197,7 +198,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						}
 
 						// check if it is a download link (not a webpage) and track as pageview
-						else if(lqx.settings.analytics.downloads && elem.pathname.match(/\.(htm|html|php)$/i)[1] === null ) {
+						else if(opts.downloads && elem.pathname.match(/\.(htm|html|php)$/i)[1] === null ) {
 							jQuery(elem).click(function(e){
 								e.preventDefault();
 								var url = elem.href;
@@ -223,17 +224,17 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 
 
 			// track scroll depth
-			if(lqx.settings.analytics.scrolldepth){
+			if(opts.scrolldepth){
 
 				// get the initial scroll position
-				lqx.vars.analytics.scrollDepthMax = Math.ceil(((lqx.vars.window.scrollTop() + lqx.vars.window.height()) / lqx.vars.document.height()) * 10) * 10;
+				vars.scrollDepthMax = Math.ceil(((lqx.vars.window.scrollTop() + lqx.vars.window.height()) / lqx.vars.document.height()) * 10) * 10;
 
 				// add listener to scrollthrottle event
 				lqx.vars.window.on('scrollthrottle', function(){
 					// capture the hightest scroll point, stop calculating once reached 100
-					if(lqx.vars.analytics.scrollDepthMax < 100) {
-						lqx.vars.analytics.scrollDepthMax = Math.max(lqx.vars.analytics.scrollDepthMax, Math.ceil(((lqx.vars.window.scrollTop() + lqx.vars.window.height()) / lqx.vars.document.height()) * 10) * 10);
-						if(lqx.vars.analytics.scrollDepthMax > 100) lqx.vars.analytics.scrollDepthMax = 100;
+					if(vars.scrollDepthMax < 100) {
+						vars.scrollDepthMax = Math.max(vars.scrollDepthMax, Math.ceil(((lqx.vars.window.scrollTop() + lqx.vars.window.height()) / lqx.vars.document.height()) * 10) * 10);
+						if(vars.scrollDepthMax > 100) vars.scrollDepthMax = 100;
 					}
 				});
 
@@ -243,7 +244,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					ga('send', {
 						'hitType' : 'event',
 						'eventCategory' : 'Scroll Depth',
-						'eventAction' : lqx.vars.analytics.scrollDepthMax,
+						'eventAction' : vars.scrollDepthMax,
 						'nonInteraction' : true
 					});
 
@@ -252,7 +253,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 			}
 
 			// track photo galleries
-			if(lqx.settings.analytics.photogallery){
+			if(opts.photogallery){
 				lqx.vars.html.on('click', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]', function(){
 					// send event for gallery opened
 					ga('send', {
@@ -277,12 +278,12 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 			}
 
 			// track video
-			if(lqx.settings.analytics.video){
+			if(opts.video){
 
 				// load youtube iframe api
 				var tag = document.createElement('script');
 				tag.src = 'https://www.youtube.com/iframe_api';
-				tag.onload = function(){lqx.vars.analytics.youTubeIframeAPIReady = true;};
+				tag.onload = function(){vars.youTubeIframeAPIReady = true;};
 				var firstScriptTag = document.getElementsByTagName('script')[0];
 				firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
@@ -306,7 +307,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 			}
 
 			// track active time
-			if(lqx.settings.analytics.activetime) {
+			if(opts.activetime) {
 				// Add listener on page unload
 				lqx.vars.window.on('unload', function(){
 
@@ -314,7 +315,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						'hitType' : 'event',
 						'eventCategory' : 'User Active Time',
 						'eventAction' : 'Percentage',
-						'eventValue' : parseInt(100 * lqx.vars.analytics.userActive.activeTime / (lqx.vars.analytics.userActive.activeTime + lqx.vars.analytics.userActive.inactiveTime)),
+						'eventValue' : parseInt(100 * vars.userActive.activeTime / (vars.userActive.activeTime + vars.userActive.inactiveTime)),
 						'nonInteraction' : true
 					});
 
@@ -322,7 +323,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						'hitType' : 'event',
 						'eventCategory' : 'User Active Time',
 						'eventAction' : 'Active Time (ms)',
-						'eventValue' : parseInt(lqx.vars.analytics.userActive.activeTime),
+						'eventValue' : parseInt(vars.userActive.activeTime),
 						'nonInteraction' : true
 					});
 
@@ -330,7 +331,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						'hitType' : 'event',
 						'eventCategory' : 'User Active Time',
 						'eventAction' : 'Inactive Time (ms)',
-						'eventValue' : parseInt(lqx.vars.analytics.userActive.inactiveTime),
+						'eventValue' : parseInt(vars.userActive.inactiveTime),
 						'nonInteraction' : true
 					});
 
@@ -368,7 +369,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 				if (src.indexOf('youtube.com/embed/') != -1) {
 					// add id if it doesn't have one
 					if (typeof playerId == 'undefined') {
-						playerId = 'youtubePlayer' + (Object.keys(lqx.vars.analytics.youtubePlayers).length);
+						playerId = 'youtubePlayer' + (Object.keys(vars.youtubePlayers).length);
 						elem.attr('id', playerId);
 					}
 
@@ -382,8 +383,8 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					}
 
 					// add to list of players
-					if(typeof lqx.vars.analytics.youtubePlayers[playerId] == 'undefined') {
-						lqx.vars.analytics.youtubePlayers[playerId] = {};
+					if(typeof vars.youtubePlayers[playerId] == 'undefined') {
+						vars.youtubePlayers[playerId] = {};
 
 						// add event callbacks to player
 						onYouTubeIframeAPIReady();
@@ -394,7 +395,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 				if(src.indexOf('player.vimeo.com/video/') != -1) {
 					// add id if it doesn't have one
 					if (typeof playerId == 'undefined') {
-						playerId = 'vimeoPlayer' + (Object.keys(lqx.vars.analytics.vimeoPlayers).length);
+						playerId = 'vimeoPlayer' + (Object.keys(vars.vimeoPlayers).length);
 						elem.attr('id', playerId);
 					}
 
@@ -408,8 +409,8 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					}
 
 					// add to list of players
-					if(typeof lqx.vars.analytics.vimeoPlayers[playerId] == 'undefined') {
-						lqx.vars.analytics.vimeoPlayers[playerId] = {};
+					if(typeof vars.vimeoPlayers[playerId] == 'undefined') {
+						vars.vimeoPlayers[playerId] = {};
 					}
 
 				}
@@ -419,28 +420,28 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 		var youtubePlayerReady = function(e, playerId){
 			// check if iframe still exists
 			if(jQuery('#' + playerId).length) {
-				if(typeof lqx.vars.analytics.youtubePlayers[playerId].playerObj.getPlayerState != 'function') {
+				if(typeof vars.youtubePlayers[playerId].playerObj.getPlayerState != 'function') {
 					//setTimeout(function(){lqx.youtubePlayerReady(e, playerId)}, 100);
 				}
 				else {
-					if(typeof lqx.vars.analytics.youtubePlayers[playerId].progress == 'undefined') {
+					if(typeof vars.youtubePlayers[playerId].progress == 'undefined') {
 						// set player object variables
-						lqx.vars.analytics.youtubePlayers[playerId].progress = 0;
-						lqx.vars.analytics.youtubePlayers[playerId].start = false;
-						lqx.vars.analytics.youtubePlayers[playerId].complete = false;
+						vars.youtubePlayers[playerId].progress = 0;
+						vars.youtubePlayers[playerId].start = false;
+						vars.youtubePlayers[playerId].complete = false;
 
 						// get video data
-						var videoData = lqx.vars.analytics.youtubePlayers[playerId].playerObj.getVideoData();
-						lqx.vars.analytics.youtubePlayers[playerId].title = videoData.title;
-						lqx.vars.analytics.youtubePlayers[playerId].duration = lqx.vars.analytics.youtubePlayers[playerId].playerObj.getDuration();
+						var videoData = vars.youtubePlayers[playerId].playerObj.getVideoData();
+						vars.youtubePlayers[playerId].title = videoData.title;
+						vars.youtubePlayers[playerId].duration = vars.youtubePlayers[playerId].playerObj.getDuration();
 
-						if(!lqx.vars.analytics.youtubePlayers[playerId].start) youtubePlayerStateChange(e, playerId);
+						if(!vars.youtubePlayers[playerId].start) youtubePlayerStateChange(e, playerId);
 					}
 				}
 			}
 			else {
 				// iframe no longer exists, remove it from array
-				delete lqx.vars.analytics.youtubePlayers[playerId];
+				delete vars.youtubePlayers[playerId];
 			}
 		};
 
@@ -457,56 +458,56 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 				var label;
 
 				// video ended, make sure we track the complete event just once
-				if(lqx.vars.analytics.youtubePlayers[playerId].playerObj.getPlayerState() === 0 && !lqx.vars.analytics.youtubePlayers[playerId].complete) {
+				if(vars.youtubePlayers[playerId].playerObj.getPlayerState() === 0 && !vars.youtubePlayers[playerId].complete) {
 					label = 'Complete';
-					lqx.vars.analytics.youtubePlayers[playerId].complete = true;
+					vars.youtubePlayers[playerId].complete = true;
 				}
 
 				// video playing
-				if(lqx.vars.analytics.youtubePlayers[playerId].playerObj.getPlayerState() == 1) {
+				if(vars.youtubePlayers[playerId].playerObj.getPlayerState() == 1) {
 
 					// recursively call this function in 1s to keep track of video progress
-					lqx.vars.analytics.youtubePlayers[playerId].timer = setTimeout(function(){youtubePlayerStateChange(e, playerId);}, 1000);
+					vars.youtubePlayers[playerId].timer = setTimeout(function(){youtubePlayerStateChange(e, playerId);}, 1000);
 
 					// if this is the first time we get the playing status, track it as start
-					if(!lqx.vars.analytics.youtubePlayers[playerId].start){
+					if(!vars.youtubePlayers[playerId].start){
 						label = 'Start';
-						lqx.vars.analytics.youtubePlayers[playerId].start = true;
+						vars.youtubePlayers[playerId].start = true;
 					}
 
 					else {
 
-						var currentTime = lqx.vars.analytics.youtubePlayers[playerId].playerObj.getCurrentTime();
+						var currentTime = vars.youtubePlayers[playerId].playerObj.getCurrentTime();
 
-						if(Math.ceil( Math.ceil( (currentTime / lqx.vars.analytics.youtubePlayers[playerId].duration) * 100 ) / 10 ) - 1 > lqx.vars.analytics.youtubePlayers[playerId].progress){
+						if(Math.ceil( Math.ceil( (currentTime / vars.youtubePlayers[playerId].duration) * 100 ) / 10 ) - 1 > vars.youtubePlayers[playerId].progress){
 
-							lqx.vars.analytics.youtubePlayers[playerId].progress = Math.ceil( Math.ceil( (currentTime / lqx.vars.analytics.youtubePlayers[playerId].duration) * 100 ) / 10 ) - 1;
+							vars.youtubePlayers[playerId].progress = Math.ceil( Math.ceil( (currentTime / vars.youtubePlayers[playerId].duration) * 100 ) / 10 ) - 1;
 
-							if(lqx.vars.analytics.youtubePlayers[playerId].progress != 10){
-								label = (lqx.vars.analytics.youtubePlayers[playerId].progress * 10) + '%';
+							if(vars.youtubePlayers[playerId].progress != 10){
+								label = (vars.youtubePlayers[playerId].progress * 10) + '%';
 							}
 
 							else {
-								clearTimeout(lqx.vars.analytics.youtubePlayers[playerId].timer);
+								clearTimeout(vars.youtubePlayers[playerId].timer);
 							}
 						}
 					}
 				}
 
 				// video buffering
-				if(lqx.vars.analytics.youtubePlayers[playerId].playerObj.getPlayerState() == 3) {
+				if(vars.youtubePlayers[playerId].playerObj.getPlayerState() == 3) {
 					// recursively call this function in 1s to keep track of video progress
-					lqx.vars.analytics.youtubePlayers[playerId].timer = setTimeout(function(){youtubePlayerStateChange(e, playerId);}, 1000);
+					vars.youtubePlayers[playerId].timer = setTimeout(function(){youtubePlayerStateChange(e, playerId);}, 1000);
 				}
 
 				// send event to GA if label was set
 				if(label){
-					videoTrackingEvent(playerId, label, lqx.vars.analytics.youtubePlayers[playerId].title, lqx.vars.analytics.youtubePlayers[playerId].progress * 10);
+					videoTrackingEvent(playerId, label, vars.youtubePlayers[playerId].title, vars.youtubePlayers[playerId].progress * 10);
 				}
 			}
 			else {
 				// iframe no longer exists, remove it from array
-				delete lqx.vars.analytics.youtubePlayers[playerId];
+				delete vars.youtubePlayers[playerId];
 			}
 
 		};
@@ -517,7 +518,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 			if((/^https?:\/\/player.vimeo.com/).test(e.origin)) {
 				// parse the data
 				var data = JSON.parse(e.data);
-				player = lqx.vars.analytics.vimeoPlayers[data.player_id];
+				player = vars.vimeoPlayers[data.player_id];
 				var label;
 
 				switch (data.event) {
@@ -606,7 +607,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 		var initUserActive = function()	{
 
 			// initialize the variables
-			lqx.vars.analytics.userActive = {
+			vars.userActive = {
 				active: true,		// is user currently active
 				timer: false,		// setTimeout timer
 				throttle: false,	// is throttling currently active
@@ -625,21 +626,21 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 			// refresh active and inactive time counters
 			var timer = setInterval(function(){
 				// Stop updating if maxTime is reached
-				if(lqx.vars.analytics.userActive.activeTime + lqx.vars.analytics.userActive.inactiveTime >= lqx.vars.analytics.userActive.maxTime) clearInterval(timer);
+				if(vars.userActive.activeTime + vars.userActive.inactiveTime >= vars.userActive.maxTime) clearInterval(timer);
 				// Update counters
 				else {
-					if(lqx.vars.analytics.userActive.active) {
+					if(vars.userActive.active) {
 						// update active time
-						lqx.vars.analytics.userActive.activeTime += (new Date()).getTime() - lqx.vars.analytics.userActive.lastChangeTime;
+						vars.userActive.activeTime += (new Date()).getTime() - vars.userActive.lastChangeTime;
 					}
 					else {
 						// update inactive time
-						lqx.vars.analytics.userActive.inactiveTime += (new Date()).getTime() - lqx.vars.analytics.userActive.lastChangeTime;
+						vars.userActive.inactiveTime += (new Date()).getTime() - vars.userActive.lastChangeTime;
 					}
 					// update last change time
-					lqx.vars.analytics.userActive.lastChangeTime = (new Date()).getTime();
+					vars.userActive.lastChangeTime = (new Date()).getTime();
 				}
-			}, lqx.settings.userActive.refresh);
+			}, lqx.opts.userActive.refresh);
 
 			// initialize active state
 			lqx.userActive();
@@ -649,38 +650,38 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 		// function called to indicate user is currently active (heartbeat)
 		var userActive = function() {
 			// if no throttle
-			if(!lqx.vars.analytics.userActive.throttle) {
-				lqx.vars.analytics.userActive.throttle = true;
-				setTimeout(function(){lqx.vars.analytics.userActive.throttle = false;}, lqx.settings.userActive.throttle);
+			if(!vars.userActive.throttle) {
+				vars.userActive.throttle = true;
+				setTimeout(function(){vars.userActive.throttle = false;}, lqx.opts.userActive.throttle);
 				// when changing from being inactive
-				if(!lqx.vars.analytics.userActive.active) {
+				if(!vars.userActive.active) {
 					// set state to active
-					lqx.vars.analytics.userActive.active = true;
+					vars.userActive.active = true;
 					// update inactive time
-					lqx.vars.analytics.userActive.inactiveTime += (new Date()).getTime() - lqx.vars.analytics.userActive.lastChangeTime;
+					vars.userActive.inactiveTime += (new Date()).getTime() - vars.userActive.lastChangeTime;
 					// update last change time
-					lqx.vars.analytics.userActive.lastChangeTime = (new Date()).getTime();
+					vars.userActive.lastChangeTime = (new Date()).getTime();
 				}
 
 				// set state to active
-				lqx.vars.analytics.userActive.active = true;
+				vars.userActive.active = true;
 
 				// after idle time turn inactive
-				clearTimeout(lqx.vars.analytics.userActive.timer);
-				lqx.vars.analytics.userActive.timer = setTimeout(function(){userInactive();}, lqx.settings.userActive.idleTime);
+				clearTimeout(vars.userActive.timer);
+				vars.userActive.timer = setTimeout(function(){userInactive();}, lqx.opts.userActive.idleTime);
 			}
 		};
 
 		// function called to indicate the user is currently inactive
 		var userInactive = function() {
 			// set state to inactive
-			lqx.vars.analytics.userActive.active = false;
+			vars.userActive.active = false;
 			// clear timer
-			clearTimeout(lqx.vars.analytics.userActive.timer);
+			clearTimeout(vars.userActive.timer);
 			// add active time
-			lqx.vars.analytics.userActive.activeTime += (new Date()).getTime() - lqx.vars.analytics.userActive.lastChangeTime;
+			vars.userActive.activeTime += (new Date()).getTime() - vars.userActive.lastChangeTime;
 			// update last change time
-			lqx.vars.analytics.userActive.lastChangeTime = (new Date()).getTime();
+			vars.userActive.lastChangeTime = (new Date()).getTime();
 		};
 
 		return {
@@ -692,10 +693,10 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 }
 
 window.onYouTubeIframeAPIReady = function(){
-	if(lqx.vars.analytics.youTubeIframeAPIReady && (typeof YT !== 'undefined') && YT && YT.Player) {
-		Object.keys(lqx.vars.analytics.youtubePlayers).forEach(function(playerId) {
-			if(typeof lqx.vars.analytics.youtubePlayers[playerId].playerObj == 'undefined') {
-				lqx.vars.analytics.youtubePlayers[playerId].playerObj = new YT.Player(playerId, {
+	if(vars.youTubeIframeAPIReady && (typeof YT !== 'undefined') && YT && YT.Player) {
+		Object.keys(vars.youtubePlayers).forEach(function(playerId) {
+			if(typeof vars.youtubePlayers[playerId].playerObj == 'undefined') {
+				vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, {
 					events: {
 						'onReady': function(e){lqx.youtubePlayerReady(e, playerId);},
 						'onStateChange': function(e){lqx.youtubePlayerStateChange(e, playerId);}
@@ -706,7 +707,7 @@ window.onYouTubeIframeAPIReady = function(){
 	}
 	else {
 		// keep track how many time we have attempted, retry unless it has been more than 30secs
-		lqx.vars.analytics.youTubeIframeAPIReadyAttempts++;
-		if(lqx.vars.analytics.youTubeIframeAPIReadyAttempts < 120) setTimeout(function(){onYouTubeIframeAPIReady();},250);
+		vars.youTubeIframeAPIReadyAttempts++;
+		if(vars.youTubeIframeAPIReadyAttempts < 120) setTimeout(function(){onYouTubeIframeAPIReady();},250);
 	}
 };

@@ -11,19 +11,18 @@
 
 if(lqx && typeof lqx.menu == 'undefined') {
 	lqx.menu = (function(){
-		var defaults = {
-			settings: {
-				screens: ['sm','xs']
-			}
+		var opts = {
+			screens: ['sm','xs']
 		};
 
 		var init = function(){
 			// Initialize only if enabled
-			if(lqx.settings.menu.enabled) {
+			if(lqx.opts.menu.enabled) {
 				lqx.log('Initializing `menu`');
 
-				// Copy default settings and vars
-				jQuery.extend(lqx.settings.menu, defaults.settings);
+				// Copy default opts and vars
+				jQuery.extend(lqx.opts.menu, opts);
+				opts = lqx.opts.menu;
 
 				// Trigger setup on lqxready
 				lqx.vars.window.on('lqxready', function() {
@@ -86,7 +85,7 @@ if(lqx && typeof lqx.menu == 'undefined') {
 			};
 
 			// check if there is a sub menu
-			if(jQuery.inArray(lqx.responsive.screen, lqx.settings.menu.screens) != -1) {
+			if(jQuery.inArray(lqx.responsive.screen, opts.screens) != -1) {
 				// Joomla adds class .deeper, WordPress adds class .menu-item-has-children
 				if(jQuery(li).hasClass('deeper') || jQuery(li).hasClass('menu-item-has-children')) {
 					if(jQuery(li).hasClass('open')) {
@@ -111,7 +110,7 @@ if(lqx && typeof lqx.menu == 'undefined') {
 		};
 
 		var reset = function() {
-			if(jQuery.inArray(lqx.responsive.screen, lqx.settings.menu.screens) == -1) {
+			if(jQuery.inArray(lqx.responsive.screen, opts.screens) == -1) {
 				jQuery('.deeper.open, .menu-item-has-children.open').removeClass('open');
 			}
 		};

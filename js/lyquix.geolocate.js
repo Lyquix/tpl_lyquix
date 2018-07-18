@@ -11,32 +11,33 @@
 'use strict';
 if(lqx && typeof lqx.geolocate == 'undefined') {
 	lqx.geolocate = (function(){
-		var defaults = {
-			settings: {
-				gps: false
-			},
-			vars: {
-				location: {
-					city: null,
-					subdivision: null,
-					country: null,
-					continent: null,
-					time_zone: null,
-					lat: null,
-					lon: null,
-					radius: null
-				}
+		var opts = {
+			gps: false
+		}
+
+		var vars = {
+			location: {
+				city: null,
+				subdivision: null,
+				country: null,
+				continent: null,
+				time_zone: null,
+				lat: null,
+				lon: null,
+				radius: null
 			}
 		};
 
 		var init = function(){
 			// Initialize only if enabled
-			if(lqx.settings.geolocate.enabled) {
+			if(lqx.opts.geolocate.enabled) {
 				lqx.log('Initializing `geolocate`');
 
-				// Copy default settings and vars
-				jQuery.extend(lqx.settings.geolocate, defaults.settings);
-				jQuery.extend(lqx.vars.geolocate, defaults.vars);
+				// Copy default opts and vars
+				jQuery.extend(lqx.opts.geolocate, opts);
+				opts = lqx.opts.geolocate;
+				jQuery.extend(lqx.vars.geolocate, vars);
+				vars = lqx.vars.geolocate;
 
 				// Trigger functions on lqxready
 				lqx.vars.window.on('lqxready', function() {
@@ -49,7 +50,7 @@ if(lqx && typeof lqx.geolocate == 'undefined') {
 
 		// Get function
 		var location = function() {
-			return lqx.vars.geolocate.location;
+			return vars.location;
 		};
 
 		// geoLocate
@@ -60,30 +61,30 @@ if(lqx && typeof lqx.geolocate == 'undefined') {
 				async: true,
 				cache: false,
 				dataType: 'json',
-				url: lqx.settings.tmplURL + '/php/ip2geo/',
+				url: lqx.opts.tmplURL + '/php/ip2geo/',
 				success: function(data, status, xhr){
-					lqx.vars.geolocate.location = data;
+					vars.location = data;
 
 					// If GPS enabled, attempt to get lat/lon
-					if(lqx.settings.geolocate.gps && 'geolocate' in navigator) {
+					if(opts.gps && 'geolocate' in navigator) {
 						navigator.geolocate.getCurrentPosition(function(position) {
-							lqx.vars.geolocate.location.lat = position.coords.latitude;
-							lqx.vars.geolocate.location.lon = position.coords.longitude;
-							lqx.vars.geolocate.location.radius = 0;
+							vars.location.lat = position.coords.latitude;
+							vars.location.lon = position.coords.longitude;
+							vars.location.radius = 0;
 						});
 					}
 
 					// Add location attributes to body tag
-					for(var key in lqx.vars.geolocate.location) {
+					for(var key in vars.location) {
 						if(key == 'time_zone') {
-							lqx.vars.body.attr('time-zone', lqx.vars.geolocate.location[key]);
+							lqx.vars.body.attr('time-zone', vars.location[key]);
 						}
 						else {
-							lqx.vars.body.attr(key, lqx.vars.geolocate.location[key]);
+							lqx.vars.body.attr(key, vars.location[key]);
 						}
 					}
 
-					lqx.log('geolocate', lqx.vars.geolocate.location);
+					lqx.log('geolocate', vars.location);
 
 					// Trigger custom event 'geolocateready'
 					lqx.log('geolocate event');

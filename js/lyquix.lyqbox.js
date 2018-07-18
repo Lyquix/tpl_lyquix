@@ -11,49 +11,51 @@
 
 if(lqx && typeof lqx.lyqbox == 'undefined') {
 	lqx.lyqbox = (function(){
-		var defaults = {
-			settings: {
-				html: 
-					'<div class="lyqbox">' +
-						'<div class="content-wrapper">' +
-							'<div class="content"></div>' +
-							'<div class="info">' +
-								'<div class="title"></div>' +
-								'<div class="caption"></div>' +
-								'<div class="credit"></div>' +
-							'</div>' +
+		var opts = {
+			html: 
+				'<div class="lyqbox">' +
+					'<div class="content-wrapper">' +
+						'<div class="content"></div>' +
+						'<div class="info">' +
+							'<div class="title"></div>' +
+							'<div class="caption"></div>' +
+							'<div class="credit"></div>' +
 						'</div>' +
-						'<div class="content-wrapper">' +
-							'<div class="content"></div>' +
-							'<div class="info">' +
-								'<div class="title"></div>' +
-								'<div class="caption"></div>' +
-								'<div class="credit"></div>' +
-							'</div>' +
+					'</div>' +
+					'<div class="content-wrapper">' +
+						'<div class="content"></div>' +
+						'<div class="info">' +
+							'<div class="title"></div>' +
+							'<div class="caption"></div>' +
+							'<div class="credit"></div>' +
 						'</div>' +
-						'<div class="close"></div>' +
-						'<div class="prev"></div>' +
-						'<div class="next"></div>' +
-						'<div class="counter">' +
-							'<span class="current"></span>' +
-							' of <span class="total"></span>' +
-						'</div>' +
-					'</div>'
-			},
-			vars: {
-				album: [],
-				currentImageIndex: 0,
-				initialized: false
-			}
+					'</div>' +
+					'<div class="close"></div>' +
+					'<div class="prev"></div>' +
+					'<div class="next"></div>' +
+					'<div class="counter">' +
+						'<span class="current"></span>' +
+						' of <span class="total"></span>' +
+					'</div>' +
+				'</div>'
+		};
+
+		var vars = {
+			album: [],
+			currentImageIndex: 0,
+			initialized: false
 		};
 
 		var init = function(){
 			// Initialize only if enabled
-			if(lqx.settings.lyqbox.enabled) {
+			if(lqx.opts.lyqbox.enabled) {
 				lqx.log('Initializing `lyqbox`');
 
-				// Copy default settings and vars
-				jQuery.extend(lqx.vars.lyqbox, defaults.vars);
+				// Copy default opts and vars
+				jQuery.extend(lqx.opts.lyqbox, opts);
+				opts = lqx.opts.lyqbox;
+				jQuery.extend(lqx.vars.lyqbox, vars);
+				vars = lqx.vars.lyqbox;
 
 				// Trigger functions on lqxready
 				lqx.vars.window.on('lqxready', function() {
@@ -75,7 +77,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 		};
 
 		var setup = function() {
-			if(!lqx.vars.lyqbox.initialized) {
+			if(!vars.initialized) {
 				enable();
 				build();
 
@@ -88,7 +90,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 					hash();
 				});
 
-				lqx.vars.lyqbox.initialized = true;
+				vars.initialized = true;
 			}
 		};
 
@@ -122,7 +124,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 
 					// add listener to the close button to save the cookie and return deferred resolved
 					jQuery('.lyqbox .close').on('click', function alertBoxCloseButtonClicked() {
-						var cookieName = 'lyqbox-alert-' + lqx.vars.lyqbox.album[lqx.vars.lyqbox.currentImageIndex].albumId;
+						var cookieName = 'lyqbox-alert-' + vars.album[vars.currentImageIndex].albumId;
 						localStorage.setItem(cookieName, 1);
 
 						deferred.resolve();
@@ -152,42 +154,42 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 
 		var build = function() {
 			// append html structure
-			jQuery(lqx.settings.lyqbox.html).appendTo(lqx.vars.body);
+			jQuery(opts.html).appendTo(lqx.vars.body);
 
 			// assign the html container class to namespace variable
-			lqx.vars.lyqbox.overlay = jQuery('.lyqbox');
+			vars.overlay = jQuery('.lyqbox');
 
 			// assign active content container to the first .content box
-			lqx.vars.lyqbox.containerActive = lqx.vars.lyqbox.overlay.find('.content-wrapper').first().addClass('active');
+			vars.containerActive = vars.overlay.find('.content-wrapper').first().addClass('active');
 
 			// Add swipe event handler
 			lqx.util.swipe('.lyqbox .content-wrapper', swipeHandler);
 
 			// prev button click handling
-			lqx.vars.lyqbox.overlay.find('.prev').on('click', function() {
-				if (lqx.vars.lyqbox.currentImageIndex === 0) {
-					changeContent(lqx.vars.lyqbox.album.length - 1);
+			vars.overlay.find('.prev').on('click', function() {
+				if (vars.currentImageIndex === 0) {
+					changeContent(vars.album.length - 1);
 				} else {
-					changeContent(lqx.vars.lyqbox.currentImageIndex - 1);
+					changeContent(vars.currentImageIndex - 1);
 				}
 				return false;
 			});
 
 			// next button click handling
-			lqx.vars.lyqbox.overlay.find('.next').on('click', function() {
-				if (lqx.vars.lyqbox.currentImageIndex === lqx.vars.lyqbox.album.length - 1) {
+			vars.overlay.find('.next').on('click', function() {
+				if (vars.currentImageIndex === vars.album.length - 1) {
 					changeContent(0);
 				} else {
-					changeContent(lqx.vars.lyqbox.currentImageIndex + 1);
+					changeContent(vars.currentImageIndex + 1);
 				}
 				return false;
 			});
 
 			// close button click handling
-			lqx.vars.lyqbox.overlay.find('.close').on('click', function() {
+			vars.overlay.find('.close').on('click', function() {
 				// disable the close button for alertbox, cookie save handling to prevent the alert box to reappear will be done on the deferred section on alert function to make sure in the case alert and hashurl found,
 				// that the alert box is closed properly before showing a hash url content.
-				if (lqx.vars.lyqbox.album[lqx.vars.lyqbox.currentImageIndex].type == 'alert')
+				if (vars.album[vars.currentImageIndex].type == 'alert')
 					return false;
 
 				// else close the lightbox
@@ -200,18 +202,18 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
         // special function remove video iframe from DOM, otherwise it will still play in the background
         var stopVideo = function(type) {
             if (type == 'video') {
-                lqx.vars.lyqbox.containerActive.find('.content.video .video-container iframe').remove();
+                vars.containerActive.find('.content.video .video-container iframe').remove();
             }
         };
 
         
 		// Show overlay and lightbox. If the image is part of a set, add siblings to album array.
 		var start = function(data) {
-			lqx.vars.lyqbox.album = [];
+			vars.album = [];
 			var currentIndex = 0;
 
 			function addToAlbum(data) {
-				lqx.vars.lyqbox.album.push({
+				vars.album.push({
 					albumId: data.attr('data-lyqbox'),
 					type: data.attr('data-lyqbox-type'),
 					link: data.attr('data-lyqbox-url'),
@@ -257,31 +259,31 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 		};
 
 		var addHash = function() {
-			if (lqx.vars.lyqbox.album[lqx.vars.lyqbox.currentImageIndex].alias)
-				window.location.hash = lqx.vars.lyqbox.album[lqx.vars.lyqbox.currentImageIndex].albumId + '_' + lqx.vars.lyqbox.album[lqx.vars.lyqbox.currentImageIndex].alias;
+			if (vars.album[vars.currentImageIndex].alias)
+				window.location.hash = vars.album[vars.currentImageIndex].albumId + '_' + vars.album[vars.currentImageIndex].alias;
 		};
 
 		// change content, for now we have 3 types, image, iframe and HTML.
 		var changeContent = function(index) {
 			disableKeyboardNav();
-			lqx.vars.lyqbox.overlay.addClass('open');
+			vars.overlay.addClass('open');
 
 			// deferred var to be used on alert type lyqbox only, just in case it's loading HTML content from a file
 			var promise = jQuery.Deferred();
 
 			// process the new content
-			switch (lqx.vars.lyqbox.album[index].type) {
+			switch (vars.album[index].type) {
 				case 'image':
 					var image = jQuery('<img />');
 					var preloader = new Image();
-					preloader.src = lqx.vars.lyqbox.album[index].link;
+					preloader.src = vars.album[index].link;
 					preloader.onload = function() {
 						var preloaderObject;
-						image.attr('src', lqx.vars.lyqbox.album[index].link);
+						image.attr('src', vars.album[index].link);
 
 						preloaderObject = jQuery(preloader);
 
-						updateContent(image, index, lqx.vars.lyqbox.album[index].type);
+						updateContent(image, index, vars.album[index].type);
 						addHash();
 
 						// important line of code to make sure opacity is computed and applied as a starting value to the element so that the css transition works.
@@ -292,9 +294,9 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 
 				case 'video':
 					var video = jQuery('<iframe></iframe>');
-					video.attr('src', lqx.vars.lyqbox.album[index].link);
+					video.attr('src', vars.album[index].link);
 
-					updateContent('<div class="video-container">' + video.prop('outerHTML') + '</div>', index, lqx.vars.lyqbox.album[index].type);
+					updateContent('<div class="video-container">' + video.prop('outerHTML') + '</div>', index, vars.album[index].type);
 					addHash();
 					break;
 
@@ -305,15 +307,15 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 					// the priority is given to the data-lyqbox-url attribute first, if this is blank, then data-lyqbox-html will be processed instead.
 
 					// check if url is not empty
-					if (lqx.vars.lyqbox.album[index].link !== '' && typeof lqx.vars.lyqbox.album[index].link !== 'undefined' ) {
-						promise = loadHTML(lqx.vars.lyqbox.album[index].link);
+					if (vars.album[index].link !== '' && typeof vars.album[index].link !== 'undefined' ) {
+						promise = loadHTML(vars.album[index].link);
 
 						promise.done(function htmlLoaded(htmlResult) {
 							if (htmlResult !== '')
-								updateContent(htmlResult, index, lqx.vars.lyqbox.album[index].type);
+								updateContent(htmlResult, index, vars.album[index].type);
 						});
 					} else {
-						updateContent(lqx.vars.lyqbox.album[index].html, index, lqx.vars.lyqbox.album[index].type);
+						updateContent(vars.album[index].html, index, vars.album[index].type);
 					}
 					break;
 
@@ -324,10 +326,10 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 
 		var updateContent = function(content, index, type) {
             stopVideo(type);
-			lqx.vars.lyqbox.overlay.find('.content-wrapper').not('.active').addClass('active').find('.content').removeClass().addClass('content ' + type).empty().append(content);
-			lqx.vars.lyqbox.containerActive.removeClass('active');
-			lqx.vars.lyqbox.containerActive = lqx.vars.lyqbox.overlay.find('.content-wrapper.active');
-			lqx.vars.lyqbox.currentImageIndex = index;
+			vars.overlay.find('.content-wrapper').not('.active').addClass('active').find('.content').removeClass().addClass('content ' + type).empty().append(content);
+			vars.containerActive.removeClass('active');
+			vars.containerActive = vars.overlay.find('.content-wrapper.active');
+			vars.currentImageIndex = index;
 			updateUIandKeyboard();
 		};
 
@@ -341,43 +343,43 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 		var updateUI = function() {
 
 			// alert type will hide title, caption and credit????
-			if(lqx.vars.lyqbox.album[lqx.vars.lyqbox.currentImageIndex].type != 'alert' ) {
+			if(vars.album[vars.currentImageIndex].type != 'alert' ) {
 				// display title
-				if (typeof lqx.vars.lyqbox.album[lqx.vars.lyqbox.currentImageIndex].title !== 'undefined' &&
-					lqx.vars.lyqbox.album[lqx.vars.lyqbox.currentImageIndex].title !== '') {
-					lqx.vars.lyqbox.overlay.find('.title')
-						.html(lqx.vars.lyqbox.album[lqx.vars.lyqbox.currentImageIndex].title);
+				if (typeof vars.album[vars.currentImageIndex].title !== 'undefined' &&
+					vars.album[vars.currentImageIndex].title !== '') {
+					vars.overlay.find('.title')
+						.html(vars.album[vars.currentImageIndex].title);
 				} else  {
-					lqx.vars.lyqbox.overlay.find('.title').html('');
+					vars.overlay.find('.title').html('');
 				}
 				// display caption
-				if (typeof lqx.vars.lyqbox.album[lqx.vars.lyqbox.currentImageIndex].caption !== 'undefined' &&
-					lqx.vars.lyqbox.album[lqx.vars.lyqbox.currentImageIndex].caption !== '') {
-					lqx.vars.lyqbox.overlay.find('.caption')
-						.html(lqx.vars.lyqbox.album[lqx.vars.lyqbox.currentImageIndex].caption);
+				if (typeof vars.album[vars.currentImageIndex].caption !== 'undefined' &&
+					vars.album[vars.currentImageIndex].caption !== '') {
+					vars.overlay.find('.caption')
+						.html(vars.album[vars.currentImageIndex].caption);
 				} else  {
-					lqx.vars.lyqbox.overlay.find('.caption').html('');
+					vars.overlay.find('.caption').html('');
 				}
 				// display credit
-				if (typeof lqx.vars.lyqbox.album[lqx.vars.lyqbox.currentImageIndex].credit !== 'undefined' &&
-					lqx.vars.lyqbox.album[lqx.vars.lyqbox.currentImageIndex].credit !== '') {
-					lqx.vars.lyqbox.overlay.find('.credit')
-						.html(lqx.vars.lyqbox.album[lqx.vars.lyqbox.currentImageIndex].credit);
+				if (typeof vars.album[vars.currentImageIndex].credit !== 'undefined' &&
+					vars.album[vars.currentImageIndex].credit !== '') {
+					vars.overlay.find('.credit')
+						.html(vars.album[vars.currentImageIndex].credit);
 				} else  {
-					lqx.vars.lyqbox.overlay.find('.credit').html('');
+					vars.overlay.find('.credit').html('');
 				}
 
 				// display counter (current and total) and nav only if gallery
-				if (lqx.vars.lyqbox.album.length > 1)  {
-					lqx.vars.lyqbox.overlay.find('.current').text(lqx.vars.lyqbox.currentImageIndex + 1);
-					lqx.vars.lyqbox.overlay.find('.total').text(lqx.vars.lyqbox.album.length);
+				if (vars.album.length > 1)  {
+					vars.overlay.find('.current').text(vars.currentImageIndex + 1);
+					vars.overlay.find('.total').text(vars.album.length);
 				} else  {
-					lqx.vars.lyqbox.overlay.find('.prev,.next').addClass('hide');
-					lqx.vars.lyqbox.overlay.find('.counter').addClass('hide');
+					vars.overlay.find('.prev,.next').addClass('hide');
+					vars.overlay.find('.counter').addClass('hide');
 				}
 			} else {
-				lqx.vars.lyqbox.overlay.find('.prev,.next').addClass('hide');
-				lqx.vars.lyqbox.overlay.find('.counter').addClass('hide');
+				vars.overlay.find('.prev,.next').addClass('hide');
+				vars.overlay.find('.counter').addClass('hide');
 			}
 		};
 
@@ -405,16 +407,16 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 			if (keycode === KEYCODE_ESC || key.match(/x|o|c/)) {
 				end();
 			} else if (keycode === KEYCODE_LEFTARROW) {
-				if (lqx.vars.lyqbox.currentImageIndex === 0) {
-					changeContent(lqx.vars.lyqbox.album.length - 1);
+				if (vars.currentImageIndex === 0) {
+					changeContent(vars.album.length - 1);
 				} else {
-					changeContent(lqx.vars.lyqbox.currentImageIndex - 1);
+					changeContent(vars.currentImageIndex - 1);
 				}
 			} else if (keycode === KEYCODE_RIGHTARROW) {
-				if (lqx.vars.lyqbox.currentImageIndex === lqx.vars.lyqbox.album.length - 1) {
+				if (vars.currentImageIndex === vars.album.length - 1) {
 					changeContent(0);
 				} else {
-					changeContent(lqx.vars.lyqbox.currentImageIndex + 1);
+					changeContent(vars.currentImageIndex + 1);
 				}
 			}
 		};
@@ -440,8 +442,8 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 		// Closing time
 		var end = function() {
 			disableKeyboardNav();
-			lqx.vars.lyqbox.overlay.removeClass('open');
-			stopVideo(lqx.vars.lyqbox.album[lqx.vars.lyqbox.currentImageIndex].type);
+			vars.overlay.removeClass('open');
+			stopVideo(vars.album[vars.currentImageIndex].type);
 			removeHash();
 		};
 

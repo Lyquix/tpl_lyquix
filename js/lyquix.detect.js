@@ -11,23 +11,22 @@
 
 if(lqx && typeof lqx.detect == 'undefined') {
 	lqx.detect = (function(){
-		var defaults = {
-			vars: {
-				mobile: null,
-				browser: null,
-				os: null,
-				urlParts: null,
-				urlParams: null
-			}
+		var vars = {
+			mobile: null,
+			browser: null,
+			os: null,
+			urlParts: {},
+			urlParams: {}
 		};
 
 		var init = function(){
 			// Initialize only if enabled
-			if(lqx.settings.detect.enabled) {
+			if(lqx.opts.detect.enabled) {
 				lqx.log('Initializing `detect`');
 
-				// Copy default settings and vars
-				jQuery.extend(lqx.vars.detect, defaults.vars);
+				// Copy default opts and vars
+				jQuery.extend(lqx.vars.detect, vars);
+				vars = lqx.vars.detect;
 
 				// Trigger functions on lqxready
 				lqx.vars.window.on('lqxready', function() {
@@ -44,19 +43,19 @@ if(lqx && typeof lqx.detect == 'undefined') {
 
 		// Get functions
 		var mobile = function() {
-			return lqx.vars.detect.mobile;
+			return vars.mobile;
 		};
 		var browser = function() {
-			return lqx.vars.detect.browser;
+			return vars.browser;
 		};
 		var os = function() {
-			return lqx.vars.detect.os;
+			return vars.os;
 		};
 		var urlParts = function() {
-			return lqx.vars.detect.urlParts;
+			return vars.urlParts;
 		};
 		var urlParams = function() {
-			return lqx.vars.detect.urlParams;
+			return vars.urlParams;
 		};
 
 		// Uses the mobile-detect.js library to detect if the browser is a mobile device
@@ -82,7 +81,7 @@ if(lqx && typeof lqx.detect == 'undefined') {
 					}
 				}
 				lqx.log('Detect mobile', r);
-				lqx.vars.detect.mobile = r;
+				vars.mobile = r;
 				return true;
 			}
 			else {
@@ -172,7 +171,7 @@ if(lqx && typeof lqx.detect == 'undefined') {
 			}
 
 			lqx.log('Detect browser', browser);
-			lqx.vars.detect.browser = browser;
+			vars.browser = browser;
 			return true;
 		};
 
@@ -257,26 +256,24 @@ if(lqx && typeof lqx.detect == 'undefined') {
 			}
 
 			lqx.log('Detect O/S', os);
-			lqx.vars.detect.os = os;
+			vars.os = os;
 			return true;
 		};
 
 		// Detects URL domain, path and hash and sets them as attributes to the body tag
 		var detectUrlParts = function() {
-			lqx.vars.detect.urlParts = {};
-
 			lqx.vars.body.attr('domain', window.location.hostname);
-			lqx.vars.detect.urlParts.domain = window.location.hostname;
+			vars.urlParts.domain = window.location.hostname;
 
 			lqx.vars.body.attr('path', window.location.pathname);
-			lqx.vars.detect.urlParts.path = window.location.pathname;
+			vars.urlParts.path = window.location.pathname;
 
 			lqx.vars.body.attr('hash', window.location.hash.substring(1));
-			lqx.vars.detect.urlParts.hash = window.location.hash.substring(1);
+			vars.urlParts.hash = window.location.hash.substring(1);
 
 			lqx.vars.window.on('hashchange',function(){
 				lqx.vars.body.attr('hash', window.location.hash.substring(1));
-				lqx.vars.detect.urlParts.hash = window.location.hash.substring(1);
+				vars.urlParts.hash = window.location.hash.substring(1);
 			});
 
 			lqx.log('Detect URL parts');
@@ -284,14 +281,12 @@ if(lqx && typeof lqx.detect == 'undefined') {
 
 		// Parses URL parameters
 		var detectUrlParams = function() {
-			lqx.vars.detect.urlParams = {};
-
 			var params = window.location.search.substr(1).split('&');
 			if(params.length) {
 				params.forEach(function(param){
 					param = param.split('=', 2);
-					if(param.length == 2) lqx.vars.detect.urlParams[param[0]] = decodeURIComponent(param[1].replace(/\+/g, ' '));
-					else lqx.vars.detect.urlParams[param[0]] = null;
+					if(param.length == 2) vars.urlParams[param[0]] = decodeURIComponent(param[1].replace(/\+/g, ' '));
+					else vars.urlParams[param[0]] = null;
 				});
 			}
 

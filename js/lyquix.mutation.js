@@ -11,22 +11,21 @@
 
 if(lqx && typeof lqx.mutation == 'undefined') {
 	lqx.mutation = (function(){
-		var defaults = {
-			vars: {
-				observer: null,
-				addNode: [],
-				removeNode: [],
-				modAttrib: []
-			}
+		var vars = {
+			observer: null,
+			addNode: [],
+			removeNode: [],
+			modAttrib: []
 		};
 
 		var init = function(){
 			// Initialize only if enabled
-			if(lqx.settings.mutation.enabled) {
+			if(lqx.opts.mutation.enabled) {
 				lqx.log('Initializing `mutation`');
 
-				// Copy default settings and vars
-				jQuery.extend(lqx.vars.mutation, defaults.vars);
+				// Copy default opts and vars
+				jQuery.extend(lqx.vars.mutation, vars);
+				vars = lqx.vars.mutation;
 
 				// Trigger functions on lqxready
 				lqx.vars.window.on('lqxready', function() {
@@ -45,8 +44,8 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 
 			// check for mutationObserver support , if exists, user the mutation observer object, if not use the listener method.
 			if (typeof mo !== 'undefined'){
-				lqx.vars.mutation.observer = new mo(handler);
-				lqx.vars.mutation.observer.observe(document, {childList: true, subtree: true, attributes: true});
+				vars.observer = new mo(handler);
+				vars.observer.observe(document, {childList: true, subtree: true, attributes: true});
 			}
 			else {
 				jQuery(document).on('DOMNodeInserted DOMNodeRemoved DOMAttrModified', function(e) {
@@ -59,13 +58,13 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 			// type can be addNode, removeNode, and modAttrib
 			switch(type) {
 				case 'addNode':
-					lqx.vars.mutation.addNode.push({'selector': selector, 'callback': callback});
+					vars.addNode.push({'selector': selector, 'callback': callback});
 					break;
 				case 'removeNode':
-					lqx.vars.mutation.removeNode.push({'selector': selector, 'callback': callback});
+					vars.removeNode.push({'selector': selector, 'callback': callback});
 					break;
 				case 'modAttrib':
-					lqx.vars.mutation.modAttrib.push({'selector': selector, 'callback': callback});
+					vars.modAttrib.push({'selector': selector, 'callback': callback});
 					break;
 			}
 		};
@@ -81,34 +80,34 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 					case 'childList':
 						// Handle nodes added
 						if (mutRec.addedNodes.length > 0) {
-							lqx.vars.mutation.addNode.forEach(function(handler){
+							vars.addNode.forEach(function(handler){
 								if(mutRec.target.matches(handler.selector)) handler.callback(mutRec.target);
 							});
 						}
 
 						// Handle nodes removed
 						if (mutRec.removedNodes.length > 0) {
-							lqx.vars.mutation.removeNode.forEach(function(handler){
+							vars.removeNode.forEach(function(handler){
 								if(mutRec.target.matches(handler.selector)) handler.callback(mutRec.target);
 							});
 						}
 						break;
 
 					case 'DOMNodeInserted':
-						lqx.vars.mutation.addNode.forEach(function(handler){
+						vars.addNode.forEach(function(handler){
 							if(mutRec.target.matches(handler.selector)) handler.callback(mutRec.target);
 						});
 						break;
 
 					case 'DOMNodeRemoved':
-						lqx.vars.mutation.removeNode.forEach(function(handler){
+						vars.removeNode.forEach(function(handler){
 							if(mutRec.target.matches(handler.selector)) handler.callback(mutRec.target);
 						});
 						break;
 
 					case 'attributes':
 					case 'DOMAttrModified':
-						lqx.vars.mutation.modAttrib.forEach(function(handler){
+						vars.modAttrib.forEach(function(handler){
 							if(mutRec.target.matches(handler.selector)) handler.callback(mutRec.target);
 						});
 						break;

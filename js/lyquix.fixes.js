@@ -13,14 +13,14 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 	lqx.fixes = (function(){
 		var init = function(){
 			// Initialize only if enabled
-			if(lqx.settings.fixes.enabled) {
+			if(lqx.opts.fixes.enabled) {
 				lqx.log('Initializing `fixes`');
 
 				if(lqx.detect.browser.type == 'msie') {
 					// Trigger functions on document ready
 					lqx.vars.document.ready(function() {
 						imgWidthAttrib();
-						fontFeatureSettings();
+						fontFeatureopts();
 						cssGrid();
 					});
 
@@ -62,9 +62,9 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 		};
 
 		// Fix for Google fonts not rendering in IE10/11
-		var fontFeatureSettings = function() {
-			jQuery('<style>html, sup, sub, samp, td, th, h1, h2, h3, .font-monospace, .font-smallcaps, .font-uppercase {font-feature-settings: normal;}</style>').appendTo('head');
-			lqx.log('Font feature settings property fix for IE10/11');
+		var fontFeatureopts = function() {
+			jQuery('<style>html, sup, sub, samp, td, th, h1, h2, h3, .font-monospace, .font-smallcaps, .font-uppercase {font-feature-opts: normal;}</style>').appendTo('head');
+			lqx.log('Font feature opts property fix for IE10/11');
 		};
 
 		// Fix for CSS grid: add column/row position and span if not specified

@@ -18,8 +18,8 @@ else if(typeof jQuery == 'undefined') {
 }
 else {
 	var lqx = (function(){
-		// Default settings
-		var settings = {
+		// Default opts
+		var opts = {
 			debug: false,
 			siteURL: null,
 			tmplURL: null,
@@ -95,13 +95,13 @@ else {
 			return lqx.init = true;
 		};
 
-		// Extends/updates the settings object
+		// Extends/updates the opts object
 		var options = function(opts) {
 			if(typeof opts == 'object') {
-				jQuery.extend(true, lqx.settings, opts);
+				jQuery.extend(true, lqx.opts, opts);
 				lqx.log('Options updated', opts);
 			}
-			return lqx.settings;
+			return lqx.opts;
 		};
 
 		// Triggers custom event 'lqxready'
@@ -115,17 +115,17 @@ else {
 		};
 
 		// Internal console log/warn/error functions
-		// Use instead of console.log(), console.warn() and console.error(), use lqx.settings.debug to enable/disable
+		// Use instead of console.log(), console.warn() and console.error(), use lqx.opts.debug to enable/disable
 		var log = function() {
-			if(lqx.settings.debug) console.log(arguments);
+			if(lqx.opts.debug) console.log(arguments);
 		};
 
 		var warn = function() {
-			if(lqx.settings.debug) console.warn(arguments);
+			if(lqx.opts.debug) console.warn(arguments);
 		};
 
 		var error = function() {
-			if(lqx.settings.debug) console.error(arguments);
+			if(lqx.opts.debug) console.error(arguments);
 		};
 
 		// Changes all fonts to Comic Sans
@@ -155,7 +155,7 @@ else {
 		};
 
 		return {
-			settings: settings,
+			opts: opts,
 			vars: vars,
 			init: init,
 			options: options,

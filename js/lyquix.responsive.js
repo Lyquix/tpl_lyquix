@@ -11,27 +11,28 @@
 
 if(lqx && typeof lqx.responsive == 'undefined') {
 	lqx.responsive = (function(){
-		var defaults = {
-			settings: {
-				sizes: ['xs', 'sm', 'md', 'lg', 'xl'],
-				breakPoints: [320, 640, 960, 1280, 1600],
-				minIndex: 0,
-				maxIndex: 4
-			},
-			vars: {
-				screen: null,
-				orientation: null
-			}
+		var opts = {
+			sizes: ['xs', 'sm', 'md', 'lg', 'xl'],
+			breakPoints: [320, 640, 960, 1280, 1600],
+			minIndex: 0,
+			maxIndex: 4
+		};
+
+		var vars = {
+			screen: null,
+			orientation: null
 		};
 
 		var init = function(){
 			// Initialize only if enabled
-			if(lqx.settings.responsive.enabled) {
+			if(lqx.opts.responsive.enabled) {
 				lqx.log('Initializing `responsive`');
 
-				// Copy default settings and vars
-				jQuery.extend(lqx.settings.responsive, defaults.settings);
-				jQuery.extend(lqx.vars.responsive, defaults.vars);
+				// Copy default opts and vars
+				jQuery.extend(lqx.opts.responsive, opts);
+				opts = lqx.opts.responsive;
+				jQuery.extend(lqx.vars.responsive, vars);
+				vars = lqx.vars.responsive;
 
 				// Trigger setScreen
 				lqx.vars.window.on('lqxready resizethrottle orientationchange', function() {
@@ -53,10 +54,10 @@ if(lqx && typeof lqx.responsive == 'undefined') {
 
 		// Get functions
 		var screen = function() {
-			return lqx.vars.responsive.screen;
+			return vars.screen;
 		};
 		var orientation = function() {
-			return lqx.vars.responsive.orientation;
+			return vars.orientation;
 		};
 
 		// Sets the attribute "screen" to the body tag that indicates the current size of the screen
@@ -66,27 +67,27 @@ if(lqx && typeof lqx.responsive == 'undefined') {
 			var s = null;
 
 			// Find in what breakpoint are we
-			if(w < lqx.settings.responsive.breakPoints[1]) s = 0;
-			if(w >= lqx.settings.responsive.breakPoints[1]) s = 1;
-			if(w >= lqx.settings.responsive.breakPoints[2]) s = 2;
-			if(w >= lqx.settings.responsive.breakPoints[3]) s = 3;
-			if(w >= lqx.settings.responsive.breakPoints[4]) s = 4;
+			if(w < opts.breakPoints[1]) s = 0;
+			else if(w >= opts.breakPoints[1] && w < opts.breakPoints[2]) s = 1;
+			else if(w >= opts.breakPoints[2] && w < opts.breakPoints[3]) s = 2;
+			else if(w >= opts.breakPoints[3] && w < opts.breakPoints[4]) s = 3;
+			else if(w >= opts.breakPoints[4]) s = 4;
 
 			// Adjust calculated size to min and max range
-			if(s < lqx.settings.responsive.minIndex) s = lqx.settings.responsive.minIndex;
-			if(s > lqx.settings.responsive.maxIndex) s = lqx.settings.responsive.maxIndex;
+			if(s < opts.minIndex) s = opts.minIndex;
+			if(s > opts.maxIndex) s = opts.maxIndex;
 
 			// If different from previous screen size
-			if(lqx.settings.responsive.sizes[s] != lqx.vars.responsive.screen) {
+			if(opts.sizes[s] != vars.screen) {
 				// Change the body screen attribute
-				lqx.vars.body.attr('screen',lqx.settings.responsive.sizes[s]);
+				lqx.vars.body.attr('screen',opts.sizes[s]);
 
 				// Save the current screen size
-				lqx.vars.responsive.screen = lqx.settings.responsive.sizes[s];
+				vars.screen = opts.sizes[s];
 
 				// Trigger custom event 'screensizechange'
 				lqx.vars.document.trigger('screensizechange');
-				lqx.log('Screen size changed', lqx.vars.responsive.screen);
+				lqx.log('Screen size changed', vars.screen);
 			}
 
 			return true;
@@ -95,21 +96,21 @@ if(lqx && typeof lqx.responsive == 'undefined') {
 		// Sets the attribute "orientation" to the body tag that indicates the current orientation of the screen
 		var setOrientation = function() {
 			var o = window.screen.orientation.type;
-			if(o.indexOf(lqx.vars.responsive.orientation) != -1) {
+			if(o.indexOf(vars.orientation) != -1) {
 				switch (o) {
 					case 'portrait-primary':
 					case 'portrait-secondary':
-						lqx.vars.responsive.orientation = 'portrait';
+						vars.orientation = 'portrait';
 						lqx.vars.body.attr('orientation', 'portrait');
 						break;
 
 					case 'landscape-primary':
 					case 'landscape-secondary':
-						lqx.vars.responsive.orientation = 'landscape';
+						vars.orientation = 'landscape';
 						lqx.vars.body.attr('orientation', 'landscape');
 						break;
 				}
-				lqx.log('Screen orientation changed', lqx.vars.responsive.orientation);
+				lqx.log('Screen orientation changed', vars.orientation);
 			}
 			return true;
 		};
