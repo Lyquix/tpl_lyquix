@@ -223,3 +223,34 @@
 		}
 	}
 }
+
+// blk-display-flex place holder
+%blk-display-flex {
+	display: flex;
+}
+
+// blk-display-flex mixin
+@mixin blk-display-flex {
+	// Fraction classes
+	@for $d from 1 through $blk-denominator {
+		@for $n from 1 through $d {
+			// Set padding to zero
+			body[screen] .flex-container.blk#{$n}\/#{$d} {@extend %blk-display-flex;}
+
+			// Fraction-screen classes
+			@each $s in $screen-sizes {
+				body[screen] .flex-container.blk#{$n}\/#{$d}-#{$s} {@extend %blk-display-flex;}
+			}
+		}
+	}
+	// Percentage classes
+	@for $p from 1 through (100 / $blk-pct-step) {
+		// Set padding to zero
+		body[screen] .flex-container.blk#{$p * $blk-pct-step}\% {@extend %blk-display-flex;}
+		
+		// Percentage-screen classes
+		@each $s in $screen-sizes {
+			body[screen] .flex-container.blk#{$p * $blk-pct-step}\%-#{$s} {@extend %blk-display-flex;}
+		}
+	}
+}
