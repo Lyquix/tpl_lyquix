@@ -96,10 +96,20 @@
 				</field>
 			</fieldset>
 			<fieldset name="css_tab" label="CSS">
+				<field name="merge_css" type="checkboxes" label="Merge CSS" description="Merge 3rd party CSS files">
+					<option value="local">Local CSS Files</option>
+					<option value="remote">Remote CSS Files</option>
+					<option value="inline">Inline CSS Declarations</option>
+				</field>
 				<field name="add_css_libraries" type="textarea" default="" label="Additional CSS Libraries" description="Enter one URL per line for additional javascript libraries you need for your project. We recommend: a) remove the protcol (http or https) from the URL, b) use the minified version for the production site" />
 				<field name="remove_css_libraries" type="textarea" default="" label="Remove CSS Libraries" description="Enter one URL per line for CSS libraries you want to remove from head include for your project. Use the same URL you see in the output HTML (it may be absolute or relative URL)" />
 			</fieldset>
 			<fieldset name="js_tab" label="Javascript">
+				<field name="merge_js" type="checkboxes" label="Merge JS" description="Merge 3rd party JS files">
+					<option value="local">Local JS Files</option>
+					<option value="remote">Remote JS Files</option>
+					<option value="inline">Inline JS Declarations</option>
+				</field>
 				<field name="lqx_options" type="text" default="" label="Lyquix Library Options" description="Object of options to override Lyquix default settings" />
 				<field name="non_min_js" type="radio" default="0" label="Use original JS" description="Uses the original JS files instead of the minified versions. Activate only for development.">
 					<option value="0">No</option>

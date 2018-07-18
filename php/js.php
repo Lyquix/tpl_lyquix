@@ -10,6 +10,11 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+$merge_js = $this->params->get('merge_js'); 
+if(!is_array($this->params->get('merge_js'))) {
+	$merge_js = array();
+}
+
 // Array to store all scripts to be loaded
 $scripts = array();
 
@@ -18,30 +23,36 @@ foreach($doc->_scripts as $script_url => $script_meta) {
 	// Check if script is local or remote
 	if(parse_url($script_url, PHP_URL_SCHEME)) {
 		// Absolute URL
-		$scripts[] = array('url' => $script_url);
+		if(in_array('remote', $merge_js)) {
+			$scripts[] = array('url' => $script_url);
+			unset($doc->_scripts[$script_url]);
+		}
 	}
 	elseif (parse_url($script_url, PHP_URL_PATH)) {
 		// Relative URL
-		// Add leading / if missing
-		if(substr($script_url,0,1) != '/') $script_url = '/' . $script_url;
-		// Check if file exist
-		if(file_exists(JPATH_BASE . $script_url)) {
-			$scripts[] = array(
-				'url' => $script_url,
-				'version' => date("YmdHis", filemtime(JPATH_BASE . $script_url))
-			);
+		if(in_array('local', $merge_js)) {
+			$url = $script_url;
+			// Add leading / if missing
+			if(substr($url,0,1) != '/') $url = '/' . $url;
+			// Check if file exist
+			if(file_exists(JPATH_BASE . $url)) {
+				$scripts[] = array(
+					'url' => $url,
+					'version' => date("YmdHis", filemtime(JPATH_BASE . $url))
+				);
+				unset($doc->_scripts[$script_url]);
+			}
 		}
 	}
 }
 
 // Parse enqueued script declarations
-foreach($doc->_script as $script_type => $script_data) {
-	$scripts[] = array('data' => $script_data);
+if(in_array('inline', $merge_js)) {
+	foreach($doc->_script as $script_type => $script_data) {
+		$scripts[] = array('data' => $script_data);
+	}
+	$doc->_script = array();
 }
-
-// Empty scripts and script declarations
-$doc->_scripts = array();
-$doc->_script = array();
 
 // Use non minified version?
 $non_min_js = $this->params->get('non_min_js');

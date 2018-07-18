@@ -10,6 +10,11 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+$merge_css = $this->params->get('merge_css'); 
+if(!is_array($this->params->get('merge_css'))) {
+	$merge_css = array();
+}
+
 // Array to store all stylesheets to be loaded
 $stylesheets = array();
 
@@ -18,30 +23,36 @@ foreach($doc->_styleSheets as $stylesheet_url => $stylesheet_meta) {
 	// Check if stylesheet is local or remote
 	if(parse_url($stylesheet_url, PHP_URL_SCHEME)) {
 		// Absolute URL
-		$stylesheets[] = array('url' => $stylesheet_url);
+		if(in_array('remote', $merge_css)) {
+			$stylesheets[] = array('url' => $stylesheet_url);
+			unset($doc->_styleSheets[$stylesheet_url]);
+		}
 	}
 	elseif (parse_url($stylesheet_url, PHP_URL_PATH)) {
 		// Relative URL
-		// Add leading / if missing
-		if(substr($stylesheet_url,0,1) != '/') $stylesheet_url = '/' . $stylesheet_url;
-		// Check if file exist
-		if(file_exists(JPATH_BASE . $stylesheet_url)) {
-			$stylesheets[] = array(
-				'url' => $stylesheet_url,
-				'version' => date("YmdHis", filemtime(JPATH_BASE . $stylesheet_url))
-			);
+		if(in_array('local', $merge_css)) {
+			$url = $stylesheet_url;
+			// Add leading / if missing
+			if(substr($url,0,1) != '/') $url = '/' . $url;
+			// Check if file exist
+			if(file_exists(JPATH_BASE . $url)) {
+				$stylesheets[] = array(
+					'url' => $url,
+					'version' => date("YmdHis", filemtime(JPATH_BASE . $url))
+				);
+				unset($doc->_styleSheets[$stylesheet_url]);
+			}
 		}
 	}
 }
 
 // Parse enqueued style declarations
-foreach($doc->_style as $stylesheet_type => $stylesheet_data) {
-	$stylesheets[] = array('data' => $stylesheet_data);
+if(in_array('inline', $merge_css)) {
+	foreach($doc->_style as $stylesheet_type => $stylesheet_data) {
+		$stylesheets[] = array('data' => $stylesheet_data);
+	}
+	$doc->_style = array();
 }
-
-// Empty stylesheets and stylesheet declarations
-$doc->_styleSheets = array();
-$doc->_style = array();
 
 // Additional CSS Libraries
 $add_css_libraries = explode("\n", trim($this->params->get('add_css_libraries', '')));
