@@ -5,4 +5,6 @@ Desktop.ini
 
 # gitignore for tpl_lyquix
 .sass-cache
+/dist/*.css
+/dist/*.js
 /php/ip2geo/GeoLite2-City.mmdb
