@@ -124,10 +124,6 @@ if (!is_dir($tmpl_path . '/dist/')) {
 
 // Check if file has already been created
 if(!file_exists($tmpl_path . '/dist/' . $stylesheet_filename)) {
-	// Delete old .css files in the folder
-	foreach (glob($tmpl_path . '/dist/*.css') as $oldcss) {
-		unlink($oldcss);
-	}
 	// Regular expression to find url in files
 	$regex = '/url\(\s*[\"\\\']?([^\"\\\'\)]+)[\"\\\']?\s*\)/';
 	// Prepare file

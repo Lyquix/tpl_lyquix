@@ -120,10 +120,6 @@ if (!is_dir($tmpl_path . '/dist/')) {
 
 // Check if file has already been created
 if(!file_exists($tmpl_path . '/dist/' . $scripts_filename)) {
-	// Delete old .js files in the folder
-	foreach (glob($tmpl_path . '/dist/*.js') as $oldjs) {
-		unlink($oldjs);
-	}
 	// Prepare file
 	$scripts_data = "/* " . $scripts_filename . " */\n";
 	foreach($scripts as $idx => $script) {
