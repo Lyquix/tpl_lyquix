@@ -115,7 +115,7 @@
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
-				<field name="lessjs" type="radio" default="0" label="Use less.js" description="Uses LESS instead of CSS with JavaScript processing. Activate only for development. Not recommended for production as it degrades page performance.">
+				<field name="polyfill" type="radio" default="1" label="Use polyfill.io" description="">
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
