@@ -13,7 +13,7 @@ if(lqx && typeof lqx.geolocate == 'undefined') {
 	lqx.geolocate = (function(){
 		var opts = {
 			gps: false
-		}
+		};
 
 		var vars = {
 			location: {
