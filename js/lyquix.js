@@ -630,7 +630,7 @@ if(lqx && typeof lqx.geolocate == 'undefined') {
 	lqx.geolocate = (function(){
 		var opts = {
 			gps: false
-		}
+		};
 
 		var vars = {
 			location: {
@@ -1001,9 +1001,6 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 						cssGrid();
 					});
 				}
-
-				// Polyfills
-				matchesPolyfill();
 			}
 
 			return lqx.fixes.init = true;
@@ -1063,23 +1060,6 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 						}
 					});
 				});
-			}
-		};
-
-		var matchesPolyfill = function() {
-			if (!Element.prototype.matches) {
-				Element.prototype.matches = 
-					Element.prototype.matchesSelector || 
-					Element.prototype.mozMatchesSelector ||
-					Element.prototype.msMatchesSelector || 
-					Element.prototype.oMatchesSelector || 
-					Element.prototype.webkitMatchesSelector ||
-					function(s) {
-						var matches = (this.document || this.ownerDocument).querySelectorAll(s), 
-							i = matches.length;
-						while (--i >= 0 && matches.item(i) !== this) {}
-						return i > -1;
-					};
 			}
 		};
 
