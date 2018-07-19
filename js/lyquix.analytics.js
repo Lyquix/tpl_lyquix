@@ -53,9 +53,15 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 				vars = lqx.vars.analytics;
 
 				lqx.vars.window.on('lqxready', function() {
+					// Load Google Analytics
 					if(opts.createParams && opts.createParams.default && opts.createParams.default.trackingId) {
 						gaCode();
 					}
+
+					// Set YouTube API callback function
+					window.onYouTubeIframeAPIReady = function(){
+						lqx.analytics.onYouTubeIframeAPIReady();
+					};
 				});
 			}
 
@@ -63,13 +69,18 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 		};
 
 		var gaCode = function() {
-			jQuery('<script>' +
-				"(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){" +
-				"(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o)," +
-				"m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)" +
-				"})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');" +
-				"ga(lqx.analytics.gaReady);" +
-				"</script>").appendTo(jQuery('head'));
+			(function (i, s, o, g, r, a, m) {
+				i['GoogleAnalyticsObject'] = r;
+				i[r] = i[r] || function () {
+					(i[r].q = i[r].q || []).push(arguments)
+				}, i[r].l = 1 * new Date();
+				a = s.createElement(o),
+					m = s.getElementsByTagName(o)[0];
+				a.async = 1;
+				a.src = g;
+				m.parentNode.insertBefore(a, m)
+			})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+			ga(lqx.analytics.gaReady);
 		};
 
 		// Handles Google Analytics pageview, setting first custom parameters
@@ -603,6 +614,26 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 
 		};
 
+		var onYouTubeIframeAPIReady = function(){
+			if(vars.youTubeIframeAPIReady && (typeof YT !== 'undefined') && YT && YT.Player) {
+				Object.keys(vars.youtubePlayers).forEach(function(playerId) {
+					if(typeof vars.youtubePlayers[playerId].playerObj == 'undefined') {
+						vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, {
+							events: {
+								'onReady': function(e){lqx.youtubePlayerReady(e, playerId);},
+								'onStateChange': function(e){lqx.youtubePlayerStateChange(e, playerId);}
+							}
+						});
+					}
+				});
+			}
+			else {
+				// keep track how many time we have attempted, retry unless it has been more than 30secs
+				vars.youTubeIframeAPIReadyAttempts++;
+				if(vars.youTubeIframeAPIReadyAttempts < 120) setTimeout(function(){onYouTubeIframeAPIReady();},250);
+			}
+		};
+
 		// trigger events for user active/inactive and count active time
 		var initUserActive = function()	{
 
@@ -686,28 +717,9 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 
 		return {
 			init: init,
-			gaReady: gaReady
+			gaReady: gaReady,
+			onYouTubeIframeAPIReady: onYouTubeIframeAPIReady
 		};
 	})();
 	lqx.analytics.init();
 }
-
-window.onYouTubeIframeAPIReady = function(){
-	if(vars.youTubeIframeAPIReady && (typeof YT !== 'undefined') && YT && YT.Player) {
-		Object.keys(vars.youtubePlayers).forEach(function(playerId) {
-			if(typeof vars.youtubePlayers[playerId].playerObj == 'undefined') {
-				vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, {
-					events: {
-						'onReady': function(e){lqx.youtubePlayerReady(e, playerId);},
-						'onStateChange': function(e){lqx.youtubePlayerStateChange(e, playerId);}
-					}
-				});
-			}
-		});
-	}
-	else {
-		// keep track how many time we have attempted, retry unless it has been more than 30secs
-		vars.youTubeIframeAPIReadyAttempts++;
-		if(vars.youTubeIframeAPIReadyAttempts < 120) setTimeout(function(){onYouTubeIframeAPIReady();},250);
-	}
-};

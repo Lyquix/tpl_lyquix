@@ -16,6 +16,7 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 			if(lqx.opts.fixes.enabled) {
 				lqx.log('Initializing `fixes`');
 
+				// IE fixes
 				if(lqx.detect.browser.type == 'msie') {
 					// Trigger functions on document ready
 					lqx.vars.document.ready(function() {
@@ -30,6 +31,7 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 					});
 				}
 
+				// Polyfills
 				matchesPolyfill();
 			}
 

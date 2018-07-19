@@ -49,7 +49,7 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 			}
 			else {
 				jQuery(document).on('DOMNodeInserted DOMNodeRemoved DOMAttrModified', function(e) {
-					lqx.mutation.handler(e);
+					handler(e);
 				});
 			}
 		};
@@ -69,7 +69,7 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 			}
 		};
 
-		// mutation observer handler
+		// Mutation observer handler
 		var handler = function(mutRecs) {
 			if(!(mutRecs instanceof Array)) {
 				// Not an array, convert to an array
@@ -80,35 +80,35 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 					case 'childList':
 						// Handle nodes added
 						if (mutRec.addedNodes.length > 0) {
-							vars.addNode.forEach(function(handler){
-								if(mutRec.target.matches(handler.selector)) handler.callback(mutRec.target);
+							vars.addNode.forEach(function(h){
+								if(mutRec.target.matches(h.selector)) h.callback(mutRec.target);
 							});
 						}
 
 						// Handle nodes removed
 						if (mutRec.removedNodes.length > 0) {
-							vars.removeNode.forEach(function(handler){
-								if(mutRec.target.matches(handler.selector)) handler.callback(mutRec.target);
+							vars.removeNode.forEach(function(h){
+								if(mutRec.target.matches(h.selector)) h.callback(mutRec.target);
 							});
 						}
 						break;
 
 					case 'DOMNodeInserted':
-						vars.addNode.forEach(function(handler){
-							if(mutRec.target.matches(handler.selector)) handler.callback(mutRec.target);
+						vars.addNode.forEach(function(h){
+							if(mutRec.target.matches(h.selector)) h.callback(mutRec.target);
 						});
 						break;
 
 					case 'DOMNodeRemoved':
-						vars.removeNode.forEach(function(handler){
-							if(mutRec.target.matches(handler.selector)) handler.callback(mutRec.target);
+						vars.removeNode.forEach(function(h){
+							if(mutRec.target.matches(h.selector)) h.callback(mutRec.target);
 						});
 						break;
 
 					case 'attributes':
 					case 'DOMAttrModified':
-						vars.modAttrib.forEach(function(handler){
-							if(mutRec.target.matches(handler.selector)) handler.callback(mutRec.target);
+						vars.modAttrib.forEach(function(h){
+							if(mutRec.target.matches(h.selector)) h.callback(mutRec.target);
 						});
 						break;
 				}

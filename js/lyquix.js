@@ -48,8 +48,8 @@ else {
 			responsive: {},
 			util:       {},
 			// jQuery objects
-			document: jQuery(document),
 			window: jQuery(window),
+			document: jQuery(document),
 			html: jQuery(document.html),
 			body: null, // Populated after the lqxready event
 			// Other
@@ -96,12 +96,12 @@ else {
 		};
 
 		// Extends/updates the opts object
-		var options = function(opts) {
-			if(typeof opts == 'object') {
-				jQuery.extend(true, lqx.opts, opts);
+		var options = function(o) {
+			if(typeof o == 'object') {
+				jQuery.extend(true, opts, o);
 				lqx.log('Options updated', opts);
 			}
-			return lqx.opts;
+			return opts;
 		};
 
 		// Triggers custom event 'lqxready'
@@ -117,15 +117,27 @@ else {
 		// Internal console log/warn/error functions
 		// Use instead of console.log(), console.warn() and console.error(), use lqx.opts.debug to enable/disable
 		var log = function() {
-			if(lqx.opts.debug) console.log(arguments);
+			if(opts.debug) {
+				for (i = 0; i < arguments.length; i++) {
+					console.log(arguments[i]);
+				}
+			}
 		};
 
 		var warn = function() {
-			if(lqx.opts.debug) console.warn(arguments);
+			if(opts.debug) {
+				for (i = 0; i < arguments.length; i++) {
+					console.warn(arguments[i]);
+				}
+			}
 		};
 
 		var error = function() {
-			if(lqx.opts.debug) console.error(arguments);
+			if(opts.debug) {
+				for (i = 0; i < arguments.length; i++) {
+					console.error(arguments[i]);
+				}
+			}
 		};
 
 		// Changes all fonts to Comic Sans
@@ -154,6 +166,8 @@ else {
 			}
 		};
 
+		var version = '2.0.0';
+
 		return {
 			opts: opts,
 			vars: vars,
@@ -162,7 +176,8 @@ else {
 			ready: ready,
 			log: log,
 			warn: warn,
-			error: error
+			error: error,
+			version: version
 		};
 	})();
 	lqx.init();
@@ -757,7 +772,7 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 			}
 			else {
 				jQuery(document).on('DOMNodeInserted DOMNodeRemoved DOMAttrModified', function(e) {
-					lqx.mutation.handler(e);
+					handler(e);
 				});
 			}
 		};
@@ -777,7 +792,7 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 			}
 		};
 
-		// mutation observer handler
+		// Mutation observer handler
 		var handler = function(mutRecs) {
 			if(!(mutRecs instanceof Array)) {
 				// Not an array, convert to an array
@@ -788,35 +803,35 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 					case 'childList':
 						// Handle nodes added
 						if (mutRec.addedNodes.length > 0) {
-							vars.addNode.forEach(function(handler){
-								if(mutRec.target.matches(handler.selector)) handler.callback(mutRec.target);
+							vars.addNode.forEach(function(h){
+								if(mutRec.target.matches(h.selector)) h.callback(mutRec.target);
 							});
 						}
 
 						// Handle nodes removed
 						if (mutRec.removedNodes.length > 0) {
-							vars.removeNode.forEach(function(handler){
-								if(mutRec.target.matches(handler.selector)) handler.callback(mutRec.target);
+							vars.removeNode.forEach(function(h){
+								if(mutRec.target.matches(h.selector)) h.callback(mutRec.target);
 							});
 						}
 						break;
 
 					case 'DOMNodeInserted':
-						vars.addNode.forEach(function(handler){
-							if(mutRec.target.matches(handler.selector)) handler.callback(mutRec.target);
+						vars.addNode.forEach(function(h){
+							if(mutRec.target.matches(h.selector)) h.callback(mutRec.target);
 						});
 						break;
 
 					case 'DOMNodeRemoved':
-						vars.removeNode.forEach(function(handler){
-							if(mutRec.target.matches(handler.selector)) handler.callback(mutRec.target);
+						vars.removeNode.forEach(function(h){
+							if(mutRec.target.matches(h.selector)) h.callback(mutRec.target);
 						});
 						break;
 
 					case 'attributes':
 					case 'DOMAttrModified':
-						vars.modAttrib.forEach(function(handler){
-							if(mutRec.target.matches(handler.selector)) handler.callback(mutRec.target);
+						vars.modAttrib.forEach(function(h){
+							if(mutRec.target.matches(h.selector)) h.callback(mutRec.target);
 						});
 						break;
 				}
@@ -973,6 +988,7 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 			if(lqx.opts.fixes.enabled) {
 				lqx.log('Initializing `fixes`');
 
+				// IE fixes
 				if(lqx.detect.browser.type == 'msie') {
 					// Trigger functions on document ready
 					lqx.vars.document.ready(function() {
@@ -987,6 +1003,7 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 					});
 				}
 
+				// Polyfills
 				matchesPolyfill();
 			}
 
@@ -1705,9 +1722,15 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 				vars = lqx.vars.analytics;
 
 				lqx.vars.window.on('lqxready', function() {
+					// Load Google Analytics
 					if(opts.createParams && opts.createParams.default && opts.createParams.default.trackingId) {
 						gaCode();
 					}
+
+					// Set YouTube API callback function
+					window.onYouTubeIframeAPIReady = function(){
+						lqx.analytics.onYouTubeIframeAPIReady();
+					};
 				});
 			}
 
@@ -1715,13 +1738,18 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 		};
 
 		var gaCode = function() {
-			jQuery('<script>' +
-				"(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){" +
-				"(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o)," +
-				"m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)" +
-				"})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');" +
-				"ga(lqx.analytics.gaReady);" +
-				"</script>").appendTo(jQuery('head'));
+			(function (i, s, o, g, r, a, m) {
+				i['GoogleAnalyticsObject'] = r;
+				i[r] = i[r] || function () {
+					(i[r].q = i[r].q || []).push(arguments)
+				}, i[r].l = 1 * new Date();
+				a = s.createElement(o),
+					m = s.getElementsByTagName(o)[0];
+				a.async = 1;
+				a.src = g;
+				m.parentNode.insertBefore(a, m)
+			})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+			ga(lqx.analytics.gaReady);
 		};
 
 		// Handles Google Analytics pageview, setting first custom parameters
@@ -2255,6 +2283,26 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 
 		};
 
+		var onYouTubeIframeAPIReady = function(){
+			if(vars.youTubeIframeAPIReady && (typeof YT !== 'undefined') && YT && YT.Player) {
+				Object.keys(vars.youtubePlayers).forEach(function(playerId) {
+					if(typeof vars.youtubePlayers[playerId].playerObj == 'undefined') {
+						vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, {
+							events: {
+								'onReady': function(e){lqx.youtubePlayerReady(e, playerId);},
+								'onStateChange': function(e){lqx.youtubePlayerStateChange(e, playerId);}
+							}
+						});
+					}
+				});
+			}
+			else {
+				// keep track how many time we have attempted, retry unless it has been more than 30secs
+				vars.youTubeIframeAPIReadyAttempts++;
+				if(vars.youTubeIframeAPIReadyAttempts < 120) setTimeout(function(){onYouTubeIframeAPIReady();},250);
+			}
+		};
+
 		// trigger events for user active/inactive and count active time
 		var initUserActive = function()	{
 
@@ -2338,28 +2386,9 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 
 		return {
 			init: init,
-			gaReady: gaReady
+			gaReady: gaReady,
+			onYouTubeIframeAPIReady: onYouTubeIframeAPIReady
 		};
 	})();
 	lqx.analytics.init();
 }
-
-window.onYouTubeIframeAPIReady = function(){
-	if(vars.youTubeIframeAPIReady && (typeof YT !== 'undefined') && YT && YT.Player) {
-		Object.keys(vars.youtubePlayers).forEach(function(playerId) {
-			if(typeof vars.youtubePlayers[playerId].playerObj == 'undefined') {
-				vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, {
-					events: {
-						'onReady': function(e){lqx.youtubePlayerReady(e, playerId);},
-						'onStateChange': function(e){lqx.youtubePlayerStateChange(e, playerId);}
-					}
-				});
-			}
-		});
-	}
-	else {
-		// keep track how many time we have attempted, retry unless it has been more than 30secs
-		vars.youTubeIframeAPIReadyAttempts++;
-		if(vars.youTubeIframeAPIReadyAttempts < 120) setTimeout(function(){onYouTubeIframeAPIReady();},250);
-	}
-};

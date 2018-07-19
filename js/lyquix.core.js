@@ -48,8 +48,8 @@ else {
 			responsive: {},
 			util:       {},
 			// jQuery objects
-			document: jQuery(document),
 			window: jQuery(window),
+			document: jQuery(document),
 			html: jQuery(document.html),
 			body: null, // Populated after the lqxready event
 			// Other
@@ -96,12 +96,12 @@ else {
 		};
 
 		// Extends/updates the opts object
-		var options = function(opts) {
-			if(typeof opts == 'object') {
-				jQuery.extend(true, lqx.opts, opts);
+		var options = function(o) {
+			if(typeof o == 'object') {
+				jQuery.extend(true, opts, o);
 				lqx.log('Options updated', opts);
 			}
-			return lqx.opts;
+			return opts;
 		};
 
 		// Triggers custom event 'lqxready'
@@ -117,15 +117,27 @@ else {
 		// Internal console log/warn/error functions
 		// Use instead of console.log(), console.warn() and console.error(), use lqx.opts.debug to enable/disable
 		var log = function() {
-			if(lqx.opts.debug) console.log(arguments);
+			if(opts.debug) {
+				for (i = 0; i < arguments.length; i++) {
+					console.log(arguments[i]);
+				}
+			}
 		};
 
 		var warn = function() {
-			if(lqx.opts.debug) console.warn(arguments);
+			if(opts.debug) {
+				for (i = 0; i < arguments.length; i++) {
+					console.warn(arguments[i]);
+				}
+			}
 		};
 
 		var error = function() {
-			if(lqx.opts.debug) console.error(arguments);
+			if(opts.debug) {
+				for (i = 0; i < arguments.length; i++) {
+					console.error(arguments[i]);
+				}
+			}
 		};
 
 		// Changes all fonts to Comic Sans
@@ -154,6 +166,8 @@ else {
 			}
 		};
 
+		var version = '2.0.0';
+
 		return {
 			opts: opts,
 			vars: vars,
@@ -162,7 +176,8 @@ else {
 			ready: ready,
 			log: log,
 			warn: warn,
-			error: error
+			error: error,
+			version: version
 		};
 	})();
 	lqx.init();
