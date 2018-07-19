@@ -79,7 +79,8 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 
 			if(gridElems.length) {
 				gridElems.each(function(){
-					var colCount = jQuery(this).css('-ms-grid-columns').split(' ').length;
+					var gridElem = jQuery(this);
+					var colCount = gridElem.css('-ms-grid-columns').split(' ').length;
 					var row = 1;
 					var col = 1;
 					gridElem.children().each(function(){
@@ -109,7 +110,7 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 						return i > -1;
 					};
 			}
-		}
+		};
 
 		return {
 			init: init

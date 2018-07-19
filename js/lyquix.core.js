@@ -9,7 +9,6 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-'use strict';
 if(typeof lqx !== 'undefined') {
 	console.error('`lqx` already exist!');
 }
@@ -118,7 +117,7 @@ else {
 		// Use instead of console.log(), console.warn() and console.error(), use lqx.opts.debug to enable/disable
 		var log = function() {
 			if(opts.debug) {
-				for (i = 0; i < arguments.length; i++) {
+				for (var i = 0; i < arguments.length; i++) {
 					console.log(arguments[i]);
 				}
 			}
@@ -126,7 +125,7 @@ else {
 
 		var warn = function() {
 			if(opts.debug) {
-				for (i = 0; i < arguments.length; i++) {
+				for (var i = 0; i < arguments.length; i++) {
 					console.warn(arguments[i]);
 				}
 			}
@@ -134,7 +133,7 @@ else {
 
 		var error = function() {
 			if(opts.debug) {
-				for (i = 0; i < arguments.length; i++) {
+				for (var i = 0; i < arguments.length; i++) {
 					console.error(arguments[i]);
 				}
 			}

@@ -9,7 +9,6 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-'use strict';
 if(typeof lqx !== 'undefined') {
 	console.error('`lqx` already exist!');
 }
@@ -118,7 +117,7 @@ else {
 		// Use instead of console.log(), console.warn() and console.error(), use lqx.opts.debug to enable/disable
 		var log = function() {
 			if(opts.debug) {
-				for (i = 0; i < arguments.length; i++) {
+				for (var i = 0; i < arguments.length; i++) {
 					console.log(arguments[i]);
 				}
 			}
@@ -126,7 +125,7 @@ else {
 
 		var warn = function() {
 			if(opts.debug) {
-				for (i = 0; i < arguments.length; i++) {
+				for (var i = 0; i < arguments.length; i++) {
 					console.warn(arguments[i]);
 				}
 			}
@@ -134,7 +133,7 @@ else {
 
 		var error = function() {
 			if(opts.debug) {
-				for (i = 0; i < arguments.length; i++) {
+				for (var i = 0; i < arguments.length; i++) {
 					console.error(arguments[i]);
 				}
 			}
@@ -1051,7 +1050,8 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 
 			if(gridElems.length) {
 				gridElems.each(function(){
-					var colCount = jQuery(this).css('-ms-grid-columns').split(' ').length;
+					var gridElem = jQuery(this);
+					var colCount = gridElem.css('-ms-grid-columns').split(' ').length;
 					var row = 1;
 					var col = 1;
 					gridElem.children().each(function(){
@@ -1081,7 +1081,7 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 						return i > -1;
 					};
 			}
-		}
+		};
 
 		return {
 			init: init
@@ -1739,15 +1739,16 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 
 		var gaCode = function() {
 			(function (i, s, o, g, r, a, m) {
-				i['GoogleAnalyticsObject'] = r;
+				i.GoogleAnalyticsObject = r;
 				i[r] = i[r] || function () {
-					(i[r].q = i[r].q || []).push(arguments)
-				}, i[r].l = 1 * new Date();
-				a = s.createElement(o),
-					m = s.getElementsByTagName(o)[0];
+					(i[r].q = i[r].q || []).push(arguments);
+				};
+				i[r].l = 1 * new Date();
+				a = s.createElement(o);
+				m = s.getElementsByTagName(o)[0];
 				a.async = 1;
 				a.src = g;
-				m.parentNode.insertBefore(a, m)
+				m.parentNode.insertBefore(a, m);
 			})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 			ga(lqx.analytics.gaReady);
 		};
