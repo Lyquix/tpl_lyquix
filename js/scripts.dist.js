@@ -12,114 +12,97 @@
 // Custom project scripts
 // ============================================================
 
+if(typeof $ !== 'undefined') {
+	console.error('`$` already exist!');
+}
+else if(typeof jQuery == 'undefined') {
+	console.error('`jQuery` has not been loaded!');
+}
+else if(typeof lqx == 'undefined') {
+	console.error('`lqx` has not been loaded!');
+}
+else {
+	var $ = (function(){
+		// Options
+		var opts = {
+			/** Add settings here
+			
+			banner : {
+				delay: 15,
+				fade: 400,
+			},
+			
+			**/
+		};
+		
+		// Working data
+		var vars = {
+			window: jQuery(window),
+			document: jQuery(document),
+			html: jQuery(document.html),
+			body: jQuery(document.body)
+			
+			/** Add vars for holding working data
+			
+			bannerTimer : false,
+			currentSize : 300,
+			filterHash : 'market-education',
+			 
+			**/
+		};
+		
+		var init = function(){
 
-// custom namespace to hold your functions and variables
-var changeme = changeme || {  // custom project namespace, change to the client or site name
+			/** Initialization
+
+			*** Add event listeners ***
+			
+			Custom lqx events: ( Usage: vars.window.on('eventname', function(){}); )
+			lqxready - triggered when lqx library is initialized
+			geolocatereay - triggered when the IP geolocation is complete and location info is available
+			screensizechange - triggered on changes of screen size
+			orientationchange - triggered on changed on rotation of the screen
+			scrollthrottle - throttles the scroll event, triggers every 15ms
+			resizethrottle - throttles the resize event, triggers every 15ms
+			
+			Standard events:
+			vars.document.ready
+			vars.window.load
+			vars.window.scroll
+			vars.window.resize
+			vars.window.unload
+
+			*** Add mutation handlers ***
+			lqx.mutation.addHandler(type, selector, callback);
+			type: addNode, removeNode, modAttrib
+			selector: send callbacks for mutations targets that match selector
+			callback: function to execute when mutation occurs
+
+			**/
+
+			// Convert this function into a boolean to prevent execution
+			return $.init = true;
+
+		};
+
+		/** Add custom functions for your project here 
+		
+		var myFunc = function() {
 	
-	// default settings
-	settings : {
-		/*
-		 * add custom settings here, we recommend a structure of groups and settings
-		 * for example:
-		 * 
-		 * 		banner : {
-		 * 			delay: 15,
-		 * 			fade: 400,
-		 * 		},
-		 * 
-		 */
-	},
-	
-	// holds working data
-	vars: {
-		/*
-		 * add custom vars for holding working data
-		 * 
-		 * 		bannerTimer : false,
-		 * 		currentSize : 300,
-		 * 		filterHash : 'market-education',
-		 * 
-		 */
-	},
-	
-	/* 
-	 *
-	 *
-	 *
-	 * add custom functions for your project here 
-	 *
-	 *
-	 *
-	 *
-	*/
+		};
+		
+		**/
 
-	// init: self invoking function that executes listeners once
-	init: (function(){
+		return {
+			opts: opts,
+			vars: vars,
+			init: init
+			/** Add functions you would like to expose
 
-		// on dom ready
-		jQuery(document).ready(function(){
-			
-			/* add custom code to run on document ready e.g. init functions */
-			
-			
-		});
+			myFunc: myFunc,
 
-		// on page load
-		jQuery(window).load(function(){
-
-			/* add handlers to run when the page finishes loading */
-			
-		});
-
-		// on screen orientation change
-		jQuery(window).on('orientationchange', function() {
-			
-			/* add handlers to run on screen orientation change */
-			
-		});
-
-		// on change of screen size: xs, sm, md, lg, xl, as well as rotation
-		jQuery(window).on('screensizechange', function() {
-
-			/* add handlers to run on screen changes */
-
-		});
-
-		// on custom event scrollthrottle
-		jQuery(window).on('scrollthrottle', function() {
-			
-			/* add handlers to run when page is scrolled */
-
-		});
-
-		// on scroll events
-		jQuery(window).scroll(function() {
-
-			/* add handlers to run when page is scrolled */
-			
-		});
-
-		// on custom event resizethrottle
-		jQuery(window).on('resizethrottle', function() {
-			
-			/* add handlers to run when window is resized */
-
-		});
-
-		// on window resize events
-		jQuery(window).resize(function() {
-
-			/* add handlers to run when window is resized */
-			
-		});
-
-		// on custom event geolocateready
-		jQuery(window).on('geolocateready', function() {
-			
-			/* add handlers to run when page geolocation is ready */
-
-		});
-
-	}())
-	
-};
+			**/
+		};
+	})();
+	$.init();
+}
