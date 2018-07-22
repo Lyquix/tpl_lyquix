@@ -85,7 +85,7 @@ if(file_exists($tmpl_path . '/css/styles.css')) {
 }
 
 // Unique filename based on stylesheets, last update, and order
-$stylesheet_filename = md5(json_encode($stylesheets)) . '.css';
+$stylesheet_filename = base_convert(md5(json_encode($stylesheets)), 16, 36) . '.css';
 
 // Function to convert relative URLs into absolute provided a base URL
 function rel2absURL($rel, $base) {

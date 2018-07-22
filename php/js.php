@@ -126,7 +126,7 @@ if(file_exists($tmpl_path . '/js/scripts.js')) {
 }
 
 // Unique filename based on scripts, last update, and order
-$scripts_filename = md5(json_encode($scripts)) . '.js';
+$scripts_filename = base_convert(md5(json_encode($scripts)), 16, 36) . '.js';
 
 // Check if dist directory exists
 if (!is_dir($tmpl_path . '/dist/')) {
