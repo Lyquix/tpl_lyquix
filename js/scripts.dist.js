@@ -13,7 +13,7 @@
 // ============================================================
 
 if(typeof $ !== 'undefined') {
-	console.error('`$` already exist!');
+	console.error('`$` already exist! Try using jQuery.noConflict();');
 }
 else if(typeof jQuery == 'undefined') {
 	console.error('`jQuery` has not been loaded!');

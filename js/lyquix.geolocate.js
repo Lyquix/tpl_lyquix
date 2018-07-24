@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
-'use strict';
+
 if(lqx && typeof lqx.geolocate == 'undefined') {
 	lqx.geolocate = (function(){
 		var opts = {

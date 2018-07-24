@@ -45,7 +45,7 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 
 			// Add a mututation observer to fix images added to the DOM
 			lqx.mutation.addHandler('addNode', 'img', function(e){
-				var img = jQuery(e.target);
+				var img = jQuery(e);
 				if(img.attr('width') === undefined) setImgWidth(img);
 			});
 

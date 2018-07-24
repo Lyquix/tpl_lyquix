@@ -627,7 +627,7 @@ if(lqx && typeof lqx.detect == 'undefined') {
  * @license     GNU General Public License version 2 or later
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
-'use strict';
+
 if(lqx && typeof lqx.geolocate == 'undefined') {
 	lqx.geolocate = (function(){
 		var opts = {
@@ -1035,7 +1035,7 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 
 			// Add a mututation observer to fix images added to the DOM
 			lqx.mutation.addHandler('addNode', 'img', function(e){
-				var img = jQuery(e.target);
+				var img = jQuery(e);
 				if(img.attr('width') === undefined) setImgWidth(img);
 			});
 
