@@ -18,7 +18,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 cat $DIR/lyquix.core.js > $DIR/lyquix.js
 
 # Append the modules
-MODULES=("util" "detect" "geolocate" "mutation" "responsive" "fixes" "menu" "lyqbox" "analytics")
+MODULES=("util" "detect" "geolocate" "mutation" "responsive" "fixes" "menu" "accordion" "lyqbox" "analytics")
 for MOD in "${MODULES[@]}"
 do
 	cat $DIR/lyquix.$MOD.js >> $DIR/lyquix.js

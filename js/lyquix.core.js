@@ -23,6 +23,7 @@ else {
 			siteURL: null,
 			tmplURL: null,
 			// Modules
+			accordion:  {enabled: true},
 			analytics:  {enabled: true},
 			detect:     {enabled: true},
 			fixes:      {enabled: true},
@@ -37,6 +38,7 @@ else {
 		// Holds working data
 		var vars = {
 			// Modules
+			accordion:  {},
 			analytics:  {},
 			detect:     {},
 			fixes:      {},
