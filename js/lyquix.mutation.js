@@ -67,6 +67,7 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 					vars.modAttrib.push({'selector': selector, 'callback': callback});
 					break;
 			}
+			lqx.log('Observe mutation type: ' + type + ' for selector: ' + selector);
 		};
 
 		// Mutation observer handler
@@ -80,28 +81,44 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 					case 'childList':
 						// Handle nodes added
 						if (mutRec.addedNodes.length > 0) {
-							vars.addNode.forEach(function(h){
-								if(mutRec.target.matches(h.selector)) h.callback(mutRec.target);
+							mutRec.addedNodes.forEach(function(e){
+								if(e.nodeType == Node.ELEMENT_NODE) {
+									vars.addNode.forEach(function(h){
+										if(e.matches(h.selector)) h.callback(e);
+									});
+								}
 							});
 						}
 
 						// Handle nodes removed
 						if (mutRec.removedNodes.length > 0) {
-							vars.removeNode.forEach(function(h){
-								if(mutRec.target.matches(h.selector)) h.callback(mutRec.target);
+							mutRec.removedNodes.forEach(function(e){
+								if(e.nodeType == Node.ELEMENT_NODE) {
+									vars.removeNode.forEach(function(h){
+										if(e.matches(h.selector)) h.callback(e);
+									});
+								}
 							});
 						}
 						break;
 
 					case 'DOMNodeInserted':
-						vars.addNode.forEach(function(h){
-							if(mutRec.target.matches(h.selector)) h.callback(mutRec.target);
+						mutRec.addedNodes.forEach(function(e){
+							if(e.nodeType == Node.ELEMENT_NODE) {
+								vars.addNode.forEach(function(h){
+									if(e.matches(h.selector)) h.callback(e);
+								});
+							}
 						});
 						break;
 
 					case 'DOMNodeRemoved':
-						vars.removeNode.forEach(function(h){
-							if(mutRec.target.matches(h.selector)) h.callback(mutRec.target);
+						mutRec.removedNodes.forEach(function(e){
+							if(e.nodeType == Node.ELEMENT_NODE) {
+								vars.removeNode.forEach(function(h){
+									if(e.matches(h.selector)) h.callback(e);
+								});
+							}
 						});
 						break;
 
