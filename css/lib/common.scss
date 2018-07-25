@@ -532,5 +532,9 @@
 }
 
 @mixin common-accordions {
-
+	// Base styles for accordions
+	.accordion {
+		overflow: hidden;
+		transition: height 0.5s;
+	}
 }
