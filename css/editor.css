@@ -1,5 +1,5 @@
 /**
- * templates.scss - Base LESS file for templates.css, used for editor styles 
+ * editor.css - Styles for Joomla editor 
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -8,9 +8,6 @@
  * @license     GNU General Public License version 2 or later
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
-
-@import "styles.css";
-
+@import url(styles.css);
 body {
-	background: white;
-}
+  background: white; }
