@@ -17,4 +17,4 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 sass $DIR/styles.scss > $DIR/styles.css
 postcss -u autoprefixer --autoprefixer.browsers "> 0.5%, last 3 versions" -r $DIR/styles.css
 blessc chunk $DIR/styles.css
-sass $DIR/template.scss > $DIR/template.css
+uglifycss $DIR/styles.css > $DIR/styles.min.css

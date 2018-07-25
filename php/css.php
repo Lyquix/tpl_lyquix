@@ -76,11 +76,14 @@ foreach($add_css_libraries as $cssurl) {
 	}
 }
 
+// Use non minified version?
+$non_min_css = $this->params->get('non_min_css');
+
 // Custom Project Styles
-if(file_exists($tmpl_path . '/css/styles.css')) {
+if(file_exists($tmpl_path . '/css/styles' . ($non_min_css ? '' : '.min') . '.css')) {
 	$stylesheets[] = array(
-		'url' => $tmpl_url . '/css/styles.css', 
-		'version' => date("YmdHis", filemtime($tmpl_path . '/css/styles.css'))
+		'url' => $tmpl_url . '/css/styles' . ($non_min_css ? '' : '.min') . '.css', 
+		'version' => date("YmdHis", filemtime($tmpl_path . '/css/styles' . ($non_min_css ? '' : '.min') . '.css'))
 	);
 }
 
