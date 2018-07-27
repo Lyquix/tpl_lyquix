@@ -201,9 +201,6 @@ $blk-padding-left: 			$blk-padding-left-right;	// Padding size left
 
 // Blocks classes
 @import "lib/blocks.scss";
-	@include blk-bleed-margin;
-	@include blk-bleed-border;
-	@include blk-bleed-padding;
 
 // Common classes
 @import "lib/common.scss";
