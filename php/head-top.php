@@ -13,6 +13,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <?php 
+// Load polyfills
+if($this->params->get('polyfill', 1)): ?>
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+<?php endif;
 // Adds search engine domain validation strings to home page only
 if($home) {
 	echo $this->params->get('google_site_verification') ? '<meta name="google-site-verification" content="' . htmlentities($this->params->get('google_site_verification')) . '" />' . "\n" : '';

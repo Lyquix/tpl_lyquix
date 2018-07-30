@@ -10,10 +10,6 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-if($this->params->get('polyfill', 1)): ?>
-<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-<?php endif;
-
 $merge_js = $this->params->get('merge_js'); 
 if(!is_array($this->params->get('merge_js'))) {
 	$merge_js = array();
