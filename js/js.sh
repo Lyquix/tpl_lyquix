@@ -11,8 +11,7 @@
 #
 ###
 
-# Get script directory
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 
 # Start with core
 cat $DIR/lib/lyquix.core.js > $DIR/lyquix.js

@@ -12,7 +12,7 @@
 ###
 
 # Get script directory
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 
 sass $DIR/styles.scss > $DIR/styles.css
 postcss -u autoprefixer --autoprefixer.browsers "> 0.5%, last 3 versions" -r $DIR/styles.css
