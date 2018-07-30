@@ -173,4 +173,4 @@ if(!file_exists($tmpl_path . '/dist/' . $stylesheet_filename)) {
 	unset($stylesheet_data);
 }
 ?>
-<link href="<?php echo $tmpl_url . '/dist/' . $stylesheet_filename; ?>" rel="stylesheet" media="none" onload="media='all'" />
+<link href="<?php echo $tmpl_url . '/dist/' . $stylesheet_filename; ?>" rel="stylesheet" />
