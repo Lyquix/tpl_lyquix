@@ -42,7 +42,7 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 					setup(jQuery('.accordion'));
 
 					// Add listener for screen change and orientation change
-					lqx.vars.window.on('screensizechange orientationchange resizethrottle', function(){
+					lqx.vars.window.on('load screensizechange orientationchange resizethrottle', function(){
 						update();
 					});
 
@@ -76,10 +76,10 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 				a.openHeight = a.elem.innerHeight();
 				
 				// Close the accordion
-				a.elem.css('height', a.closedHeight).addClass('closed');
+				a.elem.css('height', a.closedHeight).addClass('ready closed');
 				
 				// Add click listener
-				a.elem.click(function(){
+				a.header.click(function(){
 					if(a.elem.hasClass('closed')) {
 						a.elem.removeClass('closed');
 						a.elem.css('height', a.openHeight);
