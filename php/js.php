@@ -57,11 +57,6 @@ if(in_array('inline', $merge_js)) {
 // Use non minified version?
 $non_min_js = $this->params->get('non_min_js');
 
-// Vue.JS
-if($this->params->get('vuejs', 0)) {
-	$scripts[] = array('url' => $cdnjs_url . 'vue/2.5.13/vue' . ($non_min_js ? '' : '.min') . '.js');
-}
-
 // LoDash
 if($this->params->get('lodash', 0)) {
 	$scripts[] = array('url' => $cdnjs_url . 'lodash.js/4.17.4/lodash' . ($non_min_js ? '' : '.min') . '.js');
@@ -107,13 +102,21 @@ foreach($add_js_libraries as $jsurl) {
 	}
 } 
 
-// Lyquix JS
+// Lyquix
 $scripts[] = array(
 	'url' => $tmpl_url . '/js/lyquix' . ($non_min_js ? '' : '.min') . '.js', 
 	'version' => date("YmdHis", filemtime($tmpl_path . '/js/lyquix' . ($non_min_js ? '' : '.min') . '.js'))
 );
 
-// Custom Project Scripts
+// Vue
+if(file_exists($tmpl_path . '/js/vue.js')) {
+	$scripts[] = array(
+		'url' => $tmpl_url . '/js/vue' . ($non_min_js ? '' : '.min') . '.js',
+		'version' => date("YmdHis", filemtime($tmpl_path . '/js/vue' . ($non_min_js ? '' : '.min') . '.js'))
+	);
+}
+
+// Scripts
 if(file_exists($tmpl_path . '/js/scripts.js')) {
 	$scripts[] = array(
 		'url' => $tmpl_url . '/js/scripts' . ($non_min_js ? '' : '.min') . '.js',

@@ -1,6 +1,6 @@
 ###
 #
-# js.sh - Shell script to concatenate and minify lyquix Javascript library 
+# js.sh - Shell script to concatenate and minify lyquix Javascript library, and vue components/controllers 
 #
 # @version     2.0.0
 # @package     tpl_lyquix
@@ -13,15 +13,35 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 
-# Start with core
+# Lyquix
 cat $DIR/lib/lyquix.core.js > $DIR/lyquix.js
-
-# Append the modules
 MODULES=("util" "detect" "geolocate" "mutation" "responsive" "fixes" "menu" "accordion" "lyqbox" "analytics")
 for MOD in "${MODULES[@]}"
 do
 	cat $DIR/lib/lyquix.$MOD.js >> $DIR/lyquix.js
 done
-
-# Minify
 uglifyjs $DIR/lyquix.js > $DIR/lyquix.min.js
+
+
+# Vue
+wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.esm.js > $DIR/vue.js
+if [ -f $DIR/custom/components/*.js ]; then
+	cat $DIR/custom/components/*.js >> $DIR/vue.js
+fi
+if [ -f $DIR/custom/controllers/*.js ]; then
+	cat $DIR/custom/controllers/*.js >> $DIR/vue.js
+fi
+
+wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js > $DIR/vue.min.js
+if [ -f $DIR/custom/components/*.js ]; then
+	cat $DIR/custom/components/*.js >> $DIR/vue.min.js
+fi
+if [ -f $DIR/custom/controllers/*.js ]; then
+	cat $DIR/custom/controllers/*.js >> $DIR/vue.min.js
+fi
+
+
+# Scripts
+if [ -f $DIR/scripts.js ]; then
+    uglifyjs $DIR/scripts.js > $DIR/scripts.min.js
+fi

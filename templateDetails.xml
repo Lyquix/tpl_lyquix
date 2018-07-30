@@ -123,10 +123,6 @@
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
-				<field name="vuejs" type="radio" default="0" label="Load Vue.js library" description="">
-					<option value="0">No</option>
-					<option value="1">Yes</option>
-				</field>
 				<field name="lodash" type="radio" default="0" label="Load LoDash library" description="">
 					<option value="0">No</option>
 					<option value="1">Yes</option>
