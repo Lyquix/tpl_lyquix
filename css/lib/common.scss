@@ -535,8 +535,6 @@
 	// Base styles for accordions
 	.accordion {
 		overflow: hidden;
-		&.ready {
-			transition: height 0.5s;
-		}
+		transition: height 0.5s;
 	}
 }

@@ -1289,7 +1289,7 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 				a.openHeight = a.elem.innerHeight();
 				
 				// Close the accordion
-				a.elem.css('height', a.closedHeight).addClass('ready closed');
+				a.elem.css('height', a.closedHeight).addClass('closed');
 				
 				// Add click listener
 				a.header.click(function(){
