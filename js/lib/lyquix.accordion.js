@@ -69,6 +69,9 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 					a.header = jQuery(a.elem.children()[0]);
 				}
 
+				// Force remove all transitions
+				a.elem.css('transition', 'none !important');
+
 				// Get height of header element
 				a.closedHeight = a.header.outerHeight(true);
 
@@ -76,7 +79,10 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 				a.openHeight = a.elem.innerHeight();
 				
 				// Close the accordion
-				a.elem.css('height', a.closedHeight).addClass('ready closed');
+				a.elem.css('height', a.closedHeight).addClass('closed');
+				
+				// Allow transitions again
+				a.elem.css('transition', '');
 				
 				// Add click listener
 				a.header.click(function(){
@@ -100,6 +106,9 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 				// Keep original state of the accordion
 				var closed = a.elem.hasClass('closed');
 
+				// Force remove all transitions
+				a.elem.css('transition', 'none !important');
+
 				// Open the accordion
 				a.elem.css('height', 'auto').removeClass('closed');
 
@@ -116,6 +125,9 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 				else {
 					a.elem.css('height', a.openHeight);
 				}
+
+				// Allow transitions again
+				a.elem.css('transition', '');
 			});
 		};
 
