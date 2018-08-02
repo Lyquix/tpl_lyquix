@@ -24,19 +24,16 @@ uglifyjs $DIR/lyquix.js > $DIR/lyquix.min.js
 
 
 # Vue
-wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js > $DIR/vue.js
+if [[ -f $DIR/custom/components/*.js || -f $DIR/custom/controllers/*.js ]]; then
+	wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js > $DIR/vue.js
+	wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js > $DIR/vue.min.js
+fi
 if [ -f $DIR/custom/components/*.js ]; then
 	cat $DIR/custom/components/*.js >> $DIR/vue.js
-fi
-if [ -f $DIR/custom/controllers/*.js ]; then
-	cat $DIR/custom/controllers/*.js >> $DIR/vue.js
-fi
-
-wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js > $DIR/vue.min.js
-if [ -f $DIR/custom/components/*.js ]; then
 	cat $DIR/custom/components/*.js >> $DIR/vue.min.js
 fi
 if [ -f $DIR/custom/controllers/*.js ]; then
+	cat $DIR/custom/controllers/*.js >> $DIR/vue.js
 	cat $DIR/custom/controllers/*.js >> $DIR/vue.min.js
 fi
 
