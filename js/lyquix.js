@@ -1241,12 +1241,19 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 		    recalculated on resize, screen change, and orientation change
 		    
 		**/
+		var opts = {
+			scrollTopPadding: 15, // percentage from top of screen
+			scrollTopDuration: 500 // in ms
+		};
+
 		var init = function(){
 			// Initialize only if enabled
 			if(lqx.opts.accordion.enabled) {
 				lqx.log('Initializing `accordion`');
 
 				// Copy default opts and vars
+				jQuery.extend(lqx.opts.accordion, opts);
+				opts = lqx.opts.accordion;
 				vars = lqx.vars.accordion = [];
 
 				// Trigger functions on document ready
@@ -1299,10 +1306,15 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 				
 				// Add click listener
 				a.header.click(function(){
+					// Open accordion
 					if(a.elem.hasClass('closed')) {
 						a.elem.removeClass('closed');
 						a.elem.css('height', a.openHeight);
+						jQuery('html, body').animate({
+							scrollTop: (a.elem.offset().top - lqx.vars.window.height() * opts.scrollTopPadding / 100)
+						}, opts.scrollTopDuration);
 					}
+					// Close accordion
 					else {
 						a.elem.addClass('closed');
 						a.elem.css('height', a.closedHeight);
