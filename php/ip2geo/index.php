@@ -33,7 +33,7 @@ if(file_exists($db)) {
 		$geo = Array(
 			'city' => $geo['city']['names']['en'],
 			'subdivision' => $geo['subdivisions'][0]['names']['en'],
-			'country' => $geo['country']['iso_code'], 
+			'country' => $geo['country']['iso_code'],
 			'continent' => $geo['continent']['code'],
 			'time_zone' => $geo['location']['time_zone'],
 			'lat' => $geo['location']['latitude'],
@@ -55,7 +55,7 @@ exit;
 References
 
 > Country Codes: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
-> Continent Codes: 
+> Continent Codes:
 	AF - Africa
 	AS - Asia
 	EU - Europe

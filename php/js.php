@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * js.inc.php - Includes JavaScript libraries
  *
@@ -10,7 +10,7 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-$merge_js = $this->params->get('merge_js'); 
+$merge_js = $this->params->get('merge_js');
 if(!is_array($this->params->get('merge_js'))) {
 	$merge_js = array();
 }
@@ -77,7 +77,7 @@ if($this->params->get('dotdotdot', 0)) {
 	$scripts[] = array('url' => $cdnjs_url . 'jQuery.dotdotdot/1.7.4/jquery.dotdotdot' . ($non_min_js ? '' : '.min') . '.js');
 }
 
-// MobileDetect 
+// MobileDetect
 $scripts[] = array('url' => $cdnjs_url . 'mobile-detect/1.3.6/mobile-detect' . ($non_min_js ? '' : '.min') . '.js');
 
 // Additional JS Libraries
@@ -100,11 +100,11 @@ foreach($add_js_libraries as $jsurl) {
 			}
 		}
 	}
-} 
+}
 
 // Lyquix
 $scripts[] = array(
-	'url' => $tmpl_url . '/js/lyquix' . ($non_min_js ? '' : '.min') . '.js', 
+	'url' => $tmpl_url . '/js/lyquix' . ($non_min_js ? '' : '.min') . '.js',
 	'version' => date("YmdHis", filemtime($tmpl_path . '/js/lyquix' . ($non_min_js ? '' : '.min') . '.js'))
 );
 
@@ -149,7 +149,7 @@ if(!file_exists($tmpl_path . '/dist/' . $scripts_filename)) {
 		else {
 			$scripts_data .= "/* Remote script: " . $script['url'] . " */\n";
 			$scripts_data .= file_get_contents($script['url']) . "\n";
-		} 
+		}
 	}
 	// Save file
 	file_put_contents($tmpl_path . '/dist/' . $scripts_filename, $scripts_data);

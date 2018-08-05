@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * head-top.inc.php - Includes for top of <head> tag
  *
@@ -12,7 +12,7 @@
 ?>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<?php 
+<?php
 // Load polyfills
 if($this->params->get('polyfill', 1)): ?>
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
@@ -23,7 +23,7 @@ if($home) {
 	echo $this->params->get('msvalidate') ? '<meta name="msvalidate.01" content="' . htmlentities($this->params->get('msvalidate')) . '" />' . "\n" : '';
 	echo $this->params->get('p_domain_verify') ? '<meta name="p:domain_verify" content="' . htmlentities($this->params->get('p_domain_verify')) . '"/>' . "\n" : '';
 	echo '<link href="' . JURI::root() . '" rel="canonical" />' . "\n";
-} 
+}
 // Add og:title and og:description tags if not already set
 if(!$doc -> getMetaData('og:title')) $doc->addCustomTag('<meta property="og:title" content="' . htmlentities($doc -> getTitle()) . '" />');
 if(!$doc -> getMetaData('og:description')) $doc->addCustomTag('<meta property="og:description" content="' . htmlentities($doc -> getDescription()) . '" />');

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * head-pre.inc.php - Includes before the <head> tag
  *

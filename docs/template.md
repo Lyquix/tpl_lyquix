@@ -42,7 +42,7 @@ You can see that several parts of the template have been separated into individu
   * `body-top.inc.php`
   	* Runs lqx.bodyScreenSize to set the body screen attribute early and ensure proper rendering without flashing
   	* Renders mobile detect Javascript variables
-  * `body-bottom.inc.php`: 
+  * `body-bottom.inc.php`:
   	* Renders IE8 and IE9 alerts if enabled
   	* Loads Disqus if enabled
   	* Load modules for body position

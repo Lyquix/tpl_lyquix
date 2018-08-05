@@ -1239,7 +1239,7 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 
 		    The height of the accordion when open and closed is
 		    recalculated on resize, screen change, and orientation change
-		    
+
 		**/
 		var opts = {
 			scrollTopPadding: 15, // percentage from top of screen
@@ -1297,13 +1297,13 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 
 				// Get height of whole accordion
 				a.openHeight = a.elem.innerHeight();
-				
+
 				// Close the accordion
 				a.elem.css('height', a.closedHeight).addClass('closed');
-				
+
 				// Allow transitions again
 				a.elem.css('transition', '');
-				
+
 				// Add click listener
 				a.header.click(function(){
 					// Open accordion
@@ -1342,7 +1342,7 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 
 				// Get height of whole accordion
 				a.openHeight = a.elem.innerHeight();
-				
+
 				// Close the accordion again, or set the open height
 				if(closed) {
 					a.elem.css('height', a.closedHeight).addClass('closed');
@@ -1376,7 +1376,7 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 if(lqx && typeof lqx.lyqbox == 'undefined') {
 	lqx.lyqbox = (function(){
 		var opts = {
-			html: 
+			html:
 				'<div class="lyqbox">' +
 					'<div class="content-wrapper">' +
 						'<div class="content"></div>' +
@@ -1570,7 +1570,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
             }
         };
 
-        
+
 		// Show overlay and lightbox. If the image is part of a set, add siblings to album array.
 		var start = function(data) {
 			vars.album = [];
@@ -1917,10 +1917,10 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						});
 					}
 				},
-				
+
 				function(){
 					var params;
-					
+
 					// Set commands
 					if(opts.setParams && typeof opts.setParams == 'object') {
 						params = opts.setParams;
@@ -1932,7 +1932,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 							});
 						});
 					}
-					
+
 					// Require commands
 					if(opts.requireParams && typeof opts.requireParams == 'object') {
 						params = opts.requireParams;
@@ -1944,7 +1944,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 							});
 						});
 					}
-					
+
 					// Provide commands
 					if(opts.provideParams && typeof opts.provideParams == 'object') {
 						params = opts.provideParams;
@@ -1956,7 +1956,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 							});
 						});
 					}
-					
+
 					// A/B testing opts
 					if(opts.abTestName !== null && opts.abTestNameDimension !== null && opts.abTestGroupDimension !== null) {
 						// get a/b test group cookie
@@ -1969,13 +1969,13 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						}
 						// Set body attribute that can be used by css and js
 						lqx.vars.body.attr('data-abtest', abTestGroup);
-						
+
 						// Set the GA dimensions
 						ga('set', 'dimension' + opts.abTestNameDimension, opts.abTestName);
 						ga('set', 'dimension' + opts.abTestGroupDimension, abTestGroup);
 					}
 				},
-				
+
 				function(){
 					if(typeof opts.customParamsFuncs == 'function') {
 						try {
@@ -1986,11 +1986,11 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						}
 					}
 				},
-				
+
 				function(){
 					// Send pageview
 					ga('send', 'pageview');
-					
+
 					// Initialize tracking
 					initTracking();
 				}
@@ -2182,7 +2182,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					if (tag == 'iframe') {
 						// init js api for video player
 						initVideoPlayerAPI(elem);
-					}	    
+					}
 				}
 			});
 

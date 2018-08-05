@@ -47,7 +47,7 @@ $color-error-border:		adjust_color(adjust_color($color-error-bg, $hue: -10), $li
 		background-color: $color-message-bg;
 		border: 1px solid $color-message-border;
 		color: $color-message;
-		
+
 		.close {
 			text-decoration: none;
 			color: $color-message;
@@ -56,17 +56,17 @@ $color-error-border:		adjust_color(adjust_color($color-error-bg, $hue: -10), $li
 				color: $color-message;
 			}
 		}
-		
+
 		h4 {
 			color: $color-message;
 		}
 	}
-	
+
 	.alert-notice {
 		background-color: $color-notice-bg;
 		border: 1px solid $color-notice-border;
 		color: $color-notice;
-		
+
 		.close {
 			text-decoration: none;
 			color: $color-notice;
@@ -75,17 +75,17 @@ $color-error-border:		adjust_color(adjust_color($color-error-bg, $hue: -10), $li
 				color: $color-notice;
 			}
 		}
-		
+
 		h4 {
 			color: $color-notice;
 		}
 	}
-	
+
 	.alert-warning {
 		background-color: $color-warning-bg;
 		border: 1px solid $color-warning-border;
 		color: $color-warning;
-		
+
 		.close {
 			text-decoration: none;
 			color: $color-warning;
@@ -94,17 +94,17 @@ $color-error-border:		adjust_color(adjust_color($color-error-bg, $hue: -10), $li
 				color: $color-warning;
 			}
 		}
-		
+
 		h4 {
 			color: $color-warning;
 		}
 	}
-	
+
 	.alert-error {
 		background-color: $color-error-bg;
 		border: 1px solid $color-error-border;
 		color: $color-error;
-		
+
 		.close {
 			text-decoration: none;
 			color: $color-error;
@@ -113,16 +113,16 @@ $color-error-border:		adjust_color(adjust_color($color-error-bg, $hue: -10), $li
 				color: $color-error;
 			}
 		}
-		
+
 		h4 {
 			color: $color-error;
 		}
 	}
-	
+
 	h4 {
 		margin: 0;
 	}
-	
+
 	.close {
 		float: right;
 		cursor: pointer;
@@ -136,12 +136,12 @@ $color-error-border:		adjust_color(adjust_color($color-error-bg, $hue: -10), $li
 ul.breadcrumb {
 	list-style: none;
 	padding: 0;
-	
+
 	li {
 		display: inline;
 		@extend .small !optional;
 		@extend .text-uppercase;
-		
+
 		span.ider {
 			&:before {
 				display: inline;
@@ -149,17 +149,17 @@ ul.breadcrumb {
 				color: $color-link;
 				content: '\0003E';
 			}
-			
+
 			img {
 				display: none;
 			}
 		}
-		
+
 		&:first-child {
 			display: none;
 		}
 	}
-	
+
 }
 
 // Pagination
@@ -169,12 +169,12 @@ ul.breadcrumb {
 			list-style: none;
 			margin: 0;
 			padding: 0;
-			
+
 			li {
 				float: left;
 				margin: 1em 0.67em 1em 0;
 				display: inline-block;
-				
+
 				&.active {
 					a {
 						display: inline-block;
@@ -182,14 +182,14 @@ ul.breadcrumb {
 						color: $color-bg;
 						padding: 0.33em 0.67em;
 						border-radius: 0.33em;
-						
+
 						&:hover {
 							text-decoration: none;
 							background-color: lighten($color-primary,10%);
 							color: $color-bg;
 						}
 					}
-					
+
 					&.first a:before {
 						display: inline;
 						content: '\027EA';	// left double angle bracket
@@ -207,20 +207,20 @@ ul.breadcrumb {
 						content: '\027EB';	// right double angle bracket
 					}
 				}
-				
+
 				&.inactive {
 					background-color: $gray-light;
 					color: $color-bg;
 					padding: 0.33em 0.67em;
 					border-radius: 0.33em;
 					cursor: pointer;
-					
+
 					&:hover {
 						text-decoration: none;
 						background-color: $gray-lighter;
 						color: $color-copy;
 					}
-					
+
 					&.first:before {
 						display: inline;
 						content: '\027EA';	// left double angle bracket
@@ -245,7 +245,7 @@ ul.breadcrumb {
 				}
 			}
 		}
-		
+
 		@extend .cf;
 
 	}

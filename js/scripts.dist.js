@@ -26,37 +26,37 @@ else {
 		// Options
 		var opts = {
 			/** Add settings here
-			
+
 			banner : {
 				delay: 15,
 				fade: 400,
 			},
-			
+
 			**/
 		};
-		
+
 		// Working data
 		var vars = {
 			window: jQuery(window),
 			document: jQuery(document),
 			html: jQuery(document.html),
 			body: jQuery(document.body)
-			
+
 			/** Add vars for holding working data
-			
+
 			bannerTimer : false,
 			currentSize : 300,
 			filterHash : 'market-education',
-			 
+
 			**/
 		};
-		
+
 		var init = function(){
 
 			/** Initialization
 
 			*** Add event listeners ***
-			
+
 			Custom lqx events: ( Usage: vars.window.on('eventname', function(){}); )
 			lqxready - triggered when lqx library is initialized
 			geolocatereay - triggered when the IP geolocation is complete and location info is available
@@ -64,7 +64,7 @@ else {
 			orientationchange - triggered on changed on rotation of the screen
 			scrollthrottle - throttles the scroll event, triggers every 15ms
 			resizethrottle - throttles the resize event, triggers every 15ms
-			
+
 			Standard events:
 			vars.document.ready
 			vars.window.load
@@ -85,12 +85,12 @@ else {
 
 		};
 
-		/** Add custom functions for your project here 
-		
+		/** Add custom functions for your project here
+
 		var myFunc = function() {
-	
+
 		};
-		
+
 		**/
 
 		return {

@@ -42,7 +42,7 @@ The file `css/less/03-font-icons.less` is an icon fonts library that loads FontA
  * Add the classes `.icon-lg` or `.icon-xl` for larger icons (32px and 64px)
  * Add the class for the specific icon, for example: `.fa-check` or `.ion-wifi`. You can find the complete set of icons in `css/icon-fonts.html`
 
-You can use the `.icon()` and any of the icon mixings in your custom rules, either directly on elements, or on the `:before` or `:after` pseudo-elements. 
+You can use the `.icon()` and any of the icon mixings in your custom rules, either directly on elements, or on the `:before` or `:after` pseudo-elements.
 
 ## Grid and Responsive Layout
 
@@ -69,7 +69,7 @@ Create a base style for HTML tags: colors, sizes, font families, line heights, m
 
 Provides a library of common CSS classes that should be employed in your site, including:
 
- * Clear, hide, floating: includes classes for showing/hiding elements on specific screen sizes or device types 
+ * Clear, hide, floating: includes classes for showing/hiding elements on specific screen sizes or device types
  * Margins, borders, paddings
  * Colors: a vast array of classes for setting text, background and border colors using the site color palette
  * Fonts: several classes for assigning different font families and font variations and effects
@@ -139,7 +139,7 @@ body.ios-10 .my-class{}
 
 When writing CSS, we do not include vendor prefixes. This is not a task for humans, instead we use PostCSS when processing LESS file to automatically add vendor prefixes to support your target user's browsers.
 
-Use MDN CSS Reference for documentation on CSS properties, and caniuse.com to find out browser support for the most recent CSS properties. 
+Use MDN CSS Reference for documentation on CSS properties, and caniuse.com to find out browser support for the most recent CSS properties.
 
 In general we only use properties that are fully supported (or if partially supported it must provide the expected functionality) by the latest and two previous versions of the following browsers:
 

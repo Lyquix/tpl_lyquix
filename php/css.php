@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * css.inc.php - Includes CSS files
  *
@@ -10,7 +10,7 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-$merge_css = $this->params->get('merge_css'); 
+$merge_css = $this->params->get('merge_css');
 if(!is_array($this->params->get('merge_css'))) {
 	$merge_css = array();
 }
@@ -82,7 +82,7 @@ $non_min_css = $this->params->get('non_min_css');
 // Custom Project Styles
 if(file_exists($tmpl_path . '/css/styles' . ($non_min_css ? '' : '.min') . '.css')) {
 	$stylesheets[] = array(
-		'url' => $tmpl_url . '/css/styles' . ($non_min_css ? '' : '.min') . '.css', 
+		'url' => $tmpl_url . '/css/styles' . ($non_min_css ? '' : '.min') . '.css',
 		'version' => date("YmdHis", filemtime($tmpl_path . '/css/styles' . ($non_min_css ? '' : '.min') . '.css'))
 	);
 }
@@ -166,7 +166,7 @@ if(!file_exists($tmpl_path . '/dist/' . $stylesheet_filename)) {
 				$tmp = str_replace($rel, $abs, $tmp);
 			}
 			$stylesheet_data .= $tmp;
-		} 
+		}
 	}
 	// Save file
 	file_put_contents($tmpl_path . '/dist/' . $stylesheet_filename, $stylesheet_data);

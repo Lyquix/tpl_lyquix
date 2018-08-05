@@ -62,7 +62,7 @@ Want to have a little fun? Just add `?comicfy` or `?almost7` to any URL and this
 
 ## Equal Height Rows
 
-Flexbox is here but browser support is still uneven and buggy. Until we can rely on it we use equal height rows: add the class `equalheightrow` to the block elements you want to have the same height when in the same row. That's it. 
+Flexbox is here but browser support is still uneven and buggy. Until we can rely on it we use equal height rows: add the class `equalheightrow` to the block elements you want to have the same height when in the same row. That's it.
 
 `lqx.initEqualHeightRow()` is executed on document ready to get the list of elements and assess if there are any images still loading. Afterwards `lqx.equalHeightRow()` is executed on every screen size change and screen orientation change. Your custom scripts can call `lqx.equalHeightRow()` to force rows to be re-processes.
 
@@ -80,13 +80,13 @@ Once located, the script adds attributes to the `<body>` tag: city, subdivision,
 
 This function parses the User Agent string to obtain the browser type and version. It returns an object with three keys: name, type and version. It is implemented as a self-executing function, so it is only executed once and then it becomes an object.
 
-It adds classes to the `<body>` tag: browser, browser-major version, and browser-major version-minor version. For example: msie, msie-9, msie-9-0. 
+It adds classes to the `<body>` tag: browser, browser-major version, and browser-major version-minor version. For example: msie, msie-9, msie-9-0.
 
 ## getOS
 
 Similar to getBrowser, this function parses the User Agent string to obtain the operating system type and version. It returns an object with three keys: name, type and version. It is implemented as a self-executing function, so it is only executed once and then it becomes an object.
 
-It adds classes to the `<body>` tag: os, os-major version, and os-major version-minor version. For example: ios, ios-9, ios-9-2. 
+It adds classes to the `<body>` tag: os, os-major version, and os-major version-minor version. For example: ios, ios-9, ios-9-2.
 
 ## Hanging Punctuation
 
@@ -141,7 +141,7 @@ Our own lightbox library. Provides the following features
 To activate an element in your page with lightbox add the following attributes:
 
 * `data-lyqbox`: Indicates that this is a lyqbox element. Leave empty for single lightboxes, or use an identifier that ties together elements that belong to the same gallery, or as unique identifier for alerts.
-* `data-lyqbox-type`: 
+* `data-lyqbox-type`:
   * `image`: use for loading images in lightbox
   * `video`: use for loading a video iframe in lightbox
   * `html`, `alert`: use for loading HTML content in lightbox
@@ -247,7 +247,7 @@ Keeps track of the time a user is active while viewing a page. It uses several t
 
 ## Browser Support
 
-Use the: MDN JavaScript Reference for documentation on Javascript functionality, as well as caniuse.com and kangax.github.io/compat-table/es6/ to find out browser support for specific features. 
+Use the: MDN JavaScript Reference for documentation on Javascript functionality, as well as caniuse.com and kangax.github.io/compat-table/es6/ to find out browser support for specific features.
 
 When writing Javascript check whether the functionality is fully supported by the latest and two previous versions of the following browsers:
 
@@ -263,7 +263,7 @@ When writing Javascript check whether the functionality is fully supported by th
 
 ### Support for Internet Explorer
 
-ECMAScript 5 is mostly supported by IE9 and older, but ECMAScript 6 is not properly supported by any version of IE. 
+ECMAScript 5 is mostly supported by IE9 and older, but ECMAScript 6 is not properly supported by any version of IE.
 
 We will phase out support for old versions of Internet Explorer on the following dates (3 years after the next version was released):
 

@@ -38,7 +38,7 @@
 	top: 0;
 
 	z-index: 9999;
-	transition: visibility 0s linear 0.5s, opacity 0.5s linear;  
+	transition: visibility 0s linear 0.5s, opacity 0.5s linear;
 	background-color: rgba(0, 0, 0, 0.8);
 	visibility: hidden;
 	opacity: 0;
@@ -55,7 +55,7 @@
 	.content-wrapper {
 		opacity: 0;
 		transition: opacity .5s;
-		
+
 		.content {
 			position: absolute;
 			top: 0px;
@@ -106,7 +106,7 @@
 	.close {
 		@extend %lyqbox-buttons;
 		right: 10px;
-		top: 10px;		
+		top: 10px;
 
 		&:after {
 			content: '\000D7';	// times (multiplication symbol)
@@ -121,7 +121,7 @@
 
 		&:after {
 			content: '\027E8';	// left angle bracket
-		}					
+		}
 	}
 
 	// next button

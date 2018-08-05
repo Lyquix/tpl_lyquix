@@ -112,12 +112,12 @@
 @for $p from 1 through (100 / $blk-pct-step) {
 	// Set margin, border, width to zero
 	.bleed-margin.blk#{$p * $blk-pct-step}\% {@extend %blk-bleed-margin;}
-	
+
 	// Reset width
 	$pc: percentage($p * $blk-pct-step / 100);
 	%blk-bleed-margin-#{$p * $blk-pct-step}pct-width {width: #{$pc};}
 	.bleed-margin.blk#{$p * $blk-pct-step}\% {@extend %blk-bleed-margin-#{$p * $blk-pct-step}pct-width;}
-	
+
 	// Percentage-screen classes
 	@each $s in $screen-sizes {
 		body[screen=#{$s}] .bleed-margin.blk#{$p * $blk-pct-step}\%-#{$s} {
@@ -150,7 +150,7 @@
 @for $p from 1 through (100 / $blk-pct-step) {
 	// Set border, width to zero
 	.bleed-border.blk#{$p * $blk-pct-step}\% {@extend %blk-bleed-border;}
-	
+
 	// Percentage-screen classes
 	@each $s in $screen-sizes {
 		body[screen=#{$s}] .bleed-border.blk#{$p * $blk-pct-step}\%-#{$s} {@extend %blk-bleed-border;}
@@ -179,7 +179,7 @@
 @for $p from 1 through (100 / $blk-pct-step) {
 	// Set padding to zero
 	body[screen] .bleed-padding.blk#{$p * $blk-pct-step}\% {@extend %blk-bleed-padding;}
-	
+
 	// Percentage-screen classes
 	@each $s in $screen-sizes {
 		body[screen] .bleed-padding.blk#{$p * $blk-pct-step}\%-#{$s} {@extend %blk-bleed-padding;}
@@ -209,7 +209,7 @@
 @for $p from 1 through (100 / $blk-pct-step) {
 	// Set margins to auto
 	body[screen] .blkcenter.blk#{$p * $blk-pct-step}\% {@extend %blk-center;}
-	
+
 	// Percentage-screen classes
 	@each $s in $screen-sizes {
 		body[screen] .blkcenter.blk#{$p * $blk-pct-step}\%-#{$s} {@extend %blk-center;}
@@ -238,7 +238,7 @@
 @for $p from 1 through (100 / $blk-pct-step) {
 	// Set padding to zero
 	body[screen] .flex-container.blk#{$p * $blk-pct-step}\% {@extend %blk-display-flex;}
-	
+
 	// Percentage-screen classes
 	@each $s in $screen-sizes {
 		body[screen] .flex-container.blk#{$p * $blk-pct-step}\%-#{$s} {@extend %blk-display-flex;}

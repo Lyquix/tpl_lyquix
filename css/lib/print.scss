@@ -28,12 +28,12 @@
 	tr {
 		page-break-inside: avoid;
 	}
-	
+
 	// Avoid breaking images
 	img {
 		page-break-inside: avoid;
 	}
-	
+
 	// Allow up to 3 orphan/widow lines
 	p,
 	h2,
@@ -41,7 +41,7 @@
 		orphans: 3;
 		widows: 3;
 	}
-	
+
 	// Don't break right after a heading'
 	h1,
 	h2,
@@ -51,7 +51,7 @@
 	h6 {
 		page-break-after: avoid;
 	}
-	
+
 }
 
 // Page break classes
@@ -72,7 +72,7 @@
 	}
 }
 // Remove background color and images
-.print-no-background { 
+.print-no-background {
 	@media print {
 		&, *, *:before, *:after, *:first-letter, *:first-line {
 			background: transparent !important;
@@ -106,9 +106,9 @@
 			text-shadow: none !important;
 		}
 	}
-}   
-	
-	
+}
+
+
 // Appends the URL after links (except anchors and javascript)
 .print-links-href {
 	@media print {
@@ -116,7 +116,7 @@
 			&:after, &:visited:after {
 				content: " (" attr(href) ")";
 			}
-			
+
 			&[href^="#"],
 			&[href^="javascript:"] {
 				&:after, &:visited:after {
@@ -126,7 +126,7 @@
 		}
 	}
 }
-	
+
 // Appends title after abbreviations
 .print-abbr-title {
 	@media print {

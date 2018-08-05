@@ -11,24 +11,24 @@
 
 // Clear
 @mixin common-clear {
-	.clr, 
+	.clr,
 	.clear {
 		clear: both;
 	}
 
 	// Clear fix (clears after the element)
-	.cf, 
+	.cf,
 	.clearfix {
-		&:before, 
+		&:before,
 		&:after {
 			content: " ";
 			display: table;
 		}
-		
+
 		&:after {
 			clear: both;
 		}
-		
+
 		*zoom: 1;
 	}
 }
@@ -37,7 +37,7 @@
 @mixin common-float {
 	.float-left {
 		float:left;
-		
+
 		// add margins
 		&.margins {
 			margin-right: $blk-margin-right;
@@ -46,7 +46,7 @@
 	}
 	.float-right {
 		float:right;
-		
+
 		// add margins
 		&.margins {
 			margin-left: $blk-margin-left;
@@ -57,11 +57,11 @@
 
 // Hide & show classes
 @mixin common-hide-show {
-	.hide, 
+	.hide,
 	.off {
 		display: none;
 	}
-	.show, 
+	.show,
 	.on {
 		display: unset;
 	}
@@ -80,13 +80,13 @@
 	body.mobile {
 		.mobile-hide,
 		.tablet-hide,
-		.phone-hide { 
-			display: none; 
+		.phone-hide {
+			display: none;
 		}
 		.mobile-show,
 		.tablet-show,
-		.phone-show { 
-			display: unset; 
+		.phone-show {
+			display: unset;
 		}
 	}
 
@@ -120,7 +120,7 @@
 	// Font family type
 	.font-serif { font-family: $font-serif; }
 	.font-sans-serif { font-family: $font-sans-serif; }
-	.font-monospace { 
+	.font-monospace {
 		font-family: $font-monospace;
 		// set figures to fixed-width, lining (same height as caps), and slashed zero
 		font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 0, "pnum" 0, "dlig" 0, "tnum" 1,  "lnum" 1, "zero" 1;
@@ -140,7 +140,7 @@
 	// Text transformations
 	.text-smallcaps { font-variant: small-caps; }
 	.text-uppercase { text-transform: uppercase; }
-	.text-smallcaps, 
+	.text-smallcaps,
 	.text-uppercase { font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0, "smcp" 1; }
 	.text-lowercase { text-transform: lowercase; }
 	.text-capitalize { text-transform: capitalize; }
@@ -171,21 +171,21 @@
 	.text-nowrap { white-space: nowrap; }
 
 	// Text size shorthands
-	.font-tiny { 
-		font-size: $font-size-small * 0.5; 
-		line-height: $line-height-small * 1.1; 
+	.font-tiny {
+		font-size: $font-size-small * 0.5;
+		line-height: $line-height-small * 1.1;
 	}
-	.font-small { 
-		font-size: $font-size-small; 
-		line-height: $line-height-small; 
+	.font-small {
+		font-size: $font-size-small;
+		line-height: $line-height-small;
 	}
-	.font-big { 
-		font-size: $font-size-big; 
-		line-height: $line-height-big; 
+	.font-big {
+		font-size: $font-size-big;
+		line-height: $line-height-big;
 	}
-	.font-huge { 
-		font-size: $font-size-big * 2; 
-		line-height: $line-height-big * 0.9; 
+	.font-huge {
+		font-size: $font-size-big * 2;
+		line-height: $line-height-big * 0.9;
 	}
 }
 
@@ -213,7 +213,7 @@
 	@each $s in $screen-sizes {
 		// Index matching screen size array
 		$i: index($screen-sizes, $s);
-		
+
 		@for $c from 1 through 10 {
 			body[screen=#{$s}] .columns-#{$c}-#{$s} {
 				column-count: #{$c};
@@ -228,9 +228,9 @@
 	.video-16-9 {
 		position: relative;
 		padding-bottom: 56.25%;
-		height: 0; 
+		height: 0;
 		overflow: hidden;
-		
+
 		iframe, object, embed, video {
 			position: absolute;
 			top: 0;
@@ -244,9 +244,9 @@
 	.video-4-3 {
 		position: relative;
 		padding-bottom: 75%;
-		height: 0; 
+		height: 0;
 		overflow: hidden;
-		
+
 		iframe, object, embed, video {
 			position: absolute;
 			top: 0;
@@ -360,21 +360,21 @@
 	/**
 	 * Add classes to a parent of the menu <ul> element.
 	 * This system assumes that the menu element is ul.menu
-	 * 
+	 *
 	 * You must select one of the following orientations:
 	 * .horizontal  - top level items are arranged in a single row
 	 * .vertical    - top level items are stacked in a single column
-	 * 
+	 *
 	 * By default, sub-menus are hidden, to show them add classes:
 	 * .level-2  - enables the 2nd level menu items
 	 * .level-3  - enables the 3rd level menu items
-	 * 
+	 *
 	 * By default, sub-menus open down and right, to open left add class:
 	 * .open-left - open sub-menus to the left
 	 *
 	 * In vertical menus, to open sub-menus stacked (accordion), add class:
 	 * .stacked  - open sub-menus stacked, only for vertical menus
-	 * 
+	 *
 	 * Sub-menus open on hover for non-mobile devices. For mobile devices, they open on click.
 	 * JS for adding/removing .open class on click:
 	 *
@@ -389,8 +389,8 @@
 	 */
 
 	// Default <ul>, <li> and <a> styling
-	.horizontal, 
-	.vertical { 
+	.horizontal,
+	.vertical {
 		ul {
 			list-style: none;
 			padding: 0;
@@ -409,7 +409,7 @@
 					position: absolute;
 					right: 0.5em;
 					top: 0.5em;
-				}	
+				}
 			}
 			ul {
 				position: absolute;
@@ -421,7 +421,7 @@
 	}
 
 	// Hide sub-menus by default
-	.horizontal, 
+	.horizontal,
 	.vertical {
 		ul.menu > li ul {
 			display: none;

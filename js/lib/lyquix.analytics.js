@@ -98,10 +98,10 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						});
 					}
 				},
-				
+
 				function(){
 					var params;
-					
+
 					// Set commands
 					if(opts.setParams && typeof opts.setParams == 'object') {
 						params = opts.setParams;
@@ -113,7 +113,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 							});
 						});
 					}
-					
+
 					// Require commands
 					if(opts.requireParams && typeof opts.requireParams == 'object') {
 						params = opts.requireParams;
@@ -125,7 +125,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 							});
 						});
 					}
-					
+
 					// Provide commands
 					if(opts.provideParams && typeof opts.provideParams == 'object') {
 						params = opts.provideParams;
@@ -137,7 +137,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 							});
 						});
 					}
-					
+
 					// A/B testing opts
 					if(opts.abTestName !== null && opts.abTestNameDimension !== null && opts.abTestGroupDimension !== null) {
 						// get a/b test group cookie
@@ -150,13 +150,13 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						}
 						// Set body attribute that can be used by css and js
 						lqx.vars.body.attr('data-abtest', abTestGroup);
-						
+
 						// Set the GA dimensions
 						ga('set', 'dimension' + opts.abTestNameDimension, opts.abTestName);
 						ga('set', 'dimension' + opts.abTestGroupDimension, abTestGroup);
 					}
 				},
-				
+
 				function(){
 					if(typeof opts.customParamsFuncs == 'function') {
 						try {
@@ -167,11 +167,11 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						}
 					}
 				},
-				
+
 				function(){
 					// Send pageview
 					ga('send', 'pageview');
-					
+
 					// Initialize tracking
 					initTracking();
 				}
@@ -363,7 +363,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					if (tag == 'iframe') {
 						// init js api for video player
 						initVideoPlayerAPI(elem);
-					}	    
+					}
 				}
 			});
 

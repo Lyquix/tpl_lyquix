@@ -1,6 +1,6 @@
 ###
 #
-# js.sh - Shell script to concatenate and minify lyquix Javascript library, and vue components/controllers 
+# js.sh - Shell script to concatenate and minify lyquix Javascript library, and vue components/controllers
 #
 # @version     2.0.0
 # @package     tpl_lyquix

@@ -17,7 +17,7 @@
 }
 
 html {
-	// Break long words to fit container  
+	// Break long words to fit container
 	word-break: break-word;
 
 	// Improve text rendering
@@ -29,7 +29,7 @@ html {
 
 	// Set box-sizing to border-box
 	box-sizing: border-box;
-	
+
 	// OpenType feature settings:
 	// enable: kerning, basic ligatures (liga), contextual-alternate (calt), old-style figures (onum), proportional figures (pnum)
 	// disable: discretionary ligatures (dlig), tabular figures (tnum), lining figures (lnum)
@@ -37,7 +37,7 @@ html {
 	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0;
 
 	// Set default font-size to 10px, then use rem units for the rest of the stylesheet
-	font-size: 10px; 
+	font-size: 10px;
 }
 
 body {
@@ -66,7 +66,7 @@ a {
 	color: $color-link;
 	text-decoration: none;
 	outline: none;
-	
+
 	&:hover {
 		color: $color-link-hover;
 		text-decoration: underline;
@@ -131,8 +131,8 @@ h6 {
 	margin: $elem-margin-heading 0;
 }
 
-h1, 
-h2, 
+h1,
+h2,
 h3 {
 	// Add discretionary ligatures
 	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 1, "tnum" 0,  "lnum" 0;
@@ -185,7 +185,7 @@ button {
 	padding: 0.5em 2em;
 	margin: 0 $elem-margin-input;
 	border: none;
-	
+
 	&:hover {
 		text-decoration: none;
 		background-color: lighten($color-button-bg,10%);
@@ -199,7 +199,7 @@ input[type=reset]:disabled,
 button:disabled {
 	background-color: $gray;
 	color: $color-button;
-	
+
 	&:hover {
 		background-color: $gray-light;
 	}
@@ -219,7 +219,7 @@ blockquote {
 	line-height: $line-height-big;
 	quotes: "\201C""\201D""\2018""\2019";
 	position: relative;
-	
+
 	&:before {
 		font-family: Georgia, serif;
 		content: open-quote;
@@ -265,7 +265,7 @@ th {
 	font-family: $font-th;
 	color: $color-th;
 	border-bottom: 1px solid $color-th-border;
-	background-color: $color-th-bg;	
+	background-color: $color-th-bg;
 }
 
 td {

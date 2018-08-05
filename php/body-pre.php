@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * body-pre.inc.php - Includes before the <body> tag
  *

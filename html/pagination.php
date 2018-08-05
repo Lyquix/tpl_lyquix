@@ -111,6 +111,6 @@ function pagination_item_inactive(&$item) {
 	}
 
 	return '<li class="inactive ' . $class . '">' . $display . '</li>';
-	
-} 
+
+}
 

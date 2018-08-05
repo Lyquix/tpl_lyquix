@@ -32,6 +32,7 @@ else {
 			menu:       {enabled: true},
 			mutation:   {enabled: true},
 			responsive: {enabled: true},
+			tabs:       {enabled: true},
 			util:       {enabled: true}
 		};
 
@@ -47,6 +48,7 @@ else {
 			menu:       {},
 			mutation:   {},
 			responsive: {},
+			tabs:       {},
 			util:       {},
 			// jQuery objects
 			window: jQuery(window),

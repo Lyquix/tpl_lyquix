@@ -21,7 +21,7 @@ include(__DIR__ . '/php/head-pre.php');
 <head>
 <?php
 // Head top includes
-include(__DIR__ . '/php/head-top.php'); 
+include(__DIR__ . '/php/head-top.php');
 ?>
 <jdoc:include type="head" />
 <?php
@@ -48,7 +48,7 @@ lqx.ready(<?php echo json_encode($lqx_options); ?>);
 // if blank-page parameter is set to true, only the component will be output
 if($this->params->get('blank_page',0) != 0 && JFactory::getApplication() -> input-> get('tmpl') != 'component') :  ?>
 <header>
-	
+
 	<?php if($this->countModules('header')): ?>
 	<jdoc:include type="modules" name="header" />
 	<?php endif; ?>
@@ -96,7 +96,7 @@ if($this->params->get('blank_page',0) != 0 && JFactory::getApplication() -> inpu
 		<jdoc:include type="modules" name="bottom" />
 	</section>
 	<?php endif; ?>
-	
+
 </main>
 
 <footer>

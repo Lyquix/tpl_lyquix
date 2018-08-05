@@ -54,9 +54,9 @@ The following image illustrates a 1-block element with a content width of 60px a
 
 ## How Responsiveness Work?
 
-A Javascript listener for window resize assigns the attribute `screen` to the body tag with the value of the current screen size (e.g. sm). This attribute is then used in CSS to adjust the rules based on the screen size. 
+A Javascript listener for window resize assigns the attribute `screen` to the body tag with the value of the current screen size (e.g. sm). This attribute is then used in CSS to adjust the rules based on the screen size.
 
-We decided in favor of Javascript instead of @media queries because we found ourseleves needing a listener anyway to trigger functions upon screen size change. 
+We decided in favor of Javascript instead of @media queries because we found ourseleves needing a listener anyway to trigger functions upon screen size change.
 
 The following images show how the various block sizes fit in different screen sizes. You can see the naming convention for class names, for example .blk1, .blk2, all the way to .blk30 set the size of the block. You can specify different block sizes for different screens, for example: .blk1-xs, .blk4-md, .blk2-xl
 

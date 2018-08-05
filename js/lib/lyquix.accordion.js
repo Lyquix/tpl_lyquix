@@ -12,21 +12,20 @@
 if(lqx && typeof lqx.accordion == 'undefined') {
 	lqx.accordion = (function(){
 		/** Adds accordion functionality to any element
-		    with the .accordion class
+			with the .accordion class
 
-		    It automatically uses the first child as header element
-		    unless you specificy an element with class
-		    .accordion-header
+			It automatically uses the first child as header element
+			unless you specificy an element with class
+			.accordion-header
 
-		    The minimum CSS you need for this to work is have the
-		    accordion element to have overflow:hidden
+			The minimum CSS you need for this to work is have the
+			accordion element to have overflow:hidden
 
-		    The code adds a class .closed, and sets the accordion height
-		    as inline style
+			The code adds a class .closed or .open, and sets the accordion height
+			as inline style
 
-		    The height of the accordion when open and closed is
-		    recalculated on resize, screen change, and orientation change
-		    
+			The height of the accordion when open and closed is
+			recalculated on resize, screen change, and orientation change
 		**/
 		var opts = {
 			scrollTopPadding: 15, // percentage from top of screen
@@ -84,18 +83,18 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 
 				// Get height of whole accordion
 				a.openHeight = a.elem.innerHeight();
-				
+
 				// Close the accordion
 				a.elem.css('height', a.closedHeight).addClass('closed');
-				
+
 				// Allow transitions again
 				a.elem.css('transition', '');
-				
+
 				// Add click listener
 				a.header.click(function(){
 					// Open accordion
 					if(a.elem.hasClass('closed')) {
-						a.elem.removeClass('closed');
+						a.elem.removeClass('closed').addClass('open');
 						a.elem.css('height', a.openHeight);
 						jQuery('html, body').animate({
 							scrollTop: (a.elem.offset().top - lqx.vars.window.height() * opts.scrollTopPadding / 100)
@@ -103,7 +102,7 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 					}
 					// Close accordion
 					else {
-						a.elem.addClass('closed');
+						a.elem.addClass('closed').removeClass('open');
 						a.elem.css('height', a.closedHeight);
 					}
 				});
@@ -129,7 +128,7 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 
 				// Get height of whole accordion
 				a.openHeight = a.elem.innerHeight();
-				
+
 				// Close the accordion again, or set the open height
 				if(closed) {
 					a.elem.css('height', a.closedHeight).addClass('closed');

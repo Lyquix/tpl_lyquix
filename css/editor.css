@@ -1,5 +1,5 @@
 /**
- * editor.css - Styles for Joomla editor 
+ * editor.css - Styles for Joomla editor
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -10,5 +10,5 @@
  */
 @import url(styles.css);
 body {
-  background: white;
+	background: white;
 }

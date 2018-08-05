@@ -12,7 +12,7 @@
 if(lqx && typeof lqx.lyqbox == 'undefined') {
 	lqx.lyqbox = (function(){
 		var opts = {
-			html: 
+			html:
 				'<div class="lyqbox">' +
 					'<div class="content-wrapper">' +
 						'<div class="content"></div>' +
@@ -206,7 +206,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
             }
         };
 
-        
+
 		// Show overlay and lightbox. If the image is part of a set, add siblings to album array.
 		var start = function(data) {
 			vars.album = [];
