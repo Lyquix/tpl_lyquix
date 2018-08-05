@@ -1,3 +1,4 @@
+# Add MIME type for font files and enable compression
 AddType application/x-font-otf .otf
 AddType application/x-font-ttf .ttf
 AddType application/x-font-woff .woff
