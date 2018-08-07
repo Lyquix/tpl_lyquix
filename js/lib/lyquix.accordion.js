@@ -26,6 +26,9 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 
 			The height of the accordion when open and closed is
 			recalculated on resize, screen change, and orientation change
+
+			If the accordion is a child of an .accordion-group parent, when one accordion
+			is opened the rest are closed.
 		**/
 		var opts = {
 			scrollTopPadding: 15, // percentage from top of screen
@@ -74,9 +77,13 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 				a.elem = jQuery(elem);
 
 				// Get header element: first child with class .accordion-header (if none, just pick the first child)
-				a.header = jQuery(a.elem.children('accordion-header')[0]);
-				if(!a.header.length) {
+				a.header = a.elem.children('accordion-header');
+				if(a.header.length) {
+					a.header = jQuery(a.header[0]);
+				}
+				else {
 					a.header = jQuery(a.elem.children()[0]);
+					a.header.addClass('accordion-header');
 				}
 
 				// Force remove all transitions
@@ -103,6 +110,11 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 						jQuery('html, body').animate({
 							scrollTop: (a.elem.offset().top - lqx.vars.window.height() * opts.scrollTopPadding / 100)
 						}, opts.scrollTopDuration);
+						// Close all other accordions in group
+						var group = a.elem.parents('.accordion-group');
+						if(group.length) {
+							jQuery(group[0]).find('.accordion.open').not(a.elem).find('.accordion-header').trigger('click');
+						}
 					}
 					// Close accordion
 					else {
