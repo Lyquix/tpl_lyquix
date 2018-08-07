@@ -61,9 +61,13 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 		};
 
 		var setup = function(elems){
-			if(!(elems instanceof Array)) {
+			if(elems instanceof Node) {
 				// Not an array, convert to an array
 				elems = [elems];
+			}
+			else if(elems instanceof jQuery) {
+				// Convert jQuery to array
+				elems = elems.toArray();
 			}
 			elems.forEach(function(elem){
 				var a = {};
