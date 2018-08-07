@@ -96,9 +96,64 @@ if(lqx && typeof lqx.geolocate == 'undefined') {
 			});
 		};
 
+		var deg2rad = function(deg) {
+			return deg * Math.PI / 180;
+		};
+
+		var inCircle = function(test, center, radius) {
+			/** Accepts:
+			 * test: location to test, object with keys lat and lon
+			 * center: circle center point, object with keys lat and lon
+			 * radius: circle radius in kilometers
+			 */
+			var dLat = deg2rad(test.lat - center.lat);
+			var dLon = deg2rad(test.lon - center.lon);
+			var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+				Math.cos(deg2rad(center.lat)) * Math.cos(deg2rad(test.lat)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+			var d = 6371 * c; // Distance in km
+			return (d <= radius && true) || false;
+		};
+
+		var inSquare = function(test, corner1, corner2) {
+			/** Accepts:
+			 * test: location to test, object with keys lat and lon
+			 * corner1: a corner of the square, object with keys lat and lon
+			 * corner2: opposite corner of the square, object with keys lat and lon
+			 * Known limitation: doesn't handle squares that cross the poles or the international date line
+			 */
+			return test.lat <= Math.max(corner1.lat, corner2.lat) &&
+				test.lat >= Math.min(corner1.lat, corner2.lat) &&
+				test.lon <= Math.max(corner1.lon, corner2.lon) &&
+				test.lon >= Math.min(corner1.lon, corner2.lon);
+		};
+
+		var inPolygon = function(test, poly) {
+			/** Accepts:
+			 * test: location to test, object with keys lat and lon
+			 * poly: defines the polygon, array of objects, each with keys lat and lon
+			 * Based on http://alienryderflex.com/polygon/
+			 * Known limitation: doesn't handle polygons that cross the poles or the international date line
+			 */
+			var i, j = poly.length - 1, oddNodes = false;
+
+			for(i=0; i < poly.length; i++) {
+				if(poly[i].lat < test.lat && poly[j].lat >= test.lat ||  poly[j].lat < test.lat && poly[i].lat >= test.lat) {
+					if(poly[i].lon + (test.lat - poly[i].lat) / (poly[j].lat - poly[i].lat) * (poly[j].lon - poly[i].lon) < test.lon) {
+						oddNodes =! oddNodes;
+					}
+				}
+				j = i;
+			}
+			return oddNodes;
+		};
+
 		return {
 			init: init,
-			location: location
+			location: location,
+			inCircle: inCircle,
+			inSquare: inSquare,
+			inPolygon: inPolygon
 		};
 	})();
 	lqx.geolocate.init();
