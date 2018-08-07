@@ -1,6 +1,6 @@
 <?php
 /**
- * body-bottom.inc.php - Includes for bottom of <body> tag
+ * ie-alert.php - Includes the IE alerts
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -10,9 +10,9 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-$ie9 = $this->params->get('ie9_alert',1);
-$ie10 = $this->params->get('ie10_alert',1);
-$ie11 = $this->params->get('ie11_alert',0);
+$ie9 = $this -> params -> get('ie9_alert', 1);
+$ie10 = $this -> params -> get('ie10_alert', 1);
+$ie11 = $this -> params -> get('ie11_alert', 0);
 
 if($ie9 || $ie10 || $ie11) : ?>
 <link href="<?php echo $tmpl_url; ?>/css/ie-alert.css" rel="stylesheet" />
@@ -20,6 +20,4 @@ if($ie9 || $ie10 || $ie11) : ?>
 <script>
 jQuery('.ie-alert i').click(function(){jQuery('.ie-alert').hide();});
 </script>
-<?php endif; ?>
-
-<jdoc:include type="modules" name="body-scripts" />
+<?php endif;

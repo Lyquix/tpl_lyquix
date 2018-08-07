@@ -1,6 +1,6 @@
 <?php
 /**
- * js.inc.php - Includes JavaScript libraries
+ * js.php - Includes JavaScript libraries
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -10,8 +10,8 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-$merge_js = $this->params->get('merge_js');
-if(!is_array($this->params->get('merge_js'))) {
+$merge_js = $this -> params -> get('merge_js');
+if(!is_array($this -> params -> get('merge_js'))) {
 	$merge_js = array();
 }
 
@@ -19,13 +19,13 @@ if(!is_array($this->params->get('merge_js'))) {
 $scripts = array();
 
 // Parse enqueued scripts
-foreach($doc->_scripts as $script_url => $script_meta) {
+foreach($doc -> _scripts as $script_url => $script_meta) {
 	// Check if script is local or remote
 	if(parse_url($script_url, PHP_URL_SCHEME)) {
 		// Absolute URL
 		if(in_array('remote', $merge_js)) {
 			$scripts[] = array('url' => $script_url);
-			unset($doc->_scripts[$script_url]);
+			unset($doc -> _scripts[$script_url]);
 		}
 	}
 	elseif (parse_url($script_url, PHP_URL_PATH)) {
@@ -40,7 +40,7 @@ foreach($doc->_scripts as $script_url => $script_meta) {
 					'url' => $url,
 					'version' => date("YmdHis", filemtime(JPATH_BASE . $url))
 				);
-				unset($doc->_scripts[$script_url]);
+				unset($doc -> _scripts[$script_url]);
 			}
 		}
 	}
@@ -48,32 +48,32 @@ foreach($doc->_scripts as $script_url => $script_meta) {
 
 // Parse enqueued script declarations
 if(in_array('inline', $merge_js)) {
-	foreach($doc->_script as $script_type => $script_data) {
+	foreach($doc -> _script as $script_type => $script_data) {
 		$scripts[] = array('data' => $script_data);
 	}
-	$doc->_script = array();
+	$doc -> _script = array();
 }
 
 // Use non minified version?
-$non_min_js = $this->params->get('non_min_js');
+$non_min_js = $this -> params -> get('non_min_js');
 
 // LoDash
-if($this->params->get('lodash', 0)) {
+if($this -> params -> get('lodash', 0)) {
 	$scripts[] = array('url' => $cdnjs_url . 'lodash.js/4.17.4/lodash' . ($non_min_js ? '' : '.min') . '.js');
 }
 
 // SmoothScroll
-if($this->params->get('smoothscroll', 0)) {
+if($this -> params -> get('smoothscroll', 0)) {
 	$scripts[] = array('url' => $cdnjs_url . 'smoothscroll/1.4.6/SmoothScroll' . ($non_min_js ? '' : '.min') . '.js');
 }
 
 // MomentJS
-if($this->params->get('momentjs', 0)) {
+if($this -> params -> get('momentjs', 0)) {
 	$scripts[] = array('url' => $cdnjs_url . 'moment.js/2.18.1/moment' . ($non_min_js ? '' : '.min') . '.js');
 }
 
 // DotDotDot
-if($this->params->get('dotdotdot', 0)) {
+if($this -> params -> get('dotdotdot', 0)) {
 	$scripts[] = array('url' => $cdnjs_url . 'jQuery.dotdotdot/1.7.4/jquery.dotdotdot' . ($non_min_js ? '' : '.min') . '.js');
 }
 
@@ -81,7 +81,7 @@ if($this->params->get('dotdotdot', 0)) {
 $scripts[] = array('url' => $cdnjs_url . 'mobile-detect/1.3.6/mobile-detect' . ($non_min_js ? '' : '.min') . '.js');
 
 // Additional JS Libraries
-$add_js_libraries = explode("\n", trim($this->params->get('add_js_libraries', '')));
+$add_js_libraries = explode("\n", trim($this -> params -> get('add_js_libraries', '')));
 foreach($add_js_libraries as $jsurl) {
 	$jsurl = trim($jsurl);
 	if($jsurl) {
@@ -161,18 +161,18 @@ if(!file_exists($tmpl_path . '/dist/' . $scripts_filename)) {
 // Set lqx options
 $lqx_options = array(
 	'responsive' => array(
-		'minIndex' => $this->params->get('min_screen', 0),
-		'maxIndex' => $this->params->get('max_screen', 4)
+		'minIndex' => $this -> params -> get('min_screen', 0),
+		'maxIndex' => $this -> params -> get('max_screen', 4)
 	),
 	'siteURL' => $site_abs_url,
-	'tmplURL' => $site_abs_url . 'templates/' . $this->template
+	'tmplURL' => $site_abs_url . 'templates/' . $this -> template
 );
 
-if($this->params->get('ga_account')) {
+if($this -> params -> get('ga_account')) {
 	$lqx_options['analytics'] = array(
 		'createParams' => array(
 			'default' => array(
-				'trackingId' => $this->params->get('ga_account'),
+				'trackingId' => $this -> params -> get('ga_account'),
 				'cookieDomain' => 'auto'
 			)
 		)
@@ -180,4 +180,4 @@ if($this->params->get('ga_account')) {
 }
 
 // Merge with options from template settings
-$lqx_options = array_merge($lqx_options, json_decode($this->params->get('lqx_options', '{}'), true));
+$lqx_options = array_merge($lqx_options, json_decode($this -> params -> get('lqx_options', '{}'), true));

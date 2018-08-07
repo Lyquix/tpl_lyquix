@@ -1,6 +1,6 @@
 <?php
 /**
- * css.inc.php - Includes CSS files
+ * css.php - Includes CSS files
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -10,8 +10,8 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-$merge_css = $this->params->get('merge_css');
-if(!is_array($this->params->get('merge_css'))) {
+$merge_css = $this -> params -> get('merge_css');
+if(!is_array($this -> params -> get('merge_css'))) {
 	$merge_css = array();
 }
 
@@ -19,13 +19,13 @@ if(!is_array($this->params->get('merge_css'))) {
 $stylesheets = array();
 
 // Parse enqueued scripts
-foreach($doc->_styleSheets as $stylesheet_url => $stylesheet_meta) {
+foreach($doc -> _styleSheets as $stylesheet_url => $stylesheet_meta) {
 	// Check if stylesheet is local or remote
 	if(parse_url($stylesheet_url, PHP_URL_SCHEME)) {
 		// Absolute URL
 		if(in_array('remote', $merge_css)) {
 			$stylesheets[] = array('url' => $stylesheet_url);
-			unset($doc->_styleSheets[$stylesheet_url]);
+			unset($doc -> _styleSheets[$stylesheet_url]);
 		}
 	}
 	elseif (parse_url($stylesheet_url, PHP_URL_PATH)) {
@@ -40,7 +40,7 @@ foreach($doc->_styleSheets as $stylesheet_url => $stylesheet_meta) {
 					'url' => $url,
 					'version' => date("YmdHis", filemtime(JPATH_BASE . $url))
 				);
-				unset($doc->_styleSheets[$stylesheet_url]);
+				unset($doc -> _styleSheets[$stylesheet_url]);
 			}
 		}
 	}
@@ -48,14 +48,14 @@ foreach($doc->_styleSheets as $stylesheet_url => $stylesheet_meta) {
 
 // Parse enqueued style declarations
 if(in_array('inline', $merge_css)) {
-	foreach($doc->_style as $stylesheet_type => $stylesheet_data) {
+	foreach($doc -> _style as $stylesheet_type => $stylesheet_data) {
 		$stylesheets[] = array('data' => $stylesheet_data);
 	}
-	$doc->_style = array();
+	$doc -> _style = array();
 }
 
 // Additional CSS Libraries
-$add_css_libraries = explode("\n", trim($this->params->get('add_css_libraries', '')));
+$add_css_libraries = explode("\n", trim($this -> params -> get('add_css_libraries', '')));
 foreach($add_css_libraries as $cssurl) {
 	$cssurl = trim($cssurl);
 	if($cssurl) {
@@ -77,7 +77,7 @@ foreach($add_css_libraries as $cssurl) {
 }
 
 // Use non minified version?
-$non_min_css = $this->params->get('non_min_css');
+$non_min_css = $this -> params -> get('non_min_css');
 
 // Custom Project Styles
 if(file_exists($tmpl_path . '/css/styles' . ($non_min_css ? '' : '.min') . '.css')) {

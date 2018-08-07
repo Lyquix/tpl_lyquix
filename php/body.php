@@ -1,6 +1,6 @@
 <?php
 /**
- * body-pre.inc.php - Includes before the <body> tag
+ * body.php - Prepare classes for the <body> tag
  *
  * @version     2.0.0
  * @package     tpl_lyquix

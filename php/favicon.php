@@ -1,6 +1,6 @@
 <?php
 /**
- * favicon.inc.php - Includes favicons
+ * favicon.php - Includes favicons
  *
  * @version     2.0.0
  * @package     tpl_lyquix
