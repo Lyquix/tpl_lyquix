@@ -32,6 +32,7 @@ else {
 			menu:       {enabled: true},
 			mutation:   {enabled: true},
 			responsive: {enabled: true},
+			tabs:       {enabled: true},
 			util:       {enabled: true}
 		};
 
@@ -47,6 +48,7 @@ else {
 			menu:       {},
 			mutation:   {},
 			responsive: {},
+			tabs:       {},
 			util:       {},
 			// jQuery objects
 			window: jQuery(window),
@@ -715,9 +717,64 @@ if(lqx && typeof lqx.geolocate == 'undefined') {
 			});
 		};
 
+		var deg2rad = function(deg) {
+			return deg * Math.PI / 180;
+		};
+
+		var inCircle = function(test, center, radius) {
+			/** Accepts:
+			 * test: location to test, object with keys lat and lon
+			 * center: circle center point, object with keys lat and lon
+			 * radius: circle radius in kilometers
+			 */
+			var dLat = deg2rad(test.lat - center.lat);
+			var dLon = deg2rad(test.lon - center.lon);
+			var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+				Math.cos(deg2rad(center.lat)) * Math.cos(deg2rad(test.lat)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+			var d = 6371 * c; // Distance in km
+			return (d <= radius && true) || false;
+		};
+
+		var inSquare = function(test, corner1, corner2) {
+			/** Accepts:
+			 * test: location to test, object with keys lat and lon
+			 * corner1: a corner of the square, object with keys lat and lon
+			 * corner2: opposite corner of the square, object with keys lat and lon
+			 * Known limitation: doesn't handle squares that cross the poles or the international date line
+			 */
+			return test.lat <= Math.max(corner1.lat, corner2.lat) &&
+				test.lat >= Math.min(corner1.lat, corner2.lat) &&
+				test.lon <= Math.max(corner1.lon, corner2.lon) &&
+				test.lon >= Math.min(corner1.lon, corner2.lon);
+		};
+
+		var inPolygon = function(test, poly) {
+			/** Accepts:
+			 * test: location to test, object with keys lat and lon
+			 * poly: defines the polygon, array of objects, each with keys lat and lon
+			 * Based on http://alienryderflex.com/polygon/
+			 * Known limitation: doesn't handle polygons that cross the poles or the international date line
+			 */
+			var i, j = poly.length - 1, oddNodes = false;
+
+			for(i=0; i < poly.length; i++) {
+				if(poly[i].lat < test.lat && poly[j].lat >= test.lat ||  poly[j].lat < test.lat && poly[i].lat >= test.lat) {
+					if(poly[i].lon + (test.lat - poly[i].lat) / (poly[j].lat - poly[i].lat) * (poly[j].lon - poly[i].lon) < test.lon) {
+						oddNodes =! oddNodes;
+					}
+				}
+				j = i;
+			}
+			return oddNodes;
+		};
+
 		return {
 			init: init,
-			location: location
+			location: location,
+			inCircle: inCircle,
+			inSquare: inSquare,
+			inPolygon: inPolygon
 		};
 	})();
 	lqx.geolocate.init();
@@ -1225,21 +1282,23 @@ if(lqx && typeof lqx.menu == 'undefined') {
 if(lqx && typeof lqx.accordion == 'undefined') {
 	lqx.accordion = (function(){
 		/** Adds accordion functionality to any element
-		    with the .accordion class
+			with the .accordion class
 
-		    It automatically uses the first child as header element
-		    unless you specificy an element with class
-		    .accordion-header
+			It automatically uses the first child as header element
+			unless you specificy an element with class
+			.accordion-header
 
-		    The minimum CSS you need for this to work is have the
-		    accordion element to have overflow:hidden
+			The minimum CSS you need for this to work is have the
+			accordion element to have overflow:hidden
 
-		    The code adds a class .closed, and sets the accordion height
-		    as inline style
+			The code adds a class .closed or .open, and sets the accordion height
+			as inline style
 
-		    The height of the accordion when open and closed is
-		    recalculated on resize, screen change, and orientation change
+			The height of the accordion when open and closed is
+			recalculated on resize, screen change, and orientation change
 
+			If the accordion is a child of an .accordion-group parent, when one accordion
+			is opened the rest are closed.
 		**/
 		var opts = {
 			scrollTopPadding: 15, // percentage from top of screen
@@ -1275,18 +1334,26 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 		};
 
 		var setup = function(elems){
-			if(!(elems instanceof Array)) {
+			if(elems instanceof Node) {
 				// Not an array, convert to an array
 				elems = [elems];
+			}
+			else if(elems instanceof jQuery) {
+				// Convert jQuery to array
+				elems = elems.toArray();
 			}
 			elems.forEach(function(elem){
 				var a = {};
 				a.elem = jQuery(elem);
 
 				// Get header element: first child with class .accordion-header (if none, just pick the first child)
-				a.header = jQuery(a.elem.children('accordion-header')[0]);
-				if(!a.header.length) {
+				a.header = a.elem.children('accordion-header');
+				if(a.header.length) {
+					a.header = jQuery(a.header[0]);
+				}
+				else {
 					a.header = jQuery(a.elem.children()[0]);
+					a.header.addClass('accordion-header');
 				}
 
 				// Force remove all transitions
@@ -1308,15 +1375,20 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 				a.header.click(function(){
 					// Open accordion
 					if(a.elem.hasClass('closed')) {
-						a.elem.removeClass('closed');
+						a.elem.removeClass('closed').addClass('open');
 						a.elem.css('height', a.openHeight);
 						jQuery('html, body').animate({
 							scrollTop: (a.elem.offset().top - lqx.vars.window.height() * opts.scrollTopPadding / 100)
 						}, opts.scrollTopDuration);
+						// Close all other accordions in group
+						var group = a.elem.parents('.accordion-group');
+						if(group.length) {
+							jQuery(group[0]).find('.accordion.open').not(a.elem).find('.accordion-header').trigger('click');
+						}
 					}
 					// Close accordion
 					else {
-						a.elem.addClass('closed');
+						a.elem.addClass('closed').removeClass('open');
 						a.elem.css('height', a.closedHeight);
 					}
 				});
@@ -1361,6 +1433,140 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 		};
 	})();
 	lqx.accordion.init();
+}
+/**
+ * lyquix.tabs.js - Functionality to handle tabs
+ *
+ * @version     2.0.0
+ * @package     tpl_lyquix
+ * @author      Lyquix
+ * @copyright   Copyright (C) 2015 - 2018 Lyquix
+ * @license     GNU General Public License version 2 or later
+ * @link        https://github.com/Lyquix/tpl_lyquix
+ */
+
+if(lqx && typeof lqx.tabs == 'undefined') {
+	lqx.tabs = (function(){
+		/** Looks for elements with the class .tab and .tab-panel, wrapped in a .tab-group element
+		 *
+		 * In .tab elements looks for the attribute data-tab, and in .panels looks for a matching data-tab attribute
+		 * For the tab/panel selected it adds the class .open, otherwise adds the class .closed
+		 *
+		 * Moves the .tab elements to a group .tab-nav, and moves the .tab-panel elements to a group .tab-content
+		 *
+		**/
+
+		var init = function(){
+			// Initialize only if enabled
+			if(lqx.opts.tabs.enabled) {
+				lqx.log('Initializing `tabs`');
+
+				// Copy default opts and vars
+				vars = lqx.vars.tabs = [];
+
+				// Trigger functions on document ready
+				lqx.vars.document.ready(function() {
+					// Setup tabss loaded initially on the page
+					setup(jQuery('.tab'));
+
+					// Add a mutation handler for tabss added to the DOM
+					//lqx.mutation.addHandler('addNode', '.tab', setup);
+				});
+			}
+
+			return lqx.tabs.init = true;
+		};
+
+		var setup = function(elems){
+			if(elems instanceof Node) {
+				// Not an array, convert to an array
+				elems = [elems];
+			}
+			else if(elems instanceof jQuery) {
+				// Convert jQuery to array
+				elems = elems.toArray();
+			}
+			elems.forEach(function(elem){
+				// The tab element
+				var tab = jQuery(elem);
+
+				// Check if tab is already initialized
+				if(tab.attr('ready') === undefined) {
+					// Check if this .tab is part of .tab-group
+					var group = tab.parents('.tab-group');
+					if(group.length) {
+						// Check if it has a data-tab attribute
+						var tabName = tab.attr('data-tab');
+						if(tabName) {
+							// Check if there is a matching panel element
+							var panel = group.find('.tab-panel[data-tab="' + tabName + '"]');
+							if(panel.length) {
+								// Add the "ready" attribute
+								tab.attr('ready', '');
+
+								// Check if .tab-content exists, otherwise create it
+								var content = group.find('.tab-content');
+								if(!content.length) {
+									content = jQuery('<div class="tab-content"></div>');
+									content.prependTo(group);
+								}
+
+								// Move panel to .tab-content
+								panel.appendTo(content);
+
+								// Check if .tab-nav exists, otherwise create it
+								var nav = group.find('.tab-nav');
+								if(!nav.length) {
+									nav = jQuery('<div class="tab-nav"></div>');
+									nav.prependTo(group);
+								}
+
+								// Move tab to .tab-nav
+								tab.appendTo(nav);
+
+								// If first tab in nav, mark it as open
+								if(nav.find('.tab').index(tab) == 0) {
+									tab.addClass('open');
+									panel.addClass('open');
+								}
+								else {
+									tab.addClass('closed');
+									panel.addClass('closed');
+								}
+
+								// Listener for click on tab
+								tab.click(function(){
+									// Open clicked tab and matching panel
+									tab.removeClass('closed').addClass('open');
+									panel.removeClass('closed').addClass('open');
+									// Close all other tabs and panels in the group
+									nav.find('.tab').not(tab).removeClass('open').addClass('closed');
+									content.find('.tab-panel').not(panel).removeClass('open').addClass('closed');
+								});
+							}
+							// No matching panel found
+							else {
+								lqx.error('No matching panel found for tab ' + tabName);
+							}
+						}
+						// Element has no data-tab attribute
+						else {
+							lqx.error('No data-tab attribute for .tab element')
+						}
+					}
+					// There is no tab group
+					else {
+						lqx.error('No parent .tab-group found for .tab element');
+					}
+				}
+			});
+		};
+
+		return {
+			init: init
+		};
+	})();
+	lqx.tabs.init();
 }
 /**
  * lyquix.lyqbox.js - LyqBox - Lyquix lightbox functionality
