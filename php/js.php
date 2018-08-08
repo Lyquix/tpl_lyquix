@@ -168,6 +168,10 @@ $lqx_options = array(
 	'tmplURL' => $site_abs_url . 'templates/' . $this -> template
 );
 
+if($this -> params -> get('lqx_debug', 0)) {
+	$lqx_options['debug'] = true;
+}
+
 if($this -> params -> get('ga_account')) {
 	$lqx_options['analytics'] = array(
 		'createParams' => array(
