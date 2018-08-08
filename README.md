@@ -1,5 +1,7 @@
 # Lyquix Joomla Template
 
+NOTE: This readme has not been updated yet to reflect the changes in 2.x
+
 ## What is this?
 
 Lyquix developed this Joomla template in 2014 for using in client projects. After about one year of development and testing we have decided to make it open source, so that others can use it and contribute to it. Perhaps some of the ideas used in this template can be inspiration for other templates and even for the Joomla project.
