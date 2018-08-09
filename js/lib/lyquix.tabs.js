@@ -34,7 +34,7 @@ if(lqx && typeof lqx.tabs == 'undefined') {
 					setup(jQuery('.tab'));
 
 					// Add a mutation handler for tabss added to the DOM
-					//lqx.mutation.addHandler('addNode', '.tab', setup);
+					lqx.mutation.addHandler('addNode', '.tab', setup);
 				});
 			}
 

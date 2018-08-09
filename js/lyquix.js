@@ -717,16 +717,13 @@ if(lqx && typeof lqx.geolocate == 'undefined') {
 			});
 		};
 
-		var deg2rad = function(deg) {
-			return deg * Math.PI / 180;
-		};
-
 		var inCircle = function(test, center, radius) {
 			/** Accepts:
 			 * test: location to test, object with keys lat and lon
 			 * center: circle center point, object with keys lat and lon
 			 * radius: circle radius in kilometers
 			 */
+			var deg2rad = function(deg) {return deg * Math.PI / 180;};
 			var dLat = deg2rad(test.lat - center.lat);
 			var dLon = deg2rad(test.lon - center.lon);
 			var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -1470,7 +1467,7 @@ if(lqx && typeof lqx.tabs == 'undefined') {
 					setup(jQuery('.tab'));
 
 					// Add a mutation handler for tabss added to the DOM
-					//lqx.mutation.addHandler('addNode', '.tab', setup);
+					lqx.mutation.addHandler('addNode', '.tab', setup);
 				});
 			}
 
