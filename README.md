@@ -5,16 +5,16 @@
 Lyquix started development of its Joomla template in 2014, for use in our client projects. The goals of this template are:
 
 1. **Best Practices**: the template provides a base HTML/CSS/JavaScript foundation that implements best practices we have learned over the years.
-2. **Code Reuse**: we don't want to re-invent (and re-type) on each project, this template is build with re-usability and consistency in mind.
-3. **Flexibility**: every project has a different design so we still need full flexibility of layout, styling, and functionality.
-4. **Updates**: the template allows to update the core files to fix bugs and add improvements without affecting the customizations for each project.
+2. **Code Reuse**: we don't want to re-invent (and re-type) code for every project, this template is built with re-usability and consistency in mind.
+3. **Flexibility**: when every project has a unique different design, this template provides full flexibility of layout, styling, and functionality.
+4. **Updates**: the template allows to update the core files to fix bugs and add improvements without affecting the customizations of your project.
 
 
 ## Is this template for you?
 
 This template is intended for advanced developers, or those looking to learn advanced template development.
 
-If you are looking for a "one-click & go" template, this is not for you. After you first install this template you will probably see a blank page with an error message.
+If you are looking for a "one-click & go" template, this is not for you. After you first install this template you will see a blank page with an error message on your homepage.
 
 This template is intended to be the foundation for developers that build custom templates from scratch. This is not a pre-made template that looks pretty and you tweak to fit your design.
 
@@ -22,13 +22,13 @@ This template is intended to be the foundation for developers that build custom 
 
 ### Responsive Framwork
 
-  * Defines 5 screen sizes, and we call them xs, sm, md, lg and xl, with very simple breakpoints: 320px, 640px, 960px, 1280px and 1600px.
-  * If needed, it is possible to configure fewer screens and different breakpoints.
-  * Containers width, max-width, and margins can be customized per-screen basis.
-  * Blocks are defined as fractions or percentages. Block sizes can be defined on a per-screen basis using classes.
+  * Defines 5 screen sizes, we call them xs, sm, md, lg and xl, and they have very simple breakpoints: 320px, 640px, 960px, 1280px and 1600px.
+  * If needed, it is possible to configure fewer screens or different breakpoints.
+  * Containers width, max-width, and margins can be customized per-screen.
+  * Blocks fluid and their width is defined as fraction or percentage of the parent element. Block sizes can be defined per-screen.
   * All elements are set to box-sizing: border-box.
-  * Several utility classes for managing layout, including CSS grid and Flexbox.
-  * Responsive CSS is accomplished by using the screen attribute in the body tag, (e.g. body[screen=sm]), instead of media queries.
+  * Several utility classes for managing layout, including CSS grid and flexbox.
+  * Responsive CSS is accomplished by using the screen attribute in the body tag (`body[screen=sm]`), instead of media queries.
 
 ### CSS
 
@@ -56,18 +56,18 @@ This template is intended to be the foundation for developers that build custom 
     * Analytics functions to track outbound links, download links, active time, scroll depth, video usage
     * Geolocation using IP address or GPS, utility functions to test location against circle, square and polygon regions
     * And a few extra utility functions: cookies, swipe detection, unique URLs to prevent caching
-  * Loads polyfill.io to automatically load JS polyfills on a per-browser basis
+  * Uses polyfill.io to automatically load JS polyfills, customized for each browser type and version
 
 ### Template Options
 
-  * Blank page option: equivalent to tmpl=component, allows to set a template style where the only content in the <body> tag is the component output
+  * Blank page option: equivalent to tmpl=component, allows to set a template style where the only content in the `<body>` tag is the component output
   * Several pre-configured module positions
   * Set Google Analytics account and Google/Yahoo/Bing site verification tags via template configuration
-  * Control Joomla JavaScript frameworks to enable/disable
+  * Control what Joomla JavaScript frameworks to enable/disable
   * Select maximum and minimum screen sizes for responsive framework
-  * List additional CSS and JavaScript library URLs to load
+  * List additional CSS and JavaScript library URLs to load (either local or remote)
   * Select use of original or minified CSS and JS files
-  * Control how CSS and JS files are merged into single files
+  * Merged CSS and JS files concatenate multiple CSS and JS libraries into single files
   * Load optional JS libraries: loDash, polyfill.io, SmoothScroll, dotdotdot, Moments.js
   * Activate outdated browser alerts for IE
 
