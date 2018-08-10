@@ -50,11 +50,11 @@ lqx.ready(<?php echo json_encode($lqx_options); ?>);
 // If blank-page parameter is set to true, only the component will be output
 if($this -> params -> get('blank_page', 0) != 0 && $app -> input-> get('tmpl') != 'component') :  ?>
 <header>
-	<?php if($this->countModules('header')): ?>
+	<?php if($this -> countModules('header')): ?>
 	<jdoc:include type="modules" name="header" />
 	<?php endif; ?>
 
-	<?php if($this->countModules('nav-header')): ?>
+	<?php if($this -> countModules('nav-header')): ?>
 	<nav>
 		<jdoc:include type="modules" name="nav-header" />
 	</nav>
