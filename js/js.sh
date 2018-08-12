@@ -5,9 +5,9 @@
 # @version     2.0.0
 # @package     tpl_lyquix
 # @author      lyquix
-# @copyright   Copyright (C) 2015 - 2018 $DIR/lyquix
+# @copyright   Copyright (C) 2015 - 2018 Lyquix
 # @license     GNU General Public License version 2 or later
-# @link        https://github.com/lyquix/tpl_$DIR/lyquix
+# @link        https://github.com/lyquix/tpl_lyquix
 #
 ###
 
