@@ -5,8 +5,8 @@
 Lyquix started development of its Joomla template in 2014, for use in our client projects. The goals of this template are:
 
 1. **Best Practices**: the template provides a base HTML/CSS/JavaScript foundation that implements best practices we have learned over the years.
-2. **Code Reuse**: we don't want to re-invent (and re-type) code for every project, this template is built with re-usability and consistency in mind.
-3. **Flexibility**: when every project has a unique different design, this template provides full flexibility of layout, styling, and functionality.
+2. **Code Reuse and Consistency**: we don't want to re-invent (and re-type) code for every project, this template is built with re-usability and consistency in mind.
+3. **Flexibility**: every project has a unique different design, and this template provides full flexibility of layout, styling, and functionality.
 4. **Updates**: the template allows to update the core files to fix bugs and add improvements without affecting the customizations of your project.
 
 
@@ -28,7 +28,7 @@ This template is intended to be the foundation for developers that build custom 
   * Blocks fluid and their width is defined as fraction or percentage of the parent element. Block sizes can be defined per-screen.
   * All elements are set to box-sizing: border-box.
   * Several utility classes for managing layout, including CSS grid and flexbox.
-  * Responsive CSS is accomplished by using the screen attribute in the body tag (`body[screen=sm]`), instead of media queries.
+  * Responsive CSS is accomplished by using the screen attribute in the body tag `body[screen=sm]`, instead of media queries.
 
 ### CSS
 
