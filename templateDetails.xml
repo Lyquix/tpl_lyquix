@@ -18,9 +18,9 @@
 		<folder>images</folder>
 		<folder>js</folder>
 		<folder>php</folder>
+		<filename>.htaccess</filename>
 		<filename>component.php</filename>
 		<filename>custom.dist.php</filename>
-		<filename>index.html</filename>
 		<filename>index.php</filename>
 		<filename>raw.php</filename>
 		<filename>README.md</filename>
