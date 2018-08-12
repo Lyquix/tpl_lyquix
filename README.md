@@ -84,13 +84,13 @@ This template is intended to be the foundation for developers that build custom 
 
 ## Documentation
 
-  * [Installation Setup and Customization](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/install.md)
-  * [Template Files and Module Positions](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/xml.md)
+  * [Installation Setup and Customization](docs/install.md)
+  * [Template Files and Module Positions](docs/xml.md)
 
 Not updated yet!
 
-  * [CSS Library](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/css.md)
-  * [JavaScript Library](https://github.com/Lyquix/tpl_lyquix/blob/master/docs/js.md)
+  * [CSS Library](docs/css.md)
+  * [JavaScript Library](docs/js.md)
 
 ## To Do and Ideas
 
