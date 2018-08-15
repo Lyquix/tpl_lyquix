@@ -1,5 +1,5 @@
 /**
- * lyquix.core.js - Lyquix JavaScript library
+ * core.js - Lyquix JavaScript library
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -186,7 +186,7 @@ else {
 	lqx.init();
 }
 /**
- * lyquix.util.js - Utility functions
+ * util.js - Utility functions
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -314,7 +314,7 @@ if(lqx && typeof lqx.util == 'undefined') {
 	};
 }
 /**
- * lyquix.detect.js - Detection of device, browser and O/S
+ * detect.js - Detection of device, browser and O/S
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -620,7 +620,7 @@ if(lqx && typeof lqx.detect == 'undefined') {
 	lqx.detect.init();
 }
 /**
- * lyquix.geolocate.js - geolocate functionality
+ * geolocate.js - geolocate functionality
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -777,7 +777,7 @@ if(lqx && typeof lqx.geolocate == 'undefined') {
 	lqx.geolocate.init();
 }
 /**
- * lyquix.mutation.js - Mutation observer and handler
+ * mutation.js - Mutation observer and handler
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -918,7 +918,7 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 	lqx.mutation.init();
 }
 /**
- * lyquix.responsive.js - Enable responsiveness
+ * responsive.js - Enable responsiveness
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -1043,7 +1043,7 @@ if(lqx && typeof lqx.responsive == 'undefined') {
 	lqx.responsive.init();
 }
 /**
- * lyquix.fixes.js - Browser fixes
+ * fixes.js - Browser fixes
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -1143,7 +1143,7 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 	lqx.fixes.init();
 }
 /**
- * lyquix.menu.js - Menu functionality
+ * menu.js - Menu functionality
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -1266,7 +1266,7 @@ if(lqx && typeof lqx.menu == 'undefined') {
 	lqx.menu.init();
 }
 /**
- * lyquix.accordion.js - Functionality to handle accordions
+ * accordion.js - Functionality to handle accordions
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -1432,7 +1432,7 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 	lqx.accordion.init();
 }
 /**
- * lyquix.tabs.js - Functionality to handle tabs
+ * tabs.js - Functionality to handle tabs
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -1566,7 +1566,7 @@ if(lqx && typeof lqx.tabs == 'undefined') {
 	lqx.tabs.init();
 }
 /**
- * lyquix.lyqbox.js - LyqBox - Lyquix lightbox functionality
+ * lyqbox.js - LyqBox - Lyquix lightbox functionality
  *
  * @version     2.0.0
  * @package     tpl_lyquix
@@ -2021,7 +2021,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 	lqx.lyqbox.init();
 }
 /**
- * lyquix.analytics.js - Analytics functionality
+ * analytics.js - Analytics functionality
  *
  * @version     2.0.0
  * @package     tpl_lyquix
