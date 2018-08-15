@@ -1,4 +1,4 @@
-# CSS
+# CSS Library
 
 ## Overview
 
@@ -105,7 +105,7 @@ Prevents elements from breaking on page-breaks. Adds several classes that can us
   * Display `title` attribute of abbreviations
 
 
-## `css/lib/joomla.scss`
+### `css/lib/joomla.scss`
 
 Provides basic styling for the following Joomla elements:
 
