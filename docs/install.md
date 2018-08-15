@@ -3,7 +3,8 @@
 ### Pre-Requisites
 
   * NodeJS and npm
-  * SASS, PostCSS, autoprefixer, UglifyCSS, UglifyJS
+  * SASS, PostCSS, autoprefixer, UglifyCSS, Uglify-JS (use command `npm install -g *package*`)
+  * In Windows you may want to use git bash terminal to run `css/css.sh` and `js/js.sh`, and you will need to download wget from https://eternallybored.org/misc/wget/ and copy it to C:\Program Files\Git\mingw64\bin
 
 ### First Install
 

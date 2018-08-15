@@ -25,9 +25,9 @@ This template is intended to be the foundation for developers that build custom 
   * Defines 5 screen sizes, we call them xs, sm, md, lg and xl, and they have very simple breakpoints: 320px, 640px, 960px, 1280px and 1600px.
   * If needed, it is possible to configure fewer screens or different breakpoints.
   * Containers width, max-width, and margins can be customized per-screen.
-  * Blocks fluid and their width is defined as fraction or percentage of the parent element. Block sizes can be defined per-screen.
+  * Blocks are fluid and their width is defined as fraction or percentage of the parent element. Block sizes can be defined per-screen.
   * All elements are set to box-sizing: border-box.
-  * Several utility classes for managing layout, including CSS grid and flexbox.
+  * Several utility classes for managing layout, including CSS grid, and flexbox.
   * Responsive CSS is accomplished by using the screen attribute in the body tag `body[screen=sm]`, instead of media queries.
 
 ### CSS
@@ -51,11 +51,11 @@ This template is intended to be the foundation for developers that build custom 
   * lyquix.js, our library of scripts includes the following functionality
     * Custom events: lqxready, resizethrottle, scrollthrottle, geolocateready
     * Simple implementation of mutation handlers
-    * Detection of OS, device type, browser type, URL parts and URL parameters
-    * Support functionality for accordions, tabs, menus and lightboxes
+    * Detection of OS, device type, browser type/version, URL parts, and URL parameters
+    * Support functionality for accordions, tabs, menus, and lightboxes
     * Analytics functions to track outbound links, download links, active time, scroll depth, video usage
-    * Geolocation using IP address or GPS, utility functions to test location against circle, square and polygon regions
-    * And a few extra utility functions: cookies, swipe detection, unique URLs to prevent caching
+    * Geolocation using IP address or GPS, utility functions to test location against circle, square, and polygon regions
+    * Utility functions: cookies, swipe detection, unique URLs to prevent caching
   * Uses polyfill.io to automatically load JS polyfills, customized for each browser type and version
 
 ### Template Options
@@ -84,11 +84,8 @@ This template is intended to be the foundation for developers that build custom 
 
 ## Documentation
 
-  * [Installation Setup and Customization](docs/install.md)
+  * [Installation, Setup and Customization](docs/install.md)
   * [Template Files and Module Positions](docs/xml.md)
-
-Not updated yet!
-
   * [CSS Library](docs/css.md)
   * [JavaScript Library](docs/js.md)
 

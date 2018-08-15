@@ -14,9 +14,9 @@ The following files and folders are installed with the template:
 	<folder>js</folder>
 	<folder>fonts</folder>
 	<folder>php</folder>
+	<filename>.htaccess</filename>
 	<filename>component.php</filename>
 	<filename>custom.dist.php</filename>
-	<filename>index.html</filename>
 	<filename>index.php</filename>
 	<filename>raw.php</filename>
 	<filename>templateDetails.xml</filename>
@@ -27,15 +27,10 @@ The following files and folders are installed with the template:
 
 ### Module Positions
 
-The following module positions have been defined:
+The template includes various module positions that you can use or ignore as needed. Below is the list with its recommended placement:
 
-  * **head** - placed at the end of the <head> tag
-  * **main-header** - placed at the top of the <main> tag
-  * **main-left** - placed on the left of the middle of the <main> tag
-  * **main-top** - placed above the main-center position
-  * **main-center** - placed on the center of the middle of the <main> tag. This position is used exclusively by the component output, except on the home page
-  * **main-bottom** - placed below the main-center position
-  * **main-right** - placed on the rightof the middle of the <main> tag
-  * **main-footer** - placed at the bottom of the <main> tag
-  * **body** - placed at the end of the <body> tag
-  * All the other positions, such as **util-1** are placed in blocks inside the various rows.
+  * `head-scripts`: at the end of the `<head>` tag, use it to load additional CSS code, JS code, and meta tags.
+  * `body-scripts`: at the end of the `<body>` tag, use it to load end-of-the-page JS code.
+  * `header`, `nav-header`, `util`, `top`: use for positions in the header/top area of the page.
+  * `footer`, `nav-footer`, `bottom`, `copyright`: use for positions in the header/bottom area or the page.
+  * `left`, `center`, `right`, `before`, `after`, `aside`, `prev`, `next`: various position to be used as you need.
