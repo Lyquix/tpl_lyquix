@@ -13,7 +13,7 @@
 @import "lib/normalize.scss";
 
 // Base colors
-$color-bg:				#f0f0f0;	// Background color
+$color-bg:				#ffffff;	// Background color
 $color-copy: 			#303030;	// Base copy color
 
 // Brand colors
@@ -77,9 +77,9 @@ $color-th-bg:				$gray-lighter;		// Header cell background color
 $color-bullets:				$color-primary;
 
 // Font sizes
-$font-size-base:		16px;						// Font size for body copy
-$font-size-base-sm:		16px;						// Font size for body copy in sm
-$font-size-base-xs:		16px;						// Font size for body copy in xs
+$font-size-base:		1.6rem;						// Font size for body copy
+$font-size-base-sm:		1.6rem;						// Font size for body copy in sm
+$font-size-base-xs:		1.6rem;						// Font size for body copy in xs
 $font-size-h1:			2    * $font-size-base;		// Font size for h1
 $font-size-h1-sm:		1.9  * $font-size-base;		// Font size for h1 in sm
 $font-size-h1-xs:		1.8  * $font-size-base;		// Font size for h1 in xs

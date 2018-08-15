@@ -30,6 +30,7 @@
 	left: 0;
 	right: 0;
 }
+
 .ie-alert:before {
 	display: block;
 	position: relative;
@@ -39,9 +40,11 @@
 	margin: -14px -18px 10px -20px;
 	left: 1px;
 }
+
 .ie-alert a {
 	color: blue;
 }
+
 .ie-alert i {
 	display: block;
 	position: absolute;
@@ -49,6 +52,7 @@
 	top: calc(50% - 12px);
 	cursor: pointer;
 }
+
 .ie-alert i:before {
 	content: "\00d7";
 	font-style: normal;
@@ -56,6 +60,7 @@
 	color: #999;
 	font-size: 18px;
 }
+
 body.msie-9 .ie-alert.ie9,
 body.msie-10 .ie-alert.ie10,
 body.msie-11 .ie-alert.ie11 {
