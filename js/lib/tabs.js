@@ -1,5 +1,5 @@
 /**
- * lyquix.tabs.js - Functionality to handle tabs
+ * tabs.js - Functionality to handle tabs
  *
  * @version     2.0.0
  * @package     tpl_lyquix

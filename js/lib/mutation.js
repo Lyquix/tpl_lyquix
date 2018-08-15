@@ -1,5 +1,5 @@
 /**
- * lyquix.mutation.js - Mutation observer and handler
+ * mutation.js - Mutation observer and handler
  *
  * @version     2.0.0
  * @package     tpl_lyquix

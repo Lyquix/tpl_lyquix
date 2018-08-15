@@ -1,5 +1,5 @@
 /**
- * lyquix.responsive.js - Enable responsiveness
+ * responsive.js - Enable responsiveness
  *
  * @version     2.0.0
  * @package     tpl_lyquix

@@ -1,5 +1,5 @@
 /**
- * lyquix.util.js - Utility functions
+ * util.js - Utility functions
  *
  * @version     2.0.0
  * @package     tpl_lyquix

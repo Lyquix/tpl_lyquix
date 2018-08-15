@@ -1,5 +1,5 @@
 /**
- * lyquix.geolocate.js - geolocate functionality
+ * geolocate.js - geolocate functionality
  *
  * @version     2.0.0
  * @package     tpl_lyquix

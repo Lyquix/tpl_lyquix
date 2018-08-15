@@ -1,5 +1,5 @@
 /**
- * lyquix.menu.js - Menu functionality
+ * menu.js - Menu functionality
  *
  * @version     2.0.0
  * @package     tpl_lyquix

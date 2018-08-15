@@ -1,5 +1,5 @@
 /**
- * lyquix.core.js - Lyquix JavaScript library
+ * core.js - Lyquix JavaScript library
  *
  * @version     2.0.0
  * @package     tpl_lyquix

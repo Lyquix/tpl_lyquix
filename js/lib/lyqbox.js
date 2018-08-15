@@ -1,5 +1,5 @@
 /**
- * lyquix.lyqbox.js - LyqBox - Lyquix lightbox functionality
+ * lyqbox.js - LyqBox - Lyquix lightbox functionality
  *
  * @version     2.0.0
  * @package     tpl_lyquix

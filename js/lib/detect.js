@@ -1,5 +1,5 @@
 /**
- * lyquix.detect.js - Detection of device, browser and O/S
+ * detect.js - Detection of device, browser and O/S
  *
  * @version     2.0.0
  * @package     tpl_lyquix

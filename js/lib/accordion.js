@@ -1,5 +1,5 @@
 /**
- * lyquix.accordion.js - Functionality to handle accordions
+ * accordion.js - Functionality to handle accordions
  *
  * @version     2.0.0
  * @package     tpl_lyquix
