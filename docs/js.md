@@ -1,275 +1,191 @@
 # JavaScript
 
-`lyquix.js` is our own Javascript library. We developed it after we found ourselves with similar JavaScript code in multiple projects, or loading a myriad of plugins and libraries just for a few functions.
+## Overview
 
-This library groups all the functionality that we have found to be useful across projects.
+All the scripting files are located in the `[js/](../js/)` directory. We have developed our own JavaScript library, and we use Vue.js for advanced functionality.
 
-# Highlights
 
-* Very straightforward approach, just an object with a ton of functions and variables inside it
-* It uses the namespace `lqx` to avoid conflicts with other libraries and global environment
-* The default settings can be found at `lqx.settings`, and you can override one or more settings using `lqx.setOptions(options)` before document ready event.
-* Several work variables are stored in lqx.vars where they can be accessed by other scripts if needed
-* Some functionality is executed automatically, others are available to run when needed
+### JavaScript Library Modules
 
-# Functionality
+The library is made up by a collection of modules that can be disabled and configured to meet the needs of your project.
 
-Following is a list of all the functionality available:
 
-## Screen Size and Orientation
+#### Accordion
 
-In the Lyquix grid framework we define 5 screen sizes: xs, sm, md, lg and xl based on the window width (breakpoints). This function implements a listener on window resize (throttled) as well as orientation change, and sets a `screen` attribute to the `<body>` tag.
+Adds accordion functionality to any element with the `.accordion` class. It automatically uses the first child as header element unless you specificy an element with class `.accordion-header`. This module adds a class `.closed` or `.open`, and sets the accordion height as inline style.
 
-In addition to the listeners, `lqx.bodyScreenSize()` is normally executed right at the top of the `<body>` tag, on document ready, and on window load events.
+The height of the accordion when open and closed is recalculated on resize, screen change, and orientation change.
 
-`lqx.bodyScreenSize()` triggers the custom event `screensizechange` which can be used for any script functionality that needs to happen when resizing past screen breakpoints.
+If the accordion is a child of an `.accordion-group` parent, then when one accordion is opened the rest are closed.
 
-`lqx.bodyScreenOrientation()` performs a similar functionality, adding the attribute `orientation` to the `<body>` tag.
 
-## Browser Fixes
+#### Analytics
 
-Currently the library implements the following fixes automatically:
+Provides functionality for custom event tracking with Google Analytics:
 
-* IE: when images don't have a specific width/height value set inline or via CSS, the images don't appear. The script automatically detects this and adds the natural image width inline.
-* IE 11: sets the CSS property font-feature-settings to normal in the `<html>` tag, as other values have been shown to be problematic on IE 11 and Windows 7
-* IE 8: any SVG files are changed to corresponding PNG (same filename, different extension)
+  * **Outbound Links:** Track outbound links (links pointing to a different domain) that users follow when leaving your site. This is recorded as an event that is triggered right before the browser abandons the page.
+  * **Download Links:** Track download links, such as PDF files, Microsoft Office files, text files, etc. that don't have JavaScript capabilities and normally don't generate a page view. This custom event tracks the link as a page view.
+  * **Scroll Depth:** Tracks the maximum percentage of a page that was visible to the user. This metric can be used to get a sense on whether users are scrolling down on pages to extend beyond the fold. An event is triggered right before abandoning the page, and reports the maximum tenth percentage (e.g. 10%, 20%, ..., 100%).
+  * **Photo Gallery:** Generates events on gallery open, as well as individual events for each image displayed, including the image URL.
+  * **Video Player:** Tracks events in YouTube and Vimeo players. It automatically enabled Javascript API if not enabled in the embed code. It tracks Start, progress and completion events, for example: Start, 10%, 20%, ..., 90%, Complete.
+  * **User Active:** Keeps track of the time a user is active while viewing a page. It uses several techniques to assess if the user is active or not. Reports the percentage and absolute time that the user has been active and inactive. Tracking stops after 30 minutes.
 
-## Cookie
 
-Straighforward function for setting and getting cookies.
+#### Detect
 
-`lqx.cookie(name, value, attributes)`
+A collection of detection utilities.
 
-`name`: Name of the cookie to be read or written (mandatory).
+  * **Device:** uses the MobileDetect JS library https://github.com/hgoebl/mobile-detect.js to detect if the current device is mobile, and whether it is a phone or tablet, and sets classes to the `<body>` tag.  Details are also available by calling `lqx.detect.mobile`.
+  * **Browser:** uses the browser User Agent string to detect the browser type (e.g. Internet Explorer,  Chrome, etc.) and version. Classes are added to the `<body>` tag for browser, browser and major version, and browser and full version. Details are also available by calling `lqx.detect.browser`.
+  * **Operating System:** uses the browser User Agent string to detect the operating system type (e.g iOS, Windows, etc.) and version. Classes are added to the `<body>` tag for OS, OS and major version, and OS and full version. Details are also available by calling `lqx.detect.os`.
+  * **URL Parts:** detects the URL parts (e.g. protocol, domain, path), and sets them as attributes to the `<body>` tag. Details are also available by calling `lqx.detect.urlParts`.
+  * **URL Params:** detects the URL query parameters and make them available at `lqx.detect.urlParams`.
 
-`value`: Value to be assigned to the cookie when writing. Ommit to read cookie value.
 
-`attributes`: Object containing the additional optional cookie attributes: maxAge (number of seconds to expiration), expires (Date object for date-time of cookie expiration), domain (domain or subdomain where cookie is applicable), path (absolute path where cookie is applicable), secure (use only over HTTPS) and httponly (do not send over xhr).
+#### Fixes
 
-Returns:
-* Cookie value (always string) when reading
-* True when cookie has been written
-* False when no cookie name has been received
-* Null when cookie doesn't exist
+Applies various fixes to Internet Explorer.
 
-## detectSwipe
+  * **Image Width Attribute:** adds the width attribute to images missing it.
+  * **Reset Font Features:** resets the `font-features` property to normal to prevent issues displaying Google Fonts.
+  * **CSS Grid:** attempts to automatically place CSS grid children elements when column, row and span properties have not been explicitly defined.
 
-A simple utility function that allows to assign a listener to DOM elements to detect swipe gestures on touch screens. You must provide the element selector, (e.g. #myelem, or .myelem), and the name of the callback function. The callback function will be passed the element selector, and a string indicating the direction of the swipe: `up`, `dn`, `lt`, and `rt`
 
-## Comicfy and Almost 7
+#### Geolocate
 
-Want to have a little fun? Just add `?comicfy` or `?almost7` to any URL and this function will change all fonts of your site to Comic Sans and Still 6 but Almost 7 :)
-
-## Equal Height Rows
-
-Flexbox is here but browser support is still uneven and buggy. Until we can rely on it we use equal height rows: add the class `equalheightrow` to the block elements you want to have the same height when in the same row. That's it.
-
-`lqx.initEqualHeightRow()` is executed on document ready to get the list of elements and assess if there are any images still loading. Afterwards `lqx.equalHeightRow()` is executed on every screen size change and screen orientation change. Your custom scripts can call `lqx.equalHeightRow()` to force rows to be re-processes.
-
-In order to achive high performance the list of DOM elements with `equalheightrow` class is not updated on every execution. To force the list to be updated use `lqx.equalHeightRow({refreshElems: true})`.
-
-## GeoLocate
-
-GeoLocation uses the user IP address to get an approximate the location of the user, using the GeoLite2 free database that provides the user city, state, country and continent. Optionally, the script can request GPS location for accurate latitude and longitude.
+Uses the user IP address to get an approximate location of the user, using the GeoLite2 free database that provides the user city, state, country and continent. Optionally, the script can request GPS location for accurate latitude and longitude.
 
 The process is done entirely via Javascript and a dedicated PHP script that searches the user IP address in the database, avoiding any issues with cached pages.
 
+You must download the file `GeoLite2-City.mmdb` from http://dev.maxmind.com/geoip/geoip2/geolite2/ and save it to `php/ip2geo`.
+
 Once located, the script adds attributes to the `<body>` tag: city, subdivision, country, continent, and time-zone.
 
-## getBrowser
+Optionally, you can enable GPS geolocation for more accurate results. This will show an alert/prompt to users asking for their permission to access their location.
 
-This function parses the User Agent string to obtain the browser type and version. It returns an object with three keys: name, type and version. It is implemented as a self-executing function, so it is only executed once and then it becomes an object.
 
-It adds classes to the `<body>` tag: browser, browser-major version, and browser-major version-minor version. For example: msie, msie-9, msie-9-0.
+#### LyqBox
 
-## getOS
+Our own lightbox. Provides the following features
 
-Similar to getBrowser, this function parses the User Agent string to obtain the operating system type and version. It returns an object with three keys: name, type and version. It is implemented as a self-executing function, so it is only executed once and then it becomes an object.
-
-It adds classes to the `<body>` tag: os, os-major version, and os-major version-minor version. For example: ios, ios-9, ios-9-2.
-
-## Hanging Punctuation
-
-For `<p>` elements inside a parent with `hanging-punctuation` class, the script detects punctuation marks that are on the edge of the block, and pulls them out to provide a better style and reading experience, for example:
-
-![](http://i.imgur.com/UZ0m0UY.png)
-
-## Image Caption
-
-Adds a caption, using the alt attribute, for images wrapped in elements with `.image.caption` classes. For example:
-
-```
-<div class="image caption">
-    <img src="..." alt="Image Description" />
-</div>
-```
-
-is converted to:
-
-```
-<div class="image caption">
-    <img src="..." alt="Image Description" />
-    <div class="caption">Image Description</div>
-</div>
-```
-
-## Image Load Attribute
-
-For every image element, adds a `loadcomplete` or `loaderror` attribute. This is useful for styling a scripting.
-
-## Debugging
-
-Use `lqx.log()`, `lqx.error()` and `lqx.warn()` instead of `console.log()`, `console.error()` and `console.warn()` for debugging purposes in your code, with the ability to turn output on and off via `lqx.settings.debug`. You don't have to worry about removing debugging lines in your code.
-
-## Logging
-
-Advanced Javascript logging that shows every function call and arguments passed.
-
-## lyqBox
-
-Our own lightbox library. Provides the following features
-
-* 3 types of lightboxes:
-  * Simple lightboxes that may includes images, HTML content, or iframes
-  * Galleries: a collection of multiple content that the user can navigate. Each gallery item has own hash URL that can be used to open page showing specific gallery item.
-  * Alerts: lightbox that opens on page load until user dismisses it
-* Complete separation of styling (CSS) and logic (Javascript)
-* Use CSS animations and transitions
-* Control galleries with left and right arrows in keyboard and swipe gestures
-* Ability to create custom HTML structure
+  * 3 types of lightboxes:
+    * Simple lightboxes that may includes images, HTML content, or iframes
+    * Galleries: a collection of multiple content that the user can navigate. Each gallery item has own hash URL that can be used to open page showing specific gallery item.
+    * Alerts: lightbox that opens on page load until user dismisses it
+  * Complete separation of styling (CSS) and logic (Javascript)
+  * Use CSS animations and transitions
+  * Control galleries with left and right arrows in keyboard and swipe gestures
+  * Ability to create custom HTML structure
 
 To activate an element in your page with lightbox add the following attributes:
 
-* `data-lyqbox`: Indicates that this is a lyqbox element. Leave empty for single lightboxes, or use an identifier that ties together elements that belong to the same gallery, or as unique identifier for alerts.
-* `data-lyqbox-type`:
-  * `image`: use for loading images in lightbox
-  * `video`: use for loading a video iframe in lightbox
-  * `html`, `alert`: use for loading HTML content in lightbox
-* `data-lyqbox-url`: mandatory for image and video types. Optional for html and alert types, used to load content from URL.
-* `data-lyqbox-title`: optional item title
-* `data-lyqbox-caption`: optional item caption
-* `data-lyqbox-credit`: optional item credits
-* `data-lyqbox-class`: optional item custom CSS classes
-* `data-lyqbox-alias`: item alias to use in URL hash
-* `data-lyqbox-html`: content for html or alert lightboxes
+  * `data-lyqbox`: Indicates that this is a lyqbox element. Leave empty for single lightboxes, or use an identifier that ties together elements that belong to the same gallery, or as unique identifier for alerts.
+  * `data-lyqbox-type`:
+    * `image`: use for loading images in lightbox
+    * `video`: use for loading a video iframe in lightbox
+    * `html`, `alert`: use for loading HTML content in lightbox
+  * `data-lyqbox-url`: mandatory for image and video types. Optional for html and alert types, used to load content from URL.
+  * `data-lyqbox-title`: optional item title
+  * `data-lyqbox-caption`: optional item caption
+  * `data-lyqbox-credit`: optional item credits
+  * `data-lyqbox-class`: optional item custom CSS classes
+  * `data-lyqbox-alias`: item alias to use in URL hash
+  * `data-lyqbox-html`: content for html or alert lightboxes
 
-## Mobile Detect
 
-Requires MobileDetect JS library https://github.com/hgoebl/mobile-detect.js to detect if the current device is mobile, and whether it is a phone or tablet.
+#### Menu
 
-It returns an object with three keys: mobile, phone, and tablet. All have boolean values.
+Adds functionality for mobile menus:
 
-## Mobile Menu
+  * Open sub-menus with click events
+  * Close menu when clicking outside of menu
+  * Menu open/close control (hamburguer icon)
 
-Adds appropriate listeners to support menus in mobile/touch screens:
+To activate just add the class `.horizontal` or `.vertical` to the parent element of your `<ul>` menu. Optionally add an element `.menu-control` sibbling to the `<ul>` menu to use as "hamburger menu" element. The class `open` will be added the the `<ul>` and `<li>` elements when they have been clicked open.
 
-* Menu open/close control element (hamburguer icon)
-* Close menu when clicking outside of menu
-* Click listeners to menu items to open/close children menus or open link
+This module works in conjunction with the CSS styles found in `[css/lib/common.scss](../css/lib/common.scss)`:
+  * `.horizontal`: top level items are arranged in a single row
+  * `.vertical`: top level items are stacked in a single column
 
-To activate just add any of the following classes to a parent element of `ul.menu`: `.horizontal`, `.vertical`, or `.slide-out`.
+By default, sub-menus are hidden, to show them add classes:
+  * `.level-2`: enables the 2nd level menu items
+  * `.level-3`: enables the 3rd level menu items
 
-Adds class "open" to menus that are displaying.
+By default, sub-menus open down and right, to open left add class `.open-left`.
 
-## Mutation Observer
+In vertical menus, to open sub-menus stacked (accordion), add class `.stacked`.
 
-Handles changes in the HTML structure of the document (mutations) to detect when new video players have been added to the DOM. This allows for proper setup and tracking events.
+Demo: https://codepen.io/lyquix/pen/geOgQb
 
-## Parse URL Params
 
-Parses parameters in URL and make them available in array `lqx.vars.urlParams` where keys are the parameter names.
+### Functions
 
-## Resize Throttle
+**`lqx.detect.browser()`**
+Provides details of detected browser.
 
-Custom event can be used to trigger functions on resize but only every 15ms (time can be set via options) instead of continuosly as done by the native resize event. For example:
+**`lqx.detect.mobile()`**
+Provides details of detected device.
 
-`jQuery(window).on('resizethrottle', function(){ /* your code here */ });`
+**`lqx.detect.os()`**
+Provides details of detected operating system.
 
-## Screen Size Change
+**`lqx.detect.urlParams()`**
+Provides list of detected URL query parameters.
 
-Custom event can be used to trigger functions on screen size change (window is resized past a breakpoint). This can be used in conjunction with `lqx.vars.lastScreenSize` to identify what is the current screen size.
+**`lqx.detect.urlParts()`**
+Provides details of URL parts.
 
-For example:
+**`lqx.error(arg)`**
+Accepts string or objects to be displayed in the console, only when the `debug` option is enabled. Use instead of `console.error` if you want to easily turn off all console messages when `debug` option is disabled.
 
-`jQuery(window).on('screensizechange', function(){ /* your code here */ });`
+**`lqx.geolocate.inCircle(test, center, radius)`**
+Calculates if a test point is within a circle defined by a center point and radius. Test and center points are object with keys `lat` and `lon`, and radius is distance in kilometers.
 
-## Scroll Throttle
+**`lqx.geolocate.inPolygon(test, poly)`**
+Calculates if a test point is within a polygon of arbitrary points. Test is an object with keys `lat` and `lon`. Poly is an array of objects, each with keys `lat` and `lon`.
 
-Custom event can be used to trigger functions on scroll but only every 15ms (time can be set via options) instead of continuosly as done by the native scroll event. For example:
+**`lqx.geolocate.inSquare(test, corner1, corner2)`**
+Calculate if a test point is within a square region defined by two opposite corners. Test, corner1 and corner2 are objects with keys `lat` and `lon`.
 
-`jQuery(window).on('scrollthrottle', function(){ /* your code here */ });`
+**`lqx.geolocate.location()`**
+Returns location information: city, state, country, continent, time zone, latitude, longitude, and radius. By default geolocation is done using user's IP address, optionally GPS can be used for more accurate results.
 
-## setOptions
+**`lqx.log(arg)`**
+Accepts string or objects to be displayed in the console, only when the `debug` option is enabled. Use instead of `console.log` if you want to easily turn off all console messages when `debug` option is disabled.
 
-Function for overriding default settings. Just run `lqx.setOptions(options)` where options in an object that includes the settings to override, for example:
+**`lqx.options(opts)`**
+Accepts an object of options (settings) and overrides or extends default or current option values.
 
-`lqx.setOptions({debug: true});`
-`lqx.setOptions({ga: {abTestName: "Buy Button Design"}});`
+**`lqx.read(opts)`**
+Initializes the library and sets the initial options. This function should be executed once on your page, after the `<body>` tag is available. This function triggers the custom event `lqxready`.
 
-## Shade Color
+**`lqx.warn(arg)`**
+Accepts string or objects to be displayed in the console, only when the `debug` option is enabled. Use instead of `console.warn` if you want to easily turn off all console messages when `debug` option is disabled.
 
-Calculates lighter and darker shades of color for text, borders and backgrounds. Just add a CSS class to your elements using the following naming convention: combine the name of the property (`color`, `bg`, or `border`), with the name of the shade (`lighter`, `light`, `dark`, or `darker`), for example: color-lighter, bg-dark.
 
-## Google Analytics Custom Tracking
+### Variables
 
-### gaReady
+**`lqx.opts`**
+*Object*
+Stores the options (settings) for the library, organized by module. You should not modify this object directly, instead use `lqx.options`.
 
-When a Google Analytics account is set in the template options, the universal analytics code is rendered. Unlike the default that immediately calls `ga('create', 'UA-XXXXX-Y', 'auto');` and `ga('send', 'pageview');`, the template calls `ga(lqx.gaReady);`, which executes several steps:
+**`lqx.vars`**
+*Object*
+Stores the working data for the library. You should not read or modify this object directly, instead use the exposed functions for getting or setting data.
 
-* set, require and provide commands passed via options
-* A/B testing: set the test name, and dimension numbers for storing test name and assigned group
-* Custom function to execute before pageview
-* Send pageview
+**`lqx.version`**
+*String*
+Contains the library version number.
 
-### Outbound Links
 
-Track outbound links (links pointing to a different site) that users follow when leaving your site. This is recorded as an event that is triggered right before the browser abandons the page.
+### Events
 
-### Download Links
+**`lqxready`**
+Triggered once by `lqx.ready` when the library is initialized and `<body>` is ready.
 
-Track download links, such as PDF files, Microsoft Office files, text files, etc. that don't have Javascript capabilities and normally don't generate a pageview. This custom event tracks the link as a pageview.
+**`scrollthrottle`**
+Triggers every 15ms when the `scroll` event is being triggered. Use this event instead of `scroll` to prevent browser to be overwhelmed.
 
-### Scroll Depth
-
-Tracks the maximum percentage of a page that was visible to the user. This metric can be used to get a sense on whether users are scrolling down on pages to extend beyond the fold. An event is triggered right before abandoning the page, and reports the maximum tenth percentage (e.g. 10%, 20%, ..., 100%)
-
-### Photo Gallery
-
-Generates events on gallery open, as well as individual events for each image displayed, including the image URL.
-
-### Video Player
-
-Tracks events in YouTube and Vimeo players. It automatically enabled Javascript API if not enabled in the embed code. It tracks Start, progress and completion events, for example: Start, 10%, 20%, ..., 90%, Complete.
-
-### User Active
-
-Keeps track of the time a user is active while viewing a page. It uses several techniques to assess if the user is active or not. Reports the percentage and absolute time that the user has been active and inactive. Tracking stops after 30 minutes.
-
-## Browser Support
-
-Use the: MDN JavaScript Reference for documentation on Javascript functionality, as well as caniuse.com and kangax.github.io/compat-table/es6/ to find out browser support for specific features.
-
-When writing Javascript check whether the functionality is fully supported by the latest and two previous versions of the following browsers:
-
- * Google Chrome
- * Firefox
- * Safari
- * iOS Chrome
- * iOS Safari
- * Android Chrome
- * Android Browser
- * Microsoft Edge
- * Microsoft Edge Mobile
-
-### Support for Internet Explorer
-
-ECMAScript 5 is mostly supported by IE9 and older, but ECMAScript 6 is not properly supported by any version of IE.
-
-We will phase out support for old versions of Internet Explorer on the following dates (3 years after the next version was released):
-
- * IE9: September 2015
- * IE10: October 2016
- * IE11: July 2018
-
-This means that we will start incorporating ECMAScript 6 features without shims or polyfills on July 2018.
+**`resizethrottle`**
+Triggers every 15ms when the `resize` event is being triggered. Use this event instead of `resize` to prevent browser to be overwhelmed.
 

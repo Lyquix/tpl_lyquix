@@ -1,6 +1,6 @@
 # Template Files and Module Positions
 
-`templateDetails.xml` contains meta data for the template (name, date, etc.), list of files included in the template, list of available module positions, and template options.
+`[templateDetails.xml](../templateDetails.xml)` contains meta data for the template (name, date, etc.), list of files included in the template, list of available module positions, and template options.
 
 ### Files
 

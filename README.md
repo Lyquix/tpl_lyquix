@@ -30,7 +30,7 @@ This template is intended to be the foundation for developers that build custom 
   * Several utility classes for managing layout, including CSS grid, and flexbox.
   * Responsive CSS is accomplished by using the screen attribute in the body tag `body[screen=sm]`, instead of media queries.
 
-### CSS
+### [CSS](docs/css.md)
 
   * Developed using SASS.
   * Normalizes default CSS stylesheet across browsers.
@@ -46,7 +46,7 @@ This template is intended to be the foundation for developers that build custom 
     * Styles for printing
   * Choose what components of the library to include in your project
 
-### JavaScript
+### [JavaScript](docs/js.md)
 
   * lyquix.js, our library of scripts includes the following functionality
     * Custom events: lqxready, resizethrottle, scrollthrottle, geolocateready
@@ -86,8 +86,8 @@ This template is intended to be the foundation for developers that build custom 
 
   * [Installation, Setup and Customization](docs/install.md)
   * [Template Files and Module Positions](docs/xml.md)
-  * [CSS Library](docs/css.md)
-  * [JavaScript Library](docs/js.md)
+  * [CSS](docs/css.md)
+  * [JavaScript](docs/js.md)
 
 ## To Do and Ideas
 
