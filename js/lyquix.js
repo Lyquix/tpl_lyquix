@@ -687,7 +687,7 @@ if(lqx && typeof lqx.geolocate == 'undefined') {
 					vars.location = data;
 
 					// If GPS enabled, attempt to get lat/lon
-					if(opts.gps && 'geolocate' in navigator) {
+					if(opts.gps && ('geolocate' in navigator)) {
 						navigator.geolocate.getCurrentPosition(function(position) {
 							vars.location.lat = position.coords.latitude;
 							vars.location.lon = position.coords.longitude;
@@ -1156,7 +1156,7 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 if(lqx && typeof lqx.menu == 'undefined') {
 	lqx.menu = (function(){
 		var opts = {
-			screens: ['sm','xs']
+			screens: ['xs', 'sm', 'md', 'lg', 'xl']
 		};
 
 		var init = function(){
@@ -1183,34 +1183,32 @@ if(lqx && typeof lqx.menu == 'undefined') {
 		};
 
 		var setup = function() {
-			// Add listeners to A tags in mobile menu
-			lqx.vars.body.on('click', '.horizontal a, .vertical a, .slide-out a', function(e){
-				// prevent links to work until we
+			// Add listeners to <a> tags
+			lqx.vars.body.on('click', '.horizontal a, .vertical a', function(e){
 				e.preventDefault();
 				click(this);
 			});
 
 			// Prevent propagation of clicks
-			lqx.vars.body.on('click', '.horizontal, .vertical, .slide-out', function(e){
+			lqx.vars.body.on('click', '.horizontal, .vertical', function(e){
 				// Do not propagate click events outside menus
 				e.stopPropagation();
 			});
 
 			// Open/close slide-out menu
-			lqx.vars.body.on('click', '.slide-out .menu-control', function(){
-				var elem = jQuery(this).parent();
-				if(jQuery(elem).hasClass('open')) {
-					jQuery(elem).removeClass('open');
+			lqx.vars.body.on('click', '.menu-control', function(){
+				var menu = jQuery(this).sibblings('ul');
+				if(jQuery(menu).hasClass('open')) {
+					jQuery(menu).removeClass('open');
 				}
 				else {
-					jQuery(elem).addClass('open');
+					jQuery(menu).addClass('open');
 				}
 			});
 
 			// When clicking outside the menus, hide the menus if visible and close the slide out menu if open
 			lqx.vars.body.click(function() {
-				jQuery('.horizontal, .vertical, .slide-out').find('.open').removeClass('open');
-				jQuery('.slide-out.open').removeClass('open');
+				jQuery('.horizontal, .vertical').find('.open').removeClass('open');
 			});
 
 		};
@@ -1247,8 +1245,8 @@ if(lqx && typeof lqx.menu == 'undefined') {
 					// There isn't a sub-menu, follow the link
 					go();
 				}
-			}	else {
-
+			}
+			else {
 				go();
 			}
 		};
@@ -2060,6 +2058,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 		var vars = {
 			scrollDepthMax: null,
 			youTubeIframeAPIReady: false,
+			youTubeIframeAPIReadyAttempts: 0,
 			youtubePlayers: {},
 			vimeoPlayers: {},
 			userActive: null
@@ -2082,7 +2081,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 
 					// Set YouTube API callback function
 					window.onYouTubeIframeAPIReady = function(){
-						lqx.analytics.onYouTubeIframeAPIReady();
+						onYouTubeIframeAPIReady();
 					};
 				});
 			}
@@ -2103,7 +2102,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 				a.src = g;
 				m.parentNode.insertBefore(a, m);
 			})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-			ga(lqx.analytics.gaReady);
+			ga(gaReady);
 		};
 
 		// Handles Google Analytics pageview, setting first custom parameters
@@ -2123,7 +2122,6 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 
 				function(){
 					var params;
-
 					// Set commands
 					if(opts.setParams && typeof opts.setParams == 'object') {
 						params = opts.setParams;
@@ -2193,7 +2191,6 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 				function(){
 					// Send pageview
 					ga('send', 'pageview');
-
 					// Initialize tracking
 					initTracking();
 				}
@@ -2209,10 +2206,8 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					var elem = this;
 					// check if it has an href attribute, otherwise it is just a page anchor
 					if(elem.href) {
-
 						// check if it is an outbound link, track as event
 						if(opts.outbound && elem.host != location.host) {
-
 							jQuery(elem).click(function(e){
 								e.preventDefault();
 								var url = elem.href;
@@ -2256,13 +2251,10 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 
 			}
 
-
 			// track scroll depth
 			if(opts.scrolldepth){
-
 				// get the initial scroll position
 				vars.scrollDepthMax = Math.ceil(((lqx.vars.window.scrollTop() + lqx.vars.window.height()) / lqx.vars.document.height()) * 10) * 10;
-
 				// add listener to scrollthrottle event
 				lqx.vars.window.on('scrollthrottle', function(){
 					// capture the hightest scroll point, stop calculating once reached 100
@@ -2274,16 +2266,13 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 
 				// add listener to page unload
 				lqx.vars.window.on('unload', function(){
-
 					ga('send', {
 						'hitType' : 'event',
 						'eventCategory' : 'Scroll Depth',
 						'eventAction' : vars.scrollDepthMax,
 						'nonInteraction' : true
 					});
-
 				});
-
 			}
 
 			// track photo galleries
@@ -2295,7 +2284,6 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						'eventCategory' : 'Photo Gallery',
 						'eventAction' : 'Open'
 					});
-
 				});
 
 				lqx.vars.html.on('load', 'img.lb-image', function(){
@@ -2306,22 +2294,19 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						'eventAction' : 'Display',
 						'eventLabel' : jQuery(this).attr('src')
 					});
-
 				});
-
 			}
 
 			// track video
 			if(opts.video){
+				// Load YouTube iframe API
+				var tag = jQuery('<script src="https://www.youtube.com/iframe_api"></script>');
+				tag.load(function(){
+					vars.youTubeIframeAPIReady = true;
+				});
+				tag.appendTo('head');
 
-				// load youtube iframe api
-				var tag = document.createElement('script');
-				tag.src = 'https://www.youtube.com/iframe_api';
-				tag.onload = function(){vars.youTubeIframeAPIReady = true;};
-				var firstScriptTag = document.getElementsByTagName('script')[0];
-				firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-				// set listeners for vimeo videos
+				// Set listeners for Vimeo videos
 				if (window.addEventListener) {
 					window.addEventListener('message', vimeoReceiveMessage, false);
 				}
@@ -2329,22 +2314,21 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					window.attachEvent('onmessage', vimeoReceiveMessage, false);
 				}
 
-				// detect if there are any youtube or vimeo videos, activate js api and add id
-				jQuery('iframe').each(function(){
-
-					var elem = jQuery(this);
-					// init js api for video player
-					initVideoPlayerAPI(elem);
-
+				// Initialize YouTube or Vimeo videos
+				jQuery('iframe[src*="youtube.com/embed/"], iframe[src*="player.vimeo.com/video/"]').each(function(){
+					initVideoPlayerAPI(jQuery(this));
 				});
 
+				// Add a mututation observer to handle new videos added to the DOM
+				lqx.mutation.addHandler('addNode', 'iframe[src*="youtube.com/embed/"], iframe[src*="player.vimeo.com/video/"]', function(e){
+					initVideoPlayerAPI(jQuery(e));
+				});
 			}
 
 			// track active time
 			if(opts.activetime) {
 				// Add listener on page unload
 				lqx.vars.window.on('unload', function(){
-
 					ga('send', {
 						'hitType' : 'event',
 						'eventCategory' : 'User Active Time',
@@ -2368,46 +2352,26 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						'eventValue' : parseInt(vars.userActive.inactiveTime),
 						'nonInteraction' : true
 					});
-
 				});
 			}
-
-		};
-
-		// handle video players added dynamically
-		var videoPlayerMutationHandler = function(mutRec) {
-
-			jQuery(mutRec.addedNodes).each(function(){
-
-				var elem = jQuery(this);
-				if (typeof elem.prop('tagName') !== 'undefined'){
-					var tag = elem.prop('tagName').toLowerCase();
-					if (tag == 'iframe') {
-						// init js api for video player
-						initVideoPlayerAPI(elem);
-					}
-				}
-			});
-
 		};
 
 		// initialize the js api for youtube and vimeo players
 		var initVideoPlayerAPI = function(elem) {
-
 			var src = elem.attr('src');
 			var playerId = elem.attr('id');
 			var urlconn;
 
 			if(typeof src != 'undefined') {
-				// check youtube players
+				// Check youtube players
 				if (src.indexOf('youtube.com/embed/') != -1) {
-					// add id if it doesn't have one
+					// Add id if it doesn't have one
 					if (typeof playerId == 'undefined') {
 						playerId = 'youtubePlayer' + (Object.keys(vars.youtubePlayers).length);
 						elem.attr('id', playerId);
 					}
 
-					// reload with API support enabled
+					// Reload with API support enabled
 					if (src.indexOf('enablejsapi=1') == -1) {
 						urlconn = '&';
 						if (src.indexOf('?') == -1) {
@@ -2416,7 +2380,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						elem.attr('src', src + urlconn + 'enablejsapi=1&version=3');
 					}
 
-					// add to list of players
+					// Add to list of players
 					if(typeof vars.youtubePlayers[playerId] == 'undefined') {
 						vars.youtubePlayers[playerId] = {};
 
@@ -2425,15 +2389,15 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					}
 				}
 
-				// check vimeo players
+				// Check vimeo players
 				if(src.indexOf('player.vimeo.com/video/') != -1) {
-					// add id if it doesn't have one
+					// Add id if it doesn't have one
 					if (typeof playerId == 'undefined') {
 						playerId = 'vimeoPlayer' + (Object.keys(vars.vimeoPlayers).length);
 						elem.attr('id', playerId);
 					}
 
-					// reload with API support enabled
+					// Reload with API support enabled
 					if (src.indexOf('api=1') == -1) {
 						urlconn = '&';
 						if (src.indexOf('?') == -1) {
@@ -2442,12 +2406,37 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						elem.attr('src', src + urlconn + 'api=1&player_id=' + playerId);
 					}
 
-					// add to list of players
+					// Add to list of players
 					if(typeof vars.vimeoPlayers[playerId] == 'undefined') {
 						vars.vimeoPlayers[playerId] = {};
 					}
-
 				}
+			}
+		};
+
+		var onYouTubeIframeAPIReady = function(){
+			if(vars.youTubeIframeAPIReady && (typeof YT !== 'undefined') && YT && YT.Player) {
+				Object.keys(vars.youtubePlayers).forEach(function(playerId) {
+					if(typeof vars.youtubePlayers[playerId].playerObj == 'undefined') {
+						vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, {
+							events: {
+								'onReady': function(e){
+									youtubePlayerReady(e, playerId);
+								},
+								'onStateChange': function(e){
+									youtubePlayerStateChange(e, playerId);
+								}
+							}
+						});
+					}
+				});
+			}
+			else {
+				// keep track how many time we have attempted, retry unless it has been more than 30secs
+				vars.youTubeIframeAPIReadyAttempts++;
+				if(vars.youTubeIframeAPIReadyAttempts < 120) setTimeout(function(){
+					onYouTubeIframeAPIReady();
+				}, 250);
 			}
 		};
 
@@ -2499,7 +2488,6 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 
 				// video playing
 				if(vars.youtubePlayers[playerId].playerObj.getPlayerState() == 1) {
-
 					// recursively call this function in 1s to keep track of video progress
 					vars.youtubePlayers[playerId].timer = setTimeout(function(){youtubePlayerStateChange(e, playerId);}, 1000);
 
@@ -2510,11 +2498,9 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					}
 
 					else {
-
 						var currentTime = vars.youtubePlayers[playerId].playerObj.getCurrentTime();
 
 						if(Math.ceil( Math.ceil( (currentTime / vars.youtubePlayers[playerId].duration) * 100 ) / 10 ) - 1 > vars.youtubePlayers[playerId].progress){
-
 							vars.youtubePlayers[playerId].progress = Math.ceil( Math.ceil( (currentTime / vars.youtubePlayers[playerId].duration) * 100 ) / 10 ) - 1;
 
 							if(vars.youtubePlayers[playerId].progress != 10){
@@ -2562,12 +2548,10 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						player.progress = 0;
 						player.start = false;
 						player.complete = false;
-
 						// set the listeners
 						vimeoSendMessage(data.player_id, e.origin, 'addEventListener', 'play');
 						vimeoSendMessage(data.player_id, e.origin, 'addEventListener', 'finish');
 						vimeoSendMessage(data.player_id, e.origin, 'addEventListener', 'playProgress');
-
 						break;
 
 					case 'play':
@@ -2576,11 +2560,9 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 							label = 'Start';
 							player.start = true;
 						}
-
 						break;
 
 					case 'playProgress':
-
 						if(Math.ceil( Math.ceil( (data.data.percent) * 100 ) / 10 ) - 1 > player.progress) {
 
 							player.progress = Math.ceil( Math.ceil( (data.data.percent) * 100 ) / 10 ) - 1;
@@ -2588,9 +2570,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 							if(player.progress != 10){
 								label = (player.progress * 10) + '%';
 							}
-
 						}
-
 						break;
 
 					case 'finish':
@@ -2599,7 +2579,6 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 							label = 'Complete';
 							player.complete = true;
 						}
-
 				}
 
 				if(label){
@@ -2613,17 +2592,13 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 		};
 
 		var vimeoSendMessage = function(playerId, origin, action, value){
-
 			var data = {
 				method: action
 			};
-
 			if (value) {
 				data.value = value;
 			}
-
 			document.getElementById(playerId).contentWindow.postMessage(JSON.stringify(data), origin);
-
 		};
 
 		var videoTrackingEvent = function(playerId, label, title, value) {
@@ -2634,32 +2609,10 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 				'eventLabel' : title + ' (' + jQuery('#' + playerId).attr('src').split('?')[0] + ')',
 				'eventValue': value
 			});
-
-		};
-
-		var onYouTubeIframeAPIReady = function(){
-			if(vars.youTubeIframeAPIReady && (typeof YT !== 'undefined') && YT && YT.Player) {
-				Object.keys(vars.youtubePlayers).forEach(function(playerId) {
-					if(typeof vars.youtubePlayers[playerId].playerObj == 'undefined') {
-						vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, {
-							events: {
-								'onReady': function(e){lqx.youtubePlayerReady(e, playerId);},
-								'onStateChange': function(e){lqx.youtubePlayerStateChange(e, playerId);}
-							}
-						});
-					}
-				});
-			}
-			else {
-				// keep track how many time we have attempted, retry unless it has been more than 30secs
-				vars.youTubeIframeAPIReadyAttempts++;
-				if(vars.youTubeIframeAPIReadyAttempts < 120) setTimeout(function(){onYouTubeIframeAPIReady();},250);
-			}
 		};
 
 		// trigger events for user active/inactive and count active time
 		var initUserActive = function()	{
-
 			// initialize the variables
 			vars.userActive = {
 				active: true,		// is user currently active
@@ -2695,10 +2648,8 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					vars.userActive.lastChangeTime = (new Date()).getTime();
 				}
 			}, lqx.opts.userActive.refresh);
-
 			// initialize active state
 			lqx.userActive();
-
 		};
 
 		// function called to indicate user is currently active (heartbeat)
@@ -2739,9 +2690,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 		};
 
 		return {
-			init: init,
-			gaReady: gaReady,
-			onYouTubeIframeAPIReady: onYouTubeIframeAPIReady
+			init: init
 		};
 	})();
 	lqx.analytics.init();
