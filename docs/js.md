@@ -111,59 +111,59 @@ Demo: https://codepen.io/lyquix/pen/geOgQb
 
 ### Functions
 
-**`lqx.detect.browser()**
+**`lqx.detect.browser()`**
 
 Provides details of detected browser.
 
-**`lqx.detect.mobile()**
+**`lqx.detect.mobile()`**
 
 Provides details of detected device.
 
-**`lqx.detect.os()**
+**`lqx.detect.os()`**
 
 Provides details of detected operating system.
 
-**`lqx.detect.urlParams()**
+**`lqx.detect.urlParams()`**
 
 Provides list of detected URL query parameters.
 
-**`lqx.detect.urlParts()**
+**`lqx.detect.urlParts()`**
 
 Provides details of URL parts.
 
-**`lqx.error(arg)**
+**`lqx.error(arg)`**
 
 Accepts string or objects to be displayed in the console, only when the `debug` option is enabled. Use instead of `console.error` if you want to easily turn off all console messages when `debug` option is disabled.
 
-**`lqx.geolocate.inCircle(test, center, radius)**
+**`lqx.geolocate.inCircle(test, center, radius)`**
 
 Calculates if a test point is within a circle defined by a center point and radius. Test and center points are object with keys `lat` and `lon`, and radius is distance in kilometers.
 
-**`lqx.geolocate.inPolygon(test, poly)**
+**`lqx.geolocate.inPolygon(test, poly)`**
 
 Calculates if a test point is within a polygon of arbitrary points. Test is an object with keys `lat` and `lon`. Poly is an array of objects, each with keys `lat` and `lon`.
 
-**`lqx.geolocate.inSquare(test, corner1, corner2)**
+**`lqx.geolocate.inSquare(test, corner1, corner2)`**
 
 Calculate if a test point is within a square region defined by two opposite corners. Test, corner1 and corner2 are objects with keys `lat` and `lon`.
 
-**`lqx.geolocate.location()**
+**`lqx.geolocate.location()`**
 
 Returns location information: city, state, country, continent, time zone, latitude, longitude, and radius. By default geolocation is done using user's IP address, optionally GPS can be used for more accurate results.
 
-**`lqx.log(arg)**
+**`lqx.log(arg)`**
 
 Accepts string or objects to be displayed in the console, only when the `debug` option is enabled. Use instead of `console.log` if you want to easily turn off all console messages when `debug` option is disabled.
 
-**`lqx.options(opts)**
+**`lqx.options(opts)`**
 
 Accepts an object of options (settings) and overrides or extends default or current option values.
 
-**`lqx.read(opts)**
+**`lqx.read(opts)`**
 
 Initializes the library and sets the initial options. This function should be executed once on your page, after the `<body>` tag is available. This function triggers the custom event `lqxready`.
 
-**`lqx.warn(arg)**
+**`lqx.warn(arg)`**
 
 Accepts string or objects to be displayed in the console, only when the `debug` option is enabled. Use instead of `console.warn` if you want to easily turn off all console messages when `debug` option is disabled.
 
