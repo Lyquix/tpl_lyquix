@@ -18,7 +18,7 @@ if(!is_array($this -> params -> get('merge_css'))) {
 // Array to store all stylesheets to be loaded
 $stylesheets = array();
 
-// Parse enqueued scripts
+// Parse enqueued styles
 foreach($doc -> _styleSheets as $stylesheet_url => $stylesheet_meta) {
 	// Check if stylesheet is local or remote
 	if(parse_url($stylesheet_url, PHP_URL_SCHEME)) {
