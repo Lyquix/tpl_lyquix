@@ -12,7 +12,7 @@
 if(lqx && typeof lqx.menu == 'undefined') {
 	lqx.menu = (function(){
 		var opts = {
-			screens: ['sm','xs']
+			screens: ['xs', 'sm', 'md', 'lg', 'xl']
 		};
 
 		var init = function(){
@@ -39,34 +39,32 @@ if(lqx && typeof lqx.menu == 'undefined') {
 		};
 
 		var setup = function() {
-			// Add listeners to A tags in mobile menu
-			lqx.vars.body.on('click', '.horizontal a, .vertical a, .slide-out a', function(e){
-				// prevent links to work until we
+			// Add listeners to <a> tags
+			lqx.vars.body.on('click', '.horizontal a, .vertical a', function(e){
 				e.preventDefault();
 				click(this);
 			});
 
 			// Prevent propagation of clicks
-			lqx.vars.body.on('click', '.horizontal, .vertical, .slide-out', function(e){
+			lqx.vars.body.on('click', '.horizontal, .vertical', function(e){
 				// Do not propagate click events outside menus
 				e.stopPropagation();
 			});
 
 			// Open/close slide-out menu
-			lqx.vars.body.on('click', '.slide-out .menu-control', function(){
-				var elem = jQuery(this).parent();
-				if(jQuery(elem).hasClass('open')) {
-					jQuery(elem).removeClass('open');
+			lqx.vars.body.on('click', '.menu-control', function(){
+				var menu = jQuery(this).sibblings('ul');
+				if(jQuery(menu).hasClass('open')) {
+					jQuery(menu).removeClass('open');
 				}
 				else {
-					jQuery(elem).addClass('open');
+					jQuery(menu).addClass('open');
 				}
 			});
 
 			// When clicking outside the menus, hide the menus if visible and close the slide out menu if open
 			lqx.vars.body.click(function() {
-				jQuery('.horizontal, .vertical, .slide-out').find('.open').removeClass('open');
-				jQuery('.slide-out.open').removeClass('open');
+				jQuery('.horizontal, .vertical').find('.open').removeClass('open');
 			});
 
 		};
@@ -103,8 +101,8 @@ if(lqx && typeof lqx.menu == 'undefined') {
 					// There isn't a sub-menu, follow the link
 					go();
 				}
-			}	else {
-
+			}
+			else {
 				go();
 			}
 		};

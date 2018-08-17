@@ -66,7 +66,7 @@ if(lqx && typeof lqx.geolocate == 'undefined') {
 					vars.location = data;
 
 					// If GPS enabled, attempt to get lat/lon
-					if(opts.gps && 'geolocate' in navigator) {
+					if(opts.gps && ('geolocate' in navigator)) {
 						navigator.geolocate.getCurrentPosition(function(position) {
 							vars.location.lat = position.coords.latitude;
 							vars.location.lon = position.coords.longitude;
