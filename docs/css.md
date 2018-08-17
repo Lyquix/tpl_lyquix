@@ -14,13 +14,13 @@ Custom styles for your project should be added by creating `.scss` files in [`cs
 
 In this section we review the CSS library by going over the variables and file imports in `css/styles.scss`.
 
-#### [`css/lib/normalize.scss`](../css/lib/normalize.scss)
+[**`css/lib/normalize.scss`**](../css/lib/normalize.scss)
 
 Resets browser default stylesheets to provide consistent styling accros browsers. Based on https://github.com/necolas/normalize.css.
 
-#### [`css/lib/base.scss`](../css/lib/base.scss)
+[**`css/lib/base.scss`**](../css/lib/base.scss)
 
-Sets the styling of base HTML tags. This files requires setting the following variables
+Sets the styling of base HTML tags. This file requires setting the following variables
 
   * **Colors:** you will find variables for background, copy, brand colors, accent colors, greys, and assignment of this color palette to various elements
   * **Font sizes:** defines the font sizes for various HTML tags. The font size for the `<html>` element is defined as 16px, making 1rem = 10px.
@@ -28,32 +28,26 @@ Sets the styling of base HTML tags. This files requires setting the following va
   * **Margins:** define the top-bottom margins for base text, headings, and input elements.
   * **Font families:** import webfonts and define the default serif, sans-serif, and monospace fonts, and assign font families to various HTML elements.
 
-After these variables are set, [`css/lib/base.scss`](../css/lib/base.scss) is imported.
+[**`css/lib/container.scss`**](../css/lib/container.scss)
 
-#### [`css/lib/container.scss`](../css/lib/container.scss)
-
-Creates `.container` classes for each screen size, defining its left-right margins and max-width.
+Creates `.container` classes for each screen size, defining its left-right margins and max-width. It requires the following variables:
 
   * `$screen-sizes`: array of the screen sizes names. Don't change unless you know what you are doing.
   * `$container-margin`: array of the left-right margin for `.container` for each screen size (starting with xs, all the way up to xl).
   * `$container-max-width`: array of the max-width value for `.container` for each screen size.
 
-After these variables are set, [`css/lib/container.scss`](../css/lib/container.scss) is imported.
-
-#### [`css/lib/grid.scss`](../css/lib/grid.scss)
+[**`css/lib/grid.scss`**](../css/lib/grid.scss)
 
 Creates utility CSS classes for working with CSS grids. The following variables need to be defined:
 
   * `$grid-column-gap`
   * `$grid-row-gap`
 
-After these variables are set, [`css/lib/grid.scss`](../css/lib/grid.scss) is imported.
-
-#### [`css/lib/flexbox.scss`](../css/lib/flexbox.scss)
+[**`css/lib/flexbox.scss`**](../css/lib/flexbox.scss)
 
 Creates utility CSS classes for working with FlexBox.
 
-#### [`css/lib/blocks.scss`](../css/lib/blocks.scss)
+[**`css/lib/blocks.scss`**](../css/lib/blocks.scss)
 
 Creates the `.blk` classes, the workhorse of our responsive layout framework. The following variables need to be defined:
 
@@ -63,15 +57,13 @@ Creates the `.blk` classes, the workhorse of our responsive layout framework. Th
   * `$blk-border`: array that defines the default border size for each screen size.
   * `$blk-padding`: array that defines the default padding for each screen size.
 
-After these variables are set, [`css/lib/blocks.scss`](../css/lib/blocks.scss) is imported.
-
 It also creates the following classes:
 
   * `.blkbleed-padding`, `.blkbleed-border`, `.blkbleed-margin`: Add to extend the content to the area normally occupied by padding, border, or margin. These classes are useful to "protrude" images and other elements outside of the normal boxes where content resides.
   * `.blkcenter`: Add to break the floating of `.blk` elements and position the element centered.
   * `.flex-container`: Add to change the `display` property of the element to `flex`.
 
-#### [`css/lib/common.scss`](../css/lib/common.scss)
+[**`css/lib/common.scss`**](../css/lib/common.scss)
 
 Creates a variety of utility CSS classes:
 
@@ -89,7 +81,7 @@ Creates a variety of utility CSS classes:
   * **common-tabs:** nothing here, sorry.
   * **common-accordions:** base styling for accordions.
 
-#### [`css/lib/print.scss`](../css/lib/print.scss)
+[**`css/lib/print.scss`**](../css/lib/print.scss)
 
 Prevents elements from breaking on page-breaks. Adds several classes that can used to style printed pages:
 
@@ -101,7 +93,7 @@ Prevents elements from breaking on page-breaks. Adds several classes that can us
   * Display `href` property of links
   * Display `title` attribute of abbreviations
 
-#### [`css/lib/joomla.scss`](../css/lib/joomla.scss)
+[**`css/lib/joomla.scss`**](../css/lib/joomla.scss)
 
 Provides basic styling for the following Joomla elements:
 
@@ -109,11 +101,11 @@ Provides basic styling for the following Joomla elements:
   * Breadcrumbs
   * Pagination links
 
-#### [`css/lib/flexicontent.scss`](../css/lib/flexicontent.scss)
+[**`css/lib/flexicontent.scss`**](../css/lib/flexicontent.scss)
 
 Provides basic styling and fixes for FLEXIcontent.
 
-#### [`css/lib/lyqbox.scss`](../css/lib/lyqbox.scss)
+[**`css/lib/lyqbox.scss`**](../css/lib/lyqbox.scss)
 
 Provides basic styling for LyqBox lightbox.
 
