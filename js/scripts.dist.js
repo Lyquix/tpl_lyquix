@@ -9,9 +9,6 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-// Custom project scripts
-// ============================================================
-
 if(typeof $ !== 'undefined') {
 	console.error('`$` already exist! Try using jQuery.noConflict();');
 }
