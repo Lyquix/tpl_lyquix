@@ -113,6 +113,20 @@ Provides basic styling for LyqBox lightbox.
 
 It is recommended to break up styles for your project in multiple `.scss` files placed in [`css/custom/`](../css/custom/) and imported from `css/custom/custom.scss`. You may want to create files for header, footer, buttons, forms, home page, category pages, item pages, search, etc.
 
+**Optional CSS Libraries**
+
+In the template options you can select from the following optional CSS libraries to be loaded:
+
+  * Animate.css: provides CSS classes for a variety of CSS animations. Learn more at: https://daneden.github.io/animate.css/
+
+**Additional CSS Libraries**
+
+You can load additional CSS libraries by just adding their URL (either local or remote) to the template options in the Joomla administrator.
+
+**Remove CSS Libraries**
+
+Remove CSS libraries added by components, modules or plugins by entering their URL in the template options.
+
 ## Responsiveness
 
 The current screen size is automatically updated as `screen` attribute of the `<body>` tag. To create styles for specific screen sizes you can use rules like the following:

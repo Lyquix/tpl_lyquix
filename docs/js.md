@@ -282,6 +282,24 @@ You may use the file `js/scripts.dist.js` included in the template as the templa
 
 For advanced or complex functionality, we recommend the use of Vue apps. Your controllers should be placed in `js/custom/controllers`, and components in `js/custom/components`.
 
+**Optional JS Libraries**
+
+In the template options you can select from the following optional CSS libraries to be loaded:
+
+  * Polyfill.io: a service that loads JavaScript polyfills, customized to the user's browser type and version. https://polyfill.io/v2/docs/
+  * Lodash: a collection of functions that make it easier to manipulate data in JavaScript. https://lodash.com/
+  * SmoothScroll: make page scrolling smooth. https://github.com/galambalazs/smoothscroll-for-websites
+  * Moment.js: utility functions to handle dates and time. https://momentjs.com/
+  * DotDotDot: a jQuery plugins that provides smart and responsive text truncation with ellipsis. http://dotdotdot.frebsite.nl/
+
+**Additional JS Libraries**
+
+You can load additional JS libraries by just adding their URL (either local or remote) to the template options in the Joomla administrator.
+
+**Remove JS Libraries**
+
+Remove JS libraries added by components, modules or plugins by entering their URL in the template options.
+
 ## Processing JS Files
 
 You may use the shell script [`js/js.sh`](../js/js.sh) to process the SCSS files for your project. This scripts creates `js/lyquix.js` from the JavaScript library modules located at `js/lib/`, and `js/vue.js` from the custom controllers and components located atS `js/custom/`. It also creates `.min.js` versions of both files and of `js/scripts.js`.
