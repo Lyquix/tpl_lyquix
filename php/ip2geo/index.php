@@ -13,6 +13,28 @@
 header('Content-Type: application/json');
 $db = 'GeoLite2-City.mmdb'; // download updated database from http://dev.maxmind.com/geoip/geoip2/geolite2/
 
+// If database doesn't exist, attempt to download and extract it
+if(!file_exists($db)) {
+	file_put_contents('GeoLite2-City.tar.gz', fopen('http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz', 'r'));
+	// Decompress gz
+	$p = new PharData('GeoLite2-City.tar.gz');
+	$p -> decompress();
+	unlink('GeoLite2-City.tar.gz');
+
+	// Unarchive tar
+	$p = new PharData('GeoLite2-City.tar');
+	$p -> extractTo(__DIR__);
+	unlink('GeoLite2-City.tar');
+
+	// Move file, and delete directory
+	$dir = glob('GeoLite2-City_*', GLOB_ONLYDIR)[0];
+	rename($dir . '/' . $db, $db);
+	foreach(glob($dir . '/*') as $file) {
+		unlink($file);
+	}
+	rmdir($dir);
+}
+
 if(file_exists($db)) {
 	require_once 'Reader.php';
 	require_once 'Decoder.php';
