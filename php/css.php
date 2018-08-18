@@ -54,6 +54,11 @@ if(in_array('inline', $merge_css)) {
 	$doc -> _style = array();
 }
 
+// Animte.css
+if($this -> params -> get('animatecss', 0)) {
+	$stylesheets[] = array('url' => $cdnjs_url . 'animate.css/3.7.0/animate' . ($non_min_js ? '' : '.min') . '.css');
+}
+
 // Additional CSS Libraries
 $add_css_libraries = explode("\n", trim($this -> params -> get('add_css_libraries', '')));
 foreach($add_css_libraries as $cssurl) {
