@@ -18,6 +18,6 @@ if($ie9 || $ie10 || $ie11) : ?>
 <link href="<?php echo $tmpl_url; ?>/css/ie-alert.css" rel="preload" as="style" onload="this.rel='stylesheet'" />
 <div class="ie-alert<?php echo ($ie9 ? ' ie9' : '') . ($ie10 ? ' ie10' : '') . ($ie11 ? ' ie11' : ''); ?>">You are using an unsupported version of Internet Explorer. To ensure security, performance, and full functionality, <a href="http://browsehappy.com/?locale=en">please upgrade to an up-to-date browser.</a><i></i></div>
 <script>
-jQuery('.ie-alert i').click(function(){jQuery('.ie-alert').hide();});
+document.querySelector('.ie-alert i').addEventListener('click', function(){document.querySelector('.ie-alert').style.display = 'none';});
 </script>
 <?php endif;
