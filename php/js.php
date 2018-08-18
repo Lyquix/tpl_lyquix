@@ -155,9 +155,7 @@ if(!file_exists($tmpl_path . '/dist/' . $scripts_filename)) {
 	file_put_contents($tmpl_path . '/dist/' . $scripts_filename, $scripts_data);
 	unset($scripts_data);
 }
-?>
-<script src="<?php echo $tmpl_url . '/dist/' . $scripts_filename; ?>"></script>
-<?php
+
 // Set lqx options
 $lqx_options = array(
 	'responsive' => array(
@@ -185,3 +183,5 @@ if($this -> params -> get('ga_account')) {
 
 // Merge with options from template settings
 $lqx_options = array_merge($lqx_options, json_decode($this -> params -> get('lqx_options', '{}'), true));
+?>
+<script async src="<?php echo $tmpl_url . '/dist/' . $scripts_filename; ?>" onload="lqx.ready(<?php echo htmlentities(json_encode($lqx_options)); ?>);"></script>

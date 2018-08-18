@@ -43,9 +43,6 @@ include(__DIR__ . '/php/favicon.php');
 include(__DIR__ . '/php/body.php');
 ?>
 <body class="<?php echo implode(' ', $body_classes); ?>">
-<script>
-lqx.ready(<?php echo json_encode($lqx_options); ?>);
-</script>
 <?php
 // If blank-page parameter is set to true, only the component will be output
 if($this -> params -> get('blank_page', 0) != 0 && $app -> input-> get('tmpl') != 'component') :  ?>
