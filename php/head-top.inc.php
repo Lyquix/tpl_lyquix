@@ -9,6 +9,9 @@
  * @license     GNU General Public License version 2 or later
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
+
+// Remove Joomla generator meta tag
+$doc -> setGenerator('');
 ?>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
