@@ -2,7 +2,7 @@
 /**
  * index-custom.dist.php - Sample custom index template file. Copy to index-custom.php for your custom project.
  *
- * @version     1.0.4
+ * @version     1.0.5
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2017 Lyquix
