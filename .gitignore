@@ -8,6 +8,7 @@ Desktop.ini
 /component-custom.php
 /index-custom.php
 /css/*
+!/css/css.sh
 !/css/ie8-alert.css
 !/css/ie9-alert.css
 !/css/css-stylesheet.html
