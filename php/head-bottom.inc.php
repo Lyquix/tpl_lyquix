@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * head-bottom.inc.php - Includes for bottom of <head> tag
  *
@@ -16,7 +16,7 @@ echo $this->params->get('ga_account') ? "<script>
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 ga(lqx.gaReady);
-</script>" : ''; 
+</script>" : '';
 ?>
 
 <jdoc:include type="modules" name="head" />

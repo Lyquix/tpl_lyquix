@@ -10,31 +10,31 @@
  */
 
 // Clear
-.clr, 
+.clr,
 .clear {
 	clear: both;
 }
 
 // Clear fix (clears after the element)
-.cf, 
+.cf,
 .clearfix {
-    &:before, 
+    &:before,
     &:after {
 	    content: " ";
 	    display: table;
     }
-    
+
     &:after {
 	    clear: both;
     }
-    
+
     *zoom: 1;
 }
 
 // Float
 .left {
     float:left;
-    
+
     // add margins
     &.margins {
         margin-right: @blk-margin-right;
@@ -43,7 +43,7 @@
 }
 .right {
     float:right;
-    
+
     // add margins
     &.margins {
         margin-left: @blk-margin-left;
@@ -52,22 +52,22 @@
 }
 
 // Hide & show classes
-.hide, 
+.hide,
 .off {
 	display: none;
 }
-.show, 
+.show,
 .on {
     display: inherit;
 }
 
-.display-block { 
-    display: block; 
+.display-block {
+    display: block;
 }
-.display-inline { 
-    display: inline; 
+.display-inline {
+    display: inline;
 }
-.display-inline-block { 
+.display-inline-block {
     display: inline-block;
 }
 
@@ -75,31 +75,31 @@
 body.mobile {
     .mobile-hide,
     .tablet-hide,
-    .phone-hide { 
-        display: none; 
+    .phone-hide {
+        display: none;
     }
     .mobile-show,
     .tablet-show,
-    .phone-show { 
-        display: inherit; 
+    .phone-show {
+        display: inherit;
     }
-} 
+}
 body.tablet {
-    .tablet-hide { 
-        display: none; 
+    .tablet-hide {
+        display: none;
     }
-    .tablet-show { 
-        display: inherit; 
+    .tablet-show {
+        display: inherit;
     }
-} 
+}
 body.phone {
-    .phone-hide { 
-        display: none; 
+    .phone-hide {
+        display: none;
     }
-    .phone-show { 
-        display: inherit; 
+    .phone-show {
+        display: inherit;
     }
-} 
+}
 
 // Hide & show for screen sizes
 body[screen=xs] {

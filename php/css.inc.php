@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * css.inc.php - Includes CSS files
  *
@@ -34,14 +34,14 @@ foreach($add_css_libraries as $cssurl) {
 })();
 </script>
 <?php
-$styles_idx = 0; 
+$styles_idx = 0;
 while(file_exists($tmpl_path . '/css/styles.' . $styles_idx . '.css')) {
 	echo '<link href="' . $tmpl_url . '/css/styles.' . $styles_idx . '.css?v=' . date("YmdHis", filemtime($tmpl_path . '/css/styles.' . $styles_idx . '.css')) . '" rel="stylesheet" />';
 	$styles_idx++;
 }
 ?>
 <![endif]-->
-<?php endif; 
+<?php endif;
 if(file_exists($tmpl_path . '/css/ie9.css')): ?>
 <!--[if lte IE 9]>
 <link href="<?php echo $tmpl_url; ?>/css/ie9.css?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/css/ie9.css')); ?>" rel="stylesheet" />

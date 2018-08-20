@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * favicon.inc.php - Includes favicons
  *

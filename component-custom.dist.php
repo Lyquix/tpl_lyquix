@@ -20,7 +20,7 @@ include(__DIR__ . '/php/head-pre.inc.php');
 <head>
 <?php
 // Head top includes
-include(__DIR__ . '/php/head-top.inc.php'); 
+include(__DIR__ . '/php/head-top.inc.php');
 ?>
 <jdoc:include type="head" />
 <?php

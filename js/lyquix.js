@@ -13,7 +13,7 @@
 // BEGIN Lyquix global object
 // Includes Lyquix common function library and default settings
 var lqx = lqx || {
-	
+
 	// default settings
 	settings : {
 		debug: false,
@@ -79,7 +79,7 @@ var lqx = lqx || {
 										'<span class="current"></span>' +
 										' of <span class="total"></span>' +
 									'</div>' +
-								'</div>',	        		
+								'</div>',
 		},
 		userActive: {
 			idleTime: 5000,	// idle time (ms) before user is set to inactive
@@ -115,7 +115,7 @@ var lqx = lqx || {
 			selector: 'form', // define a specific jQuery selector to use when choosing what forms to edit
 		},
 	},
-	
+
 	// holds working data
 	vars: {
 		resizeThrottle: false,  // saves current status of resizeThrottle
@@ -124,7 +124,7 @@ var lqx = lqx || {
 		youTubeIframeAPIReadyAttempts: 0,
 		urlParams: {},
 	},
-	
+
 	// setOptions
 	// a function for setting options for lqx (instead of manually rewriting lqx.settings)
 	setOptions : function(opts) {
@@ -133,7 +133,7 @@ var lqx = lqx || {
 		}
 		return lqx.settings;
 	},
-	
+
 	// internal console log/warn/error functions
 	// use instead of console.log, console.warn, console.error, and control with lqx.settings.debug
 	log : function() {
@@ -156,29 +156,29 @@ var lqx = lqx || {
 			});
 		}
 	},
-	
+
 	// addLoggingToNamespace: adds function logging to a namespace (for global functions use "window")
 	addLoggingToNamespace : function(nameSpace){
-		
+
 		var namespaceObject = window;
 
 		if(nameSpace != 'window') {
 			namespaceObject = window[nameSpace];
 		}
-		
+
 		Object.keys(namespaceObject).forEach(function(potentialFunction, name){
 			if(Object.prototype.toString.call(potentialFunction) === '[object Function]'){
 				namespaceObject[name] = lqx.getLoggableFunction(potentialFunction, name, nameSpace);
 			}
 		});
 	},
-	
+
 	getLoggableFunction : function(func, name, nameSpace) {
 		return function() {
-			
+
 			console.log('LOG: executing ' + nameSpace + '.' + name + ' with arguments:' );
 			console.log(arguments);
-			
+
 			return func.apply(this, arguments);
 		};
 	},
@@ -218,7 +218,7 @@ var lqx = lqx || {
 		document.cookie = c;
 		return true;
 	},
-	
+
 	// bodyScreenSize
 	// adds an attribute "screen" to the body tag that indicates the current size of the screen
 	bodyScreenSize : function() {
@@ -389,7 +389,7 @@ var lqx = lqx || {
 		}
 		return r;
 	}()),
-	
+
 	// returns the browser name, type and version, and sets body classes
 	// detects major browsers: IE, Edge, Firefox, Chrome, Safari, Opera, Android
 	// based on: https://github.com/ded/bowser
@@ -554,7 +554,7 @@ var lqx = lqx || {
 
 		return os;
 	}()),
-	
+
 	// browserFixes
 	// implements some general browser fixes
 	browserFixes : function(){
@@ -585,7 +585,7 @@ var lqx = lqx || {
 			}
 		}
 	},
-	
+
 	// init equalHeightRows
 	// add an "loaderror" attribute to images that fail to load
 	initEqualHeightRows : function() {
@@ -606,15 +606,15 @@ var lqx = lqx || {
 		// run equal height rows
 		lqx.equalHeightRows();
 	},
-	
+
 	// equalHeightRows
 	// makes all elements in a row to be the same height
 	equalHeightRows : function(opts) {
-		
+
 		// get default settings and override with custom opts
 		var s = lqx.settings.equalHeightRows;
 		if(typeof opts == 'object') jQuery.extend(true, s, opts);
-		
+
 		if(s.refreshElems || typeof lqx.vars.equalHeightRowElems == 'undefined') {
 			if(lqx.settings.equalHeightRows.onlyVisible) {
 				lqx.vars.equalHeightRowElems = jQuery('.equalheightrow:visible');
@@ -624,7 +624,7 @@ var lqx = lqx || {
 			}
 			lqx.vars.equalHeightRowImgs = lqx.vars.equalHeightRowElems.find('img');
 		}
-		
+
 		var elemsCount = lqx.vars.equalHeightRowElems.length;
 
 		// execute the following in specific order
@@ -645,13 +645,13 @@ var lqx = lqx || {
 				currRowHeight = 0;
 
 				lqx.vars.equalHeightRowElems.each(function(i){
-					
+
 					// current element and its top
 					currElem = jQuery(this);
 					currElemTop = currElem.offset().top;
 					currElemHeight = currElem.height();
           var j = 0;
-					
+
 					if(currElemTop != currRowTop) {
 						// new row has started, set the height for the previous row if it has more than one element
 						if(currRowElems.length > 1) {
@@ -696,11 +696,11 @@ var lqx = lqx || {
 			}
 		).resolve();
 	},
-	
+
 	// hangingPunctuation
 	// fixes punctuation marks that are the beggining or end of paragraphs
 	hangingPunctuation : function(){
-		
+
 		lqx.vars.hangingMarks = {
 			'\u201c': 'medium',     // “ - &ldquo; - left smart double quote
 			'\u2018': 'small',      // ‘ - &lsquo; - left smart single quote
@@ -711,18 +711,18 @@ var lqx = lqx || {
 			'\u201E': 'medium',     // „ - &bdquo; - left smart double low quote
 			'\u201A': 'small',      // ‚ - &sbquo; - left smart single low quote
 		};
-		
+
 		// lops over the P descendants of the elements with class hanging-punctuation
 		jQuery('.hanging-punctuation').find('p').each(function(idx, elem){
 			lqx.hangPunctuation(elem);
 		});
-		
+
 	},
-	
+
 	hangPunctuation : function(elem){
-		
+
 		var plaintext = elem.innerText || elem.textContent;
-		
+
 		for(var mark in lqx.vars.hangingMarks) {
 			if(plaintext.indexOf(mark) === 0 ){
 				// we found one of the marks at the beginning of the paragraph
@@ -733,9 +733,9 @@ var lqx = lqx || {
 				jQuery('#hangingMark').remove();
 			}
 		}
-		
+
 	},
-	
+
 	// adds a text caption using image alt property
 	imageCaption : function(){
 		jQuery('.image.caption img').each(function(idx,elem){
@@ -745,22 +745,22 @@ var lqx = lqx || {
 			}
 		});
 	},
-	
+
 	// shows a line break symbol before br elements
 	lineBreakSymbol : function(){
 		jQuery('.show-line-break p br').each(function(idx,elem){
 			jQuery(elem).before(String.fromCharCode(0x21B2));
 		});
 	},
-	
+
 	shadeColor : function(){
-		
+
 		// cycle through the various properties
 		['color', 'bg', 'border'].forEach(function(i) {
-			
+
 			// cycle through the various shades
 			['lighter', 'light', 'dark', 'darker'].forEach(function(j) {
-				
+
 				// set the css class
 				var c = '.' + i + '-' + j;
 
@@ -777,12 +777,12 @@ var lqx = lqx || {
 						prop = 'border-color';
 						break;
 				}
-				
+
 				// cycle through all elements
 				jQuery(c).each(function(idx, elem){
 					// get the color for the element
 					var color = jQuery(elem).css(prop);
-					
+
 					// if color is in hex use shadeHex, otherwise use shadeRGB
 					if(color.charAt(0) == '#'){
 						color = lqx.shadeHex(color, lqx.settings.shadeColorPercent[j]);
@@ -790,17 +790,17 @@ var lqx = lqx || {
 					else {
 						color = lqx.shadeRGB(color, lqx.settings.shadeColorPercent[j]);
 					}
-					
+
 					// update color for element
 					jQuery(elem).css(prop, color);
 				});
-				
+
 			});
-			
+
 		});
-		
+
 	},
-	
+
 	// returns a HEX color lighter or darker by percentage
 	shadeHex : function(color, percent) {
 		var num = parseInt(color.slice(1),16),
@@ -810,7 +810,7 @@ var lqx = lqx || {
 			B = (num & 0x0000FF) + amt;
 		return '#' + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + ( G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
 	},
-	
+
 	// returns a RBG color lighter or darker by percentage
 	shadeRGB : function(color, percent) {
 		var f = color.split(','),
@@ -821,12 +821,12 @@ var lqx = lqx || {
 			B = parseInt(f[2]);
 		return 'rgb(' + (Math.round((t - R) * p) + R) + ',' + (Math.round((t - G) * p ) + G) + ',' + (Math.round((t - B) * p) + B) + ')';
 	},
-	
+
 	// initialize google analytics tracking
 	initTracking : function() {
-		
+
 		// NOTE: this function is triggered by lqx.gaReady
-			
+
 		// track downloads and outbound links
 		if(lqx.settings.tracking.outbound || lqx.settings.tracking.download){
 			// find all a tags and cycle through them
@@ -834,7 +834,7 @@ var lqx = lqx || {
 				var elem = this;
 				// check if it has an href attribute, otherwise it is just a page anchor
 				if(elem.href) {
-					
+
 					// check if it is an outbound link, track as event
 					if(lqx.settings.tracking.outbound && elem.host != location.host) {
 
@@ -855,7 +855,7 @@ var lqx = lqx || {
 							});
 						});
 					}
-					
+
 					// check if it is a download link (not a webpage) and track as pageview
 					else if(lqx.settings.tracking.downloads && elem.pathname.match(/\.(htm|html|php)$/i)[1] === null ) {
 						jQuery(elem).click(function(e){
@@ -878,16 +878,16 @@ var lqx = lqx || {
 					}
 				}
 			});
-			
+
 		}
-		
-	
+
+
 		// track scroll depth
 		if(lqx.settings.tracking.scrolldepth){
-			
+
 			// get the initial scroll position
 			lqx.vars.scrollDepthMax = Math.ceil(((jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height()) * 10) * 10;
-			
+
 			// add listener to scrollthrottle event
 			jQuery(window).on('scrollthrottle', function(){
 				// capture the hightest scroll point, stop calculating once reached 100
@@ -896,21 +896,21 @@ var lqx = lqx || {
 					if(lqx.vars.scrollDepthMax > 100) lqx.vars.scrollDepthMax = 100;
 				}
 			});
-			
+
 			// add listener to page unload
 			jQuery(window).on('unload', function(){
-				
+
 				ga('send', {
 					'hitType' : 'event',
 					'eventCategory' : 'Scroll Depth',
 					'eventAction' : lqx.vars.scrollDepthMax,
 					'nonInteraction' : true
-				});				
-				
-			});					
-			
+				});
+
+			});
+
 		}
-		
+
 		// track photo galleries
 		if(lqx.settings.tracking.photogallery){
 			jQuery('html').on('click', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]', function(){
@@ -920,9 +920,9 @@ var lqx = lqx || {
 					'eventCategory' : 'Photo Gallery',
 					'eventAction' : 'Open'
 				});
-			
+
 			});
-			
+
 			jQuery('html').on('load', 'img.lb-image', function(){
 				// send event for image displayed
 				ga('send', {
@@ -931,21 +931,21 @@ var lqx = lqx || {
 					'eventAction' : 'Display',
 					'eventLabel' : jQuery(this).attr('src')
 				});
-			
+
 			});
 
 		}
-		
+
 		// track video
 		if(lqx.settings.tracking.video){
-			
+
 			// load youtube iframe api
 			var tag = document.createElement('script');
 			tag.src = 'https://www.youtube.com/iframe_api';
 			tag.onload = function(){lqx.vars.youTubeIframeAPIReady = true;};
 			var firstScriptTag = document.getElementsByTagName('script')[0];
 			firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-			
+
 			// set listeners for vimeo videos
 			if (window.addEventListener) {
 				window.addEventListener('message', lqx.vimeoReceiveMessage, false);
@@ -953,18 +953,18 @@ var lqx = lqx || {
 			else {
 				window.attachEvent('onmessage', lqx.vimeoReceiveMessage, false);
 			}
-			
+
 			// initialize lqx players objects
 			lqx.vars.youtubePlayers = {};
 			lqx.vars.vimeoPlayers = {};
-			
+
 			// detect if there are any youtube or vimeo videos, activate js api and add id
 			jQuery('iframe').each(function(){
-				
+
 				var elem = jQuery(this);
 				// init js api for video player
 				lqx.initVideoPlayerAPI(elem);
-											
+
 			});
 
 		}
@@ -973,7 +973,7 @@ var lqx = lqx || {
 		if(lqx.settings.tracking.activetime) {
 			// add listener to page unload
 			jQuery(window).on('unload', function(){
-				
+
 				ga('send', {
 					'hitType' : 'event',
 					'eventCategory' : 'User Active Time',
@@ -981,7 +981,7 @@ var lqx = lqx || {
 					'eventValue' : parseInt(100 * lqx.vars.userActive.activeTime / (lqx.vars.userActive.activeTime + lqx.vars.userActive.inactiveTime)),
 					'nonInteraction' : true
 				});
-				
+
 				ga('send', {
 					'hitType' : 'event',
 					'eventCategory' : 'User Active Time',
@@ -989,7 +989,7 @@ var lqx = lqx || {
 					'eventValue' : parseInt(lqx.vars.userActive.activeTime),
 					'nonInteraction' : true
 				});
-				
+
 				ga('send', {
 					'hitType' : 'event',
 					'eventCategory' : 'User Active Time',
@@ -997,7 +997,7 @@ var lqx = lqx || {
 					'eventValue' : parseInt(lqx.vars.userActive.inactiveTime),
 					'nonInteraction' : true
 				});
-				
+
 			});
 		}
 
@@ -1005,19 +1005,19 @@ var lqx = lqx || {
 
 	// handle video players added dynamically
 	videoPlayerMutationHandler : function(mutRec) {
-		
+
 		jQuery(mutRec.addedNodes).each(function(){
-			
+
 			var elem = jQuery(this);
 			if (typeof elem.prop('tagName') !== 'undefined'){
 				var tag = elem.prop('tagName').toLowerCase();
 				if (tag == 'iframe') {
 					// init js api for video player
 					lqx.initVideoPlayerAPI(elem);
-				}	    		
+				}
 			}
 		});
-		
+
 	},
 
 	// initialize the js api for youtube and vimeo players
@@ -1026,7 +1026,7 @@ var lqx = lqx || {
 		var src = elem.attr('src');
 		var playerId = elem.attr('id');
 		var urlconn;
-		
+
 		if(typeof src != 'undefined') {
 			// check youtube players
 			if (src.indexOf('youtube.com/embed/') != -1) {
@@ -1035,7 +1035,7 @@ var lqx = lqx || {
 					playerId = 'youtubePlayer' + (Object.keys(lqx.vars.youtubePlayers).length);
 					elem.attr('id', playerId);
 				}
-				
+
 				// reload with API support enabled
 				if (src.indexOf('enablejsapi=1') == -1) {
 					urlconn = '&';
@@ -1048,12 +1048,12 @@ var lqx = lqx || {
 				// add to list of players
 				if(typeof lqx.vars.youtubePlayers[playerId] == 'undefined') {
 					lqx.vars.youtubePlayers[playerId] = {};
-					
+
 					// add event callbacks to player
 					onYouTubeIframeAPIReady();
 				}
 			}
-			
+
 			// check vimeo players
 			if(src.indexOf('player.vimeo.com/video/') != -1) {
 				// add id if it doesn't have one
@@ -1061,7 +1061,7 @@ var lqx = lqx || {
 					playerId = 'vimeoPlayer' + (Object.keys(lqx.vars.vimeoPlayers).length);
 					elem.attr('id', playerId);
 				}
-				
+
 				// reload with API support enabled
 				if (src.indexOf('api=1') == -1) {
 					urlconn = '&';
@@ -1075,11 +1075,11 @@ var lqx = lqx || {
 				if(typeof lqx.vars.vimeoPlayers[playerId] == 'undefined') {
 					lqx.vars.vimeoPlayers[playerId] = {};
 				}
-				
+
 			}
 		}
 	},
-	
+
 	youtubePlayerReady : function(e, playerId){
 		// check if iframe still exists
 		if(jQuery('#' + playerId).length) {
@@ -1119,37 +1119,37 @@ var lqx = lqx || {
 			// 3 (buffering)
 			// 5 (video cued / video ready)
 			var label;
-			
+
 			// video ended, make sure we track the complete event just once
 			if(lqx.vars.youtubePlayers[playerId].playerObj.getPlayerState() === 0 && !lqx.vars.youtubePlayers[playerId].complete) {
 				label = 'Complete';
 				lqx.vars.youtubePlayers[playerId].complete = true;
 			}
-			
+
 			// video playing
 			if(lqx.vars.youtubePlayers[playerId].playerObj.getPlayerState() == 1) {
-				
+
 				// recursively call this function in 1s to keep track of video progress
 				lqx.vars.youtubePlayers[playerId].timer = setTimeout(function(){lqx.youtubePlayerStateChange(e, playerId);}, 1000);
-				
+
 				// if this is the first time we get the playing status, track it as start
 				if(!lqx.vars.youtubePlayers[playerId].start){
 					label = 'Start';
 					lqx.vars.youtubePlayers[playerId].start = true;
 				}
-				
+
 				else {
-					
+
 					var currentTime = lqx.vars.youtubePlayers[playerId].playerObj.getCurrentTime();
 
 					if(Math.ceil( Math.ceil( (currentTime / lqx.vars.youtubePlayers[playerId].duration) * 100 ) / 10 ) - 1 > lqx.vars.youtubePlayers[playerId].progress){
-						
+
 						lqx.vars.youtubePlayers[playerId].progress = Math.ceil( Math.ceil( (currentTime / lqx.vars.youtubePlayers[playerId].duration) * 100 ) / 10 ) - 1;
-						
+
 						if(lqx.vars.youtubePlayers[playerId].progress != 10){
 							label = (lqx.vars.youtubePlayers[playerId].progress * 10) + '%';
 						}
-						
+
 						else {
 							clearTimeout(lqx.vars.youtubePlayers[playerId].timer);
 						}
@@ -1162,7 +1162,7 @@ var lqx = lqx || {
 				// recursively call this function in 1s to keep track of video progress
 				lqx.vars.youtubePlayers[playerId].timer = setTimeout(function(){lqx.youtubePlayerStateChange(e, playerId);}, 1000);
 			}
-			
+
 			// send event to GA if label was set
 			if(label){
 				lqx.videoTrackingEvent(playerId, label, lqx.vars.youtubePlayers[playerId].title, lqx.vars.youtubePlayers[playerId].progress * 10);
@@ -1174,75 +1174,75 @@ var lqx = lqx || {
 		}
 
 	},
-	
+
 	vimeoReceiveMessage : function(e){
-		
+
 		// check message is coming from vimeo
 		if((/^https?:\/\/player.vimeo.com/).test(e.origin)) {
 			// parse the data
 			var data = JSON.parse(e.data);
 			player = lqx.vars.vimeoPlayers[data.player_id];
 			var label;
-			
+
 			switch (data.event) {
-				
+
 				case 'ready':
 					// set player object variables
 					player.progress = 0;
 					player.start = false;
 					player.complete = false;
-					
+
 					// set the listeners
 					lqx.vimeoSendMessage(data.player_id, e.origin, 'addEventListener', 'play');
 					lqx.vimeoSendMessage(data.player_id, e.origin, 'addEventListener', 'finish');
 					lqx.vimeoSendMessage(data.player_id, e.origin, 'addEventListener', 'playProgress');
-					
+
 					break;
-				
+
 				case 'play':
 					// if this is the first time we get the playing status, track it as start
 					if(!player.start){
 						label = 'Start';
 						player.start = true;
 					}
-					
+
 					break;
-					
+
 				case 'playProgress':
-					
+
 					if(Math.ceil( Math.ceil( (data.data.percent) * 100 ) / 10 ) - 1 > player.progress) {
-						
+
 						player.progress = Math.ceil( Math.ceil( (data.data.percent) * 100 ) / 10 ) - 1;
-						
+
 						if(player.progress != 10){
 							label = (player.progress * 10) + '%';
 						}
-						
+
 					}
-					
+
 					break;
-					
+
 				case 'finish':
 					// make sure we capture finish event just once
 					if(!player.complete) {
 						label = 'Complete';
 						player.complete = true;
 					}
-					
+
 			}
-			
+
 			if(label){
 				lqx.videoTrackingEvent(data.player_id, label, 'No title', player.progress * 10); // vimeo doesn't provide a mechanism for getting the video title
 			}
-			
+
 		}
-		
-		
-		
+
+
+
 	},
-	
+
 	vimeoSendMessage : function(playerId, origin, action, value){
-		
+
 		var data = {
 			method: action
 		};
@@ -1252,9 +1252,9 @@ var lqx = lqx || {
 		}
 
 		document.getElementById(playerId).contentWindow.postMessage(JSON.stringify(data), origin);
-		
+
 	},
-	
+
 	videoTrackingEvent : function(playerId, label, title, value) {
 		ga('send', {
 			'hitType': 'event',
@@ -1267,7 +1267,7 @@ var lqx = lqx || {
 	},
 
 	initMobileMenu : function() {
-		
+
 		// add listeners to A tags in mobile menu
 		jQuery('body').on('click', '.horizontal ul.menu a, .vertical ul.menu a, .slide-out ul.menu a', function(e){
 			// prevent links to work until we
@@ -1299,7 +1299,7 @@ var lqx = lqx || {
 		});
 
 	},
-	
+
 	mobileMenu : function(elem) {
 		/*
 		 * keep in mind the various joomla classes for menu items:
@@ -1310,7 +1310,7 @@ var lqx = lqx || {
 		 * .current - is applied only to the specific menu item of the current page
 		 *
 		 */
-		
+
 		var li = jQuery(elem).parent();
 		var url = elem.href;
 		var target = (elem.target && !elem.target.match(/^_(self|parent|top)$/i)) ? elem.target : false;
@@ -1322,9 +1322,9 @@ var lqx = lqx || {
 				window.location.href = url;
 			}
 		};
-		
+
 		// check if there is a deeper menu
-		if(jQuery.inArray(lqx.vars.lastScreenSize, lqx.settings.mobileMenu.screens) != -1) {		
+		if(jQuery.inArray(lqx.vars.lastScreenSize, lqx.settings.mobileMenu.screens) != -1) {
 			if(jQuery(li).hasClass('deeper')) {
 				if(jQuery(li).hasClass('open')) {
 					// it is already open, follow the link
@@ -1342,7 +1342,7 @@ var lqx = lqx || {
 				go();
 			}
 		}	else {
-		
+
 			go();
 		}
 	},
@@ -1350,14 +1350,14 @@ var lqx = lqx || {
 	resetMobileMenus: function() {
 		if(jQuery.inArray(lqx.vars.lastScreenSize, lqx.settings.mobileMenu.screens) == -1) {
 			jQuery('.nav .parent').removeClass('open');
-		}		
+		}
 	},
-	
+
 	// create a custom mutation observer that will trigger any needed functions
 	initMutationObserver : function(){
 		// handle videos that may be loaded dynamically
 		var mo = window.MutationObserver || window.WebKitMutationObserver;
-		
+
 		// check for mutationObserver support , if exists, user the mutation observer object, if not use the listener method.
 		if (typeof mo !== 'undefined'){
 			lqx.mutationObserver = new mo(lqx.mutationHandler);
@@ -1373,14 +1373,14 @@ var lqx = lqx || {
 
 		}
 	},
-	
+
 	// mutation observer handler
 	mutationHandler : function(mutRecs) {
 		mutRecs.forEach(function(mutRec){
-			
+
 			// handle type of mutation
 			switch(mutRec.type) {
-				
+
 				case 'childList':
 					// handle addedNodes
 					if (mutRec.addedNodes.length > 0) {
@@ -1388,23 +1388,23 @@ var lqx = lqx || {
 						lqx.videoPlayerMutationHandler(mutRec);
 						lqx.imageMutationHandler(mutRec);
 					}
-					
+
 					// handle removedNodes
 					if (mutRec.removedNodes.length > 0) {}
 					break;
-					
+
 				case 'attributes':
-					
+
 					break;
-				
+
 				case 'characterData':
-					
+
 					break;
 			}
-			
+
 		});
 	},
-	
+
 	// image load error and complete attributes
 	initImgLoadAttr : function() {
 		jQuery('img').each(function(){
@@ -1437,18 +1437,18 @@ var lqx = lqx || {
 
 	// handle images added dynamically
 	imageMutationHandler : function(mutRec) {
-		
+
 		jQuery(mutRec.addedNodes).each(function(){
-			
+
 			var elem = jQuery(this);
 			if (typeof elem.prop('tagName') !== 'undefined'){
 				var tag = elem.prop('tagName').toLowerCase();
 				if (tag == 'img') {
 					lqx.imgLoadAttr(elem[0]);
-				}	    		
+				}
 			}
 		});
-		
+
 	},
 
 	// lyqbox: functionality for lightbox, galleries, and alerts
@@ -1537,7 +1537,7 @@ var lqx = lqx || {
 
 			// assign the html container class to namespace variable
 			lqx.lyqBox.overlay = jQuery('.lyqbox');
-			
+
 			// assign active content container to the first .content box
 			lqx.lyqBox.containerActive = lqx.lyqBox.overlay.find('.content-wrapper').first().addClass('active');
 
@@ -1585,7 +1585,7 @@ var lqx = lqx || {
             }
         },
 
-        
+
 		// Show overlay and lightbox. If the image is part of a set, add siblings to album array.
 		start: function(data) {
 			lqx.lyqBox.album = [];
@@ -1844,7 +1844,7 @@ var lqx = lqx || {
 		// add listener to common user action events
 		jQuery(window).on('orientationchange resize focusin', function(){lqx.userActive();});
 		jQuery(document).on('mousedown mousemove mouseup wheel keydown keypress keyup touchstart touchmove touchend', function(){lqx.userActive();});
-		
+
 		// add listener for window on focus out, become inactive immediately
 		jQuery(window).on('focusout', function(){lqx.userInactive();});
 
@@ -1866,7 +1866,7 @@ var lqx = lqx || {
 				lqx.vars.userActive.lastChangeTime = (new Date()).getTime();
 			}
 		}, lqx.settings.userActive.refresh);
-		
+
 		// initialize active state
 		lqx.userActive();
 
@@ -2025,7 +2025,7 @@ var lqx = lqx || {
 			link.type = 'text/css';
 			link.rel = 'stylesheet';
 			document.getElementsByTagName('head')[0].appendChild(link);
-		}		
+		}
 	},
 
 	// enable swipe detection
@@ -2073,7 +2073,7 @@ var lqx = lqx || {
 			}
 
 			if (swp.dir && typeof callback == 'function') callback(sel, swp.dir);
-			
+
 			swp.dir = '';
 			swp.sX = 0;
 			swp.sY = 0;
@@ -2117,7 +2117,7 @@ var lqx = lqx || {
 			// execute some browser fixes
 			lqx.browserFixes();
 			// enable function logging
-			lqx.initLogging();	
+			lqx.initLogging();
 			// initialize mobile menu functionality
 			lqx.initMobileMenu();
 			// set equal height rows
@@ -2161,7 +2161,7 @@ var lqx = lqx || {
 
 				// throttling is now on
 				lqx.vars.scrollThrottle = true;
-				
+
 				// set time out to turn throttling on and check screen size once more
 				setTimeout(function () {
 					// trigger custom event 'scrollthrottle'
@@ -2182,7 +2182,7 @@ var lqx = lqx || {
 
 				// throttling is now on
 				lqx.vars.resizeThrottle = true;
-				
+
 				// set time out to turn throttling on and check screen size once more
 				setTimeout(function () {
 					// trigger custom event 'resizethrottle'
@@ -2214,7 +2214,7 @@ var lqx = lqx || {
 
 		// Trigger on custom event scrollthrottle
 		jQuery(window).on('scrollthrottle', function() {
-			
+
 		});
 
 		// Trigger on custom event resizethrottle

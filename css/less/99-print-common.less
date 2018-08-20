@@ -27,7 +27,7 @@
     }
 }
 // remove background color and images
-.print-no-background { 
+.print-no-background {
     @media print {
         &, *, *:before, *:after, *:first-letter, *:first-line {
             background: transparent !important;
@@ -61,9 +61,9 @@
             text-shadow: none !important;
         }
     }
-}   
-    
-    
+}
+
+
 // appends the url after links (except anchors and javascript)
 .print-links-href {
     @media print {
@@ -71,7 +71,7 @@
             &:after, &:visited:after {
                 content: " (" attr(href) ")";
             }
-            
+
             &[href^="#"],
             &[href^="javascript:"] {
                 &:after, &:visited:after {
@@ -81,7 +81,7 @@
         }
     }
 }
-    
+
 // appends title after abbreviations
 .print-abbr-title {
     @media print {

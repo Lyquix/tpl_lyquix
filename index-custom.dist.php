@@ -21,7 +21,7 @@ include(__DIR__ . '/php/head-pre.inc.php');
 <head>
 <?php
 // Head top includes
-include(__DIR__ . '/php/head-top.inc.php'); 
+include(__DIR__ . '/php/head-top.inc.php');
 ?>
 <jdoc:include type="head" />
 <?php
@@ -50,8 +50,8 @@ include(__DIR__ . '/php/body-top.inc.php');
 // if blank-page parameter is set to true, only the component will be output
 if(!$this->params->get('blank_page',0)) :  ?>
 <header>
-	
-	<?php if($this->countModules('util-1') || $this->countModules('util-2') || $this->countModules('util-3') || 
+
+	<?php if($this->countModules('util-1') || $this->countModules('util-2') || $this->countModules('util-3') ||
 		$this->countModules('util-4') || $this->countModules('util-5') || $this->countModules('util-6')): ?>
 	<div class="row util">
 		<div class="container cf">
@@ -76,8 +76,8 @@ if(!$this->params->get('blank_page',0)) :  ?>
 		</div>
 	</div>
 	<?php endif; ?>
-	
-	<?php if($this->countModules('header-1') || $this->countModules('header-2') || $this->countModules('header-3') || 
+
+	<?php if($this->countModules('header-1') || $this->countModules('header-2') || $this->countModules('header-3') ||
 		$this->countModules('header-4') || $this->countModules('header-5') || $this->countModules('header-6')): ?>
 	<div class="row header">
 		<div class="container cf">
@@ -102,8 +102,8 @@ if(!$this->params->get('blank_page',0)) :  ?>
 		</div>
 	</div>
 	<?php endif; ?>
-	
-	<?php if($this->countModules('top-1') || $this->countModules('top-2') || $this->countModules('top-3')|| $this->countModules('top-4') || 
+
+	<?php if($this->countModules('top-1') || $this->countModules('top-2') || $this->countModules('top-3')|| $this->countModules('top-4') ||
 		$this->countModules('top-5') || $this->countModules('top-6')): ?>
 	<div class="row top">
 		<div class="container cf">
@@ -128,23 +128,23 @@ if(!$this->params->get('blank_page',0)) :  ?>
 		</div>
 	</div>
 	<?php endif; ?>
-	
+
 </header>
 
 <main class="row main">
-	
+
 	<div class="container cf">
-		
+
 		<jdoc:include type="message" />
-		
+
 		<?php if($this->countModules('main-header')): ?>
 		<div class="main-header">
 			<jdoc:include type="modules" name="main-header" />
 		</div>
 		<?php endif; ?>
-		
+
 		<div class="main-middle blk20 blkgroup">
-			
+
 			<?php if($this->countModules('main-left')): ?>
 			<div class="main-left blk4 blkgroup">
 				<jdoc:include type="modules" name="main-left" />
@@ -152,13 +152,13 @@ if(!$this->params->get('blank_page',0)) :  ?>
 			<?php endif; ?>
 
 			<div class="main-center blk<?php echo 20 - ($this->countModules('main-left') ? 4 : 0) - ($this->countModules('main-right') ? 4 : 0)  ?> blkgroup">
-				
+
 				<?php if($this->countModules('main-top')): ?>
 				<div class="main-top">
 					<jdoc:include type="modules" name="main-top" />
 				</div>
 				<?php endif; ?>
-				
+
 				<?php if($home): ?>
 				<jdoc:include type="modules" name="main-center" />
 				<?php else: ?>
@@ -166,13 +166,13 @@ if(!$this->params->get('blank_page',0)) :  ?>
 					<jdoc:include type="component" />
 				</article>
 				<?php endif; ?>
-				
+
 				<?php if($this->countModules('main-bottom')): ?>
 				<div class="main-bottom">
 					<jdoc:include type="modules" name="main-bottom" />
 				</div>
 				<?php endif; ?>
-				
+
 			</div>
 
 			<?php if($this->countModules('main-right')): ?>
@@ -180,22 +180,22 @@ if(!$this->params->get('blank_page',0)) :  ?>
 				<jdoc:include type="modules" name="main-right" />
 			</div>
 			<?php endif; ?>
-			
+
 		</div>
-		
+
 		<?php if($this->countModules('main-footer')): ?>
 		<div class="main-footer">
 			<jdoc:include type="modules" name="main-footer" />
 		</div>
 		<?php endif; ?>
-		
+
 	</div>
-	
+
 </main>
 
 <footer>
 
-	<?php if($this->countModules('bottom-1') || $this->countModules('bottom-2') || $this->countModules('bottom-3') || 
+	<?php if($this->countModules('bottom-1') || $this->countModules('bottom-2') || $this->countModules('bottom-3') ||
 		$this->countModules('bottom-4') || $this->countModules('bottom-5') || $this->countModules('bottom-6')): ?>
 	<div class="row bottom">
 		<div class="container cf">
@@ -220,8 +220,8 @@ if(!$this->params->get('blank_page',0)) :  ?>
 		</div>
 	</div>
 	<?php endif; ?>
-	
-	<?php if($this->countModules('footer-1') || $this->countModules('footer-2') || $this->countModules('footer-3') || 
+
+	<?php if($this->countModules('footer-1') || $this->countModules('footer-2') || $this->countModules('footer-3') ||
 		$this->countModules('footer-4') || $this->countModules('footer-5') || $this->countModules('footer-6')): ?>
 	<div class="row footer">
 		<div class="container cf">
@@ -246,8 +246,8 @@ if(!$this->params->get('blank_page',0)) :  ?>
 		</div>
 	</div>
 	<?php endif; ?>
-	
-	<?php if($this->countModules('copyright-1') || $this->countModules('copyright-2') || $this->countModules('copyright-3') || 
+
+	<?php if($this->countModules('copyright-1') || $this->countModules('copyright-2') || $this->countModules('copyright-3') ||
 		$this->countModules('copyright-4') || $this->countModules('copyright-5') || $this->countModules('copyright-6')): ?>
 	<div class="row copyright">
 		<div class="container cf">
@@ -272,7 +272,7 @@ if(!$this->params->get('blank_page',0)) :  ?>
 		</div>
 	</div>
 	<?php endif; ?>
-	
+
 </footer>
 <?php else:  // output a "blank" page (component only) ?>
 <jdoc:include type="component" />

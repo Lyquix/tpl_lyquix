@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access');
 **/
 
 if(file_exists(__DIR__ . '/index-custom.php')) :
-	include __DIR__ . '/index-custom.php'; 
+	include __DIR__ . '/index-custom.php';
 else :
 ?><!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" >

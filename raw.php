@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * raw.php - Outputs only the component. Can be used for non-HTML outputs such as JSON, or binary files.
  *

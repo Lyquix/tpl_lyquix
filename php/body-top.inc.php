@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * body-top.inc.php - Includes for top of <body> tag
  *

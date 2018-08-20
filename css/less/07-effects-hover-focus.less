@@ -15,14 +15,14 @@
 	.transition-fast();
 	&:hover {
 		.box-glow();
-	}	
+	}
 }
 
 .box-shadow-hover {
 	.transition-fast();
 	&:hover {
 		.box-shadow();
-	}	
+	}
 }
 
 .box-tint-hover {
@@ -298,27 +298,27 @@
 	img {
 		.transition-normal();
 	}
-	
+
 	// animates the image to zoom in/out on hover
 	// need to fix the width/height of .image container for overflow to work
-	
+
 	&.zoom-in {
 		overflow: hidden;
-		
+
 		&:hover img {
 			.enlarge();
 		}
 	}
-	
+
 	&.zoom-out {
 		overflow: hidden;
-		
+
 		&:hover img {
 			transform: scale(1);
 		}
-		
+
 		img {
-			.enlarge();			
+			.enlarge();
 		}
 	}
 }

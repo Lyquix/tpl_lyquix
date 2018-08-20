@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * js.inc.php - Includes JavaScript libraries
  *
@@ -33,7 +33,7 @@ foreach($add_js_libraries as $jsurl) {
 	if($jsurl) {
 		echo '<script src="' . $jsurl . '"></script>';
 	}
-} 
+}
 ?>
 <script src="<?php echo $tmpl_url; ?>/js/lyquix<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/lyquix' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
 <?php if(file_exists($tmpl_path . '/js/scripts.js')): ?>
