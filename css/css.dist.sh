@@ -1,6 +1,6 @@
 ###
 #
-# css.sh - Bash script to process SCSS files, run autoprefixer, and chunk files
+# css.dist.sh - Bash script to process SCSS files, run autoprefixer, and chunk files
 #
 # @version     2.0.0
 # @package     tpl_lyquix
