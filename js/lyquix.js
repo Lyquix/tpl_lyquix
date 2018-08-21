@@ -1,7 +1,7 @@
 /**
  * core.js - Lyquix JavaScript library
  *
- * @version     2.0.0
+ * @version     2.0.0-beta-2
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
@@ -188,7 +188,7 @@ else {
 /**
  * util.js - Utility functions
  *
- * @version     2.0.0
+ * @version     2.0.0-beta-2
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
@@ -316,7 +316,7 @@ if(lqx && typeof lqx.util == 'undefined') {
 /**
  * detect.js - Detection of device, browser and O/S
  *
- * @version     2.0.0
+ * @version     2.0.0-beta-2
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
@@ -622,7 +622,7 @@ if(lqx && typeof lqx.detect == 'undefined') {
 /**
  * geolocate.js - geolocate functionality
  *
- * @version     2.0.0
+ * @version     2.0.0-beta-2
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
@@ -779,7 +779,7 @@ if(lqx && typeof lqx.geolocate == 'undefined') {
 /**
  * mutation.js - Mutation observer and handler
  *
- * @version     2.0.0
+ * @version     2.0.0-beta-2
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
@@ -920,7 +920,7 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 /**
  * responsive.js - Enable responsiveness
  *
- * @version     2.0.0
+ * @version     2.0.0-beta-2
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
@@ -1045,7 +1045,7 @@ if(lqx && typeof lqx.responsive == 'undefined') {
 /**
  * fixes.js - Browser fixes
  *
- * @version     2.0.0
+ * @version     2.0.0-beta-2
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
@@ -1145,7 +1145,7 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 /**
  * menu.js - Menu functionality
  *
- * @version     2.0.0
+ * @version     2.0.0-beta-2
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
@@ -1266,7 +1266,7 @@ if(lqx && typeof lqx.menu == 'undefined') {
 /**
  * accordion.js - Functionality to handle accordions
  *
- * @version     2.0.0
+ * @version     2.0.0-beta-2
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
@@ -1432,7 +1432,7 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 /**
  * tabs.js - Functionality to handle tabs
  *
- * @version     2.0.0
+ * @version     2.0.0-beta-2
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
@@ -1566,7 +1566,7 @@ if(lqx && typeof lqx.tabs == 'undefined') {
 /**
  * lyqbox.js - LyqBox - Lyquix lightbox functionality
  *
- * @version     2.0.0
+ * @version     2.0.0-beta-2
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
@@ -2021,7 +2021,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 /**
  * analytics.js - Analytics functionality
  *
- * @version     2.0.0
+ * @version     2.0.0-beta-2
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
