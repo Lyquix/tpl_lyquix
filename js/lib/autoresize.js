@@ -1,0 +1,141 @@
+/**
+ * autoresize.js - Automatically resize form elements to show contents
+ *
+ * @version     2.0.0
+ * @package     tpl_lyquix
+ * @author      Lyquix
+ * @copyright   Copyright (C) 2015 - 2018 Lyquix
+ * @license     GNU General Public License version 2 or later
+ * @link        https://github.com/Lyquix/tpl_lyquix
+ */
+
+if(lqx && typeof lqx.autoresize == 'undefined') {
+	lqx.autoresize = (function(){
+		/**
+		 * Makes textarea, input and select elements to resize automatically
+		 * to display its complete value.
+		 *
+		 * To activate just add the class .autoresize to the form fields you want
+		 * to resize.
+		 *
+		 * textarea elements are stretched vertically, while input and select are
+		 * stretched horizontally.
+		 *
+		 * Remember to include max-width and max-height styles to prevent form
+		 * fields stretching from breaking your page.
+		 *
+		 * Demo: http://jsfiddle.net/lyquix/4m67ud9k/
+		 */
+
+		var opts = {
+			sel: [
+				'textarea',
+				'input[type=text]',
+				'input[type=email]',
+				'input[type=number]',
+				'select:not([size])'
+			]
+		};
+
+		var vars = {
+			sel: ''
+		};
+
+		var init = function(){
+			// Initialize only if enabled
+			if(lqx.opts.autoresize.enabled) {
+				lqx.log('Initializing `autoresize`');
+
+				// Add the .autoresize class
+				opts.sel.forEach(function(sel, idx){
+					opts.sel[idx] = sel + '.autoresize';
+				});
+				// Process the sel option into a selector string
+				vars.sel = opts.sel.join(', ');
+
+				// Copy default opts and vars
+				jQuery.extend(lqx.opts.autoresize, opts);
+				opts = lqx.opts.autoresize;
+				jQuery.extend(lqx.vars.autoresize, vars);
+				vars = lqx.vars.autoresize;
+
+				// Trigger functions on document ready
+				lqx.vars.document.ready(function() {
+					// Setup accordions loaded initially on the page
+					setup(jQuery(vars.sel));
+
+					// Add a mutation handler for accordions added to the DOM
+					lqx.mutation.addHandler('addNode', opts.sel, setup);
+				});
+			}
+
+			return lqx.autoresize.init = true;
+		};
+
+		var setup = function(elems) {
+			if(elems instanceof Node) {
+				// Not an array, convert to an array
+				elems = [elems];
+			}
+			else if(elems instanceof jQuery) {
+				// Convert jQuery to array
+				elems = elems.toArray();
+			}
+			elems.forEach(function(elem){
+				jQuery(elem).on('input', resize(elem));
+				resize(elem);
+			});
+		};
+
+		var resize = function(elem) {
+			elem = jQuery(elem);
+			var overflow = elem.css('overflow');
+			switch(elem.prop('nodeName').toLowerCase()) {
+				case 'textarea':
+					elem.height(0).css('overflow', 'hidden');
+					if(elem.css('box-sizing') == 'content-box') {
+						elem.height(elem.prop('scrollHeight') - elem.innerHeight());
+					}
+					else {
+						elem.height(elem.prop('scrollHeight') - parseInt(elem.css('padding-top')) - parseInt(elem.css('padding-bottom')));
+					}
+					elem.css('overflow', overflow);
+					break;
+
+				case 'input':
+					elem.width(0).css('overflow', 'hidden');
+					if(elem.css('box-sizing') == 'content-box') {
+						elem.width(elem.prop('scrollWidth') - elem.innerWidth());
+					}
+					else {
+						elem.width(elem.prop('scrollWidth') - parseInt(elem.css('padding-left')) - parseInt(elem.css('padding-right')));
+					}
+					elem.css('overflow', overflow);
+					break;
+
+				case 'select':
+					elem.width('auto');
+					// Get index of selected option
+					var idx = elem.prop('selectedIndex');
+					// Temporarily remove all other options
+					var opts = elem.find('option').not(':selected').detach();
+					// Get the width of select
+					var w = elem.width();
+					// Reattach options
+					opts.appendTo(elem);
+					// Get complete list of options
+					opts = elem.find('option');
+					// Move the first option to its original position
+					opts.eq(0).insertAfter(opts.eq(idx));
+					// Set new width
+					elem.width(w);
+					break;
+			}
+		};
+
+		return {
+			init: init
+		};
+	})();
+	lqx.autoresize.init();
+}

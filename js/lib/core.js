@@ -25,6 +25,7 @@ else {
 			// Modules
 			accordion:  {enabled: true},
 			analytics:  {enabled: true},
+			autoresize: {enabled: true},
 			detect:     {enabled: true},
 			fixes:      {enabled: true},
 			geolocate:  {enabled: true},
@@ -41,6 +42,7 @@ else {
 			// Modules
 			accordion:  {},
 			analytics:  {},
+			autoresize: {},
 			detect:     {},
 			fixes:      {},
 			geolocate:  {},
