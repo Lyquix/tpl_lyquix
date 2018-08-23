@@ -20,6 +20,7 @@
   5. Run `[css/css.sh](../css/css.sh)` to generate `css/styles.css`.
   6. Copy or rename `[js/scripts.dist.scss](../js/scripts.dist.scss)` to `js/scripts.js`.
   7. Run `[js/js.sh](../js/js.sh)` to generate various custom scripts and Vue files.
+  8. Copy or rename `[css/css.dist.sh](../css/css.dist.sh)` to `css/css.sh`, and `[js/js.dist.sh](../js/js.dist.sh)` to `js/js.sh`.
 
 ### Customizing the Template
 

@@ -2,7 +2,7 @@
 /**
  * meta.php - Includes meta tags
  *
- * @version     2.0.0
+ * @version     2.0.0-beta-2
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
@@ -17,7 +17,7 @@ $doc -> setGenerator('');
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <?php
 // Load polyfill.io
-if($this->params->get('polyfill', 1)): ?>
+if($this -> params -> get('polyfill', 1)): ?>
 <script async src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 <?php endif;
 // Adds search engine domain validation strings to home page only

@@ -29,6 +29,16 @@ Provides functionality for custom event tracking with Google Analytics:
   * **Video Player:** Tracks events in YouTube and Vimeo players. It automatically enabled Javascript API if not enabled in the embed code. It tracks Start, progress and completion events, for example: Start, 10%, 20%, ..., 90%, Complete.
   * **User Active:** Keeps track of the time a user is active while viewing a page. It uses several techniques to assess if the user is active or not. Reports the percentage and absolute time that the user has been active and inactive. Tracking stops after 30 minutes.
 
+**AutoResize [`js/lib/autoresize.js`](../js/lib/autoresize.js)**
+
+Makes `textarea`, `input` (text, email, and number), and `select` elements to resize automatically to display its value.
+
+To activate add the class `.autoresize` to the form fields you want to resize. `textarea` elements are resized vertically, while `input` and `select` elements are resized horizontally.
+
+Remember to include `max-width` and `max-height` styles to prevent elements from breaking your page.
+
+Demo: http://jsfiddle.net/lyquix/4m67ud9k/
+
 **Detect [`js/lib/detect.js`](../js/lib/detect.js)**
 
 A collection of detection utilities. Adds classes to the `<body>` that can be helpful when troubleshotting styles and resonsiveness across devices and browsers.

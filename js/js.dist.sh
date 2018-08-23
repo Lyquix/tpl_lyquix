@@ -1,8 +1,8 @@
 ###
 #
-# js.sh - Shell script to concatenate and minify lyquix Javascript library, and vue components/controllers
+# js.dist.sh - Shell script to concatenate and minify lyquix Javascript library, and vue components/controllers
 #
-# @version     2.0.0
+# @version     2.0.0-beta-2
 # @package     tpl_lyquix
 # @author      lyquix
 # @copyright   Copyright (C) 2015 - 2018 Lyquix
@@ -15,7 +15,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 
 # Lyquix
 cat $DIR/lib/core.js > $DIR/lyquix.js
-MODULES=("util" "detect" "geolocate" "mutation" "responsive" "fixes" "menu" "accordion" "tabs" "lyqbox" "analytics")
+MODULES=("util" "detect" "geolocate" "mutation" "responsive" "fixes" "menu" "accordion" "autoresize" "tabs" "lyqbox" "analytics")
 for MOD in "${MODULES[@]}"
 do
 	cat $DIR/lib/$MOD.js >> $DIR/lyquix.js
