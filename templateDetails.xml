@@ -113,7 +113,7 @@
 					<option value="remote">Remote CSS Files</option>
 					<option value="inline">Inline CSS Declarations</option>
 				</field>
-				<field name="non_min_csss" type="radio" default="0" label="Use original CSS" description="Uses the original CSS file (styles.css) instead of the minified version (styles.min.css). Activate only for development.">
+				<field name="non_min_css" type="radio" default="0" label="Use original CSS" description="Uses the original CSS file (styles.css) instead of the minified version (styles.min.css). Activate only for development.">
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
