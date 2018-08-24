@@ -22,6 +22,50 @@
   7. Run `[js/js.sh](../js/js.sh)` to generate various custom scripts and Vue files.
   8. Copy or rename `[css/css.dist.sh](../css/css.dist.sh)` to `css/css.sh`, and `[js/js.dist.sh](../js/js.dist.sh)` to `js/js.sh`.
 
+### Configuring Template Options
+
+In Joomla Template Manager you will find the following options for the template.
+
+  * Mode
+    * **Template Mode**
+  * Joomla
+    * **Disable MooTools**
+    * **Enable jQuery**
+    * **Enable jQuery UI**
+    * **Enable Bootstrap**
+    * **Joomla JavaScript**
+  * Responsiveness**
+    * **Minimum Screen Size**
+    * **Maximum Screen Size**
+  * CSS
+    * **Merge CSS**
+    * **Use original CSS**
+    * **Load Animate.css**
+    * **Additional CSS Libraries**
+    * **Remove CSS Libraries**
+  * JavaScript
+    * **Merge JS**
+    * **Enable lqx debug**
+    * **Lyquix Library Options**
+    * **Use original JS**
+    * **Load polyfill.io**
+    * **Load LoDash library**
+    * **Load SmoothScroll library**
+    * **Load Moment.js library**
+    * **Load dotdotdot library**
+    * **Load Animate.css**
+    * **Additional JS Libraries**
+    * **Remove JS Libraries**
+  * Accounts
+    * **Google Analytics Account**
+    * **google-site-verification**
+    * **msvalidate.01**
+    * **p:domain_verify**
+  * IE Alerts
+    * **IE9 alert**
+    * **IE10 alert**
+    * **IE11 alert**
+
 ### Customizing the Template
 
   * This template has been developed to allow for complete customization to meet the needs of your project.

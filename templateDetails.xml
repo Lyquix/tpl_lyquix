@@ -9,7 +9,7 @@
 	<copyright>Copyright(c) 2014-2018 Lyquix</copyright>
 	<license></license>
 	<version>2.0.0-beta-2</version>
-	<description>Lyquix base template for Joomla 3.x</description>
+	<description>Lyquix Template 2.x for Joomla 3.x</description>
 	<files>
 		<folder>css</folder>
 		<folder>docs</folder>
@@ -57,6 +57,10 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+				<field name="version_note" type="note" label="Version" description="2.0.0-beta-2&lt;br&gt;Download the latest release from &lt;a href=&quot;https://github.com/Lyquix/tpl_lyquix/releases/latest&quot; target=&quot;_blank&quot;&gt;https://github.com/Lyquix/tpl_lyquix/releases/latest&lt;/a&gt;" />
+				<field name="version_2.0.0" type="note" label="2.0.0" description="&lt;ul&gt;&lt;li&gt;Refactor CSS library to use SASS, provide control over what library components to load, and prevent loading styles that need to be overriden&lt;/li&gt;&lt;li&gt;Add support for CSS Grid and FlexBox&lt;/li&gt;&lt;li&gt;Standardize all elements to box-sizing: border-box&lt;/li&gt;&lt;li&gt;Eliminate blk structure by columns and use only fractions and percentages&lt;/li&gt;&lt;li&gt;Implement non-blocking styles loading&lt;/li&gt;&lt;li&gt;Remove unused CSS styles&lt;/li&gt;&lt;li&gt;Refactor JS library: break up into multiple files, resturcture to expose only select functions and variables, provide control over what library modules to load&lt;/li&gt;&lt;li&gt;Add new JS functionality: autoresize, string functions, test geographic point is withing region, accordions, tabs, menus&lt;/li&gt;&lt;li&gt;Standardize Vue as the default framework for web apps&lt;/li&gt;&lt;li&gt;Implement async script loading&lt;/li&gt;&lt;li&gt;Add polyfill.io to normalize browsers JS support&lt;/li&gt;&lt;li&gt;Remove unused JS functionality&lt;/li&gt;&lt;li&gt;Single template file for tmpl=default and tmpl=component&lt;/li&gt;&lt;li&gt;Block directory listing with .htaccess (and eliminate index.html files)&lt;/li&gt;&lt;li&gt;Merge (concatenate) CSS and JS files to improve browser performance&lt;/li&gt;&lt;li&gt;Automatically download ip2geo database&lt;/li&gt;&lt;li&gt;Streamline naming convention and folder structure&lt;/li&gt;&lt;li&gt;Remove unused font libraries&lt;/li&gt;&lt;li&gt;Remove unused Joomla overrides&lt;/li&gt;&lt;li&gt;Simplify module positions&lt;/li&gt;&lt;li&gt;Add shell scripts for processing CSS and JS files&lt;/li&gt;&lt;/ul&gt;" />
+			</fieldset>
+			<fieldset name="mode_tab" label="Mode">
 				<field name="tmpl_mode" type="radio" default="0" label="Template Mode" description="">
 					<option value="0">Normal</option>
 					<option value="1">Component Only</option>
@@ -80,7 +84,7 @@
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
-				<field name="joomla_js" type="checkboxes" label="Joomla Javascript" description="Check the additional Joomla Javascript libraries that should be loaded">
+				<field name="joomla_js" type="checkboxes" label="Joomla JavaScript" description="Check the additional Joomla Javascript libraries that should be loaded">
 					<option value="caption">caption</option>
 					<option value="tooltip">tooltip</option>
 					<option value="combobox">combobox</option>
@@ -124,7 +128,7 @@
 				<field name="add_css_libraries" type="textarea" default="" label="Additional CSS Libraries" description="Enter one URL per line for additional javascript libraries you need for your project. We recommend: a) remove the protcol (http or https) from the URL, b) use the minified version for the production site" />
 				<field name="remove_css_libraries" type="textarea" default="" label="Remove CSS Libraries" description="Enter one URL per line for CSS libraries you want to remove from head include for your project. Use the same URL you see in the output HTML (it may be absolute or relative URL)" />
 			</fieldset>
-			<fieldset name="js_tab" label="Javascript">
+			<fieldset name="js_tab" label="JavaScript">
 				<field name="merge_js" type="checkboxes" label="Merge JS" description="Merge 3rd party JS files">
 					<option value="local">Local JS Files</option>
 					<option value="remote">Remote JS Files</option>
@@ -168,7 +172,7 @@
 				<field name="msvalidate" type="text" default="" label="msvalidate.01" description="Enter your Bing/Yahoo site validation number" />
 				<field name="p_domain_verify" type="text" default="" label="p:domain_verify" description="" />
 			</fieldset>
-			<fieldset name="other_tab" label="Other">
+			<fieldset name="ie_alerts" label="IE Alerts">
 				<field name="ie9_alert" type="radio" default="1" label="IE9 alert" description="Shows an uprade alert for IE9">
 					<option value="0">No</option>
 					<option value="1">Yes</option>

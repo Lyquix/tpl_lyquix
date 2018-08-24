@@ -9,10 +9,11 @@ The following files and folders are installed with the template:
 ```xml
 <files>
 	<folder>css</folder>
-	<folder>html</folder>
+	<folder>docs</folder>
+	<folder>css</folder>
+	<folder>fonts</folder>
 	<folder>images</folder>
 	<folder>js</folder>
-	<folder>fonts</folder>
 	<folder>php</folder>
 	<filename>.htaccess</filename>
 	<filename>component.php</filename>

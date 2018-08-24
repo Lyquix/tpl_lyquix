@@ -2,7 +2,7 @@
 
 ## What is this?
 
-Lyquix started development of its Joomla template in 2014, for use in our client projects. The goals of this template are:
+We started development of our Joomla template in 2014, for use in our client projects. The goals of this template are:
 
 1. **Best Practices**: the template provides a base HTML/CSS/JavaScript foundation that implements best practices we have learned over the years.
 2. **Code Reuse and Consistency**: we don't want to re-invent (and re-type) code for every project, this template is built with re-usability and consistency in mind.
@@ -26,7 +26,7 @@ This template is intended to be the foundation for developers that build custom 
   * If needed, it is possible to configure fewer screens or different breakpoints.
   * Containers width, max-width, and margins can be customized per-screen.
   * Blocks are fluid and their width is defined as fraction or percentage of the parent element. Block sizes can be defined per-screen.
-  * All elements are set to box-sizing: border-box.
+  * All elements are set to `box-sizing: border-box`.
   * Several utility classes for managing layout, including CSS grid, and flexbox.
   * Responsive CSS is accomplished by using the screen attribute in the body tag `body[screen=sm]`, instead of media queries.
 
@@ -55,8 +55,10 @@ This template is intended to be the foundation for developers that build custom 
     * Support functionality for accordions, tabs, menus, and lightboxes
     * Analytics functions to track outbound links, download links, active time, scroll depth, video usage
     * Geolocation using IP address or GPS, utility functions to test location against circle, square, and polygon regions
-    * Utility functions: cookies, swipe detection, unique URLs to prevent caching
+    * Autoresize textarea, input and select elements to display values
+    * Utility functions: cookies, swipe detection, unique URLs to prevent caching, sprintf porting, and several new functions for the String prototype
   * Uses polyfill.io to automatically load JS polyfills, customized for each browser type and version
+  * Choose what modules of the library to include in your project.
 
 ### Template Options
 
@@ -69,7 +71,7 @@ This template is intended to be the foundation for developers that build custom 
   * Select use of original or minified CSS and JS files
   * Merged CSS and JS files concatenate multiple CSS and JS libraries into single files
   * Load optional JS libraries: loDash, polyfill.io, SmoothScroll, dotdotdot, Moments.js
-  * Activate outdated browser alerts for IE
+  * Load optional CSS libraries: Animate.css
 
 ### IE Support
 
@@ -80,7 +82,15 @@ This template is intended to be the foundation for developers that build custom 
     * Adds width attribute to images when missing
     * Reverts font-features to normal to prevent issues with Google Fonts
     * Attempts to fix CSS grids
-  * Option to display outdated browser alert
+  * Option to display outdated browser alert on selected IE versions
+
+### Other Features
+
+  * Favicons: when present in folder `images/favicon/` it automatically loads favicons into the `<head>` tag.
+  * Shell scripts for processing CSS and JS files.
+  * Comicfy and Almost7: add `comicfy` or `almost7` URL parameter to have some fun.
+  * Joomla overrides: system messages, module wrappers, pagination links, and new Raw style for Custom HTML module.
+  * Raw template: add `tmpl=raw` URL parameter to output only the component.
 
 ## Documentation
 
@@ -88,6 +98,7 @@ This template is intended to be the foundation for developers that build custom 
   * [Template Files and Module Positions](docs/xml.md)
   * [CSS](docs/css.md)
   * [JavaScript](docs/js.md)
+  * [Favicons](docs/favicons.md)
 
 ## To Do and Ideas
 
