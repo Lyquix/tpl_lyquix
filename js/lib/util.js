@@ -65,7 +65,7 @@ if(lqx && typeof lqx.util == 'undefined') {
 		// Enable swipe detection
 		// sel - element selector
 		// func - name of callback function, will receive selector and direction (up, dn, lt, rt)
-		swipe: function(sel, callback) {
+		swipe: function(sel, callback, options) {
 			var swp = {
 				sX: 0,
 				sY: 0,
@@ -80,6 +80,10 @@ if(lqx && typeof lqx.util == 'undefined') {
 				minY: 30,
 				maxY: 150
 			};
+
+			if(typeof options != 'undefined') {
+				jQuery.extend(opts, options);
+			}
 
 			var elem = jQuery(sel);
 			elem.on('touchstart', function(e) {
@@ -100,8 +104,8 @@ if(lqx && typeof lqx.util == 'undefined') {
 					(Math.abs(swp.eY - swp.sY) < opts.maxY) &&
 					(swp.eX > 0)
 				) {
-					if (swp.eX > swp.sX) swp.dir = 'rt';
-					else swp.dir = 'lt';
+					if (swp.eX > swp.sX) swp.dir = 'r'; // right
+					else swp.dir = 'l'; // left
 				}
 				// Vertical swipe
 				else if (
@@ -109,8 +113,8 @@ if(lqx && typeof lqx.util == 'undefined') {
 					(Math.abs(swp.eX - swp.sX) < opts.maxX) &&
 					(swp.eY > 0)
 				) {
-					if (swp.eY > swp.sY) swp.dir = 'dn';
-					else swp.dir = 'up';
+					if (swp.eY > swp.sY) swp.dir += 'd'; // down
+					else swp.dir += 'u'; // up
 				}
 
 				if (swp.dir && typeof callback == 'function') callback(sel, swp.dir);
