@@ -1,4 +1,4 @@
-# Lyquix Joomla Template
+# Lyquix Joomla Template 2.x
 
 ## What is this?
 
@@ -6,7 +6,7 @@ Lyquix started development of its Joomla template in 2014, for use in our client
 
 1. **Best Practices**: the template provides a base HTML/CSS/JavaScript foundation that implements best practices we have learned over the years.
 2. **Code Reuse and Consistency**: we don't want to re-invent (and re-type) code for every project, this template is built with re-usability and consistency in mind.
-3. **Flexibility**: every project has a unique different design, and this template provides full flexibility of layout, styling, and functionality.
+3. **Flexibility**: every project has a unique design, and this template provides full flexibility of layout, styling, and functionality.
 4. **Updates**: the template allows to update the core files to fix bugs and add improvements without affecting the customizations of your project.
 
 

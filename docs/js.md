@@ -135,6 +135,19 @@ Provides the functionality to enable responsiveness:
   * For mobile devices, adds and automatically updates the attribute `orientation` to the `<body>` tag
   * Triggers the custom event `screensizechange`.
 
+**String [`js/lib/string.js`](../js/lib/string.js)**
+
+Adds new functionality to the `String` prototype.
+
+  * `capitalize` returns a string where the first letter is uppercase, and the rest are lower case  (e.g `Lorem ipsum DOLOR sIT amet` => `Lorem ipsum dolor sit amet`).
+  * `latinize` returns a string in its latin alphabet equivalent  (e.g `Lorem ipsum CAFFÉ latté хорошая погода` => `Lorem ipsum CAFFE latte horoshaya pogoda`).
+  * `slugify` returns a slug (e.g `Lorem ipsum CAFFÉ latté хорошая погода` => `lorem-ipsum-caffe-latte-horoshaya-pogoda`).
+  * `toCamelCase` returns a string in camel case (e.g `Lorem ipsum DOLOR sIT amet` => `loremIpsumDolorSitAmet`).
+  * `toKebabCase` returns a string in kebab case (e.g `Lorem ipsum DOLOR sIT amet` => `lorem-ipsum-dolor-sit-amet`).
+  * `toSnakeCase` returns a string in snake case (e.g `Lorem ipsum DOLOR sIT amet` => `lorem_ipsum_dolor_sit_amet`).
+  * `toTitleCase` returns a string in title case (e.g `Lorem ipsum DOLOR sIT amet` => `Lorem Ipsum Dolor Sit Amet`).
+  * `words` returns an array with each word found in the string.
+
 **Tabs [`js/lib/tabs.js`](../js/lib/tabs.js)**
 
 Provides functionality for tabs.
@@ -205,7 +218,7 @@ Adds an observer of type `addNode`, `removeNode` or `modAttrib`, and when the ta
 
 Overrides or extends default or current option (settings) values. Accepts an object of options.
 
-**`lqx.read(opts)`**
+**`lqx.ready(opts)`**
 
 Initializes the library and sets the initial options. This function should be executed once on your page, after the `<body>` tag is available. This function triggers the custom event `lqxready`.
 
@@ -223,11 +236,21 @@ Function for handling cookies with ease, inspired by https://github.com/js-cooki
     * `secure`: any non-false value
     * `httpOnly`: any non-false value
 
-**`lqx.util.swipe(selector, callback)`**
+**`lqx.util.swipe(selector, callback, options)`**
 
-Adds a swipe detection listener on element(s) identified by `selector`, and triggers the `callback` function when a swipe is detected, passing the direction of the swap: :up, dn, lt, rt.
+Adds a swipe detection listener on element(s) identified by `selector`, and triggers the `callback` function when a swipe is detected, passing the direction of the swap: :u (up), d (down), l (left), r (right), or a combination of vertical and horizontal direction.
+
+Optionally you can pass custom `options`, an object with keys `minX`, `maxX`, `minY`, `maxY` to configure the minimum and maximum swipe length (in pixels) to be considered a swipe in horizontal and vertical directions.
+
+**`lqx.util.sprintf(format, arg1, arg2, ...)`**
+
+Returns a string produced according to the formatting string `format`, utilizing the data passed in the following arguments.
+
+Refer to http://php.net/manual/en/function.sprintf.php for complete formatting options.
 
 **`lqx.util.uniqueUrl(sel, attrib)`**
+
+Appends a unique parameter to a URL in attribute `attrib` on the elements identified by selector `sel`. Useful with forms to bypass caching, e.g. `lqx.util.uniqueUrl('form', 'action')`.
 
 **`lqx.warn(arg)`**
 
