@@ -33,6 +33,7 @@ else {
 			menu:       {enabled: true},
 			mutation:   {enabled: true},
 			responsive: {enabled: true},
+			string:     {enabled: true},
 			tabs:       {enabled: true},
 			util:       {enabled: true}
 		};
@@ -50,6 +51,7 @@ else {
 			menu:       {},
 			mutation:   {},
 			responsive: {},
+			string:     {},
 			tabs:       {},
 			util:       {},
 			// jQuery objects
