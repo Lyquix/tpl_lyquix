@@ -8,7 +8,7 @@
 
 ### First Install
 
-  1. Download the latest template package from https://github.com/Lyquix/tpl_lyquix/releases.
+  1. Download the latest template package from https://github.com/Lyquix/tpl_lyquix/releases/latest.
   2. Install the package using Joomla extension manager.
 
 ### Initial Setup
