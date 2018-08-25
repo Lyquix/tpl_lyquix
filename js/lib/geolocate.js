@@ -29,17 +29,17 @@ if(lqx && typeof lqx.geolocate == 'undefined') {
 		};
 
 		var init = function(){
+			// Copy default opts and vars
+			jQuery.extend(lqx.opts.geolocate, opts);
+			opts = lqx.opts.geolocate;
+			jQuery.extend(lqx.vars.geolocate, vars);
+			vars = lqx.vars.geolocate;
+
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
 				if(lqx.opts.geolocate.enabled) {
 					lqx.log('Initializing `geolocate`');
-
-					// Copy default opts and vars
-					jQuery.extend(lqx.opts.geolocate, opts);
-					opts = lqx.opts.geolocate;
-					jQuery.extend(lqx.vars.geolocate, vars);
-					vars = lqx.vars.geolocate;
 
 					geoLocate();
 				}

@@ -16,15 +16,15 @@ if(lqx && typeof lqx.menu == 'undefined') {
 		};
 
 		var init = function(){
+			// Copy default opts and vars
+			jQuery.extend(lqx.opts.menu, opts);
+			opts = lqx.opts.menu;
+
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
 				if(lqx.opts.menu.enabled) {
 					lqx.log('Initializing `menu`');
-
-					// Copy default opts and vars
-					jQuery.extend(lqx.opts.menu, opts);
-					opts = lqx.opts.menu;
 
 					// Trigger setup on lqxready
 					setup();

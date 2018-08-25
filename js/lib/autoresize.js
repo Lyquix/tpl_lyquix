@@ -42,6 +42,12 @@ if(lqx && typeof lqx.autoresize == 'undefined') {
 		};
 
 		var init = function(){
+			// Copy default opts and vars
+			jQuery.extend(lqx.opts.autoresize, opts);
+			opts = lqx.opts.autoresize;
+			jQuery.extend(lqx.vars.autoresize, vars);
+			vars = lqx.vars.autoresize;
+
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
@@ -54,12 +60,6 @@ if(lqx && typeof lqx.autoresize == 'undefined') {
 					});
 					// Process the sel option into a selector string
 					vars.sel = opts.sel.join(', ');
-
-					// Copy default opts and vars
-					jQuery.extend(lqx.opts.autoresize, opts);
-					opts = lqx.opts.autoresize;
-					jQuery.extend(lqx.vars.autoresize, vars);
-					vars = lqx.vars.autoresize;
 
 					// Trigger functions on document ready
 					lqx.vars.document.ready(function() {

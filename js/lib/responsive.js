@@ -24,17 +24,17 @@ if(lqx && typeof lqx.responsive == 'undefined') {
 		};
 
 		var init = function(){
+			// Copy default opts and vars
+			jQuery.extend(lqx.opts.responsive, opts);
+			opts = lqx.opts.responsive;
+			jQuery.extend(lqx.vars.responsive, vars);
+			vars = lqx.vars.responsive;
+
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
 				if(lqx.opts.responsive.enabled) {
 					lqx.log('Initializing `responsive`');
-
-					// Copy default opts and vars
-					jQuery.extend(lqx.opts.responsive, opts);
-					opts = lqx.opts.responsive;
-					jQuery.extend(lqx.vars.responsive, vars);
-					vars = lqx.vars.responsive;
 
 					// Check screen size and orientation for the first time
 					setScreen();

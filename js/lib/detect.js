@@ -20,15 +20,15 @@ if(lqx && typeof lqx.detect == 'undefined') {
 		};
 
 		var init = function(){
+			// Copy default opts and vars
+			jQuery.extend(lqx.vars.detect, vars);
+			vars = lqx.vars.detect;
+
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
 				if(lqx.opts.detect.enabled) {
 					lqx.log('Initializing `detect`');
-
-					// Copy default opts and vars
-					jQuery.extend(lqx.vars.detect, vars);
-					vars = lqx.vars.detect;
 
 					detectMobile();
 					detectBrowser();

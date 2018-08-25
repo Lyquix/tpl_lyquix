@@ -29,24 +29,21 @@ if(lqx && typeof lqx.string == 'undefined') {
 		};
 
 		var init = function() {
+			// Copy default opts and vars
+			jQuery.extend(lqx.opts.string, opts);
+			opts = lqx.opts.string;
+
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
 				if(lqx.opts.string.enabled) {
 					lqx.log('Initializing `string`');
 
-					// Copy default opts and vars
-					jQuery.extend(lqx.opts.string, opts);
-					opts = lqx.opts.string;
-
-					// Trigger functions on document ready
-					lqx.vars.document.ready(function() {
-						// Add functions to prototype
-						opts.funcs.forEach(function(func){
-							if(typeof String.prototype[func] === 'undefined') {
-								String.prototype[func] = f[func];
-							}
-						});
+					// Add functions to prototype
+					opts.funcs.forEach(function(func){
+						if(typeof String.prototype[func] === 'undefined') {
+							String.prototype[func] = f[func];
+						}
 					});
 				}
 			});

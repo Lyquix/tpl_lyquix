@@ -21,14 +21,14 @@ if(lqx && typeof lqx.tabs == 'undefined') {
 		**/
 
 		var init = function(){
+			// Copy default opts and vars
+			vars = lqx.vars.tabs = [];
+
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
 				if(lqx.opts.tabs.enabled) {
 					lqx.log('Initializing `tabs`');
-
-					// Copy default opts and vars
-					vars = lqx.vars.tabs = [];
 
 					// Trigger functions on document ready
 					lqx.vars.document.ready(function() {
