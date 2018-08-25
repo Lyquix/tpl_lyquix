@@ -42,32 +42,35 @@ if(lqx && typeof lqx.autoresize == 'undefined') {
 		};
 
 		var init = function(){
-			// Initialize only if enabled
-			if(lqx.opts.autoresize.enabled) {
-				lqx.log('Initializing `autoresize`');
+			// Initialize on lqxready
+			lqx.vars.window.on('lqxready', function() {
+				// Initialize only if enabled
+				if(lqx.opts.autoresize.enabled) {
+					lqx.log('Initializing `autoresize`');
 
-				// Add the .autoresize class
-				opts.sel.forEach(function(sel, idx){
-					opts.sel[idx] = sel + '.autoresize';
-				});
-				// Process the sel option into a selector string
-				vars.sel = opts.sel.join(', ');
+					// Add the .autoresize class
+					opts.sel.forEach(function(sel, idx){
+						opts.sel[idx] = sel + '.autoresize';
+					});
+					// Process the sel option into a selector string
+					vars.sel = opts.sel.join(', ');
 
-				// Copy default opts and vars
-				jQuery.extend(lqx.opts.autoresize, opts);
-				opts = lqx.opts.autoresize;
-				jQuery.extend(lqx.vars.autoresize, vars);
-				vars = lqx.vars.autoresize;
+					// Copy default opts and vars
+					jQuery.extend(lqx.opts.autoresize, opts);
+					opts = lqx.opts.autoresize;
+					jQuery.extend(lqx.vars.autoresize, vars);
+					vars = lqx.vars.autoresize;
 
-				// Trigger functions on document ready
-				lqx.vars.document.ready(function() {
-					// Setup accordions loaded initially on the page
-					setup(jQuery(vars.sel));
+					// Trigger functions on document ready
+					lqx.vars.document.ready(function() {
+						// Setup accordions loaded initially on the page
+						setup(jQuery(vars.sel));
 
-					// Add a mutation handler for accordions added to the DOM
-					lqx.mutation.addHandler('addNode', opts.sel, setup);
-				});
-			}
+						// Add a mutation handler for accordions added to the DOM
+						lqx.mutation.addHandler('addNode', opts.sel, setup);
+					});
+				}
+			});
 
 			return lqx.autoresize.init = true;
 		};

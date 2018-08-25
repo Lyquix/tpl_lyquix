@@ -29,21 +29,21 @@ if(lqx && typeof lqx.geolocate == 'undefined') {
 		};
 
 		var init = function(){
-			// Initialize only if enabled
-			if(lqx.opts.geolocate.enabled) {
-				lqx.log('Initializing `geolocate`');
+			// Initialize on lqxready
+			lqx.vars.window.on('lqxready', function() {
+				// Initialize only if enabled
+				if(lqx.opts.geolocate.enabled) {
+					lqx.log('Initializing `geolocate`');
 
-				// Copy default opts and vars
-				jQuery.extend(lqx.opts.geolocate, opts);
-				opts = lqx.opts.geolocate;
-				jQuery.extend(lqx.vars.geolocate, vars);
-				vars = lqx.vars.geolocate;
+					// Copy default opts and vars
+					jQuery.extend(lqx.opts.geolocate, opts);
+					opts = lqx.opts.geolocate;
+					jQuery.extend(lqx.vars.geolocate, vars);
+					vars = lqx.vars.geolocate;
 
-				// Trigger functions on lqxready
-				lqx.vars.window.on('lqxready', function() {
 					geoLocate();
-				});
-			}
+				}
+			});
 
 			return lqx.geolocate.init = true;
 		};

@@ -16,24 +16,25 @@ if(lqx && typeof lqx.menu == 'undefined') {
 		};
 
 		var init = function(){
-			// Initialize only if enabled
-			if(lqx.opts.menu.enabled) {
-				lqx.log('Initializing `menu`');
+			// Initialize on lqxready
+			lqx.vars.window.on('lqxready', function() {
+				// Initialize only if enabled
+				if(lqx.opts.menu.enabled) {
+					lqx.log('Initializing `menu`');
 
-				// Copy default opts and vars
-				jQuery.extend(lqx.opts.menu, opts);
-				opts = lqx.opts.menu;
+					// Copy default opts and vars
+					jQuery.extend(lqx.opts.menu, opts);
+					opts = lqx.opts.menu;
 
-				// Trigger setup on lqxready
-				lqx.vars.window.on('lqxready', function() {
+					// Trigger setup on lqxready
 					setup();
-				});
 
-				// Trigger reset on screensizechange
-				lqx.vars.window.on('screensizechange', function() {
-					reset();
-				});
-			}
+					// Trigger reset on screensizechange
+					lqx.vars.window.on('screensizechange', function() {
+						reset();
+					});
+				}
+			});
 
 			return lqx.menu.init = true;
 		};

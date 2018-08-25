@@ -20,23 +20,23 @@ if(lqx && typeof lqx.detect == 'undefined') {
 		};
 
 		var init = function(){
-			// Initialize only if enabled
-			if(lqx.opts.detect.enabled) {
-				lqx.log('Initializing `detect`');
+			// Initialize on lqxready
+			lqx.vars.window.on('lqxready', function() {
+				// Initialize only if enabled
+				if(lqx.opts.detect.enabled) {
+					lqx.log('Initializing `detect`');
 
-				// Copy default opts and vars
-				jQuery.extend(lqx.vars.detect, vars);
-				vars = lqx.vars.detect;
+					// Copy default opts and vars
+					jQuery.extend(lqx.vars.detect, vars);
+					vars = lqx.vars.detect;
 
-				// Trigger functions on lqxready
-				lqx.vars.window.on('lqxready', function() {
 					detectMobile();
 					detectBrowser();
 					detectOS();
 					detectUrlParts();
 					detectUrlParams();
-				});
-			}
+				}
+			});
 
 			return lqx.detect.init = true;
 		};

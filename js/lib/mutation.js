@@ -19,20 +19,20 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 		};
 
 		var init = function(){
-			// Initialize only if enabled
-			if(lqx.opts.mutation.enabled) {
-				lqx.log('Initializing `mutation`');
+			// Initialize on lqxready
+			lqx.vars.window.on('lqxready', function() {
+				// Initialize only if enabled
+				if(lqx.opts.mutation.enabled) {
+					lqx.log('Initializing `mutation`');
 
-				// Copy default opts and vars
-				jQuery.extend(lqx.vars.mutation, vars);
-				vars = lqx.vars.mutation;
+					// Copy default opts and vars
+					jQuery.extend(lqx.vars.mutation, vars);
+					vars = lqx.vars.mutation;
 
-				// Trigger functions on lqxready
-				lqx.vars.window.on('lqxready', function() {
 					// Create observer
 					observer();
-				});
-			}
+				}
+			});
 
 			return lqx.mutation.init = true;
 		};

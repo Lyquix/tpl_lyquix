@@ -47,31 +47,31 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 		};
 
 		var init = function(){
-			// Initialize only if enabled
-			if(lqx.opts.lyqbox.enabled) {
-				lqx.log('Initializing `lyqbox`');
+			// Initialize on lqxready
+			lqx.vars.window.on('lqxready', function() {
+				// Initialize only if enabled
+				if(lqx.opts.lyqbox.enabled) {
+					lqx.log('Initializing `lyqbox`');
 
-				// Copy default opts and vars
-				jQuery.extend(lqx.opts.lyqbox, opts);
-				opts = lqx.opts.lyqbox;
-				jQuery.extend(lqx.vars.lyqbox, vars);
-				vars = lqx.vars.lyqbox;
+					// Copy default opts and vars
+					jQuery.extend(lqx.opts.lyqbox, opts);
+					opts = lqx.opts.lyqbox;
+					jQuery.extend(lqx.vars.lyqbox, vars);
+					vars = lqx.vars.lyqbox;
 
-				// Trigger functions on lqxready
-				lqx.vars.window.on('lqxready', function() {
 					// Add a mututation observer to run setup if lyqbox is added after document ready
 					lqx.mutation.addHandler('addNode', '[data-lyqbox]', function(e){
 						setup();
 					});
-				});
 
-				// Initialize on document ready
-				lqx.vars.window.ready(function() {
-					if(jQuery('[data-lyqbox]').length) {
-						setup();
-					}
-				});
-			}
+					// Initialize on document ready
+					lqx.vars.window.ready(function() {
+						if(jQuery('[data-lyqbox]').length) {
+							setup();
+						}
+					});
+				}
+			});
 
 			return lqx.lyqbox.init = true;
 		};

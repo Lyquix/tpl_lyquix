@@ -36,29 +36,32 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 		};
 
 		var init = function(){
-			// Initialize only if enabled
-			if(lqx.opts.accordion.enabled) {
-				lqx.log('Initializing `accordion`');
+			// Initialize on lqxready
+			lqx.vars.window.on('lqxready', function() {
+				// Initialize only if enabled
+				if(lqx.opts.accordion.enabled) {
+					lqx.log('Initializing `accordion`');
 
-				// Copy default opts and vars
-				jQuery.extend(lqx.opts.accordion, opts);
-				opts = lqx.opts.accordion;
-				vars = lqx.vars.accordion = [];
+					// Copy default opts and vars
+					jQuery.extend(lqx.opts.accordion, opts);
+					opts = lqx.opts.accordion;
+					vars = lqx.vars.accordion = [];
 
-				// Trigger functions on document ready
-				lqx.vars.document.ready(function() {
-					// Setup accordions loaded initially on the page
-					setup(jQuery('.accordion'));
+					// Trigger functions on document ready
+					lqx.vars.document.ready(function() {
+						// Setup accordions loaded initially on the page
+						setup(jQuery('.accordion'));
 
-					// Add listener for screen change and orientation change
-					lqx.vars.window.on('load screensizechange orientationchange resizethrottle', function(){
-						update();
+						// Add listener for screen change and orientation change
+						lqx.vars.window.on('load screensizechange orientationchange resizethrottle', function(){
+							update();
+						});
+
+						// Add a mutation handler for accordions added to the DOM
+						lqx.mutation.addHandler('addNode', '.accordion', setup);
 					});
-
-					// Add a mutation handler for accordions added to the DOM
-					lqx.mutation.addHandler('addNode', '.accordion', setup);
-				});
-			}
+				}
+			});
 
 			return lqx.accordion.init = true;
 		};

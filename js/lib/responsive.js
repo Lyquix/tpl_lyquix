@@ -24,30 +24,37 @@ if(lqx && typeof lqx.responsive == 'undefined') {
 		};
 
 		var init = function(){
-			// Initialize only if enabled
-			if(lqx.opts.responsive.enabled) {
-				lqx.log('Initializing `responsive`');
+			// Initialize on lqxready
+			lqx.vars.window.on('lqxready', function() {
+				// Initialize only if enabled
+				if(lqx.opts.responsive.enabled) {
+					lqx.log('Initializing `responsive`');
 
-				// Copy default opts and vars
-				jQuery.extend(lqx.opts.responsive, opts);
-				opts = lqx.opts.responsive;
-				jQuery.extend(lqx.vars.responsive, vars);
-				vars = lqx.vars.responsive;
+					// Copy default opts and vars
+					jQuery.extend(lqx.opts.responsive, opts);
+					opts = lqx.opts.responsive;
+					jQuery.extend(lqx.vars.responsive, vars);
+					vars = lqx.vars.responsive;
 
-				// Trigger setScreen
-				lqx.vars.window.on('lqxready resizethrottle orientationchange', function() {
-					// check screen size
+					// Check screen size and orientation for the first time
 					setScreen();
-				});
+					setOrientation();
 
-				// Trigger setOrientation only if property is available
-				if('orientation' in window.screen) {
-					lqx.vars.window.on('lqxready orientationchange', function() {
-						// Update orientation attribute in body tag
-						setOrientation();
+					// Listeners for setScreen
+					lqx.vars.window.on('resizethrottle orientationchange', function() {
+						// Check screen size
+						setScreen();
 					});
+
+					// Listeners for setOrientation only if property is available
+					if('orientation' in window.screen) {
+						lqx.vars.window.on('orientationchange', function() {
+							// Update orientation attribute in body tag
+							setOrientation();
+						});
+					}
 				}
-			}
+			});
 
 			return lqx.responsive.init = true;
 		};

@@ -45,15 +45,16 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 		};
 
 		var init = function(){
-			// Initialize only if enabled
-			if(lqx.opts.analytics.enabled) {
-				// Copy default opts and vars
-				jQuery.extend(lqx.opts.analytics, opts);
-				opts = lqx.opts.analytics;
-				jQuery.extend(lqx.vars.analytics, vars);
-				vars = lqx.vars.analytics;
+			// Initialize on lqxready
+			lqx.vars.window.on('lqxready', function() {
+				// Initialize only if enabled
+				if(lqx.opts.analytics.enabled) {
+					// Copy default opts and vars
+					jQuery.extend(lqx.opts.analytics, opts);
+					opts = lqx.opts.analytics;
+					jQuery.extend(lqx.vars.analytics, vars);
+					vars = lqx.vars.analytics;
 
-				lqx.vars.window.on('lqxready', function() {
 					// Load Google Analytics
 					if(opts.createParams && opts.createParams.default && opts.createParams.default.trackingId) {
 						gaCode();
@@ -63,8 +64,8 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					window.onYouTubeIframeAPIReady = function(){
 						onYouTubeIframeAPIReady();
 					};
-				});
-			}
+				}
+			});
 
 			return lqx.analytics.init = true;
 		};
