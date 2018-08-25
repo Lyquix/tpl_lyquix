@@ -140,6 +140,12 @@ Provides the functionality to enable responsiveness:
 Adds new functionality to the `String` prototype.
 
   * `capitalize` returns a string where the first letter is uppercase, and the rest are lower case  (e.g `Lorem ipsum DOLOR sIT amet` => `Lorem ipsum dolor sit amet`).
+  * `isCreditCard` returns true if the string is a valid credit card number.
+  * `isEmail` returns true if the string is a valid email address.
+  * `isSSN` returns true if the string is a valid social security number.
+  * `isURL` returns true if the string is a valid URL.
+  * `isUsPhone` returns true if the string is a valid north american phone number.
+  * `isZipCode` returns true if the string is a valid US zip code.
   * `latinize` returns a string in its latin alphabet equivalent  (e.g `Lorem ipsum CAFFÉ latté хорошая погода` => `Lorem ipsum CAFFE latte horoshaya pogoda`).
   * `slugify` returns a slug (e.g `Lorem ipsum CAFFÉ latté хорошая погода` => `lorem-ipsum-caffe-latte-horoshaya-pogoda`).
   * `toCamelCase` returns a string in camel case (e.g `Lorem ipsum DOLOR sIT amet` => `loremIpsumDolorSitAmet`).
