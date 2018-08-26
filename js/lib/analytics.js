@@ -29,7 +29,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 			setParams: null,			// example: {default: {dimension1: 'Age', metric1: 25}}
 			requireParams: null,		// example: {default: {pluginName: 'displayFeatures', pluginOptions: {cookieName: 'mycookiename'}}}
 			provideParams: null,		// example: {default: {pluginName: 'MyPlugin', pluginConstructor: myPluginFunc}}
-			customParamsFuncs: null,	// example: {default: myCustomFunc}
+			customParamsFuncs: null,	// example: myFunctionName
 			abTestName: null,			// Set a test name to activate A/B Testing Dimension
 			abTestNameDimension: null,		// Set the Google Analytics dimension number to use for test name
 			abTestGroupDimension: null,		// Set the Google Analytics dimension number to use for group
@@ -117,11 +117,13 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						lqx.log('setParams', opts.setParams);
 						params = opts.setParams;
 						Object.keys(params).forEach(function(tracker){
-							var cmd = 'set';
-							if(tracker != 'default') cmd = tracker + '.set';
-							Object.keys(params[tracker]).forEach(function(fieldName){
-								ga(cmd, fieldName, params[tracker][fieldName]);
-							});
+							if(trackers.indexOf(tracker) > -1) {
+								var cmd = 'set';
+								if(tracker != 'default') cmd = tracker + '.set';
+								Object.keys(params[tracker]).forEach(function(fieldName){
+									ga(cmd, fieldName, params[tracker][fieldName]);
+								});
+							}
 						});
 					}
 
@@ -130,11 +132,13 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						lqx.log('requireParams', opts.requireParams);
 						params = opts.requireParams;
 						Object.keys(params).forEach(function(tracker){
-							var cmd = 'require';
-							if(tracker != 'default') cmd = tracker + '.require';
-							params[tracker].forEach(function(elem){
-								ga(cmd, elem.pluginName, elem.pluginOptions);
-							});
+							if(trackers.indexOf(tracker) > -1) {
+								var cmd = 'require';
+								if(tracker != 'default') cmd = tracker + '.require';
+								params[tracker].forEach(function(elem){
+									ga(cmd, elem.pluginName, elem.pluginOptions);
+								});
+							}
 						});
 					}
 
@@ -143,11 +147,13 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 						lqx.log('provideParams', opts.provideParams);
 						params = opts.provideParams;
 						Object.keys(params).forEach(function(tracker){
-							var cmd = 'provide';
-							if(tracker != 'default') cmd = tracker + '.provide';
-							params[tracker].forEach(function(elem){
-								ga(cmd, elem.pluginName, elem.pluginConstructor);
-							});
+							if(trackers.indexOf(tracker) > -1) {
+								var cmd = 'provide';
+								if(tracker != 'default') cmd = tracker + '.provide';
+								params[tracker].forEach(function(elem){
+									ga(cmd, elem.pluginName, elem.pluginConstructor);
+								});
+							}
 						});
 					}
 
@@ -172,7 +178,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 				},
 
 				function(){
-					if(typeof opts.customParamsFuncs == 'function') {
+					if(opts.customParamsFuncs) {
 						lqx.log('customParamsFuncs', opts.customParamsFuncs);
 						try {
 							opts.customParamsFuncs();
