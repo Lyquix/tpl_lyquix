@@ -1,5 +1,7 @@
 # Lyquix Joomla Template 2.x
 
+`@version     2.0.0-beta-3`
+
 ## What is this?
 
 We started development of our Joomla template in 2014, for use in our client projects. The goals of this template are:

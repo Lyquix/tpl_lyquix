@@ -1,5 +1,7 @@
 # CSS
 
+`@version     2.0.0-beta-3`
+
 ## Overview
 
 All the styling files are located in the [`css/`](../css/) directory. We use SASS as CSS pre-processor.

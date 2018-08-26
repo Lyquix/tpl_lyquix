@@ -2,7 +2,7 @@
 /**
  * body.php - Prepare classes for the <body> tag
  *
- * @version     2.0.0-beta-2
+ * @version     2.0.0-beta-3
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix

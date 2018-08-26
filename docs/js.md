@@ -1,5 +1,7 @@
 # JavaScript
 
+`@version     2.0.0-beta-3`
+
 ## Overview
 
 All the scripting files are located in the [`js/`](../js/) directory. We have developed our own JavaScript library, and we use Vue.js for advanced functionality.
