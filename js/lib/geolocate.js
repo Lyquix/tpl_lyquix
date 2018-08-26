@@ -56,6 +56,7 @@ if(lqx && typeof lqx.geolocate == 'undefined') {
 		// geoLocate
 		// attempts to locate position of user by means of gps or ip address
 		var geoLocate = function() {
+			lqx.log('Attempting IP geolocation');
 			// ip2geo to get location info
 			jQuery.ajax({
 				async: true,
@@ -65,12 +66,16 @@ if(lqx && typeof lqx.geolocate == 'undefined') {
 				success: function(data, status, xhr){
 					vars.location = data;
 
+					lqx.log('IP geolocation result', vars.location);
+
 					// If GPS enabled, attempt to get lat/lon
 					if(opts.gps && ('geolocate' in navigator)) {
+						lqx.log('Attempting GPS geolocation');
 						navigator.geolocate.getCurrentPosition(function(position) {
 							vars.location.lat = position.coords.latitude;
 							vars.location.lon = position.coords.longitude;
 							vars.location.radius = 0;
+							lqx.log('GPS geolocation result', {lat: vars.location.lat, lon: vars.location.lon});
 						});
 					}
 
@@ -84,10 +89,8 @@ if(lqx && typeof lqx.geolocate == 'undefined') {
 						}
 					}
 
-					lqx.log('geolocate', vars.location);
-
 					// Trigger custom event 'geolocateready'
-					lqx.log('geolocate event');
+					lqx.log('geolocateready event');
 					jQuery(document).trigger('geolocateready');
 				},
 				error: function(xhr, status, error){

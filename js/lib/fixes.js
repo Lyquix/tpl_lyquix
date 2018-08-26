@@ -90,6 +90,8 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 					});
 				});
 			}
+
+			lqx.log('CSS grid fix for IE');
 		};
 
 		return {

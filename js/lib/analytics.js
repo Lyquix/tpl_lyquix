@@ -15,7 +15,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 			downloads: true,
 			outbound: true,
 			scrollDepth: true,
-			photoGallery: true,
+			lyqBox: true,
 			video: true,
 			userActive: {
 				enabled: true,
@@ -71,6 +71,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 		};
 
 		var gaCode = function() {
+			lqx.log('Loading Google Analytics code');
 			(function (i, s, o, g, r, a, m) {
 				i.GoogleAnalyticsObject = r;
 				i[r] = i[r] || function () {
@@ -93,6 +94,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 				function(){
 					// Create commands
 					if(opts.createParams && typeof opts.createParams == 'object') {
+						lqx.log('createParams', opts.createParams);
 						var params = opts.createParams;
 						Object.keys(params).forEach(function(tracker){
 							if(tracker == 'default') ga('create', params[tracker].trackingId, params[tracker].cookieDomain, params[tracker].fieldsObject);
@@ -105,6 +107,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					var params;
 					// Set commands
 					if(opts.setParams && typeof opts.setParams == 'object') {
+						lqx.log('setParams', opts.setParams);
 						params = opts.setParams;
 						Object.keys(params).forEach(function(tracker){
 							var cmd = 'set';
@@ -117,6 +120,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 
 					// Require commands
 					if(opts.requireParams && typeof opts.requireParams == 'object') {
+						lqx.log('requireParams', opts.requireParams);
 						params = opts.requireParams;
 						Object.keys(params).forEach(function(tracker){
 							var cmd = 'require';
@@ -129,6 +133,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 
 					// Provide commands
 					if(opts.provideParams && typeof opts.provideParams == 'object') {
+						lqx.log('provideParams', opts.provideParams);
 						params = opts.provideParams;
 						Object.keys(params).forEach(function(tracker){
 							var cmd = 'provide';
@@ -141,6 +146,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 
 					// A/B testing opts
 					if(opts.abTestName !== null && opts.abTestNameDimension !== null && opts.abTestGroupDimension !== null) {
+						lqx.log('abTest params', {abTestName: opts.abTestName, abTestNameDimension: opts.abTestNameDimension, abTestGroupDimension: opts.abTestGroupDimension});
 						// get a/b test group cookie
 						var abTestGroup = lqx.utils.cookie('abTestGroup');
 						if(abTestGroup === null) {
@@ -160,6 +166,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 
 				function(){
 					if(typeof opts.customParamsFuncs == 'function') {
+						lqx.log('customParamsFuncs', opts.customParamsFuncs);
 						try {
 							opts.customParamsFuncs();
 						}
@@ -170,6 +177,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 				},
 
 				function(){
+					lqx.log('Sending pageview event');
 					// Send pageview
 					ga('send', 'pageview');
 					// Initialize tracking
@@ -178,13 +186,14 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 			).resolve();
 		};
 
-		// initialize google analytics tracking
+		// Initialize tracking
 		var initTracking = function() {
-			// track downloads and outbound links
-			if(opts.outbound || opts.download){
-				// find all a tags and cycle through them
-				jQuery('a').each(function(){
-					var elem = this;
+			// Track downloads and outbound links
+			if(opts.outbound || opts.download) {
+				lqx.log('Setting up outbound/download links tracking');
+
+				function setup(elem) {
+					elem = jQuery(elem);
 					// check if it has an href attribute, otherwise it is just a page anchor
 					if(elem.href) {
 						// check if it is an outbound link, track as event
@@ -202,7 +211,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 									'eventAction': 'click',
 									'eventLabel': label,
 									'nonInteraction': true,
-									'hitCallback': function(){ window.location.href = url; } // regarless of target value link will open in same window, otherwise it is blocked by browser
+									'hitCallback': function(){ window.location.href = url; } // Regarless of target value link will open in same window, otherwise it is blocked by browser
 								});
 							});
 						}
@@ -223,17 +232,28 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 									'location': loc,
 									'page': page,
 									'title': title,
-									'hitCallback': function(){ window.location.href = url; } // regarless of target value link will open in same window, otherwise it is blocked by browser
+									'hitCallback': function(){ window.location.href = url; } // Regarless of target value link will open in same window, otherwise it is blocked by browser
 								});
 							});
 						}
 					}
+				}
+				// Find all a tags and cycle through them
+				var elems = jQuery('a');
+
+				elems.each(function(){
+					var elem = this;
+					setup(elem);
 				});
 
+				// Add a mutation handler for links added to the DOM
+				lqx.mutation.addHandler('addNode', 'a', setup);
 			}
 
-			// track scroll depth
-			if(opts.scrolldepth){
+			// Track scroll depth
+			if(opts.scrolldepth) {
+				lqx.log('Setting up scroll depth tracking');
+
 				// get the initial scroll position
 				vars.scrollDepthMax = Math.ceil(((lqx.vars.window.scrollTop() + lqx.vars.window.height()) / lqx.vars.document.height()) * 10) * 10;
 				// add listener to scrollthrottle event
@@ -256,30 +276,24 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 				});
 			}
 
-			// track photo galleries
-			if(opts.photogallery){
-				lqx.vars.html.on('click', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]', function(){
-					// send event for gallery opened
-					ga('send', {
-						'hitType': 'event',
-						'eventCategory' : 'Photo Gallery',
-						'eventAction' : 'Open'
-					});
-				});
+			// Track LyqBox
+			if(opts.lyqBox){
+				lqx.log('Setting LyqBox tracking');
 
-				lqx.vars.html.on('load', 'img.lb-image', function(){
-					// send event for image displayed
+				lqx.vars.html.on('click', '[data-lyqbox]', function(){
+					// Send event for lightbox opened
 					ga('send', {
 						'hitType': 'event',
-						'eventCategory' : 'Photo Gallery',
-						'eventAction' : 'Display',
-						'eventLabel' : jQuery(this).attr('src')
+						'eventCategory' : 'LyqBox',
+						'eventAction' : 'Open'
 					});
 				});
 			}
 
-			// track video
+			// Track video
 			if(opts.video){
+				lqx.log('Setting video tracking');
+
 				// Load YouTube iframe API
 				var tag = jQuery('<script src="https://www.youtube.com/iframe_api"></script>');
 				tag.load(function(){
@@ -306,8 +320,10 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 				});
 			}
 
-			// track active time
+			// Track active time
 			if(opts.activetime) {
+				lqx.log('Setting active time tracking');
+
 				// Add listener on page unload
 				lqx.vars.window.on('unload', function(){
 					ga('send', {

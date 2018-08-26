@@ -276,21 +276,24 @@ if(lqx && typeof lqx.detect == 'undefined') {
 				vars.urlParts.hash = window.location.hash.substring(1);
 			});
 
-			lqx.log('Detect URL parts');
+			lqx.log('Detect URL parts', vars.urlParts);
 		};
 
 		// Parses URL parameters
 		var detectUrlParams = function() {
-			var params = window.location.search.substr(1).split('&');
-			if(params.length) {
-				params.forEach(function(param){
-					param = param.split('=', 2);
-					if(param.length == 2) vars.urlParams[param[0]] = decodeURIComponent(param[1].replace(/\+/g, ' '));
-					else vars.urlParams[param[0]] = null;
-				});
+			var params = window.location.search.substr(1);
+			if(params != '') {
+				params = params.split('&');
+				if(params.length) {
+					params.forEach(function(param){
+						param = param.split('=', 2);
+						if(param.length == 2) vars.urlParams[param[0]] = decodeURIComponent(param[1].replace(/\+/g, ' '));
+						else vars.urlParams[param[0]] = null;
+					});
+				}
 			}
 
-			lqx.log('Detect URL params');
+			lqx.log('Detect URL params', vars.urlParams);
 		};
 
 		return {

@@ -84,10 +84,13 @@ if(lqx && typeof lqx.autoresize == 'undefined') {
 				// Convert jQuery to array
 				elems = elems.toArray();
 			}
-			elems.forEach(function(elem){
-				jQuery(elem).on('input', resize(elem));
-				resize(elem);
-			});
+			if(elems.length) {
+				lqx.log('Setting up ' + elems.length + ' autoresize fields', elems);
+				elems.forEach(function(elem){
+					jQuery(elem).on('input', resize(elem));
+					resize(elem);
+				});
+			}
 		};
 
 		var resize = function(elem) {

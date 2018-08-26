@@ -50,6 +50,7 @@ if(lqx && typeof lqx.util == 'undefined') {
 		uniqueUrl: function(sel, attrib) {
 			var elems = jQuery(sel);
 			if(elems.length) {
+				lqx.log('Setting unique URLs in ' + attrib + ' for ' + sel + ' ' + elems.length + ' elements');
 				var d = new Date();
 				var s = (d.getTime() * 1000 + d.getMilliseconds()).toString(36);
 
@@ -117,6 +118,7 @@ if(lqx && typeof lqx.util == 'undefined') {
 					else swp.dir += 'u'; // up
 				}
 
+				lqx.log('Detected swipe ' + swp.dir + ' for ' + callback);
 				if (swp.dir && typeof callback == 'function') callback(sel, swp.dir);
 
 				swp = {

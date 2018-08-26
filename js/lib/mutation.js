@@ -67,7 +67,7 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 					vars.modAttrib.push({'selector': selector, 'callback': callback});
 					break;
 			}
-			lqx.log('Observe mutation type: ' + type + ' for selector: ' + selector);
+			lqx.log('Adding handler for mutation ' + type + ' for ' + selector);
 		};
 
 		// Mutation observer handler

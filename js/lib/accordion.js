@@ -75,60 +75,66 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 				// Convert jQuery to array
 				elems = elems.toArray();
 			}
-			elems.forEach(function(elem){
-				var a = {};
-				a.elem = jQuery(elem);
+			if(elems.length) {
+				lqx.log('Setting up ' + elems.length + ' accordions', elems);
+				elems.forEach(function(elem){
+					var a = {};
+					a.elem = jQuery(elem);
 
-				// Get header element: first child with class .accordion-header (if none, just pick the first child)
-				a.header = a.elem.children('accordion-header');
-				if(a.header.length) {
-					a.header = jQuery(a.header[0]);
-				}
-				else {
-					a.header = jQuery(a.elem.children()[0]);
-					a.header.addClass('accordion-header');
-				}
-
-				// Force remove all transitions
-				a.elem.css('transition', 'none !important');
-
-				// Get height of header element
-				a.closedHeight = a.header.outerHeight(true);
-
-				// Get height of whole accordion
-				a.openHeight = a.elem.innerHeight();
-
-				// Close the accordion
-				a.elem.css('height', a.closedHeight).addClass('closed');
-
-				// Allow transitions again
-				a.elem.css('transition', '');
-
-				// Add click listener
-				a.header.click(function(){
-					// Open accordion
-					if(a.elem.hasClass('closed')) {
-						a.elem.removeClass('closed').addClass('open');
-						a.elem.css('height', a.openHeight);
-						jQuery('html, body').animate({
-							scrollTop: (a.elem.offset().top - lqx.vars.window.height() * opts.scrollTopPadding / 100)
-						}, opts.scrollTopDuration);
-						// Close all other accordions in group
-						var group = a.elem.parents('.accordion-group');
-						if(group.length) {
-							jQuery(group[0]).find('.accordion.open').not(a.elem).find('.accordion-header').trigger('click');
-						}
+					// Get header element: first child with class .accordion-header (if none, just pick the first child)
+					a.header = a.elem.children('accordion-header');
+					if(a.header.length) {
+						a.header = jQuery(a.header[0]);
 					}
-					// Close accordion
 					else {
-						a.elem.addClass('closed').removeClass('open');
-						a.elem.css('height', a.closedHeight);
+						a.header = jQuery(a.elem.children()[0]);
+						a.header.addClass('accordion-header');
 					}
-				});
 
-				// Save on vars
-				vars.push(a);
-			});
+					// Force remove all transitions
+					a.elem.css('transition', 'none !important');
+
+					// Get height of header element
+					a.closedHeight = a.header.outerHeight(true);
+
+					// Get height of whole accordion
+					a.openHeight = a.elem.innerHeight();
+
+					// Close the accordion
+					a.elem.css('height', a.closedHeight).addClass('closed');
+
+					// Allow transitions again
+					a.elem.css('transition', '');
+
+					// Add click listener
+					a.header.click(function(){
+						// Open accordion
+						if(a.elem.hasClass('closed')) {
+							lqx.log('Opening accordion', a.elem)
+							a.elem.removeClass('closed').addClass('open');
+							a.elem.css('height', a.openHeight);
+							jQuery('html, body').animate({
+								scrollTop: (a.elem.offset().top - lqx.vars.window.height() * opts.scrollTopPadding / 100)
+							}, opts.scrollTopDuration);
+							// Close all other accordions in group
+							var group = a.elem.parents('.accordion-group');
+							if(group.length) {
+								lqx.log('Closing all other accordions in group', group[0]);
+								jQuery(group[0]).find('.accordion.open').not(a.elem).find('.accordion-header').trigger('click');
+							}
+						}
+						// Close accordion
+						else {
+							lqx.log('Closing accordion', a.elem)
+							a.elem.addClass('closed').removeClass('open');
+							a.elem.css('height', a.closedHeight);
+						}
+					});
+
+					// Save on vars
+					vars.push(a);
+				});
+			}
 		};
 
 		var update = function(){

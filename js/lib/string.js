@@ -46,11 +46,14 @@ if(lqx && typeof lqx.string == 'undefined') {
 					lqx.log('Initializing `string`');
 
 					// Add functions to prototype
+					var added = [];
 					opts.funcs.forEach(function(func){
 						if(typeof String.prototype[func] === 'undefined') {
 							String.prototype[func] = f[func];
+							added.push(func)
 						}
 					});
+					lqx.log('Added new functions to String prototype', added);
 				}
 			});
 

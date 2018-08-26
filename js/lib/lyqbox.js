@@ -123,7 +123,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 					start(alertbox);
 
 					// add listener to the close button to save the cookie and return deferred resolved
-					jQuery('.lyqbox .close').on('click', function alertBoxCloseButtonClicked() {
+					jQuery('.lyqbox .close').on('click', function() {
 						var cookieName = 'lyqbox-alert-' + vars.album[vars.currentImageIndex].albumId;
 						localStorage.setItem(cookieName, 1);
 
@@ -209,6 +209,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 
 		// Show overlay and lightbox. If the image is part of a set, add siblings to album array.
 		var start = function(data) {
+			lqx.log('Open LyqBox', data);
 			vars.album = [];
 			var currentIndex = 0;
 
@@ -265,6 +266,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 
 		// change content, for now we have 3 types, image, iframe and HTML.
 		var changeContent = function(index) {
+			lqx.log('Jump to LyqBox slide ' + index);
 			disableKeyboardNav();
 			vars.overlay.addClass('open');
 
@@ -392,7 +394,6 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 		};
 
 		var swipeHandler = function(sel, dir) {
-			console.log(sel, dir);
 			if(dir == 'lt') keyboardAction({keyCode: 39}); // swipe to the left equals right arrow
 			if(dir == 'rt') keyboardAction({keyCode: 37}); // swipe to the right equals left arrow
 		};
@@ -445,6 +446,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 			vars.overlay.removeClass('open');
 			stopVideo(vars.album[vars.currentImageIndex].type);
 			removeHash();
+			lqx.log('Close LyqBox');
 		};
 
 		return {
