@@ -28,7 +28,7 @@
 In Joomla Template Manager you will find the following options for the template.
 
   * **Mode**
-    * Template Mode
+    * Template Mode: Normal mode (default) renders all modules and component, while Component Only renders only the component in the page body.
   * **Joomla**
     * Disable MooTools
     * Enable jQuery
@@ -36,25 +36,24 @@ In Joomla Template Manager you will find the following options for the template.
     * Enable Bootstrap
     * Joomla JavaScript
   * **Responsiveness**
-    * Minimum Screen Size
-    * Maximum Screen Size
+    * Minimum Screen Size: select the minimum screen size that the responsive module will allow.
+    * Maximum Screen Size: select the maximum screen size that the responsive module will allow.
   * **CSS**
-    * Merge CSS
+    * Merge CSS: select what CSS files from extensions should be included in the merged CSS file.
     * Use original CSS
-    * **Load Animate.css**
-    * Additional CSS Libraries
-    * Remove CSS Libraries
+    * Load Animate.css
+    * Additional CSS Libraries: add one URL per line
+    * Remove CSS Libraries: add one URL per line
   * **JavaScript**
-    * Merge JS
-    * Enable lqx debug
-    * Lyquix Library Options
+    * Merge JS: select what JS files from extensions should be included in the merged CSS file.
+    * Enable lqx debug: when enabled adds option `{debug: true}` to the Lyquix library options.
+    * Lyquix Library Options: add a JSON object with your custom options to extend and override the Lyquix library options.
     * Use original JS
-    * **Load polyfill.io**
+    * Load polyfill.io
     * Load LoDash library
     * Load SmoothScroll library
-    * **Load Moment.js library**
+    * Load Moment.js library
     * Load dotdotdot library
-    * **Load Animate.css**
     * Additional JS Libraries
     * Remove JS Libraries
   * **Accounts**
@@ -85,4 +84,7 @@ In Joomla Template Manager you will find the following options for the template.
 
 ### Updating the Template
 
-Follow the same steps as in the First Install.
+Follow the same steps as in the First Install:
+
+  1. Download the latest template package from https://github.com/Lyquix/tpl_lyquix/releases/latest.
+  2. Install the package using Joomla extension manager.
