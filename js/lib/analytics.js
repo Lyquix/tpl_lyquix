@@ -55,6 +55,8 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
 				if(lqx.opts.analytics.enabled) {
+					lqx.log('Initializing `analytics`');
+
 					// Load Google Analytics
 					if(opts.createParams && opts.createParams.default && opts.createParams.default.trackingId) {
 						gaCode();
@@ -74,7 +76,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 			lqx.log('Loading Google Analytics code');
 			(function (i, s, o, g, r, a, m) {
 				i.GoogleAnalyticsObject = r;
-				i[r] = i[r] || function () {
+				i[r] = i[r] || function() {
 					(i[r].q = i[r].q || []).push(arguments);
 				};
 				i[r].l = 1 * new Date();
@@ -84,25 +86,30 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 				a.src = g;
 				m.parentNode.insertBefore(a, m);
 			})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+			// Create commands
+			var params = opts.createParams;
+			lqx.log('createParams', params);
+			ga('create', params.default.trackingId, params.default.cookieDomain, params.default.fieldsObject);
+			Object.keys(params).forEach(function(tracker){
+				if(tracker != 'default') {
+					ga('create', params[tracker].trackingId, params[tracker].cookieDomain, tracker, params[tracker].fieldsObject);
+				}
+			});
 			ga(gaReady);
 		};
 
 		// Handles Google Analytics pageview, setting first custom parameters
 		var gaReady = function(tracker) {
+			var trackers = ['default'];
+			ga.getAll().forEach(function(tracker){
+				if(tracker.get('name') != 't0') {
+					trackers.push(tracker.get('name'));
+				}
+			});
+			lqx.log('Executing gaReady', trackers);
 			// Execute functions to set custom parameters
 			jQuery.Deferred().done(
-				function(){
-					// Create commands
-					if(opts.createParams && typeof opts.createParams == 'object') {
-						lqx.log('createParams', opts.createParams);
-						var params = opts.createParams;
-						Object.keys(params).forEach(function(tracker){
-							if(tracker == 'default') ga('create', params[tracker].trackingId, params[tracker].cookieDomain, params[tracker].fieldsObject);
-							else ga('create', params[tracker].trackingId, params[tracker].cookieDomain, tracker, params[tracker].fieldsObject);
-						});
-					}
-				},
-
 				function(){
 					var params;
 					// Set commands

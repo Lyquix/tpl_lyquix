@@ -81,7 +81,7 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 					case 'childList':
 						// Handle nodes added
 						if (mutRec.addedNodes.length > 0) {
-							mutRec.addedNodes.forEach(function(e){
+							Array.from(mutRec.addedNodes).forEach(function(e){
 								if(e.nodeType == Node.ELEMENT_NODE) {
 									vars.addNode.forEach(function(h){
 										if(e.matches(h.selector)) h.callback(e);
@@ -92,7 +92,7 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 
 						// Handle nodes removed
 						if (mutRec.removedNodes.length > 0) {
-							mutRec.removedNodes.forEach(function(e){
+							Array.from(mutRec.removedNodes).forEach(function(e){
 								if(e.nodeType == Node.ELEMENT_NODE) {
 									vars.removeNode.forEach(function(h){
 										if(e.matches(h.selector)) h.callback(e);
@@ -103,7 +103,7 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 						break;
 
 					case 'DOMNodeInserted':
-						mutRec.addedNodes.forEach(function(e){
+					Array.from(mutRec.addedNodes).forEach(function(e){
 							if(e.nodeType == Node.ELEMENT_NODE) {
 								vars.addNode.forEach(function(h){
 									if(e.matches(h.selector)) h.callback(e);
@@ -113,7 +113,7 @@ if(lqx && typeof lqx.mutation == 'undefined') {
 						break;
 
 					case 'DOMNodeRemoved':
-						mutRec.removedNodes.forEach(function(e){
+					Array.from(mutRec.removedNodes).forEach(function(e){
 							if(e.nodeType == Node.ELEMENT_NODE) {
 								vars.removeNode.forEach(function(h){
 									if(e.matches(h.selector)) h.callback(e);

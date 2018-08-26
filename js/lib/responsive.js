@@ -36,9 +36,8 @@ if(lqx && typeof lqx.responsive == 'undefined') {
 				if(lqx.opts.responsive.enabled) {
 					lqx.log('Initializing `responsive`');
 
-					// Check screen size and orientation for the first time
+					// Check screen size for the first time
 					setScreen();
-					setOrientation();
 
 					// Listeners for setScreen
 					lqx.vars.window.on('resizethrottle orientationchange', function() {
@@ -46,8 +45,11 @@ if(lqx && typeof lqx.responsive == 'undefined') {
 						setScreen();
 					});
 
-					// Listeners for setOrientation only if property is available
 					if('orientation' in window.screen) {
+						// Check screen orientation for the first time
+						setOrientation();
+
+						// Listeners for setOrientation
 						lqx.vars.window.on('orientationchange', function() {
 							// Update orientation attribute in body tag
 							setOrientation();
