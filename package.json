@@ -1,0 +1,14 @@
+{
+	"name": "lyquix",
+	"version": "2.0.0",
+	"description": "Lyquix package configuration file",
+	"main": "index.js",
+	"scripts": {
+	},
+	"author": "Lyquix",
+	"license": "GNU",
+	"devDependencies": {
+		"gulp": "~3.9.1",
+		"gulp-shell": "~0.6.5"
+	}
+}
