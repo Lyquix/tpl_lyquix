@@ -82,6 +82,7 @@ In Joomla Template Manager you will find the following options for the template.
     * You can edit `custom.php` as needed to meet the requirements of your project.
     * You can control what PHP includes from [`php/`](../php/) folder to use.
     * Create custom PHP includes in [`php/custom/`](../php/custom/).
+  * You can do `npm install` and then `gulp` to have CSS and JS files automatically processed whenever there are any changes to SCSS and JS files.
 
 
 ### Updating the Template
