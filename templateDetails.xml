@@ -22,7 +22,9 @@
 		<filename>.htaccess</filename>
 		<filename>component.php</filename>
 		<filename>custom.dist.php</filename>
+		<filename>gulpfile.js</filename>
 		<filename>index.php</filename>
+		<filename>package.json</filename>
 		<filename>raw.php</filename>
 		<filename>README.md</filename>
 		<filename>templateDetails.xml</filename>
