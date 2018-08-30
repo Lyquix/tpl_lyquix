@@ -1,0 +1,44 @@
+/**
+ * comicfy.css - Changes all fonts to use Comic Sans
+ *
+ * @version     2.0.0-beta-3
+ * @package     tpl_lyquix
+ * @author      Lyquix
+ * @copyright   Copyright (C) 2015 - 2018 Lyquix
+ * @license     GNU General Public License version 2 or later
+ * @link        https://github.com/Lyquix/tpl_lyquix
+ */
+
+ @font-face {
+	font-family: 'Comic Sans';
+	src: url('comicsans.ttf')  format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Comic Sans';
+	src: url('comicsansitalic.ttf')  format('truetype');
+	font-weight: normal;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Comic Sans';
+	src: url('comicsansbold.ttf')  format('truetype');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Comic Sans';
+	src: url('comicsansbolditalic.ttf')  format('truetype');
+	font-weight: bold;
+	font-style: italic;
+}
+
+*:not(.icon),
+*:not(.icon):before,
+*:not(.icon):after {
+		font-family: 'Comic Sans', 'Comic Sans MS' !important;
+}

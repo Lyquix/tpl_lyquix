@@ -163,10 +163,10 @@ else {
 		// Changes all fonts to Still 6 but Almost 7
 		var almost7 = function() {
 			if('detect' in lqx && 'almost7' in lqx.detect.urlParams()) {
-				lqx.log('I am still 6 but almost 7!');
+				lqx.log('Almost 7!');
 
 				var link = document.createElement( 'link' );
-				link.href = lqx.vars.tmplURL + '/fonts/still-6-but-almost-7/still-6-but-almost-7.css';
+				link.href = lqx.vars.tmplURL + '/fonts/almost7/almost7.css';
 				link.type = 'text/css';
 				link.rel = 'stylesheet';
 				document.getElementsByTagName('head')[0].appendChild(link);

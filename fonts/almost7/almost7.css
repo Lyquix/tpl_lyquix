@@ -11,9 +11,11 @@
 
 @font-face {
 	font-family: 'Still 6 But Almost 7';
-	src: url('still-6-but-almost-7.ttf')  format('truetype');
+	src: url('almost7.ttf')  format('truetype');
 }
 
-* {
+*:not(.icon),
+*:not(.icon):before,
+*:not(.icon):after {
 	font-family: 'Still 6 But Almost 7' !important;
 }
