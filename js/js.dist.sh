@@ -12,33 +12,35 @@
 ###
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
+cd $DIR
 
 # Lyquix
-cat $DIR/lib/core.js > $DIR/lyquix.js
+cat ./lib/core.js > ./lyquix.js
 MODULES=("string" "util" "detect" "mutation" "geolocate" "responsive" "fixes" "accordion" "autoresize" "lyqbox" "menu" "tabs" "analytics")
 for MOD in "${MODULES[@]}"
 do
-	cat $DIR/lib/$MOD.js >> $DIR/lyquix.js
+	cat ./lib/$MOD.js >> ./lyquix.js
 done
-uglifyjs $DIR/lyquix.js > $DIR/lyquix.min.js
+uglifyjs ./lyquix.js > ./lyquix.min.js
 
 
 # Vue
-if [ -f $DIR/custom/components/*.js -o -f $DIR/custom/controllers/*.js ]; then
-	wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js > $DIR/vue.js
-	wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js > $DIR/vue.min.js
+#if [ -f ./custom/components/*.js -o -f ./custom/controllers/*.js ]; then
+if [[ -n $(find ./custom/components ./custom/controllers -name '*.js' -not -name '*.dist.js') ]]; then
+	wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js > ./vue.js
+	wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js > ./vue.min.js
 fi
-if [ -f $DIR/custom/components/*.js ]; then
-	cat $DIR/custom/components/*.js >> $DIR/vue.js
-	cat $DIR/custom/components/*.js >> $DIR/vue.min.js
+if [[ -n $(find ./custom/components -name '*.js' -not -name '*.dist.js') ]]; then
+	find ./custom/components -name '*.js' -not -name '*.dist.js' -exec cat {} + >> ./vue.js
+	find ./custom/components -name '*.js' -not -name '*.dist.js' -exec cat {} + >> ./vue.min.js
 fi
-if [ -f $DIR/custom/controllers/*.js ]; then
-	cat $DIR/custom/controllers/*.js >> $DIR/vue.js
-	cat $DIR/custom/controllers/*.js >> $DIR/vue.min.js
+if [[ -n $(find ./custom/controllers -name '*.js' -not -name '*.dist.js') ]]; then
+	find ./custom/controllers -name '*.js' -not -name '*.dist.js' -exec cat {} + >> ./vue.js
+	find ./custom/controllers -name '*.js' -not -name '*.dist.js' -exec cat {} + >> ./vue.min.js
 fi
 
 
 # Scripts
-if [ -f $DIR/scripts.js ]; then
-    uglifyjs $DIR/scripts.js > $DIR/scripts.min.js
+if [ -f ./scripts.js ]; then
+    uglifyjs ./scripts.js > ./scripts.min.js
 fi

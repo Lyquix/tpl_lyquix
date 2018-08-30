@@ -13,7 +13,8 @@
 
 # Get script directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
+cd $DIR
 
-sass $DIR/styles.scss > $DIR/styles.css
-postcss -u autoprefixer --autoprefixer.browsers "> 0.5%, last 3 versions" -r $DIR/styles.css
-uglifycss $DIR/styles.css > $DIR/styles.min.css
+sass ./styles.scss > ./styles.css
+postcss -u autoprefixer --autoprefixer.browsers "> 0.5%, last 3 versions" -r ./styles.css
+uglifycss ./styles.css > ./styles.min.css
