@@ -9,6 +9,9 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+// Count number of percentage steps
+$blk-pct-step-count: floor(100 / $blk-pct-step);
+
 // Display property placeholder
 %blk-display {
 	display: block;
@@ -22,7 +25,7 @@
 }
 
 // Set display property for percentage classes
-@for $p from 1 through (100 / $blk-pct-step) {
+@for $p from 1 through $blk-pct-step-count {
 	.blk#{$p * $blk-pct-step}\% {@extend %blk-display;}
 }
 
@@ -62,7 +65,7 @@
 	}
 
 	// Cycle through all percent steps
-	@for $p from 1 through (100 / $blk-pct-step) {
+	@for $p from 1 through $blk-pct-step-count {
 		// Set display property for percentage-screen classes
 		.blk#{$p * $blk-pct-step}\%-#{$s} {@extend %blk-display;}
 
@@ -109,7 +112,7 @@
 	}
 }
 // Percentage classes
-@for $p from 1 through (100 / $blk-pct-step) {
+@for $p from 1 through $blk-pct-step-count {
 	// Set margin, border, width to zero
 	.bleed-margin.blk#{$p * $blk-pct-step}\% {@extend %blk-bleed-margin;}
 
@@ -147,7 +150,7 @@
 	}
 }
 // Percentage classes
-@for $p from 1 through (100 / $blk-pct-step) {
+@for $p from 1 through $blk-pct-step-count {
 	// Set border, width to zero
 	.bleed-border.blk#{$p * $blk-pct-step}\% {@extend %blk-bleed-border;}
 
@@ -176,7 +179,7 @@
 	}
 }
 // Percentage classes
-@for $p from 1 through (100 / $blk-pct-step) {
+@for $p from 1 through $blk-pct-step-count {
 	// Set padding to zero
 	body[screen] .bleed-padding.blk#{$p * $blk-pct-step}\% {@extend %blk-bleed-padding;}
 
@@ -206,7 +209,7 @@
 	}
 }
 // Percentage classes
-@for $p from 1 through (100 / $blk-pct-step) {
+@for $p from 1 through $blk-pct-step-count {
 	// Set margins to auto
 	body[screen] .blkcenter.blk#{$p * $blk-pct-step}\% {@extend %blk-center;}
 
@@ -235,7 +238,7 @@
 	}
 }
 // Percentage classes
-@for $p from 1 through (100 / $blk-pct-step) {
+@for $p from 1 through $blk-pct-step-count {
 	// Set padding to zero
 	body[screen] .flex-container.blk#{$p * $blk-pct-step}\% {@extend %blk-display-flex;}
 
