@@ -9,14 +9,28 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+// For inspiration check out New York Times photo galleries
+// e.g. https://www.nytimes.com/slideshow/2018/08/17/realestate/embracing-the-basement.html
+
 // Shared button style, used by prev, next and close
 %lyqbox-buttons {
 	@extend .icon-xl;
 	display: block;
 	position: absolute;
-	z-index: 3;
+	z-index: 4;
+	width: 4rem;
+	height: 4rem;
+	background: rgba(0,0,0,0.2);
+	background-size: 2em 2em;
+    background-repeat: no-repeat;
+    background-position: center;
+
 	&:hover {
 		cursor: pointer;
+	}
+
+	&:after {
+		font-size: 2rem;
 	}
 }
 
@@ -24,7 +38,6 @@
 .lyqbox-item {
 	cursor: pointer;
 	display: inline-block;
-	float: left;
 	line-height: 0;
 	margin: 1px;
 }
@@ -39,7 +52,7 @@
 
 	z-index: 9999;
 	transition: visibility 0s linear 0.5s, opacity 0.5s linear;
-	background-color: rgba(0, 0, 0, 0.8);
+	background-color: rgba(0, 0, 0, 0.85);
 	visibility: hidden;
 	opacity: 0;
 
@@ -55,30 +68,50 @@
 	.content-wrapper {
 		opacity: 0;
 		transition: opacity .5s;
+		position: absolute;
+		z-index: 1;
+		display: flex;
+		width: 90vw;
+		height: 90vh;
+		margin: 5vh 5vw;
 
+		&.active {
+			opacity: 1;
+			z-index: 2;
+		}
 		.content {
-			position: absolute;
-			top: 0px;
-			left: 0px;
-			right: 0px;
-			bottom: 0px;
-			max-width: 100%;
-			z-index: 1;
+			z-index: 3;
+			width: 75%;
+			padding-right: 0.5rem;
+			overflow: hidden;
 
-			&.image img {
-				z-index:0;
-				max-width: 90%;
-				max-height: 90%;
-				position: absolute;
-				top: 0px;
-				left: 0px;
-				right: 0px;
-				bottom: 0px;
-				margin: auto;
-			}
+			.image-container {
+				width: 100%;
+				height: 100%;
+				text-align: center;
 
-			&.video {
-				padding: 5%;
+				img {
+					max-width: 100%;
+					max-height: 100%;
+					object-fit: contain;
+					transition: all 0.25s;
+
+					&[data-lyqbox-zoom="0"] {
+						transform: scale(1);
+					}
+					&[data-lyqbox-zoom="1"] {
+						transform: scale(1.5);
+					}
+					&[data-lyqbox-zoom="2"] {
+						transform: scale(2);
+					}
+					&[data-lyqbox-zoom="3"] {
+						transform: scale(3);
+					}
+					&[data-lyqbox-zoom="4"] {
+						transform: scale(5);
+					}
+				}
 			}
 
 			.video-container {
@@ -88,57 +121,116 @@
 				}
 			}
 
+			&.html,
+			&.alert {
+				overflow: auto;
+			}
+
 		}
 
 		.info {
-			position: absolute;
-			left: 10px;
-			bottom: 10px;
+			z-index: 3;
+			width: 25%;
+			padding-left: 0.5rem;
+
+			.title {
+				font-size: $font-size-h2;
+				font-family: $font-h2;
+				margin-bottom: $elem-margin-heading;
+			}
+
+			.caption {
+				margin: $elem-margin-base 0;
+			}
+
+			.credit {
+				margin: $elem-margin-base 0;
+				font-size: 0.85em;
+				color: $gray;
+			}
 		}
 
-		&.active {
-			opacity: 1;
-			z-index: 2;
-		}
 	}
 
 	// Close button
 	.close {
 		@extend %lyqbox-buttons;
-		right: 10px;
-		top: 10px;
-
-		&:after {
-			content: '\000D7';	// times (multiplication symbol)
-		}
+		right: 0;
+		top: 0;
+		background-image: url(../images/icons/ios-close.svg);
 	}
 
 	// prev button
 	.prev {
 		@extend %lyqbox-buttons;
-		top: calc(~'50% - 2em');
-		left: 10px;
-
-		&:after {
-			content: '\027E8';	// left angle bracket
-		}
+		bottom: 0;
+		right: 4rem;
+		background-image: url(../images/icons/ios-arrow-back.svg);
 	}
 
 	// next button
 	.next {
 		@extend %lyqbox-buttons;
-		top: calc(~'50% - 2em');
-		right: 10px;
+		bottom: 0;
+		right: 0;
+		background-image: url(../images/icons/ios-arrow-forward.svg);
+	}
 
-		&:after {
-			content: '\027E9';	// left angle bracket
-		}
+	// zoom-in button
+	.zoom-in {
+		@extend %lyqbox-buttons;
+		top: calc(50% - 2rem);
+		right: 0;
+		background-image: url(../images/icons/ios-add-circle-outline.svg);
+	}
+
+	// zoom-out button
+	.zoom-out {
+		@extend %lyqbox-buttons;
+		top: calc(50% + 2rem);
+		right: 0;
+		background-image: url(../images/icons/ios-remove-circle-outline.svg);
 	}
 
 	.counter {
 		position: absolute;
-		bottom: 10px;
-		right: 10px;
+		right: 8rem;
+		bottom: 0;
+		z-index: 4;
+		padding: 1rem;
+		font-size: 1.6rem;
+		background: rgba(0,0,0,0.2);
+	}
+
+	.thumbnails {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		z-index: 4;
+	}
+
+	.thumb {
+		width: 6rem;
+		height: 4rem;
+		padding: 0.2rem;
+		display: inline-block;
+		cursor: pointer;
+		overflow: hidden;
+
+		img {
+			object-fit: cover;
+		}
+	}
+
+	.loading {
+		position: absolute;
+		width: 10rem;
+		height: 10rem;
+		top: calc(50% - 5rem);
+		left: calc(50% - 5rem);
+		background-image: url(../images/loaders/rings.svg);
+		background-size: contain;
+		z-index: 5;
 	}
 
 	.hide {
