@@ -120,12 +120,12 @@ $elem-margin-heading:	0.67 * $elem-margin-base;	// Marging for headings
 $elem-margin-input:		0.25 * $elem-margin-base;	// Margin for input elements
 
 // Load web fonts
-@import url('//fonts.googleapis.com/css?family=Open+Sans|Playfair+Display|Roboto+Mono');
+@import url('//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i|Playfair+Display:400,400i,700,700i');
 
 // Common font families
-$font-sans-serif:		'Open Sans', sans-serif;		// Sans-serif font
-$font-serif:			'Playfair Display', serif;		// Serif font
-$font-monospace:		'Roboto Mono', monospace;		// Monospace font
+$font-sans-serif:		'Roboto', sans-serif;	// Sans-serif font
+$font-serif:			'Playfair Display', serif;	// Serif font
+$font-monospace:		Consolas, 'Courier New', Courier, monospace;	// Monospace font
 
 // Body copy font
 $font-copy:				$font-sans-serif;
