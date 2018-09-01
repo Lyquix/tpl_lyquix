@@ -82,6 +82,8 @@ Our own lightbox. Provides the following features
   * Complete separation of styling (CSS) and logic (Javascript)
   * Use CSS animations and transitions
   * Control galleries with left and right arrows in keyboard and swipe gestures
+  * Zoom control for images
+  * Thumbnails for easy navigation
   * Ability to create custom HTML structure
 
 To activate an element in your page with lightbox add the following attributes:
@@ -98,6 +100,7 @@ To activate an element in your page with lightbox add the following attributes:
   * `data-lyqbox-class`: optional item custom CSS classes
   * `data-lyqbox-alias`: item alias to use in URL hash
   * `data-lyqbox-html`: content for html or alert lightboxes
+  * `data-lyqbox-thumb`: URL of thumbnail image, for galleries only
 
 **Menu [`js/lib/menu.js`](../js/lib/menu.js)**
 
