@@ -10,7 +10,8 @@
  */
 
 var gulp = require('gulp'),
-	shell = require('gulp-shell');
+	shell = require('gulp-shell'),
+	cwd = process.cwd();
 
 function errorLog (error) {
 	console.error.bind(error);
@@ -20,13 +21,13 @@ function errorLog (error) {
 gulp.task('process-css', function(){
 	return gulp.src(['css/styles.scss'])
 		.on('error', errorLog)
-		.pipe(shell(['bash ' + process.cwd() + '/css/css.sh']));
+		.pipe(shell(['bash ' + cwd + '/css/css.sh']));
 });
 
 gulp.task('process-js', function(){
 	return gulp.src(['js/scripts.js'])
 		.on('error', errorLog)
-		.pipe(shell(['bash ' + process.cwd() + '/js/js.sh']));
+		.pipe(shell(['bash ' + cwd + '/js/js.sh']));
 });
 
 gulp.task('default', function () {
