@@ -45,7 +45,7 @@ include(__DIR__ . '/php/body.php');
 <body class="<?php echo implode(' ', $body_classes); ?>">
 <?php
 // If blank-page parameter is set to true, only the component will be output
-if($this -> params -> get('blank_page', 0) != 0 && $app -> input-> get('tmpl') != 'component') :  ?>
+if($this -> params -> get('blank_page', 0) == 0 && $app -> input-> get('tmpl') == '') :  ?>
 <header>
 	<?php if($this -> countModules('header')): ?>
 	<jdoc:include type="modules" name="header" />
@@ -105,7 +105,7 @@ if($this -> params -> get('blank_page', 0) != 0 && $app -> input-> get('tmpl') !
 	</nav>
 	<?php endif; ?>
 </footer>
-<?php else:  // output a "blank" page (component only) ?>
+<?php elseif($this -> params -> get('blank_page', 0) == 1 || $app -> input-> get('tmpl') == 'component'):  // output a "blank" page (component only) ?>
 <jdoc:include type="message" />
 <jdoc:include type="component" />
 <?php endif; // endif for blank page ?>
