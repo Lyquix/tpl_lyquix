@@ -98,6 +98,16 @@ $font-size-icon:		1    * $font-size-base;		// Font size for icons
 $font-size-icon-lg:		2    * $font-size-base;		// Font size for large icons
 $font-size-icon-xl:		4    * $font-size-base;		// Font size for extra large icons
 
+// Font weights
+$font-weight-base:		normal;
+$font-weight-headings:	normal;
+$font-weight-h1:		$font-weight-headings;
+$font-weight-h2:		$font-weight-headings;
+$font-weight-h3:		$font-weight-headings;
+$font-weight-h4:		$font-weight-headings;
+$font-weight-h5:		$font-weight-headings;
+$font-weight-h6:		$font-weight-headings;
+
 // Line height
 $line-height-base:		1.4;						// Line height for body copy
 $line-height-heading:	0.8 * $line-height-base;	// Line height for headings
