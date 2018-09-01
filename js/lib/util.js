@@ -93,7 +93,7 @@ if(lqx && typeof lqx.util == 'undefined') {
 				swp.sY = t.clientY;
 			});
 			elem.on('touchmove', function(e) {
-				if (!e.is('.content-wrapper .content.html')) e.preventDefault();
+				e.preventDefault();
 				var t = e.originalEvent.touches[0];
 				swp.eX = t.clientX;
 				swp.eY = t.clientY;
