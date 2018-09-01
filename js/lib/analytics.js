@@ -291,16 +291,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 
 			// Track LyqBox
 			if(opts.lyqBox){
-				lqx.log('Setting LyqBox tracking');
-
-				lqx.vars.html.on('click', '[data-lyqbox]', function(){
-					// Send event for lightbox opened
-					ga('send', {
-						'hitType': 'event',
-						'eventCategory' : 'LyqBox',
-						'eventAction' : 'Open'
-					});
-				});
+				// Do nothing here, all analytics will be handled in lyqbox.js
 			}
 
 			// Track video
