@@ -74,6 +74,7 @@ In Joomla Template Manager you will find the following options for the template.
   * Do not edit the files distributed in the template, as they will be overwritten when you upgrade the template with a newer release.
   * **Custom Styles**:
     * Customize your configuration variables, and control what mixins to import in `css/styles.scss`.
+    * If you need to make changes to the styles found in [`css/lib/`](../css/lib/), do not modify these files, instead make a copy to [`css/custom/`](../css/custom/).
     * Create custom SCSS files in [`css/custom/`](../css/custom/) and import them in `css/custom/custom.scss`.
   * **Custom Scripts**:
     * Add common functions and minor functionality to `js/scripts.js`.
