@@ -100,7 +100,7 @@ $font-size-icon-xl:		4    * $font-size-base;		// Font size for extra large icons
 
 // Font weights
 $font-weight-base:		normal;
-$font-weight-headings:	normal;
+$font-weight-headings:	inherit;
 $font-weight-h1:		$font-weight-headings;
 $font-weight-h2:		$font-weight-headings;
 $font-weight-h3:		$font-weight-headings;
