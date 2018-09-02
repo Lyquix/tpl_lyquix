@@ -48,7 +48,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 		 */
 		var opts = {
 			html:
-				'<div class="lyqbox">' +
+				'<div id="lyqbox">' +
 					'<div class="content-wrapper">' +
 						'<div class="content"></div>' +
 						'<div class="info">' +
@@ -81,10 +81,25 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 		};
 
 		var vars = {
+			overlay: null,
+			closeElem: null,
+			nextElem: null,
+			prevElem: null,
+			zoomInElem: null,
+			zoomOutElem: null,
+			thumbsElem: null,
+			loadingElem: null,
+			titleElem: null,
+			captionElem: null,
+			creditElem: null,
+			counterElem: null,
+			counterCurrElem: null,
+			counterTotalElem: null,
 			album: [],
 			currentIndex: 0,
 			initialized: false,
-			containerActive: null
+			containerActive: null,
+			navEnabled: false
 		};
 
 		var init = function(){
@@ -104,14 +119,6 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 					if(!lqx.opts.analytics.enabled || !lqx.opts.analytics.lyqBox) opts.analytics = false;
 					if(opts.analytics) lqx.log('Setting LyqBox tracking');
 
-					// Enable LyqBox
-					lqx.vars.body.on('click', '[data-lyqbox]', function(e) {
-						e.preventDefault();
-						jQuery('.lyqbox').addClass('open');
-						start(jQuery(e.currentTarget));
-						return false;
-					});
-
 					// Initialize on document ready
 					lqx.vars.window.ready(function() {
 						if(jQuery('[data-lyqbox]').length) {
@@ -130,149 +137,144 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 		};
 
 		var setup = function() {
-			// Build the lightbox structure
-			build();
+			// Append HTML structure
+			if(jQuery('#lyqbox').length) {
+				lqx.error('There is an existing #lyqbox element!');
+				return false;
+			}
+			else {
+				jQuery(opts.html).appendTo(lqx.vars.body);
+			}
 
-			// to handle alertbox and hash url at the same time, we prioritize the alertbox first.
-			// using promise, we make sure the alertbox shows first, and show the hash url content after the promise is done (alertbox is closed)
-			var alertPromise = alert(jQuery('[data-lyqbox-type=alert]'));
+			// Get jQuery elements
+			vars.overlay = jQuery('#lyqbox');
+			vars.closeElem = jQuery('#lyqbox .close');
+			vars.nextElem = jQuery('#lyqbox .next');
+			vars.prevElem = jQuery('#lyqbox .prev');
+			vars.zoomInElem = jQuery('#lyqbox .zoom-in');
+			vars.zoomOutElem = jQuery('#lyqbox .zoom-out');
+			vars.thumbsElem = jQuery('#lyqbox .thumbnails');
+			vars.loadingElem  = jQuery('#lyqbox .loading');
+			vars.titleElem  = jQuery('#lyqbox .info .title');
+			vars.captionElem  = jQuery('#lyqbox .info .caption');
+			vars.creditElem  = jQuery('#lyqbox .info .credit');
+			vars.counterElem  = jQuery('#lyqbox .counter');
+			vars.counterCurrElem  = jQuery('#lyqbox .counter .current');
+			vars.counterTotalElem  = jQuery('#lyqbox .counter .total');
 
-			// check hash after promise is resolved/reject. Rejected is a valid return due to alerbox already shown before/cookie found.
-			alertPromise.always(function afterAlertCheck() {
-				hash();
-			});
-
-			vars.initialized = true;
-		};
-
-		var build = function() {
-			// append html structure
-			jQuery(opts.html).appendTo(lqx.vars.body);
-
-			// assign the html container class to namespace variable
-			vars.overlay = jQuery('.lyqbox');
-
-			// assign active content container to the first .content box
+			// Assign active content container to the first .content box
 			vars.containerActive = vars.overlay.find('.content-wrapper').first().addClass('active');
 
+			// Listen for click on lyqbox items
+			lqx.vars.body.on('click', '[data-lyqbox]', function(e) {
+				e.preventDefault();
+				vars.overlay.addClass('open');
+				start(jQuery(e.currentTarget));
+			});
+
+			// Prev button click handling
+			vars.prevElem.on('click', function() {
+				prev();
+			});
+
+			// Next button click handling
+			vars.nextElem.on('click', function() {
+				next();
+			});
+
+			// Add keyboard listener
+			lqx.vars.document.on('keyup', function(e){
+				if(e.key == "Escape" || e.key == "Esc") {
+					end();
+				}
+				else if(e.key == "ArrowLeft" || e.key == "Left") {
+					prev();
+				}
+				else if(e.key == "ArrowRight" || e.key == "Right") {
+					next();
+				}
+			});
+
 			// Add swipe event handler, only on images and videos
-			lqx.util.swipe('.lyqbox .content-wrapper .content.image, .lyqbox .content-wrapper .content.video', swipeHandler);
-
-			// prev button click handling
-			vars.overlay.find('.prev').on('click', function() {
-				if(vars.currentIndex === 0) {
-					changeContent(vars.album.length - 1);
-				}
-				else {
-					changeContent(vars.currentIndex - 1);
-				}
-				return false;
+			lqx.util.swipe('#lyqbox .content.image, #lyqbox .content.video', function(sel, dir){
+				if(dir.indexif('l') != -1) next(); // Swipe to the left equals right arrow
+				if(dir.indexif('r') != -1) prev(); // Swipe to the right equals left arrow
 			});
 
-			// next button click handling
-			vars.overlay.find('.next').on('click', function() {
-				if(vars.currentIndex === vars.album.length - 1) {
-					changeContent(0);
-				}
-				else {
-					changeContent(vars.currentIndex + 1);
-				}
-				return false;
-			});
-
-			// close button click handling
-			vars.overlay.find('.close').on('click', function() {
-				// disable the close button for alertbox, cookie save handling to prevent the alert box to reappear will be done on the deferred section on alert function to make sure in the case alert and hashurl found,
-				// that the alert box is closed properly before showing a hash url content.
-				if(vars.album[vars.currentIndex].type == 'alert')
-					return false;
-
-				// else close the lightbox
+			// Close button click handling
+			vars.closeElem.on('click', function() {
 				end();
-				return false;
 			});
 
-			// zoom in button click handling
-			vars.overlay.find('.zoom-in').on('click', function() {
+			// Zoom in button click handling
+			vars.zoomInElem.on('click', function() {
 				var zoom = vars.overlay.find('.image-container img').attr('data-lyqbox-zoom');
 				if(typeof zoom == 'undefined') zoom = 0;
 				if(zoom < 4) {
 					vars.overlay.find('.image-container img').attr('data-lyqbox-zoom', parseInt(zoom) + 1);
 				}
-				return false;
 			});
 
-			// zoom out button click handling
-			vars.overlay.find('.zoom-out').on('click', function() {
+			// Zoom out button click handling
+			vars.zoomOutElem.on('click', function() {
 				var zoom = vars.overlay.find('.image-container img').attr('data-lyqbox-zoom');
 				if(typeof zoom == 'undefined') zoom = 0;
 				if(zoom > 0) {
 					vars.overlay.find('.image-container img').attr('data-lyqbox-zoom', parseInt(zoom) - 1);
 				}
-				return false;
 			});
-		};
 
-		// show alertbox if found.
-		var alert = function(alertbox) {
-			var deferred = jQuery.Deferred();
-			// assume that there is only one alertbox at any given time.
-			if(alertbox.length == 1) {
-				// check if a cookie for this alertbox exists, if so return deferred reject.
-				var cookieName = 'lyqbox-alert-' + alertbox.attr('data-lyqbox');
-				var alertCookieFound = localStorage.getItem(cookieName);
-				if(alertCookieFound) {
-					deferred.reject();
+			// If alerts show that first, otherwise show hash
+			var alertElem = jQuery('[data-lyqbox-type=alert]').eq(0);
+			if(alertElem.length) {
+				// Check if a cookie for this alert exists, if so return deferred reject.
+				if(lqx.util.cookie('lyqbox-alert-' + alertElem.attr('data-lyqbox').slugify()) == null) {
+					start(alertElem);
 				}
-				// if no cookie found, show the alertbox
 				else {
-					// show the alertbox
-					start(alertbox);
-
-					// add listener to the close button to save the cookie and return deferred resolved
-					jQuery('.lyqbox .close').on('click', function() {
-						var cookieName = 'lyqbox-alert-' + vars.album[vars.currentIndex].albumId;
-						localStorage.setItem(cookieName, 1);
-
-						deferred.resolve();
-						end();
-						return false;
-					});
+					showHash();
 				}
 			}
-			// if no alertbox is found, return deferred reject to make way to display content for hash url if any found
 			else {
-				deferred.reject();
+				showHash();
 			}
-			return deferred.promise();
+
+			vars.initialized = true;
 		};
 
-		// show the hash url content
-		var hash = function() {
+		// Show the hash url content
+		var showHash = function(endIfNoHash) {
 			var hash = window.location.hash.substr(1);
 			if(hash !== '') {
-				// get hash value and display the appropriate content
+				// Get hash value and display the appropriate content
+				// Assumes is has 2 parts separated by colon
 				var hashParts = hash.split(':');
 
 				if(hashParts.length == 2) {
+					// Get all items within album
 					var items = jQuery('[data-lyqbox="' + hashParts[0] + '"]');
 
-					// Use alias
-					if(isNaN(parseInt(hashParts[1]))) {
-						items = items.filter('[data-lyqbox-alias=' + hashParts[1] + ']')
-					}
-					// Use index
-					else {
-						items = items.eq(hashParts[1]);
-					}
-
-					// If any items match, start the lightbox
+					// Are there any items with the same albumid?
 					if(items.length) {
-						lqx.vars.document.ready(function(){
-							start(jQuery(items[0]));
-						});
+						// Is it an alias or an index?
+						if(isNaN(parseInt(hashParts[1]))) {
+							items = items.filter('[data-lyqbox-alias=' + hashParts[1] + ']')
+						}
+						else {
+							items = items.eq(hashParts[1]);
+						}
+
+						// If any items match, start the lightbox
+						if(items.length) {
+							lqx.vars.document.ready(function(){
+								start(jQuery(items[0]));
+							});
+						}
 					}
 				}
+			}
+			else if(endIfNoHash) {
+				end();
 			}
 		};
 
@@ -323,45 +325,46 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 				addToAlbum(elem);
 			}
 
+			// Prepare albums
+			if(vars.album.length > 1) {
+				// Show used elements
+				jQuery(vars.prevElem).add(vars.nextElem).add(vars.thumbsElem).add(vars.counterElem).removeClass('hide');
+
+				// Remove any previous thumbnails
+				vars.thumbsElem.empty();
+
+				// Add new thumbnails
+				for(var i = 0; i < vars.album.length; i++) {
+					var src = vars.album[i].thumb;
+					// If no url provided, use a blank 1x1 gif
+					if(!src) src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+					jQuery('<div class="thumb" data-lyqbox-index="' + i + '"><img src="' + src + '" /></div>').appendTo(vars.thumbsElem).click(function(){
+						load(parseInt(jQuery(this).attr('data-lyqbox-index')));
+					});
+				}
+			}
+			// Prepare single lightboxes
+			else {
+				// Hide unused elements
+				jQuery(vars.prevElem).add(vars.nextElem).add(vars.thumbsElem).add(vars.counterElem).addClass('hide');
+			}
+
 			// Open lyqbox
 			vars.overlay.addClass('open');
 
-			// Prepare thumbnails
-			if(vars.album.length > 1) {
-				thumbnails();
-			}
-
-			// change the content to item at index
-			changeContent(startIndex);
-		};
-
-		// create thumbnails
-		var thumbnails = function() {
-			// Remove any previous thumbnails
-			vars.overlay.find('.thumbnails *').remove();
-
-			// Add new thumbnails
-			for(var i = 0; i < vars.album.length; i++) {
-				var src = vars.album[i].thumb;
-				// If no url provided, use a blank 1x1 gif
-				if(!src) src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
-				jQuery('<div class="thumb" data-lyqbox-index="' + i + '"><img src="' + src + '" /></div>').appendTo(vars.overlay.find('.thumbnails')).click(function(){
-					changeContent(parseInt(jQuery(this).attr('data-lyqbox-index')));
-				});
-			}
+			// Load content
+			load(startIndex);
 		};
 
 		// change content, for now we have 3 types, image, iframe and HTML.
-		var changeContent = function(index) {
-			lqx.log('Jump to LyqBox slide ' + index);
+		var load = function(index) {
+			lqx.log('Load slide ' + index);
 
-			disableKeyboardNav();
-
-			// deferred var to be used on alert type lyqbox only, just in case it's loading HTML content from a file
-			var promise = jQuery.Deferred();
+			// Disable navigation
+			vars.navEnabled = false;
 
 			// Show loader
-			vars.overlay.find('.loading').removeClass('hide');
+			vars.loadingElem.removeClass('hide');
 
 			// process the new content
 			switch (vars.album[index].type) {
@@ -375,25 +378,29 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 
 				case 'html':
 				case 'alert':
-					// note that the alert lyqbox can grab html content from a file, put the file URL inside the data-lyqbox-url attribute
+					// Note that the html and alert lyqbox can grab content from a URL set on data-lyqbox-url
 					// OR can grab the html content from string, put the string inside the data-lyqbox-html attribute
-					// the priority is given to the data-lyqbox-url attribute first, if this is blank, then data-lyqbox-html will be processed instead.
+					// Priority is given to the data-lyqbox-url attribute first, if this is blank, then data-lyqbox-html will be processed instead.
 
-					// check if url is not empty
-					if(vars.album[index].link !== '' && typeof vars.album[index].link !== 'undefined' ) {
+					var type = vars.album[index].type;
+
+					// Check if URL is not empty
+					if(typeof vars.album[index].link !== 'undefined' && vars.album[index].link !== '') {
 						jQuery.ajax({
 							dataType: 'text',
 							error: function(xhr, stat, err){
-								updateContent(err, index, vars.album[index].type);
+								ajaxComplete(err, index, type);
 							},
 							success: function(data){
-								updateContent(data, index, vars.album[index].type);
+								ajaxComplete(data, index, type);
 							},
 							url: vars.album[index].link
 						});
+						updateContent('', index, type);
 					}
+					// No URL, assume html attribute was used
 					else {
-						updateContent(vars.album[index].html, index, vars.album[index].type);
+						updateContent(vars.album[index].html, index, type);
 					}
 					break;
 
@@ -401,7 +408,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 					break;
 			}
 
-			// Send event for changeContent
+			// Send event for load
 			if(opts.analytics) {
 			// Set the analytics event label
 				var eventLabel = vars.album[index].type +
@@ -412,58 +419,107 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 				ga('send', {
 					'hitType': 'event',
 					'eventCategory': 'LyqBox',
-					'eventAction': 'View',
+					'eventAction': 'Load Slide',
 					'eventLabel': eventLabel
 				});
 			}
 		};
 
-		var updateContent = function(content, index, type) {
-			// Get inactive container
-			var containerInactive = vars.overlay.find('.content-wrapper').not('.active');
+		// Process content after ajax
+		var ajaxComplete = function(content, index, type) {
+			// Check if we are still in the same slide
+			if(index == vars.currentIndex) {
+				// Load content
+				vars.containerActive.find('.' + type + '-container').html(content);
+				// Hide loader
+				vars.loadingElem.addClass('hide');
+			}
+		}
 
-			// Add onload event to content, for image and videos
+		var updateContent = function(content, index, type) {
+			// Add onload event to hide loader for image and videos
 			if(type == 'image' || type == 'video') {
 				content = jQuery(content);
 				content.on('load', function(){
 					// Hide loader
-					vars.overlay.find('.loading').addClass('hide');
+					vars.loadingElem.addClass('hide');
 				});
 				content = jQuery('<div class="' + type + '-container"></div>').append(content);
 			}
 			else {
 				content = jQuery('<div class="' + type + '-container">' + content + '</div>');
-				// Hide loader
-				vars.overlay.find('.loading').addClass('hide');
+				// Hide loader if we are not waiting for URL to load
+				if(typeof vars.album[index].link == 'undefined' || vars.album[index].link == '') vars.loadingElem.addClass('hide');
 			}
+
+			// Get inactive container
+			var containerInactive = vars.overlay.find('.content-wrapper').not('.active');
+
+			// Make previous content inactive and remove video
+			vars.containerActive.removeClass('active').find('.content.video iframe').remove();
 
 			// Append new content to inactive container
 			containerInactive.addClass('active').find('.content').removeClass().addClass('content ' + type).empty().append(content);
-
-			// Make previous content inactive
-			vars.containerActive.removeClass('active');
-
-			// Remove previous video
-			vars.containerActive.find('.content.video iframe').remove();
 
 			// Update active container and index
 			vars.containerActive = containerInactive;
 			vars.currentIndex = index;
 
-			// Enable keyboard and update interface
-			updateUIandKeyboard();
+			// Update UI
+			updateUI(type);
+
+			// Enable navigation
+			vars.navEnabled = true;
 
 			// Add hash
 			addHash();
 		};
 
+		// Display slide info, update counter, etc.
+		var updateUI = function(type) {
+			// For alerts hide everything except close and content
+			if(type != 'alert' ) {
+				var slide = vars.album[vars.currentIndex];
+				// Display title
+				if(typeof slide.title !== 'undefined') {
+					vars.titleElem.html(slide.title);
+				}
+				// Display caption
+				if(typeof slide.caption !== 'undefined') {
+					vars.captionElem.html(slide.caption);
+				}
+				// Display credit
+				if(typeof slide.credit !== 'undefined') {
+					vars.creditElem.html(slide.credit);
+				}
+				// For galleries update counter
+				if(vars.album.length > 1)  {
+					vars.counterCurrElem.text(vars.currentIndex + 1);
+					vars.counterTotalElem.text(vars.album.length);
+				}
+				// Display zoom buttons only for images
+				if(type == 'image') {
+					jQuery(vars.zoomInElem).add(vars.zoomOutElem).removeClass('hide');
+				}
+				else {
+					jQuery(vars.zoomInElem).add(vars.zoomOutElem).addClass('hide');
+				}
+			}
+			// For alerts hide unused elements
+			else {
+				jQuery(vars.prevElem).add(vars.nextElem).add(vars.thumbsElem).add(vars.zoomInElem).add(vars.zoomOutElem).addClass('hide');
+			}
+		};
+
+		// Adds hash to location bar
 		var addHash = function() {
+			var slide = vars.album[vars.currentIndex];
 			// Check if we have an albumId
-			if(vars.album[vars.currentIndex].albumId) {
-				var hash = '#' + vars.album[vars.currentIndex].albumId + ':';
+			if(slide.albumId) {
+				var hash = '#' + slide.albumId + ':';
 				// If an alias has been specified, use that
-				if(vars.album[vars.currentIndex].alias) {
-					history.replaceState(null, null, hash + vars.album[vars.currentIndex].alias);
+				if(slide.alias) {
+					history.replaceState(null, null, hash + slide.alias);
 				}
 				// If not use the index
 				else {
@@ -472,134 +528,47 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 			}
 		};
 
-		// Display the image and its details and begin preload neighboring images.
-		var updateUIandKeyboard = function() {
-			updateUI();
-			enableKeyboardNav();
-		};
-
-		// Display caption, image number, and closing button.
-		var updateUI = function() {
-
-			// alert type will hide everything except close and content
-			if(vars.album[vars.currentIndex].type != 'alert' ) {
-				// display title
-				if(typeof vars.album[vars.currentIndex].title !== 'undefined' &&
-					vars.album[vars.currentIndex].title !== '') {
-					vars.overlay.find('.title')
-						.html(vars.album[vars.currentIndex].title);
+		var next = function() {
+			if(vars.navEnabled) {
+				if(vars.currentIndex == vars.album.length - 1) {
+					load(0);
 				}
 				else {
-					vars.overlay.find('.title').html('');
-				}
-				// display caption
-				if(typeof vars.album[vars.currentIndex].caption !== 'undefined' &&
-					vars.album[vars.currentIndex].caption !== '') {
-					vars.overlay.find('.caption')
-						.html(vars.album[vars.currentIndex].caption);
-				}
-				else {
-					vars.overlay.find('.caption').html('');
-				}
-				// display credit
-				if(typeof vars.album[vars.currentIndex].credit !== 'undefined' &&
-					vars.album[vars.currentIndex].credit !== '') {
-					vars.overlay.find('.credit')
-						.html(vars.album[vars.currentIndex].credit);
-				}
-				else {
-					vars.overlay.find('.credit').html('');
-				}
-				// display counter (current and total) and nav only if gallery
-				if(vars.album.length > 1)  {
-					vars.overlay.find('.current').text(vars.currentIndex + 1);
-					vars.overlay.find('.total').text(vars.album.length);
-				}
-				else {
-					vars.overlay.find('.prev, .next, .counter, .thumbnails').addClass('hide');
-				}
-				// display zoom buttons only for images
-				if(vars.album[vars.currentIndex].type == 'image') {
-					vars.overlay.find('.zoom-in, .zoom-out').removeClass('hide');
-				}
-				else {
-					vars.overlay.find('.zoom-in, .zoom-out').addClass('hide');
-				}
-			}
-			else {
-				vars.overlay.find('.prev, .next, .counter, .zoom-in, .zoom-out, .thumbnails').addClass('hide');
-			}
-		};
-
-		var enableKeyboardNav = function() {
-			lqx.vars.document.on('keyup.keyboard', jQuery.proxy(keyboardAction, lqx.lyqbox));
-		};
-
-		var disableKeyboardNav = function() {
-			lqx.vars.document.off('.keyboard');
-		};
-
-		var swipeHandler = function(sel, dir) {
-			if(dir == 'l') keyboardAction({keyCode: 39}); // swipe to the left equals right arrow
-			if(dir == 'r') keyboardAction({keyCode: 37}); // swipe to the right equals left arrow
-		};
-
-		var keyboardAction = function(event) {
-			var KEYCODE_ESC = 27;
-			var KEYCODE_LEFTARROW = 37;
-			var KEYCODE_RIGHTARROW = 39;
-
-			var keycode = event.keyCode;
-			var key = String.fromCharCode(keycode).toLowerCase();
-			if(keycode === KEYCODE_ESC || key.match(/x|o|c/)) {
-				end();
-			}
-			else if(keycode === KEYCODE_LEFTARROW) {
-				if(vars.currentIndex === 0) {
-					changeContent(vars.album.length - 1);
-				}
-				else {
-					changeContent(vars.currentIndex - 1);
-				}
-			}
-			else if(keycode === KEYCODE_RIGHTARROW) {
-				if(vars.currentIndex === vars.album.length - 1) {
-					changeContent(0);
-				}
-				else {
-					changeContent(vars.currentIndex + 1);
+					load(vars.currentIndex + 1);
 				}
 			}
 		};
 
-		// This only works in Chrome 9, Firefox 4, Safari 5, Opera 11.50 and in IE 10
-		var removeHash = function() {
-			var scrollV, scrollH, loc = window.location;
-			if('pushState' in history)
-				history.pushState('', document.title, loc.pathname + loc.search);
-			else {
-				// Prevent scrolling by storing the page's current scroll offset
-				scrollV = document.body.scrollTop;
-				scrollH = document.body.scrollLeft;
-
-				loc.hash = '';
-
-				// Restore the scroll offset, should be flicker free
-				document.body.scrollTop = scrollV;
-				document.body.scrollLeft = scrollH;
+		var prev = function() {
+			if(vars.navEnabled) {
+				if(vars.currentIndex == 0) {
+					load(vars.album.length - 1);
+				}
+				else {
+					load(vars.currentIndex - 1);
+				}
 			}
 		};
 
 		// Closing time
 		var end = function() {
-			// Stop listening to keyboard
-			disableKeyboardNav();
+			// Check if we are exiting from an alert, set cookie and show hash
+			if(vars.album[vars.currentIndex].type == 'alert') {
+				lqx.util.cookie('lyqbox-alert-' + vars.album[vars.currentIndex].albumId.slugify(), 1, {maxAge: 1e8});
+				vars.album = [];
+				showHash(true);
+				return;
+			}
+
+			// Disable navigation
+			vars.navEnabled = false;
+
+			// Remove content and thumbnails
+			vars.overlay.find('.content').empty();
+			vars.thumbsElem.empty();
 
 			// Close lyqbox
 			vars.overlay.removeClass('open');
-
-			// Remove video
-			vars.containerActive.find('.content.video iframe').remove();
 
 			// Remove hash
 			history.replaceState(null, null, '');
