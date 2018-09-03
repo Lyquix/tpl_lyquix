@@ -44,6 +44,8 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 		 * data-lyqbox-alias: item alias to use in URL hash
 		 * data-lyqbox-html: content for html or alert lightboxes
 		 * data-lyqbox-thumb: for galleries only, URL to thumbnail image
+		 * data-lyqbox-alert-dismiss set the text for the dismiss button for alerts, if not set it defaults to "Dismiss"
+		 * data-lyqbox-alert-expire: set the expiration time for alerts, if not set it defaults to 30 days
 		 *
 		 */
 		var opts = {
@@ -201,8 +203,8 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 				if(dir.indexif('r') != -1) prev(); // Swipe to the right equals left arrow
 			});
 
-			// Close button click handling
-			vars.closeElem.on('click', function() {
+			// Close and dismiss button click handling
+			vars.overlay.on('click', '.close, .dismiss', function() {
 				end();
 			});
 
@@ -274,6 +276,8 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 				}
 			}
 			else if(endIfNoHash) {
+				// Change album type to prevent getting caught in end()
+				vars.album[vars.currentIndex].type = '';
 				end();
 			}
 		};
@@ -296,7 +300,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 			var startIndex = 0;
 
 			function addToAlbum(elem) {
-				vars.album.push({
+				var slide = {
 					albumId: elem.attr('data-lyqbox'),
 					type: elem.attr('data-lyqbox-type'),
 					link: elem.attr('data-lyqbox-url'),
@@ -307,13 +311,33 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 					alias: elem.attr('data-lyqbox-alias'),
 					html: elem.attr('data-lyqbox-html'),
 					thumb: elem.attr('data-lyqbox-thumb'),
-				});
+					dismiss: elem.attr('data-lyqbox-alert-dismiss'),
+					expire: elem.attr('data-lyqbox-alert-expire')
+				};
+				for (var key in slide){
+					if(typeof slide[key] == 'undefined') {
+						switch(key) {
+							case 'dismiss':
+								slide[key] = 'Dismiss';
+								break;
+
+							case 'expire':
+								slide[key] = (30 * 24 * 60 * 60);
+								break;
+
+							default:
+								slide[key] = '';
+								break;
+						}
+					}
+				}
+				vars.album.push(slide);
 			}
 
 			// build the album, the object which contains all values passed from the attribute
-			var datalyqboxValue = elem.attr('data-lyqbox');
-			if(datalyqboxValue) {
-				var items = jQuery('[data-lyqbox="' + datalyqboxValue + '"]');
+			var albumId = elem.attr('data-lyqbox');
+			if(albumId) {
+				var items = jQuery('[data-lyqbox="' + albumId + '"]');
 				for (var i = 0; i < items.length; i = ++i) {
 					addToAlbum(jQuery(items[i]));
 					if(items[i] === elem[0]) {
@@ -348,6 +372,9 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 				// Hide unused elements
 				jQuery(vars.prevElem).add(vars.nextElem).add(vars.thumbsElem).add(vars.counterElem).addClass('hide');
 			}
+
+			// Hide zoom buttons (they will be shown again if the slide is an image)
+			jQuery(vars.zoomInElem).add(vars.zoomOutElem).addClass('hide');
 
 			// Open lyqbox
 			vars.overlay.addClass('open');
@@ -385,7 +412,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 					var type = vars.album[index].type;
 
 					// Check if URL is not empty
-					if(typeof vars.album[index].link !== 'undefined' && vars.album[index].link !== '') {
+					if(vars.album[index].link) {
 						jQuery.ajax({
 							dataType: 'text',
 							error: function(xhr, stat, err){
@@ -429,6 +456,10 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 		var ajaxComplete = function(content, index, type) {
 			// Check if we are still in the same slide
 			if(index == vars.currentIndex) {
+				// Get alert dismiss button
+				if(type == 'alert') {
+					content += '<div class="dismiss-button"><button class="dismiss">' + vars.album[vars.currentIndex].dismiss + '</button></div>';
+				}
 				// Load content
 				vars.containerActive.find('.' + type + '-container').html(content);
 				// Hide loader
@@ -447,9 +478,13 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 				content = jQuery('<div class="' + type + '-container"></div>').append(content);
 			}
 			else {
+				// Get alert dismiss button
+				if(type == 'alert') {
+					content += '<div class="dismiss-button"><button class="dismiss">' + vars.album[vars.currentIndex].dismiss + '</button></div>';
+				}
 				content = jQuery('<div class="' + type + '-container">' + content + '</div>');
 				// Hide loader if we are not waiting for URL to load
-				if(typeof vars.album[index].link == 'undefined' || vars.album[index].link == '') vars.loadingElem.addClass('hide');
+				if(!vars.album[index].link) vars.loadingElem.addClass('hide');
 			}
 
 			// Get inactive container
@@ -481,17 +516,11 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 			if(type != 'alert' ) {
 				var slide = vars.album[vars.currentIndex];
 				// Display title
-				if(typeof slide.title !== 'undefined') {
-					vars.titleElem.html(slide.title);
-				}
+				vars.titleElem.html(slide.title);
 				// Display caption
-				if(typeof slide.caption !== 'undefined') {
-					vars.captionElem.html(slide.caption);
-				}
+				vars.captionElem.html(slide.caption);
 				// Display credit
-				if(typeof slide.credit !== 'undefined') {
-					vars.creditElem.html(slide.credit);
-				}
+				vars.creditElem.html(slide.credit);
 				// For galleries update counter
 				if(vars.album.length > 1)  {
 					vars.counterCurrElem.text(vars.currentIndex + 1);
@@ -505,17 +534,13 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 					jQuery(vars.zoomInElem).add(vars.zoomOutElem).addClass('hide');
 				}
 			}
-			// For alerts hide unused elements
-			else {
-				jQuery(vars.prevElem).add(vars.nextElem).add(vars.thumbsElem).add(vars.zoomInElem).add(vars.zoomOutElem).addClass('hide');
-			}
 		};
 
 		// Adds hash to location bar
 		var addHash = function() {
 			var slide = vars.album[vars.currentIndex];
 			// Check if we have an albumId
-			if(slide.albumId) {
+			if(slide.albumId && slide.type != 'alert') {
 				var hash = '#' + slide.albumId + ':';
 				// If an alias has been specified, use that
 				if(slide.alias) {
@@ -554,8 +579,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 		var end = function() {
 			// Check if we are exiting from an alert, set cookie and show hash
 			if(vars.album[vars.currentIndex].type == 'alert') {
-				lqx.util.cookie('lyqbox-alert-' + vars.album[vars.currentIndex].albumId.slugify(), 1, {maxAge: 1e8});
-				vars.album = [];
+				lqx.util.cookie('lyqbox-alert-' + vars.album[vars.currentIndex].albumId.slugify(), 1, {maxAge: parseInt(vars.album[vars.currentIndex].expire)});
 				showHash(true);
 				return;
 			}
