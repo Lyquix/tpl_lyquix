@@ -1,6 +1,6 @@
 # JavaScript
 
-`@version     2.0.0-beta-5
+`@version     2.0.0-beta-5`
 
 ## Overview
 
@@ -77,7 +77,7 @@ Our own lightbox. Provides the following features
 
   * 3 types of lightboxes:
     * Simple lightboxes that may includes images, HTML content, or iframes
-    * Galleries: a collection of multiple content that the user can navigate. Each gallery item has own hash URL that can be used to open page showing specific gallery item.
+    * Galleries: a collection of multiple content that the user can navigate. Each gallery slide has own hash URL that can be used to open page showing specific gallery slide.
     * Alerts: lightbox that opens on page load until user dismisses it
   * Complete separation of styling (CSS) and logic (Javascript)
   * Use CSS animations and transitions
@@ -94,13 +94,15 @@ To activate an element in your page with lightbox add the following attributes:
     * `video`: use for loading a video iframe in lightbox
     * `html`, `alert`: use for loading HTML content in lightbox
   * `data-lyqbox-url`: mandatory for image and video types. Optional for html and alert types, used to load content from URL.
-  * `data-lyqbox-title`: optional item title
-  * `data-lyqbox-caption`: optional item caption
-  * `data-lyqbox-credit`: optional item credits
-  * `data-lyqbox-class`: optional item custom CSS classes
-  * `data-lyqbox-alias`: item alias to use in URL hash
+  * `data-lyqbox-title`: optional slide title
+  * `data-lyqbox-caption`: optional slide caption
+  * `data-lyqbox-credit`: optional slide credits
+  * `data-lyqbox-class`: optional slide custom CSS classes
+  * `data-lyqbox-alias`: slide alias to use in URL hash
   * `data-lyqbox-html`: content for html or alert lightboxes
   * `data-lyqbox-thumb`: URL of thumbnail image, for galleries only
+  * `data-lyqbox-alert-dismiss`: set the text to be used in the dismiss button for alerts. If none set, it defaults to "Dismiss".
+  * `data-lyqbox-alert-expire`: set the time in seconds after dismissal that the alert will not be shown again. If none set, it defaults to 30 days.
 
 **Menu [`js/lib/menu.js`](../js/lib/menu.js)**
 
