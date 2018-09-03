@@ -17,8 +17,8 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 		 * Provides 3 types of lightboxes:
 		 * 		Simple lightboxes that may includes images, HTML content, or iframes
 		 * 		Galleries: a collection of multiple content that the user can navigate.
-		 * 			Each gallery item has own hash URL that can be used to open page showing
-		 * 			specific gallery item.
+		 * 			Each gallery slide has own hash URL that can be used to open page showing
+		 * 			specific gallery slide.
 		 * 		Alerts: lightbox that opens on page load until user dismisses it
 		 * Complete separation of styling (CSS) and logic (JavaScript)
 		 * Use CSS animations and transitions
@@ -37,11 +37,11 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 		 * 		html, alert: use for loading HTML content in lightbox
 		 * data-lyqbox-url: mandatory for image and video types. Optional for html and alert types,
 		 * 		used to load content from URL.
-		 * data-lyqbox-title: optional item title
-		 * data-lyqbox-caption: optional item caption
-		 * data-lyqbox-credit: optional item credits
-		 * data-lyqbox-class: optional item custom CSS classes
-		 * data-lyqbox-alias: item alias to use in URL hash
+		 * data-lyqbox-title: optional slide title
+		 * data-lyqbox-caption: optional slide caption
+		 * data-lyqbox-credit: optional slide credits
+		 * data-lyqbox-class: optional slide custom CSS classes
+		 * data-lyqbox-alias: slide alias to use in URL hash
 		 * data-lyqbox-html: content for html or alert lightboxes
 		 * data-lyqbox-thumb: for galleries only, URL to thumbnail image
 		 * data-lyqbox-alert-dismiss set the text for the dismiss button for alerts, if not set it defaults to "Dismiss"
@@ -204,7 +204,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 			});
 
 			// Close and dismiss button click handling
-			vars.overlay.on('click', '.close, .dismiss', function() {
+			vars.overlay.on('click', '.close, .dismiss button', function() {
 				end();
 			});
 
@@ -224,6 +224,11 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 				if(zoom > 0) {
 					vars.overlay.find('.image-container img').attr('data-lyqbox-zoom', parseInt(zoom) - 1);
 				}
+			});
+
+			// Thumbnails click handling
+			vars.thumbsElem.on('click', '.thumb', function(){
+				load(parseInt(jQuery(this).attr('data-lyqbox-index')));
 			});
 
 			// If alerts show that first, otherwise show hash
@@ -248,32 +253,40 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 		var showHash = function(endIfNoHash) {
 			var hash = window.location.hash.substr(1);
 			if(hash !== '') {
-				// Get hash value and display the appropriate content
-				// Assumes is has 2 parts separated by colon
-				var hashParts = hash.split(':');
+				// Try alias only first
+				var slide = jQuery('[data-lyqbox-alias="' + hash + '"]').eq(0);
+				if(slide.length) {
+					start(slide);
+				}
+				else {
+					// Try album+alias and album+id
+					// Assumes is has 2 parts separated by colon
+					var hashParts = hash.split(':');
 
-				if(hashParts.length == 2) {
-					// Get all items within album
-					var items = jQuery('[data-lyqbox="' + hashParts[0] + '"]');
+					if(hashParts.length == 2) {
+						// Get all slides within album
+						slide = jQuery('[data-lyqbox="' + hashParts[0] + '"]');
 
-					// Are there any items with the same albumid?
-					if(items.length) {
-						// Is it an alias or an index?
-						if(isNaN(parseInt(hashParts[1]))) {
-							items = items.filter('[data-lyqbox-alias=' + hashParts[1] + ']')
-						}
-						else {
-							items = items.eq(hashParts[1]);
-						}
+						// Are there any slide with the same albumid?
+						if(slide.length) {
+							// Is it an alias or an index?
+							if(isNaN(parseInt(hashParts[1]))) {
+								slide = slide.filter('[data-lyqbox-alias=' + hashParts[1] + ']').eq(0);
+							}
+							else {
+								slide = slide.eq(hashParts[1]);
+							}
 
-						// If any items match, start the lightbox
-						if(items.length) {
-							lqx.vars.document.ready(function(){
-								start(jQuery(items[0]));
-							});
+							// If any slide match, start the lightbox
+							if(slide.length) {
+								lqx.vars.document.ready(function(){
+									start(slide);
+								});
+							}
 						}
 					}
 				}
+
 			}
 			else if(endIfNoHash) {
 				// Change album type to prevent getting caught in end()
@@ -337,10 +350,10 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 			// build the album, the object which contains all values passed from the attribute
 			var albumId = elem.attr('data-lyqbox');
 			if(albumId) {
-				var items = jQuery('[data-lyqbox="' + albumId + '"]');
-				for (var i = 0; i < items.length; i = ++i) {
-					addToAlbum(jQuery(items[i]));
-					if(items[i] === elem[0]) {
+				var slides = jQuery('[data-lyqbox="' + albumId + '"]');
+				for (var i = 0; i < slides.length; i = ++i) {
+					addToAlbum(jQuery(slides[i]));
+					if(slides[i] === elem[0]) {
 						startIndex = i;
 					}
 				}
@@ -358,13 +371,11 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 				vars.thumbsElem.empty();
 
 				// Add new thumbnails
-				for(var i = 0; i < vars.album.length; i++) {
-					var src = vars.album[i].thumb;
+				for(var index = 0; index < vars.album.length; index++) {
+					var src = vars.album[index].thumb;
 					// If no url provided, use a blank 1x1 gif
 					if(!src) src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
-					jQuery('<div class="thumb" data-lyqbox-index="' + i + '"><img src="' + src + '" /></div>').appendTo(vars.thumbsElem).click(function(){
-						load(parseInt(jQuery(this).attr('data-lyqbox-index')));
-					});
+					jQuery('<div class="thumb" data-lyqbox-index="' + index + '"><img src="' + src + '" /></div>').appendTo(vars.thumbsElem);
 				}
 			}
 			// Prepare single lightboxes
@@ -458,7 +469,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 			if(index == vars.currentIndex) {
 				// Get alert dismiss button
 				if(type == 'alert') {
-					content += '<div class="dismiss-button"><button class="dismiss">' + vars.album[vars.currentIndex].dismiss + '</button></div>';
+					content += '<div class="dismiss"><button>' + vars.album[vars.currentIndex].dismiss + '</button></div>';
 				}
 				// Load content
 				vars.containerActive.find('.' + type + '-container').html(content);
@@ -480,7 +491,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 			else {
 				// Get alert dismiss button
 				if(type == 'alert') {
-					content += '<div class="dismiss-button"><button class="dismiss">' + vars.album[vars.currentIndex].dismiss + '</button></div>';
+					content += '<div class="dismiss"><button>' + vars.album[vars.currentIndex].dismiss + '</button></div>';
 				}
 				content = jQuery('<div class="' + type + '-container">' + content + '</div>');
 				// Hide loader if we are not waiting for URL to load
@@ -515,16 +526,15 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 			// For alerts hide everything except close and content
 			if(type != 'alert' ) {
 				var slide = vars.album[vars.currentIndex];
-				// Display title
+				// Update title, caption, credit
 				vars.titleElem.html(slide.title);
-				// Display caption
 				vars.captionElem.html(slide.caption);
-				// Display credit
 				vars.creditElem.html(slide.credit);
-				// For galleries update counter
+				// For galleries update counter and thumbnails
 				if(vars.album.length > 1)  {
 					vars.counterCurrElem.text(vars.currentIndex + 1);
 					vars.counterTotalElem.text(vars.album.length);
+					vars.thumbsElem.children().removeClass('active').eq(vars.currentIndex).addClass('active');
 				}
 				// Display zoom buttons only for images
 				if(type == 'image') {
@@ -539,17 +549,23 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 		// Adds hash to location bar
 		var addHash = function() {
 			var slide = vars.album[vars.currentIndex];
-			// Check if we have an albumId
-			if(slide.albumId && slide.type != 'alert') {
-				var hash = '#' + slide.albumId + ':';
-				// If an alias has been specified, use that
-				if(slide.alias) {
-					history.replaceState(null, null, hash + slide.alias);
+			// Skip alerts
+			if(slide.type != 'alert') {
+				var hash = '#';
+				// Prioritize album+alias, then alias, then album+id
+				if(slide.albumId && slide.alias) {
+					hash += slide.albumId + ':' + slide.alias;
 				}
-				// If not use the index
+				else if(slide.alias) {
+					hash += slide.alias;
+				}
+				else if(slide.albumId) {
+					hash += slide.albumId + ':' + vars.currentIndex;
+				}
 				else {
-					history.replaceState(null, null, hash + vars.currentIndex);
+					hash = '';
 				}
+				if(hash) history.replaceState(null, null, hash);
 			}
 		};
 
