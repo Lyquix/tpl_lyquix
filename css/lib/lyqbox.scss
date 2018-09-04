@@ -71,9 +71,10 @@
 		}
 		.content {
 			z-index: 3;
-			width: 75%;
 			padding-right: 0.5rem;
 			overflow: hidden;
+			min-width: 75%;
+			min-height: unset;
 
 			.image-container {
 				width: 100%;
@@ -120,7 +121,8 @@
 
 		.info {
 			z-index: 3;
-			width: 25%;
+			min-width: 25%;
+			min-height: unset;
 			padding-left: 0.5rem;
 
 			.title {
@@ -137,6 +139,11 @@
 				margin: $elem-margin-base 0;
 				font-size: 0.85em;
 				color: $gray;
+			}
+
+			&.blank {
+				display: none;
+				min-width: unset;
 			}
 		}
 
@@ -225,5 +232,24 @@
 
 	.hide {
 		display: none;
+	}
+}
+
+body[screen=xs],
+body[screen=sm] {
+	#lyqbox {
+		.content-wrapper {
+			flex-direction: column;
+
+			.content {
+				min-height: 75%;
+				min-width: unset;
+			}
+
+			.info {
+				min-height: 25%;
+				min-width: unset;
+			}
+		}
 	}
 }
