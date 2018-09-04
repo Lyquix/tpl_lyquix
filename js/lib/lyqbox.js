@@ -530,6 +530,13 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 				vars.titleElem.html(slide.title);
 				vars.captionElem.html(slide.caption);
 				vars.creditElem.html(slide.credit);
+				// If all info is empty, mark the info div as .blank
+				if(!slide.title && !slide.caption && !slide.credit) {
+					vars.containerActive.find('.info').addClass('blank');
+				}
+				else {
+					vars.containerActive.find('.info').removeClass('blank');
+				}
 				// For galleries update counter and thumbnails
 				if(vars.album.length > 1)  {
 					vars.counterCurrElem.text(vars.currentIndex + 1);
