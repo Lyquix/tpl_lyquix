@@ -109,7 +109,7 @@ if(lqx && typeof lqx.util == 'undefined') {
 					else swp.dir = 'l'; // left
 				}
 				// Vertical swipe
-				else if (
+				if (
 					(Math.abs(swp.eY - swp.sY) > opts.minY) &&
 					(Math.abs(swp.eX - swp.sX) < opts.maxX) &&
 					(swp.eY > 0)
