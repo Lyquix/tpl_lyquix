@@ -62,7 +62,7 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 
 		// Fix for Google fonts not rendering in IE10/11
 		var fontFeatureopts = function() {
-			jQuery('<style>html, sup, sub, samp, td, th, h1, h2, h3, .font-monospace, .font-smallcaps, .font-uppercase {font-feature-opts: normal;}</style>').appendTo('head');
+			jQuery('<style>*, :before, :after {font-feature-opts: normal !important;}</style>').appendTo('head');
 			lqx.log('Font feature opts property fix for IE10/11');
 		};
 
