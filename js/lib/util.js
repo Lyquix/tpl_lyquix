@@ -67,6 +67,8 @@ if(lqx && typeof lqx.util == 'undefined') {
 		// sel - element selector
 		// func - name of callback function, will receive selector and direction (up, dn, lt, rt)
 		swipe: function(sel, callback, options) {
+			lqx.log('Setting up swipe detection for ' + sel);
+
 			var swp = {
 				sX: 0,
 				sY: 0,
@@ -77,49 +79,37 @@ if(lqx && typeof lqx.util == 'undefined') {
 
 			var opts = {
 				minX: 30,
-				maxX: 150,
-				minY: 30,
-				maxY: 150
+				minY: 30
 			};
 
 			if(typeof options != 'undefined') {
 				jQuery.extend(opts, options);
 			}
 
-			var elem = jQuery(sel);
-			elem.on('touchstart', function(e) {
+			lqx.vars.body.on('touchstart', sel, function(e) {
 				var t = e.originalEvent.touches[0];
 				swp.sX = t.clientX;
 				swp.sY = t.clientY;
 			});
-			elem.on('touchmove', function(e) {
-				e.preventDefault();
+			lqx.vars.body.on('touchmove', sel, function(e) {
 				var t = e.originalEvent.touches[0];
 				swp.eX = t.clientX;
 				swp.eY = t.clientY;
 			});
-			elem.on('touchend', function(e) {
+			lqx.vars.body.on('touchend', sel, function(e) {
 				// Horizontal swipe
-				if (
-					(Math.abs(swp.eX - swp.sX) > opts.minX) &&
-					(Math.abs(swp.eY - swp.sY) < opts.maxY) &&
-					(swp.eX > 0)
-				) {
+				if(Math.abs(swp.eX - swp.sX) > opts.minX && swp.eX > 0) {
 					if (swp.eX > swp.sX) swp.dir = 'r'; // right
 					else swp.dir = 'l'; // left
 				}
 				// Vertical swipe
-				if (
-					(Math.abs(swp.eY - swp.sY) > opts.minY) &&
-					(Math.abs(swp.eX - swp.sX) < opts.maxX) &&
-					(swp.eY > 0)
-				) {
+				if((Math.abs(swp.eY - swp.sY) > opts.minY) && swp.eY > 0) {
 					if (swp.eY > swp.sY) swp.dir += 'd'; // down
 					else swp.dir += 'u'; // up
 				}
 
-				lqx.log('Detected swipe ' + swp.dir + ' for ' + callback);
-				if (swp.dir && typeof callback == 'function') callback(sel, swp.dir);
+				lqx.log('Detected swipe ' + swp.dir + ' for ' + sel);
+				if (swp.dir != '' && typeof callback == 'function') callback(sel, swp.dir);
 
 				swp = {
 					sX: 0,
