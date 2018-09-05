@@ -69,17 +69,23 @@ if(lqx && typeof lqx.util == 'undefined') {
 		swipe: function(sel, callback, options) {
 			lqx.log('Setting up swipe detection for ' + sel);
 
-			var swp = {
-				sX: 0,
-				sY: 0,
-				eX: 0,
-				eY: 0,
-				dir: ''
+			var reset = {
+				sel: sel,
+				startX: 0,
+				startY: 0,
+				startTime: 0,
+				endX: 0,
+				endY: 0,
+				endTime: 0,
+				dir: null
 			};
+
+			var swp = reset;
 
 			var opts = {
 				minX: 30,
-				minY: 30
+				minY: 30,
+				maxT: 1.5
 			};
 
 			if(typeof options != 'undefined') {
@@ -88,36 +94,37 @@ if(lqx && typeof lqx.util == 'undefined') {
 
 			lqx.vars.body.on('touchstart', sel, function(e) {
 				var t = e.originalEvent.touches[0];
-				swp.sX = t.clientX;
-				swp.sY = t.clientY;
+				swp.startX = t.clientX;
+				swp.startY = t.clientY;
+				var startTime = new Date();
+				swp.startTime = startTime.getTime() + startTime.getMilliseconds()/1000;
 			});
 			lqx.vars.body.on('touchmove', sel, function(e) {
 				var t = e.originalEvent.touches[0];
-				swp.eX = t.clientX;
-				swp.eY = t.clientY;
+				swp.endX = t.clientX;
+				swp.endY = t.clientY;
+				var endTime = new Date();
+				swp.endTime = endTime.getTime() + endTime.getMilliseconds()/1000;
 			});
 			lqx.vars.body.on('touchend', sel, function(e) {
-				// Horizontal swipe
-				if(Math.abs(swp.eX - swp.sX) > opts.minX && swp.eX > 0) {
-					if (swp.eX > swp.sX) swp.dir = 'r'; // right
-					else swp.dir = 'l'; // left
-				}
-				// Vertical swipe
-				if((Math.abs(swp.eY - swp.sY) > opts.minY) && swp.eY > 0) {
-					if (swp.eY > swp.sY) swp.dir += 'd'; // down
-					else swp.dir += 'u'; // up
+				// Only handle swipes that are no longer than opts.maxT
+				if(swp.endTime - swp.startTime <= opts.maxT) {
+					// Horizontal swipe
+					if(Math.abs(swp.endX - swp.startX) > opts.minX && swp.endX > 0) {
+						if (swp.endX > swp.startX) swp.dir = 'r'; // right
+						else swp.dir = 'l'; // left
+					}
+					// Vertical swipe
+					if((Math.abs(swp.endY - swp.startY) > opts.minY) && swp.endY > 0) {
+						if (swp.endY > swp.startY) swp.dir += 'd'; // down
+						else swp.dir += 'u'; // up
+					}
+
+					lqx.log('Detected swipe ' + swp.dir + ' for ' + sel);
+					if (swp.dir != '' && typeof callback == 'function') callback(swp);
 				}
 
-				lqx.log('Detected swipe ' + swp.dir + ' for ' + sel);
-				if (swp.dir != '' && typeof callback == 'function') callback(sel, swp.dir);
-
-				swp = {
-					sX: 0,
-					sY: 0,
-					eX: 0,
-					eY: 0,
-					dir: ''
-				};
+				swp = reset;
 			});
 		},
 
