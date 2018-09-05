@@ -198,9 +198,9 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 			});
 
 			// Add swipe event handler, only on images and videos
-			lqx.util.swipe('#lyqbox .content.image, #lyqbox .content.video', function(sel, dir){
-				if(dir.indexOf('l') != -1) next(); // Swipe to the left equals right arrow
-				if(dir.indexOf('r') != -1) prev(); // Swipe to the right equals left arrow
+			lqx.util.swipe('#lyqbox .content.image, #lyqbox .content.video', function(swp){
+				if(swp.dir.indexOf('l') != -1) next(); // Swipe to the left equals right arrow
+				if(swp.dir.indexOf('r') != -1) prev(); // Swipe to the right equals left arrow
 			});
 
 			// Close and dismiss button click handling
