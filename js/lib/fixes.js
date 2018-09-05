@@ -12,25 +12,41 @@
 if(lqx && typeof lqx.fixes == 'undefined') {
 	lqx.fixes = (function(){
 		var init = function(){
-			// Initialize only if enabled
-			if(lqx.opts.fixes.enabled) {
-				lqx.log('Initializing `fixes`');
+			// Initialize on lqxready
+			lqx.vars.window.on('lqxready', function() {
+				// Initialize only if enabled
+				if(lqx.opts.fixes.enabled) {
+					lqx.log('Initializing `fixes`');
 
-				// IE fixes
-				if(lqx.detect.browser.type == 'msie') {
+					// Trigger functions immediately
+					switch(lqx.detect.browser().type) {
+						case 'msie':
+						case 'firefox':
+							linkPreload();
+							break;
+					}
+
 					// Trigger functions on document ready
 					lqx.vars.document.ready(function() {
-						imgWidthAttrib();
-						fontFeatureopts();
-						cssGrid();
+						switch(lqx.detect.browser().type) {
+							case 'msie':
+								imgWidthAttrib();
+								fontFeatureopts();
+								cssGrid();
+								break;
+						}
 					});
 
 					// Trigger functions on screen changes (reside, rotation)
 					lqx.vars.window.on('screensizechange orientationchange', function() {
-						cssGrid();
+						switch(lqx.detect.browser().type) {
+							case 'msie':
+								cssGrid();
+								break;
+						}
 					});
 				}
-			}
+			});
 
 			return lqx.fixes.init = true;
 		};
@@ -92,6 +108,12 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 			}
 
 			lqx.log('CSS grid fix for IE');
+		};
+
+		// Fix for IE and Firefox not supporting onload event for link re=preload
+		var linkPreload = function() {
+			jQuery('link[rel=preload][as=style]').attr('onload', '').attr('rel', 'stylesheet');
+			lqx.log('Fix for link onload not triggering');
 		};
 
 		return {
