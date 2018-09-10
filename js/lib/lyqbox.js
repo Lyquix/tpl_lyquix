@@ -228,7 +228,9 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 
 			// Thumbnails click handling
 			vars.thumbsElem.on('click', '.thumb', function(){
-				load(parseInt(jQuery(this).attr('data-lyqbox-index')));
+				if(vars.navEnabled) {
+					load(parseInt(jQuery(this).attr('data-lyqbox-index')));
+				}
 			});
 
 			// If alerts show that first, otherwise show hash
