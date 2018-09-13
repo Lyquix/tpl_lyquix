@@ -1,6 +1,6 @@
 # JavaScript
 
-`@version     2.0.0-beta-5`
+`@version     2.0.0`
 
 ## Overview
 
@@ -58,6 +58,8 @@ Applies various fixes to Internet Explorer.
   * **Image Width Attribute:** adds the width attribute to images missing it.
   * **Reset Font Features:** resets the `font-features` property to normal to prevent issues displaying Google Fonts.
   * **CSS Grid:** attempts to automatically place CSS grid children elements when column, row and span properties have not been explicitly defined.
+  * **Link Preload:** adds a workaround for `<link re="preload">` not triggering a load event.
+  * **object-fit:** adds a pseudo-polyfill to support object-fit (cover and contain only) and object-position.
 
 **Geolocate [`js/lib/geolocate.js`](../js/lib/geolocate.js)**
 
