@@ -356,6 +356,7 @@
 	}
 }
 
+// Menu
 @mixin common-menu {
 	/**
 	 * Add classes to a parent of the menu <ul> element.
@@ -527,14 +528,35 @@
 
 }
 
+// Tabs
 @mixin common-tabs {
 
 }
 
+// Accordions
 @mixin common-accordions {
 	// Base styles for accordions
 	.accordion {
 		overflow: hidden;
 		transition: height 0.5s;
+	}
+}
+
+// Object Fit & Object Position
+/**
+ * This mixin can be used to set the object-fit
+ * and object-position for IE11
+ * @include object-fit(ofval);
+ * where ofval is the object-fit value, or:
+ * @include object-fit(ofval, opval);
+ * where ofval is the object-fit value, and opval is object-position value
+ */
+@mixin object-fit($fit: fill, $position: null){
+	object-fit: $fit;
+	@if $position {
+		object-position: $position;
+		font-family: 'object-fit: #{$fit}; object-position: #{$position}';
+	} @else {
+		font-family: 'object-fit: #{$fit}';
 	}
 }

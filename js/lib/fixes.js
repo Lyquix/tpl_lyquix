@@ -33,6 +33,7 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 								imgWidthAttrib();
 								fontFeatureopts();
 								cssGrid();
+								objectFit();
 								break;
 						}
 					});
@@ -42,6 +43,7 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 						switch(lqx.detect.browser().type) {
 							case 'msie':
 								cssGrid();
+								updateObjectFit();
 								break;
 						}
 					});
@@ -114,6 +116,104 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 		var linkPreload = function() {
 			jQuery('link[rel=preload][as=style]').attr('onload', '').attr('rel', 'stylesheet');
 			lqx.log('Fix for link onload not triggering');
+		};
+
+		// Object-fit polyfill for IE11 - sets image as background image
+		// and obtains the object-fit and object-position properties from the value of the
+		// CSS font-family property, e.g. font-family: 'object-fit: cover; object-position: right bottom;';
+		// Supports only cover and contain
+		var objectFit = function() {
+			// Check all images
+			jQuery('img').each(function(){
+				fixObjectFit(this);
+			});
+
+			// Add a mututation observer to fix images added to the DOM
+			lqx.mutation.addHandler('addNode', 'img', function(e){
+				fixObjectFit(e);
+			});
+
+			lqx.log('object-fit fix for IE');
+		};
+
+		var parseObjectFitStyles = function(img) {
+			var fontFamilyStr = jQuery(img).css('font-family');
+			var styles = {};
+			if(fontFamilyStr) {
+				// Parse font-family property for object-fit and object-position
+				var re = /(([\w-]+)\s*:\s*([\w\s-%#\/\(\)\.']+);*)/g;
+				var styles = {};
+				fontFamilyStr.replace(/(^"|"$)/g,'').replace(re, function(match, g1, property, value) {
+					if(property == 'object-fit' && (value == 'cover' || value == 'contain')) {
+						styles[property] = value;
+					}
+					if(property == 'object-position') {
+						styles[property] = value;
+					}
+				});
+			}
+			return styles;
+		};
+
+		var setBackgroundStyles = function(img, styles) {
+			var src = img.attr('data-src');
+
+			// Replace image with transparent 1x1 gif
+			img.attr('src', 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
+
+			// Assign image to backrgound, add styling
+			img.css({
+				'background-image': 'url(' + src +')',
+				'background-repeat': 'no-repeat',
+				'background-origin': 'content-box',
+				'background-size': styles['object-fit'],
+				'background-position': 'center'
+			});
+
+			// Assign object-position if available
+			if('object-position' in styles) {
+				img.css('background-position', styles['object-position']);
+			}
+		};
+
+		var fixObjectFit = function(img) {
+			img = jQuery(img);
+			// Get and parse font-family computed style
+			var styles = parseObjectFitStyles(img);
+
+			if('object-fit' in styles) {
+				// Copy original URL into data-object-fit (this will be used later for updates)
+				var src = img.attr('src');
+				img.attr('data-src', src);
+
+				// Set image to background and add styling
+				setBackgroundStyles(img, styles);
+
+				// Add attribute for later updates
+				img.attr('data-object-fit', true);
+			}
+		};
+
+		var updateObjectFit = function() {
+			jQuery('[data-object-fit]').each(function(){
+				var img = jQuery(this);
+				// Get and parse font-family computed style
+				var styles = parseObjectFitStyles(img);
+
+				if('object-fit' in styles) {
+					setBackgroundStyles(img, styles);
+				}
+				else {
+					// Revert image back
+					img.attr('src', img.attr('data-src'));
+
+					// Revert background image
+					img.css({
+						'background-image': 'none',
+					});
+				}
+
+			});
 		};
 
 		return {
