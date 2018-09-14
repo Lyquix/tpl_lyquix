@@ -574,6 +574,11 @@ var lqx = lqx || {
 			if(lqx.getBrowser.version >= 10) {
 				// fix for google fonts not rendering in IE10/11
 				jQuery('<style>*, :before, :after {font-feature-opts: normal !important;}</style>').appendTo('head');
+				// CSS grid fix
+				lqx.cssGridFix();
+				jQuery(window).on('screensizechange orientationchange', function() {
+					lqx.cssGridFix();
+				});
 			}
 			// replace svg images for pngs in IE 8 and older
 			if(lqx.getBrowser.version <= 8) {
@@ -585,6 +590,34 @@ var lqx = lqx || {
 				});
 			}
 		}
+	},
+
+	// Fix for CSS grid: add column/row position and span if not specified
+	cssGridFix: function() {
+		var gridElems = jQuery('*').filter(function() {
+			if (jQuery(this).css('display') == '-ms-grid') {
+				return true;
+			}
+		});
+
+		if(gridElems.length) {
+			gridElems.each(function(){
+				var gridElem = jQuery(this);
+				var colCount = gridElem.css('-ms-grid-columns').split(' ').length;
+				var row = 1;
+				var col = 1;
+				gridElem.children().each(function(){
+					jQuery(this).css({'-ms-grid-column': col, '-ms-grid-column-span': '1', '-ms-grid-row': row, '-ms-grid-row-span': '1'});
+					col++;
+					if (col > colCount) {
+						row++;
+						col = 1;
+					}
+				});
+			});
+		}
+
+		lqx.log('CSS grid fix for IE');
 	},
 
 	// init equalHeightRows
