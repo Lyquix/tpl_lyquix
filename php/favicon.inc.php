@@ -2,7 +2,7 @@
 /**
  * favicon.inc.php - Includes favicons
  *
- * @version     1.0.6
+ * @version     1.0.7
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2017 Lyquix
