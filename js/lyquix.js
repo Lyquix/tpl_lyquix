@@ -570,9 +570,10 @@ var lqx = lqx || {
 					newimg.src = img.attr('src');
 				}
 			});
-			// fix for google fonts not rendering in IE10/11
+
 			if(lqx.getBrowser.version >= 10) {
-				jQuery('<style>html, sup, sub, samp, td, th, h1, h2, h3, .font-monospace, .font-smallcaps, .font-uppercase {font-feature-settings: normal;}</style>').appendTo('head');
+				// fix for google fonts not rendering in IE10/11
+				jQuery('<style>*, :before, :after {font-feature-opts: normal !important;}</style>').appendTo('head');
 			}
 			// replace svg images for pngs in IE 8 and older
 			if(lqx.getBrowser.version <= 8) {
