@@ -576,8 +576,12 @@ var lqx = lqx || {
 				jQuery('<style>*, :before, :after {font-feature-opts: normal !important;}</style>').appendTo('head');
 				// CSS grid fix
 				lqx.cssGridFix();
+				// object-fit polyfill
+				lqx.objectFit();
+				// Update CSS grid and object-fit on screen/orientation change
 				jQuery(window).on('screensizechange orientationchange', function() {
 					lqx.cssGridFix();
+					lqx.updateObjectFit();
 				});
 			}
 			// replace svg images for pngs in IE 8 and older
@@ -618,6 +622,104 @@ var lqx = lqx || {
 		}
 
 		lqx.log('CSS grid fix for IE');
+	},
+
+	// Object-fit polyfill for IE11 - sets image as background image
+	// and obtains the object-fit and object-position properties from the value of the
+	// CSS font-family property, e.g. font-family: 'object-fit: cover; object-position: right bottom;';
+	// Supports only cover and contain
+	objectFit: function() {
+		// Check all images
+		jQuery('img').each(function(){
+			lqx.fixObjectFit(this);
+		});
+
+		// Add a mututation observer to fix images added to the DOM
+		lqx.mutation.addHandler('addNode', 'img', function(e){
+			lqx.fixObjectFit(e);
+		});
+
+		lqx.log('object-fit fix for IE');
+	},
+
+	parseObjectFitStyles: function(img) {
+		var fontFamilyStr = jQuery(img).css('font-family');
+		var styles = {};
+		if(fontFamilyStr) {
+			// Parse font-family property for object-fit and object-position
+			var re = /(([\w-]+)\s*:\s*([\w\s-%#\/\(\)\.']+);*)/g;
+			var styles = {};
+			fontFamilyStr.replace(/(^"|"$)/g,'').replace(re, function(match, g1, property, value) {
+				if(property == 'object-fit' && (value == 'cover' || value == 'contain')) {
+					styles[property] = value;
+				}
+				if(property == 'object-position') {
+					styles[property] = value;
+				}
+			});
+		}
+		return styles;
+	},
+
+	setBackgroundStyles: function(img, styles) {
+		var src = img.attr('data-src');
+
+		// Replace image with transparent 1x1 gif
+		img.attr('src', 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
+
+		// Assign image to backrgound, add styling
+		img.css({
+			'background-image': 'url(' + src +')',
+			'background-repeat': 'no-repeat',
+			'background-origin': 'content-box',
+			'background-size': styles['object-fit'],
+			'background-position': 'center'
+		});
+
+		// Assign object-position if available
+		if('object-position' in styles) {
+			img.css('background-position', styles['object-position']);
+		}
+	},
+
+	fixObjectFit: function(img) {
+		img = jQuery(img);
+		// Get and parse font-family computed style
+		var styles = lqx.parseObjectFitStyles(img);
+
+		if('object-fit' in styles) {
+			// Copy original URL into data-object-fit (this will be used later for updates)
+			var src = img.attr('src');
+			img.attr('data-src', src);
+
+			// Set image to background and add styling
+			lqx.setBackgroundStyles(img, styles);
+
+			// Add attribute for later updates
+			img.attr('data-object-fit', true);
+		}
+	},
+
+	updateObjectFit: function() {
+		jQuery('[data-object-fit]').each(function(){
+			var img = jQuery(this);
+			// Get and parse font-family computed style
+			var styles = lqx.parseObjectFitStyles(img);
+
+			if('object-fit' in styles) {
+				lqx.setBackgroundStyles(img, styles);
+			}
+			else {
+				// Revert image back
+				img.attr('src', img.attr('data-src'));
+
+				// Revert background image
+				img.css({
+					'background-image': 'none',
+				});
+			}
+
+		});
 	},
 
 	// init equalHeightRows
