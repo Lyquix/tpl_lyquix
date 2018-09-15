@@ -8,7 +8,7 @@
 	<authorUrl>http://www.lyquix.com</authorUrl>
 	<copyright>Copyright(c) 2014-2017 Lyquix</copyright>
 	<license></license>
-	<version>1.0.7</version>
+	<version>1.0.8</version>
 	<description>Lyquix base template for Joomla 3.x</description>
 	<files>
 		<folder>css</folder>
