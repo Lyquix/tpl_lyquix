@@ -633,13 +633,6 @@ var lqx = lqx || {
 		jQuery('img').each(function(){
 			lqx.fixObjectFit(this);
 		});
-
-		// Add a mututation observer to fix images added to the DOM
-		lqx.mutation.addHandler('addNode', 'img', function(e){
-			lqx.fixObjectFit(e);
-		});
-
-		lqx.log('object-fit fix for IE');
 	},
 
 	parseObjectFitStyles: function(img) {
