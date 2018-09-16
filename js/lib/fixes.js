@@ -144,10 +144,7 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 				var re = /(([\w-]+)\s*:\s*([\w\s-%#\/\(\)\.']+);*)/g;
 				var styles = {};
 				fontFamilyStr.replace(/(^"|"$)/g,'').replace(re, function(match, g1, property, value) {
-					if(property == 'object-fit' && (value == 'cover' || value == 'contain')) {
-						styles[property] = value;
-					}
-					if(property == 'object-position') {
+					if((property == 'object-fit' && (value == 'cover' || value == 'contain')) || property == 'object-prosition'){
 						styles[property] = value;
 					}
 				});
@@ -208,9 +205,7 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 					img.attr('src', img.attr('data-src'));
 
 					// Revert background image
-					img.css({
-						'background-image': 'none',
-					});
+					img.css('background-image', 'none');
 				}
 
 			});
