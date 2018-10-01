@@ -59,7 +59,7 @@ $non_min_css = $this -> params -> get('non_min_css');
 
 // Animte.css
 if($this -> params -> get('animatecss', 0)) {
-	$stylesheets[] = array('url' => $cdnjs_url . 'animate.css/3.7.0/animate' . ($non_min_js ? '' : '.min') . '.css');
+	$stylesheets[] = array('url' => $cdnjs_url . 'animate.css/3.7.0/animate' . ($non_min_css ? '' : '.min') . '.css');
 }
 
 // Additional CSS Libraries
