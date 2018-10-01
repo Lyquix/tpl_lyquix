@@ -54,6 +54,9 @@ if(in_array('inline', $merge_css)) {
 	$doc -> _style = array();
 }
 
+// Use non minified version?
+$non_min_css = $this -> params -> get('non_min_css');
+
 // Animte.css
 if($this -> params -> get('animatecss', 0)) {
 	$stylesheets[] = array('url' => $cdnjs_url . 'animate.css/3.7.0/animate' . ($non_min_js ? '' : '.min') . '.css');
@@ -80,9 +83,6 @@ foreach($add_css_libraries as $cssurl) {
 		}
 	}
 }
-
-// Use non minified version?
-$non_min_css = $this -> params -> get('non_min_css');
 
 // Custom Project Styles
 if(file_exists($tmpl_path . '/css/styles' . ($non_min_css ? '' : '.min') . '.css')) {
