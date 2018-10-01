@@ -14,33 +14,34 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Initialize variables
-include(__DIR__ . '/php/vars.php');
+require __DIR__ . '/php/vars.php';
 
 ?><!DOCTYPE html>
 <html lang="<?php echo $this -> language; ?>" >
 <head>
 <?php
 // Meta tags
-include(__DIR__ . '/php/meta.php');
+require __DIR__ . '/php/meta.php';
+
 // Prepare for Joomla head includes
-include(__DIR__ . '/php/head.php');
+require __DIR__ . '/php/head.php';
 ?>
 <jdoc:include type="head" />
 <?php
 // CSS
-include(__DIR__ . '/php/css.php');
+require __DIR__ . '/php/css.php';
 
 // JavaScript
-include(__DIR__ . '/php/js.php');
+require __DIR__ . '/php/js.php';
 
 // Favicons
-include(__DIR__ . '/php/favicon.php');
+require __DIR__ . '/php/favicon.php';
 ?>
 <jdoc:include type="modules" name="head-scripts" />
 </head>
 <?php
 // Prepare <body> classes
-include(__DIR__ . '/php/body.php');
+require __DIR__ . '/php/body.php';
 ?>
 <body class="<?php echo implode(' ', $body_classes); ?>">
 <?php
@@ -111,7 +112,7 @@ if($this -> params -> get('blank_page', 0) == 0 && $app -> input-> get('tmpl') =
 <?php endif; // endif for blank page ?>
 <?php
 // Include IE alerts
-include(__DIR__ . '/php/ie-alert.php');
+require __DIR__ . '/php/ie-alert.php';
 ?>
 <jdoc:include type="modules" name="body-scripts" />
 </body>
