@@ -16,7 +16,7 @@ $site_abs_url = JURI::root();
 $site_rel_url = JURI::root(true);
 $tmpl_url = $site_rel_url . '/templates/' . $this -> template;
 $tmpl_path = JPATH_BASE . '/templates/' . $this -> template;
-$cdnjs_url = 'http' . (array_key_exists('HTTPS', $_SERVER) ? 's' : '') . '://cdnjs.cloudflare.com/ajax/libs/';
+$cdnjs_url = 'https://cdnjs.cloudflare.com/ajax/libs/';
 
 // Check if we are on the home page
 $home = false;
