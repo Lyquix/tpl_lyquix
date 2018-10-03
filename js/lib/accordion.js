@@ -82,7 +82,7 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 					a.elem = jQuery(elem);
 
 					// Get header element: first child with class .accordion-header (if none, just pick the first child)
-					a.header = a.elem.children('accordion-header');
+					a.header = a.elem.find('.accordion-header');
 					if(a.header.length) {
 						a.header = jQuery(a.header[0]);
 					}
