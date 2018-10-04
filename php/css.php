@@ -12,11 +12,11 @@
 
 $merge_css = $this -> params -> get('merge_css');
 if(!is_array($this -> params -> get('merge_css'))) {
-	$merge_css = array();
+	$merge_css = [];
 }
 
 // Array to store all stylesheets to be loaded
-$stylesheets = array();
+$stylesheets = [];
 
 // Parse enqueued styles
 foreach($doc -> _styleSheets as $stylesheet_url => $stylesheet_meta) {
@@ -24,7 +24,7 @@ foreach($doc -> _styleSheets as $stylesheet_url => $stylesheet_meta) {
 	if(parse_url($stylesheet_url, PHP_URL_SCHEME)) {
 		// Absolute URL
 		if(in_array('remote', $merge_css)) {
-			$stylesheets[] = array('url' => $stylesheet_url);
+			$stylesheets[] = ['url' => $stylesheet_url];
 			unset($doc -> _styleSheets[$stylesheet_url]);
 		}
 	}
@@ -36,10 +36,10 @@ foreach($doc -> _styleSheets as $stylesheet_url => $stylesheet_meta) {
 			if(substr($url,0,1) != '/') $url = '/' . $url;
 			// Check if file exist
 			if(file_exists(JPATH_BASE . $url)) {
-				$stylesheets[] = array(
+				$stylesheets[] = [
 					'url' => $url,
 					'version' => date("YmdHis", filemtime(JPATH_BASE . $url))
-				);
+				];
 				unset($doc -> _styleSheets[$stylesheet_url]);
 			}
 		}
@@ -49,9 +49,9 @@ foreach($doc -> _styleSheets as $stylesheet_url => $stylesheet_meta) {
 // Parse enqueued style declarations
 if(in_array('inline', $merge_css)) {
 	foreach($doc -> _style as $stylesheet_type => $stylesheet_data) {
-		$stylesheets[] = array('data' => $stylesheet_data);
+		$stylesheets[] = ['data' => $stylesheet_data];
 	}
-	$doc -> _style = array();
+	$doc -> _style = [];
 }
 
 // Use non minified version?
@@ -59,7 +59,7 @@ $non_min_css = $this -> params -> get('non_min_css');
 
 // Animte.css
 if($this -> params -> get('animatecss', 0)) {
-	$stylesheets[] = array('url' => $cdnjs_url . 'animate.css/3.7.0/animate' . ($non_min_css ? '' : '.min') . '.css');
+	$stylesheets[] = ['url' => $cdnjs_url . 'animate.css/3.7.0/animate' . ($non_min_css ? '' : '.min') . '.css'];
 }
 
 // Additional CSS Libraries
@@ -70,7 +70,7 @@ foreach($add_css_libraries as $cssurl) {
 		// Check if stylesheet is local or remote
 		if(parse_url($cssurl, PHP_URL_SCHEME)) {
 			// Absolute URL
-			$stylesheets[] = array('url' => $cssurl);
+			$stylesheets[] = ['url' => $cssurl];
 		}
 		elseif (parse_url($cssurl, PHP_URL_PATH)) {
 			// Relative URL
@@ -78,7 +78,7 @@ foreach($add_css_libraries as $cssurl) {
 			if(substr($cssurl,0,1) != '/') $cssurl = '/' . $cssurl;
 			// Check if file exist
 			if(file_exists(JPATH_BASE . $cssurl)) {
-				$stylesheets[] = array('url' => $cssurl, 'version' => date("YmdHis", filemtime(JPATH_BASE . $cssurl)));
+				$stylesheets[] = ['url' => $cssurl, 'version' => date("YmdHis", filemtime(JPATH_BASE . $cssurl))];
 			}
 		}
 	}
@@ -86,10 +86,10 @@ foreach($add_css_libraries as $cssurl) {
 
 // Custom Project Styles
 if(file_exists($tmpl_path . '/css/styles' . ($non_min_css ? '' : '.min') . '.css')) {
-	$stylesheets[] = array(
+	$stylesheets[] = [
 		'url' => $tmpl_url . '/css/styles' . ($non_min_css ? '' : '.min') . '.css',
 		'version' => date("YmdHis", filemtime($tmpl_path . '/css/styles' . ($non_min_css ? '' : '.min') . '.css'))
-	);
+	];
 }
 
 // Unique filename based on stylesheets, last update, and order

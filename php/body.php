@@ -12,7 +12,7 @@
 
 // Prepare array of classes for body tag
 if(@!is_array($body_classes)) {
-	$body_classes = array();
+	$body_classes = [];
 }
 if($home) {
 	$body_classes[] = 'home';

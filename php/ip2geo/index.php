@@ -52,7 +52,7 @@ if(file_exists($db)) {
 		$reader = new Reader($db);
 		$geo = $reader->get($ip);
 		$reader->close();
-		$geo = Array(
+		$geo = [
 			'city' => $geo['city']['names']['en'],
 			'subdivision' => $geo['subdivisions'][0]['names']['en'],
 			'country' => $geo['country']['iso_code'],
@@ -61,7 +61,7 @@ if(file_exists($db)) {
 			'lat' => $geo['location']['latitude'],
 			'lon' => $geo['location']['longitude'],
 			'radius' => $geo['location']['accuracy_radius'] // in km
-		);
+		];
 		echo json_encode($geo);
 	}
 	else {
