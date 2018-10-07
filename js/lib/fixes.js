@@ -11,7 +11,25 @@
 
 if(lqx && typeof lqx.fixes == 'undefined') {
 	lqx.fixes = (function(){
+		var opts = {
+			// Control what specific fixes to apply
+			imgWidthAttrib: true,
+			fontFeatureOpts: true,
+			cssGrid: true,
+			linkPreload: true,
+			objectFit: true
+		};
+
+		var vars = {
+		};
+
 		var init = function(){
+			// Copy default opts and vars
+			jQuery.extend(lqx.opts.fixes, opts);
+			opts = lqx.opts.fixes;
+			jQuery.extend(lqx.vars.fixes, vars);
+			vars = lqx.vars.fixes;
+
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
@@ -22,7 +40,7 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 					switch(lqx.detect.browser().type) {
 						case 'msie':
 						case 'firefox':
-							linkPreload();
+							if(opts.linkPreload) linkPreload();
 							break;
 					}
 
@@ -30,10 +48,10 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 					lqx.vars.document.ready(function() {
 						switch(lqx.detect.browser().type) {
 							case 'msie':
-								imgWidthAttrib();
-								fontFeatureopts();
-								cssGrid();
-								objectFit();
+								if(opts.imgWidthAttrib) imgWidthAttrib();
+								if(opts.fontFeatureOpts) fontFeatureOpts();
+								if(opts.cssGrid) cssGrid();
+								if(opts.objectFit) objectFit();
 								break;
 						}
 					});
@@ -42,8 +60,8 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 					lqx.vars.window.on('screensizechange orientationchange', function() {
 						switch(lqx.detect.browser().type) {
 							case 'msie':
-								cssGrid();
-								updateObjectFit();
+								if(opts.cssGrid) cssGrid();
+								if(opts.objectFit) updateObjectFit();
 								break;
 						}
 					});
@@ -79,7 +97,7 @@ if(lqx && typeof lqx.fixes == 'undefined') {
 		};
 
 		// Fix for Google fonts not rendering in IE10/11
-		var fontFeatureopts = function() {
+		var fontFeatureOpts = function() {
 			jQuery('<style>*, :before, :after {font-feature-opts: normal !important;}</style>').appendTo('head');
 			lqx.log('Font feature opts property fix for IE10/11');
 		};
