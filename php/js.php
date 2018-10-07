@@ -184,4 +184,4 @@ if($this -> params -> get('ga_account')) {
 // Merge with options from template settings
 $lqx_options = array_replace_recursive($lqx_options, json_decode($this -> params -> get('lqx_options', '{}'), true));
 ?>
-<script async src="<?php echo $tmpl_url . '/dist/' . $scripts_filename; ?>" onload="lqx.ready(<?php echo htmlentities(json_encode($lqx_options)); ?>);"></script>
+<script defer src="<?php echo $tmpl_url . '/dist/' . $scripts_filename; ?>" onload="lqx.ready(<?php echo htmlentities(json_encode($lqx_options)); ?>);"></script>
