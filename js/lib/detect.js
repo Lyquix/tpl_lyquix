@@ -11,6 +11,15 @@
 
 if(lqx && typeof lqx.detect == 'undefined') {
 	lqx.detect = (function(){
+		var opts = {
+			// Control what specific detections to enable
+			mobile: true,
+			browser: true,
+			os: true,
+			urlParts: true,
+			urlParams: true
+		};
+
 		var vars = {
 			mobile: null,
 			browser: null,
@@ -21,6 +30,8 @@ if(lqx && typeof lqx.detect == 'undefined') {
 
 		var init = function(){
 			// Copy default opts and vars
+			jQuery.extend(lqx.opts.detect, opts);
+			opts = lqx.opts.detect;
 			jQuery.extend(lqx.vars.detect, vars);
 			vars = lqx.vars.detect;
 
@@ -30,11 +41,11 @@ if(lqx && typeof lqx.detect == 'undefined') {
 				if(lqx.opts.detect.enabled) {
 					lqx.log('Initializing `detect`');
 
-					detectMobile();
-					detectBrowser();
-					detectOS();
-					detectUrlParts();
-					detectUrlParams();
+					if(opts.mobile) detectMobile();
+					if(opts.browser) detectBrowser();
+					if(opts.os) detectOS();
+					if(opts.urlParts) detectUrlParts();
+					if(opts.urlParams) detectUrlParams();
 				}
 			});
 
