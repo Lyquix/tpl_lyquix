@@ -107,6 +107,7 @@ if(lqx && typeof lqx.util == 'undefined') {
 				swp.endTime = endTime.getTime() + endTime.getMilliseconds()/1000;
 			});
 			lqx.vars.body.on('touchend', sel, function(e) {
+				swp.elem = e.currentTarget;
 				// Only handle swipes that are no longer than opts.maxT
 				if(swp.endTime - swp.startTime <= opts.maxT) {
 					// Horizontal swipe
