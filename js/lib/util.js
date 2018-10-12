@@ -74,7 +74,10 @@ if(lqx && typeof lqx.util == 'undefined') {
 			var opts = {
 				minX: 30,
 				minY: 30,
-				maxT: 1500
+				maxT: 1500,
+				disableScroll: false,
+				detectV: true,
+				detectH: true
 			};
 
 			if(typeof options != 'undefined') {
@@ -82,47 +85,49 @@ if(lqx && typeof lqx.util == 'undefined') {
 			}
 
 			lqx.vars.body.on('touchstart', sel, function(e) {
+				var t = e.originalEvent.touches[0];
+				var startTime = new Date();
 				swp = {
 					sel: sel,
-					startX: 0,
-					startY: 0,
-					startTime: 0,
+					startX: t.clientX,
+					startY: t.clientY,
+					startTime: startTime.getTime() + startTime.getMilliseconds() / 1000,
 					endX: 0,
 					endY: 0,
 					endTime: 0,
-					dir: null
+					dir: [],
+					elem: e.currentTarget
 				};
-				var t = e.originalEvent.touches[0];
-				swp.startX = t.clientX;
-				swp.startY = t.clientY;
-				var startTime = new Date();
-				swp.startTime = startTime.getTime() + startTime.getMilliseconds()/1000;
 			});
-			lqx.vars.body.on('touchmove', sel, function(e) {
-				var t = e.originalEvent.touches[0];
-				swp.endX = t.clientX;
-				swp.endY = t.clientY;
-				var endTime = new Date();
-				swp.endTime = endTime.getTime() + endTime.getMilliseconds()/1000;
+			document.querySelectorAll(sel).forEach(function(elem){
+				elem.addEventListener('touchmove', function(e) {
+					if(opts.disableScroll) e.preventDefault();
+					var t = e.touches[0];
+					swp.endX = t.clientX;
+					swp.endY = t.clientY;
+					var endTime = new Date();
+					swp.endTime = endTime.getTime() + endTime.getMilliseconds()/1000;
+				}, opts.disableScroll && lqx.detect.features().passiveEventListeners ? {passive: false} : '');
 			});
 			lqx.vars.body.on('touchend', sel, function(e) {
-				swp.elem = e.currentTarget;
 				// Only handle swipes that are no longer than opts.maxT
 				if(swp.endTime > 0 && swp.endTime - swp.startTime <= opts.maxT) {
 					// Horizontal swipe
-					if(Math.abs(swp.endX - swp.startX) > opts.minX && swp.endX > 0) {
-						if (swp.endX > swp.startX) swp.dir = 'r'; // right
-						else swp.dir = 'l'; // left
+					if(opts.detectH && Math.abs(swp.endX - swp.startX) > opts.minX && swp.endX > 0) {
+						if (swp.endX > swp.startX) swp.dir.push('r'); // right
+						else swp.dir.push('l'); // left
 					}
 					// Vertical swipe
-					if((Math.abs(swp.endY - swp.startY) > opts.minY) && swp.endY > 0) {
-						if (swp.endY > swp.startY) swp.dir += 'd'; // down
-						else swp.dir += 'u'; // up
+					if(opts.detectV && Math.abs(swp.endY - swp.startY) > opts.minY && swp.endY > 0) {
+						if (swp.endY > swp.startY) swp.dir.push('d'); // down
+						else swp.dir.push('u'); // up
 					}
+					swp.dir = swp.dir.join();
 					// Swipe detected?
-					if (swp.dir != '' && typeof callback == 'function') {
+					if (swp.dir != '') {
 						lqx.log('Detected swipe ' + swp.dir + ' for ' + sel);
-						callback(swp);
+						if(typeof callback == 'function') callback(swp);
+						else lqx.warn(callback + ' is not a function');
 					}
 				}
 			});

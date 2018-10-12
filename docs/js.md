@@ -256,7 +256,14 @@ Function for handling cookies with ease, inspired by https://github.com/js-cooki
 
 Adds a swipe detection listener on element(s) identified by `selector`, and triggers the `callback` function when a swipe is detected, passing the direction of the swap: :u (up), d (down), l (left), r (right), or a combination of vertical and horizontal direction.
 
-Optionally you can pass custom `options`, an object with keys `minX`, `maxX`, `minY`, `maxY` to configure the minimum and maximum swipe length (in pixels) to be considered a swipe in horizontal and vertical directions.
+Optionally you can pass custom `options`, an object with keys
+
+  * `minX`: minimum pixel distance in the x axis to consider the move a swipe
+  * `minY`: minimum pixel distance in the y axis to consider the move a swipe
+  * `maxT`: maximum time in ms allowed for a swipe
+  * `disableScroll`: set to true if you want to prevent the default touch behavior (e.g. prevent the screen to scroll)
+  * `detectV`: set to false to ignore vertical swipes
+  * `detectH`: set to false to ignore horizontal swipes
 
 **`lqx.util.sprintf(format, arg1, arg2, ...)`**
 
