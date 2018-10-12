@@ -17,7 +17,8 @@ if(lqx && typeof lqx.detect == 'undefined') {
 			browser: true,
 			os: true,
 			urlParts: true,
-			urlParams: true
+			urlParams: true,
+			features: true
 		};
 
 		var vars = {
@@ -25,7 +26,10 @@ if(lqx && typeof lqx.detect == 'undefined') {
 			browser: null,
 			os: null,
 			urlParts: {},
-			urlParams: {}
+			urlParams: {},
+			features: {
+				passiveEventListeners: false
+			}
 		};
 
 		var init = function(){
@@ -46,6 +50,7 @@ if(lqx && typeof lqx.detect == 'undefined') {
 					if(opts.os) detectOS();
 					if(opts.urlParts) detectUrlParts();
 					if(opts.urlParams) detectUrlParams();
+					if(opts.features) detectFeatures();
 				}
 			});
 
@@ -68,6 +73,9 @@ if(lqx && typeof lqx.detect == 'undefined') {
 		var urlParams = function() {
 			return vars.urlParams;
 		};
+		var features = function() {
+			return vars.features;
+		}
 
 		// Uses the mobile-detect.js library to detect if the browser is a mobile device
 		// Adds the classes mobile, phone and tablet to the body tag if applicable
@@ -307,13 +315,29 @@ if(lqx && typeof lqx.detect == 'undefined') {
 			lqx.log('Detect URL params', vars.urlParams);
 		};
 
+		// Detects various browser features
+		var detectFeatures = function() {
+			// Passive event listeners
+			vars.features.passiveEventListeners = false;
+			try {
+			  var opts = Object.defineProperty({}, 'passive', {
+				get: function() {
+					vars.features.passiveEventListeners = true;
+				}
+			  });
+			  window.addEventListener('test', null, opts);
+			}
+			catch(e) {}
+		};
+
 		return {
 			init: init,
 			mobile: mobile,
 			os: os,
 			browser: browser,
 			urlParts: urlParts,
-			urlParams: urlParams
+			urlParams: urlParams,
+			features: features
 		};
 	})();
 	lqx.detect.init();

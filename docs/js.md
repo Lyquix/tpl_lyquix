@@ -50,6 +50,7 @@ A collection of detection utilities. Adds classes to the `<body>` that can be he
   * **Operating System:** uses the browser User Agent string to detect the operating system type (e.g iOS, Windows, etc.) and version. Classes are added to the `<body>` tag for OS, OS and major version, and OS and full version. Details are also available by calling `lqx.detect.os`.
   * **URL Parts:** detects the URL parts (e.g. protocol, domain, path), and sets them as attributes to the `<body>` tag. Details are also available by calling `lqx.detect.urlParts`.
   * **URL Params:** detects the URL query parameters and make them available at `lqx.detect.urlParams`.
+  * **Browser Features:** detects specific browser features that may impact JavaScript of CSS rendering.
 
 **Fixes [`js/lib/fixes.js`](../js/lib/fixes.js)**
 
