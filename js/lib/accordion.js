@@ -31,9 +31,14 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 			is opened the rest are closed.
 		**/
 		var opts = {
-			scrollTopPadding: 15, // percentage from top of screen
-			scrollTopDuration: 500 // in ms
+			scrollTop: {
+				enabled: true,
+				padding: 5, // percentage from top of screen
+				duration: 500, // in ms
+			}
 		};
+
+		var vars = [];
 
 		var init = function(){
 			// Copy default opts and vars
@@ -94,14 +99,16 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 					// Force remove all transitions
 					a.elem.css('transition', 'none !important');
 
-					// Get height of header element
+					// Get height of header element (the closed height)
 					a.closedHeight = a.header.outerHeight(true);
 
-					// Get height of whole accordion
+					// Get inner and outer height of open accordion
 					a.openHeight = a.elem.innerHeight();
+					a.openOuterHeight = a.elem.outerHeight();
 
-					// Close the accordion
+					// Close the accordion and get outer closed height
 					a.elem.css('height', a.closedHeight).addClass('closed');
+					a.closedOuterHeight = a.elem.outerHeight();
 
 					// Allow transitions again
 					a.elem.css('transition', '');
@@ -110,26 +117,16 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 					a.header.click(function(){
 						// Open accordion
 						if(a.elem.hasClass('closed')) {
-							lqx.log('Opening accordion', a.elem)
-							a.elem.removeClass('closed').addClass('open');
-							a.elem.css('height', a.openHeight);
-							jQuery('html, body').animate({
-								scrollTop: (a.elem.offset().top - lqx.vars.window.height() * opts.scrollTopPadding / 100)
-							}, opts.scrollTopDuration);
-							// Close all other accordions in group
-							var group = a.elem.parents('.accordion-group');
-							if(group.length) {
-								lqx.log('Closing all other accordions in group', group[0]);
-								jQuery(group[0]).find('.accordion.open').not(a.elem).find('.accordion-header').trigger('click');
-							}
+							open(a.elem.attr('data-accordion'));
 						}
 						// Close accordion
 						else {
-							lqx.log('Closing accordion', a.elem)
-							a.elem.addClass('closed').removeClass('open');
-							a.elem.css('height', a.closedHeight);
+							close(a.elem.attr('data-accordion'));
 						}
 					});
+
+					// Save accordion index
+					a.elem.attr('data-accordion', vars.length);
 
 					// Save on vars
 					vars.push(a);
@@ -137,38 +134,124 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 			}
 		};
 
-		var update = function(){
-			vars.forEach(function(a){
+		var open = function(id) {
+			if(id.isInteger() && id >= 0 && id < vars.length) {
+				lqx.log('Opening accordion', a.elem);
+				// Get accordion data
+				var a = vars[id];
+
+				// Open the accordion
+				a.elem.removeClass('closed').addClass('open');
+				a.elem.css('height', a.openHeight);
+
+				// Are we in an accordion group?
+				var group = a.elem.parents('.accordion-group');
+
+				// Scroll page to top of open accordion
+				if(opts.scrollTop.enabled) {
+					// Scroll position: start with top of current accordion
+					var scrollPos = a.elem.offset().top;
+
+					// Reduce scroll position if other accordions are open above the current accordion
+					if(group.length) {
+						group.eq(0).find('.accordion.open').not(a.elem).each(function(id, sibling){
+							sibling = jQuery(sibling);
+							if(sibling.offset().top < a.elem.offset().top) {
+								// Get open outer height
+								var siblingOpenHeight = vars[sibling.attr('data-accordion')].openOuterHeight;
+								// Get closed outer height
+								var siblingClosedHeight = vars[sibling.attr('data-accordion')].closedOuterHeight;
+								scrollPos -= (siblingOpenHeight - siblingClosedHeight);
+							}
+						});
+					}
+
+					// Scroll position: add padding
+					scrollPos -= lqx.vars.window.height() * opts.scrollTop.padding / 100;
+					jQuery('html, body').animate({scrollTop: scrollPos}, opts.scrollTop.duration);
+				}
+
+				// Close the rest of the accordions in group
+				if(group.length) {
+					lqx.log('Closing all other open accordions in group', group[0]);
+
+					// Do not close self
+					group.eq(0).find('.accordion.open').not(a.elem).each(function(id, elem){
+						close(vars[jQuery(elem).attr('data-accordion')]);
+					});
+				}
+			}
+			else {
+				lqx.warn(id + ' is not a valid accordion id');
+			}
+		};
+
+		var close = function(id) {
+			if(id.isInteger() && id >= 0 && id < vars.length) {
+				lqx.log('Closing accordion', a.elem);
+
+				// Get accordion data
+				var a = vars[id];
+
+				// Close the accordion
+				a.elem.addClass('closed').removeClass('open');
+				a.elem.css('height', a.closedHeight);
+			}
+			else {
+				lqx.warn(id + ' is not a valid accordion id');
+			}
+		};
+
+		var update = function(id){
+			// Get the accordions to update
+			var elems = [];
+			if(id.isInteger() && id >= 0 && id < vars.length) {
+				elems[id] = vars[id];
+			}
+			else {
+				elems = vars;
+			}
+
+			// Update the accordions
+			elems.forEach(function(a, id){
 				// Keep original state of the accordion
 				var closed = a.elem.hasClass('closed');
 
 				// Force remove all transitions
 				a.elem.css('transition', 'none !important');
 
-				// Open the accordion
-				a.elem.css('height', 'auto').removeClass('closed');
+				// Set auto-height and open if closed
+				a.elem.css('height', 'auto').removeClass('closed').addClass('open');
 
 				// Get height of header element
 				a.closedHeight = a.header.outerHeight(true);
 
-				// Get height of whole accordion
+				// Get inner and outer height of open accordion
 				a.openHeight = a.elem.innerHeight();
+				a.openOuterHeight = a.elem.outerHeight();
 
-				// Close the accordion again, or set the open height
-				if(closed) {
-					a.elem.css('height', a.closedHeight).addClass('closed');
-				}
-				else {
-					a.elem.css('height', a.openHeight);
+				// Close the accordion and update the outer closed height
+				a.elem.css('height', a.closedHeight).removeClass('open').addClass('closed');
+				a.closedOuterHeight = a.elem.outerHeight();
+
+				// Reopen the accordion if it was originally open
+				if(!closed) {
+					a.elem.css('height', a.openHeight).removeClass('closed').addClass('open');
 				}
 
 				// Allow transitions again
 				a.elem.css('transition', '');
+
+				// Update vars
+				vars[id] = a;
 			});
 		};
 
 		return {
-			init: init
+			init: init,
+			open: open,
+			close: close,
+			update: update
 		};
 	})();
 	lqx.accordion.init();

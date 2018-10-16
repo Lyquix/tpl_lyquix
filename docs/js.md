@@ -20,6 +20,8 @@ The height of the accordion when open and closed is recalculated on resize, scre
 
 If the accordion is a child of an `.accordion-group` parent, then when one accordion is opened the rest are closed.
 
+Provides an interface to open, close and update accordions programatically.
+
 **Analytics [`js/lib/analytics.js`](../js/lib/analytics.js)**
 
 Provides functionality for custom event tracking with Google Analytics:
@@ -181,6 +183,18 @@ Provides utility functions, listed below.
 ### Functions
 
 The following functions are exposed:
+
+**`lqx.accordion.close(id)`**
+
+Pass an accordion id (see in the accordion element for the `data-accordion` attribute) to close it.
+
+**`lqx.accordion.open(id)`**
+
+Pass an accordion id (see in the accordion element for the `data-accordion` attribute) to open it.
+
+**`lqx.accordion.update(id)`**
+
+Update accordions stored open and closed heights. If no id is passed, all accordions are updated.
 
 **`lqx.detect.browser()`**
 
