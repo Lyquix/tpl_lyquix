@@ -135,7 +135,7 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 		};
 
 		var open = function(id) {
-			if(id.isInteger() && id >= 0 && id < vars.length) {
+			if(typeof id != 'undefined' && id.isInteger() && id >= 0 && id < vars.length) {
 				lqx.log('Opening accordion', a.elem);
 				// Get accordion data
 				var a = vars[id];
@@ -182,12 +182,12 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 				}
 			}
 			else {
-				lqx.warn(id + ' is not a valid accordion id');
+				lqx.warn('Invalid accordion id');
 			}
 		};
 
 		var close = function(id) {
-			if(id.isInteger() && id >= 0 && id < vars.length) {
+			if(typeof id != 'undefined' && id.isInteger() && id >= 0 && id < vars.length) {
 				lqx.log('Closing accordion', a.elem);
 
 				// Get accordion data
@@ -198,14 +198,14 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 				a.elem.css('height', a.closedHeight);
 			}
 			else {
-				lqx.warn(id + ' is not a valid accordion id');
+				lqx.warn('Invalid accordion id');
 			}
 		};
 
 		var update = function(id){
 			// Get the accordions to update
 			var elems = [];
-			if(id.isInteger() && id >= 0 && id < vars.length) {
+			if(typeof id != 'undefined' && id.isInteger() && id >= 0 && id < vars.length) {
 				elems[id] = vars[id];
 			}
 			else {
