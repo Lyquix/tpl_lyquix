@@ -138,9 +138,10 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 			if(typeof id == 'undefined') var id = null;
 			id = parseInt(id);
 			if(Number.isInteger(id) && id >= 0 && id < vars.length) {
-				lqx.log('Opening accordion', a.elem);
 				// Get accordion data
 				var a = vars[id];
+
+				lqx.log('Opening accordion', a.elem);
 
 				// Open the accordion
 				a.elem.removeClass('closed').addClass('open');
@@ -179,7 +180,7 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 
 					// Do not close self
 					group.eq(0).find('.accordion.open').not(a.elem).each(function(id, elem){
-						close(vars[jQuery(elem).attr('data-accordion')]);
+						close(jQuery(elem).attr('data-accordion'));
 					});
 				}
 			}
@@ -192,10 +193,10 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 			if(typeof id == 'undefined') var id = null;
 			id = parseInt(id);
 			if(Number.isInteger(id) && id >= 0 && id < vars.length) {
-				lqx.log('Closing accordion', a.elem);
-
 				// Get accordion data
 				var a = vars[id];
+
+				lqx.log('Closing accordion', a.elem);
 
 				// Close the accordion
 				a.elem.addClass('closed').removeClass('open');
