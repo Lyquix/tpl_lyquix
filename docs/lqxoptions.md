@@ -14,10 +14,10 @@ The following JSON string is provided as a reference of the complete set of opti
   "accordion": {
     "enabled": true,
     "scrollTop": {
-			"enabled": true,
-			"padding": 5,
-			"duration": 500
-		}
+      "enabled": true,
+      "padding": 5,
+      "duration": 500
+    }
   },
   "analytics": {
     "enabled": true,
