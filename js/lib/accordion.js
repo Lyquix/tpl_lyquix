@@ -137,7 +137,7 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 		var open = function(id) {
 			if(typeof id == 'undefined') var id = null;
 			id = parseInt(id);
-			if(Number.isInteger(id) && id >= 0 && id < vars.length) {
+			if(!isNaN(id) && id >= 0 && id < vars.length) {
 				// Get accordion data
 				var a = vars[id];
 
@@ -192,7 +192,7 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 		var close = function(id) {
 			if(typeof id == 'undefined') var id = null;
 			id = parseInt(id);
-			if(Number.isInteger(id) && id >= 0 && id < vars.length) {
+			if(!isNaN(id) && id >= 0 && id < vars.length) {
 				// Get accordion data
 				var a = vars[id];
 
@@ -212,7 +212,7 @@ if(lqx && typeof lqx.accordion == 'undefined') {
 			var elems = [];
 			if(typeof id == 'undefined') var id = null;
 			id = parseInt(id);
-			if(Number.isInteger(id) && id >= 0 && id < vars.length) {
+			if(!isNaN(id) && id >= 0 && id < vars.length) {
 				elems[id] = vars[id];
 			}
 			else {
