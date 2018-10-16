@@ -246,7 +246,7 @@ Adds an observer of type `addNode`, `removeNode` or `modAttrib`, and when the ta
 
 **`lqx.options(opts)`**
 
-Overrides or extends default or current option (settings) values. Accepts an object of options.
+Overrides or extends default or current option (settings) values. Accepts an object of options. Refer to [Lyquix Options](lqxoptions.md).
 
 **`lqx.ready(opts)`**
 
