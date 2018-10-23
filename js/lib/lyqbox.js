@@ -302,7 +302,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 			lqx.log('Open LyqBox', elem);
 
 			// Send event for lightbox opened
-			if(opts.analytics) {
+			if(opts.analytics && typeof ga !== 'undefined') {
 				ga('send', {
 					'hitType': 'event',
 					'eventCategory': 'LyqBox',
@@ -449,7 +449,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 			}
 
 			// Send event for load
-			if(opts.analytics) {
+			if(opts.analytics && typeof ga !== 'undefined') {
 			// Set the analytics event label
 				var eventLabel = vars.album[index].type +
 					(vars.album[index].albumId ? ':' + vars.album[index].albumId : '') +
@@ -625,7 +625,7 @@ if(lqx && typeof lqx.lyqbox == 'undefined') {
 			lqx.log('Close LyqBox');
 
 			// Send event for lightbox opened
-			if(opts.analytics) {
+			if(opts.analytics && typeof ga !== 'undefined') {
 				ga('send', {
 					'hitType': 'event',
 					'eventCategory': 'LyqBox',
