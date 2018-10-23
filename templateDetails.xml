@@ -140,7 +140,7 @@
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
-				<field name="lqx_options" type="text" default="" label="Lyquix Library Options" description="Object of options to override Lyquix default settings" />
+				<field name="lqx_options" type="textarea" default="" label="Lyquix Library Options" description="Object of options to override Lyquix default settings" filter="raw" />
 				<field name="non_min_js" type="radio" default="0" label="Use original JS" description="Uses the original JS files instead of the minified versions. Activate only for development.">
 					<option value="0">No</option>
 					<option value="1">Yes</option>
