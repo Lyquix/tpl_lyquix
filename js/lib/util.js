@@ -9,7 +9,7 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-if(lqx && typeof lqx.util == 'undefined') {
+if(lqx && !('util' in lqx)) {
 	lqx.util = {
 		// Function for handling cookies with ease
 		// inspired by https://github.com/js-cookie/js-cookie and https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie/Simple_document.cookie_framework
@@ -80,7 +80,7 @@ if(lqx && typeof lqx.util == 'undefined') {
 				detectH: true
 			};
 
-			if(typeof options != 'undefined') {
+			if(typeof options == 'object') {
 				jQuery.extend(opts, options);
 			}
 

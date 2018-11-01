@@ -9,7 +9,7 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-if(lqx && typeof lqx.string == 'undefined') {
+if(lqx && !('string' in lqx)) {
 	lqx.string = (function(){
 		/**
 		 * Adds new functionality to the String prototype.
@@ -48,7 +48,7 @@ if(lqx && typeof lqx.string == 'undefined') {
 					// Add functions to prototype
 					var added = [];
 					opts.funcs.forEach(function(func){
-						if(typeof String.prototype[func] === 'undefined') {
+						if(!(func in String.prototype)) {
 							String.prototype[func] = f[func];
 							added.push(func)
 						}

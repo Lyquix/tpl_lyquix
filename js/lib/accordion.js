@@ -9,7 +9,7 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-if(lqx && typeof lqx.accordion == 'undefined') {
+if(lqx && !('accordion' in lqx)) {
 	lqx.accordion = (function(){
 		/** Adds accordion functionality to any element
 			with the .accordion class

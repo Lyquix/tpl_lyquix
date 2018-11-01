@@ -9,7 +9,7 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-if(lqx && typeof lqx.analytics == 'undefined') {
+if(lqx && !('analytics' in lqx)) {
 	lqx.analytics = (function(){
 		var opts = {
 			downloads: true,
@@ -382,7 +382,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					}
 
 					// Add to list of players
-					if(typeof vars.youtubePlayers[playerId] == 'undefined') {
+					if(!(playerId in vars.youtubePlayers)) {
 						vars.youtubePlayers[playerId] = {};
 
 						// add event callbacks to player
@@ -408,7 +408,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					}
 
 					// Add to list of players
-					if(typeof vars.vimeoPlayers[playerId] == 'undefined') {
+					if(!(playerId in vars.vimeoPlayers)) {
 						vars.vimeoPlayers[playerId] = {};
 					}
 				}
@@ -416,9 +416,9 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 		};
 
 		var onYouTubeIframeAPIReady = function(){
-			if(vars.youTubeIframeAPIReady && (typeof YT !== 'undefined') && YT && YT.Player) {
+			if(vars.youTubeIframeAPIReady && (typeof YT !== 'undefined') && YT && ('Player' in YT)) {
 				Object.keys(vars.youtubePlayers).forEach(function(playerId) {
-					if(typeof vars.youtubePlayers[playerId].playerObj == 'undefined') {
+					if(!('playerObj' in vars.youtubePlayers[playerId])) {
 						vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, {
 							events: {
 								'onReady': function(e){
@@ -448,7 +448,7 @@ if(lqx && typeof lqx.analytics == 'undefined') {
 					//setTimeout(function(){lqx.youtubePlayerReady(e, playerId)}, 100);
 				}
 				else {
-					if(typeof vars.youtubePlayers[playerId].progress == 'undefined') {
+					if(!('progress' in vars.youtubePlayers[playerId])) {
 						// set player object variables
 						vars.youtubePlayers[playerId].progress = 0;
 						vars.youtubePlayers[playerId].start = false;

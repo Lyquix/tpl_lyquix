@@ -9,7 +9,7 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-if(lqx && typeof lqx.geolocate == 'undefined') {
+if(lqx && !('geolocate' in lqx)) {
 	lqx.geolocate = (function(){
 		var opts = {
 			gps: false

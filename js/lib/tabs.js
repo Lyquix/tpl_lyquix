@@ -9,7 +9,7 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-if(lqx && typeof lqx.tabs == 'undefined') {
+if(lqx && !('tabs' in lqx)) {
 	lqx.tabs = (function(){
 		/** Looks for elements with the class .tab and .tab-panel, wrapped in a .tab-group element
 		 *
