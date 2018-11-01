@@ -303,6 +303,36 @@ if(lqx && !('util' in lqx)) {
 			catch (err) {
 				return false;
 			}
+		},
+
+		// Compares version strings
+		// Returns:
+		// 0: equal
+		// 1: a > b
+		// -1: a < b
+		versionCompare: function(a, b) {
+			// If they are equal
+			if(a === b) return 0;
+
+			// Split into arrays and get the length of the shortest
+			a = a.split(".");
+			b = b.split(".");
+			var len = Math.min(a.length, b.length);
+
+			// Loop while the components are equal
+			for(var i = 0; i < len; i++) {
+				// A bigger than B
+				if(parseInt(a[i]) > parseInt(b[i])) return 1;
+				// B bigger than A
+				if (parseInt(a[i]) < parseInt(b[i])) return -1;
+			}
+
+			// If they are still the same, the longer one is greater.
+			if(a.length > b.length) return 1;
+			if (a.length < b.length) return -1;
+
+			// Otherwise they are the same.
+			return 0;
 		}
 	};
 }
