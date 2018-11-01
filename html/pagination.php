@@ -62,6 +62,7 @@ function pagination_list_render($list){
 }
 
 function pagination_item_active(&$item){
+	$display = '';
 
 	if ($item->text == JText::_('JLIB_HTML_START')){
 		$class = 'first';
@@ -88,6 +89,7 @@ function pagination_item_active(&$item){
 }
 
 function pagination_item_inactive(&$item) {
+	$display = '';
 
 	if ($item->text == JText::_('JLIB_HTML_START')){
 		$class = 'first';
