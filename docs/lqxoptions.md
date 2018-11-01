@@ -63,11 +63,93 @@ The following JSON string is provided as a reference of the complete set of opti
   },
   "fixes": {
     "enabled": true,
-    "imgWidthAttrib": true,
-    "fontFeatureOpts": true,
-    "cssGrid": true,
-    "linkPreload": true,
-    "objectFit": true
+    "imgWidthAttrib": {
+      "enabled": true,
+      "method": "include",
+      "matches": [
+        {
+          "browser": {
+            "type": "msie"
+          }
+        }
+      ]
+    },
+    "fontFeatureOpts": {
+      "enabled": true,
+      "method": "include",
+      "matches": [
+        {
+          "browser": {
+            "type": "msie"
+          }
+        }
+      ]
+    },
+    "cssGrid": {
+      "enabled": true,
+      "method": "include",
+      "matches": [
+        {
+          "browser": {
+            "type": "msie"
+          }
+        }
+      ]
+    },
+    "linkPreload": {
+      "enabled": true,
+      "method": "include",
+      "matches": [
+        {
+          "os": {
+            "type": "ios",
+            "version": [
+              null,
+              "11.2"
+            ]
+          }
+        },
+        {
+          "browser": {
+            "type": "msie"
+          }
+        },
+        {
+          "browser": {
+            "type": "firefox"
+          }
+        },
+        {
+          "browser": {
+            "type": "safari",
+            "version": [
+              null,
+              "11.2"
+            ]
+          }
+        },
+        {
+          "browser": {
+            "type": "msedge",
+            "version": [
+              null,
+              16
+            ]
+          }
+        }
+      ]
+    },
+    "objectFit": {
+      "enabled": true,
+      "method": "include",
+      "matches": [
+        {
+          "browser": {
+            "type": "msie"
+          }
+        }
+      ]
+    }
   },
   "geolocate": {
     "enabled": true,
