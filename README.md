@@ -100,7 +100,7 @@ This template is intended to be the foundation for developers that build custom 
   * [Template Files and Module Positions](docs/xml.md)
   * [CSS](docs/css.md)
   * [JavaScript](docs/js.md)
-  * Lyquix Options (docs/lqxoptions.md)
+  * [Lyquix Options](docs/lqxoptions.md)
   * [Favicons](docs/favicons.md)
 
 ## To Do and Ideas
