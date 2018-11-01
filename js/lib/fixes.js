@@ -13,11 +13,84 @@ if(lqx && !('fixes' in lqx)) {
 	lqx.fixes = (function(){
 		var opts = {
 			// Control what specific fixes to apply
-			imgWidthAttrib: true,
-			fontFeatureOpts: true,
-			cssGrid: true,
-			linkPreload: true,
-			objectFit: true
+			imgWidthAttrib: {
+				enabled: true,
+				method: 'include',
+				matches: [
+					{
+						browser: {
+							type: 'msie'
+						}
+					}
+				]
+			},
+			fontFeatureOpts: {
+				enabled: true,
+				method: 'include',
+				matches: [
+					{
+						browser: {
+							type: 'msie'
+						}
+					}
+				]
+			},
+			cssGrid: {
+				enabled: true,
+				method: 'include',
+				matches: [
+					{
+						browser: {
+							type: 'msie'
+						}
+					}
+				]
+			},
+			linkPreload: {
+				enabled: true,
+				method: 'include',
+				matches: [
+					{
+						os: {
+							type: 'ios',
+							version: [null, '11.2']
+						}
+					},
+					{
+						browser: {
+							type: 'msie'
+						}
+					},
+					{
+						browser: {
+							type: 'firefox'
+						}
+					},
+					{
+						browser: {
+							type: 'safari',
+							version: [null, '11.2']
+						}
+					},
+					{
+						browser: {
+							type: 'msedge',
+							version: [null, 16]
+						}
+					}
+				]
+			},
+			objectFit: {
+				enabled: true,
+				method: 'include',
+				matches: [
+					{
+						browser: {
+							type: 'msie'
+						}
+					}
+				]
+			},
 		};
 
 		var vars = {
@@ -37,38 +110,59 @@ if(lqx && !('fixes' in lqx)) {
 					lqx.log('Initializing `fixes`');
 
 					// Trigger functions immediately
-					switch(lqx.detect.browser().type) {
-						case 'msie':
-						case 'firefox':
-							if(opts.linkPreload) linkPreload();
-							break;
-					}
+					matchFix('linkPreload');
 
 					// Trigger functions on document ready
 					lqx.vars.document.ready(function() {
-						switch(lqx.detect.browser().type) {
-							case 'msie':
-								if(opts.imgWidthAttrib) imgWidthAttrib();
-								if(opts.fontFeatureOpts) fontFeatureOpts();
-								if(opts.cssGrid) cssGrid();
-								if(opts.objectFit) objectFit();
-								break;
-						}
+						matchFix('imgWidthAttrib');
+						matchFix('fontFeatureOpts');
+						matchFix('cssGrid');
+						matchFix('objectFit');
 					});
 
 					// Trigger functions on screen changes (reside, rotation)
 					lqx.vars.window.on('screensizechange orientationchange', function() {
-						switch(lqx.detect.browser().type) {
-							case 'msie':
-								if(opts.cssGrid) cssGrid();
-								if(opts.objectFit) updateObjectFit();
-								break;
-						}
+						matchFix('cssGrid');
 					});
 				}
 			});
 
 			return lqx.fixes.init = true;
+		};
+
+		// Runs fix code if browser, os, and device type match configuration
+		var matchFix = function(fix) {
+			if(opts[fix].enabled) {
+				var fixMatches = false;
+				opts[fix].matches.forEach(function(match) {
+					lqx.log('Matching fix ' + fix + ' to matching rules:', match);
+					['os', 'browser'].forEach(function(type) {
+						if(type in match) {
+							if('version' in match[type]) {
+								if(match[type].version[0] != null && match[type].version[1] == null) {
+									if(match[type].type == lqx.detect.os().type &&
+									lqx.util.versionCompare(lqx.detect.os().version, match[type].version[0]) !== -1) fixMatches = true;
+								}
+								else if(match[type].version[0] == null && match[type].version[1] != null) {
+									if(match[type].type == lqx.detect.os().type &&
+									lqx.util.versionCompare(lqx.detect.os().version, match[type].version[1]) !== 1) fixMatches = true;
+								}
+								else if(match[type].version[0] != null && match[type].version[1] != null) {
+									if(match[type].type == lqx.detect.os().type &&
+									lqx.util.versionCompare(lqx.detect.os().version, match[type].version[0]) !== -1 &&
+									lqx.util.versionCompare(lqx.detect.os().version, match[type].version[1]) !== 1) fixMatches = true;
+								}
+							}
+							else {
+								if(match[type].type == lqx.detect.os().type) fixMatches = true;
+							}
+						}
+					});
+				});
+				if((fixMatches && opts[fix].method == 'include') || (!fixMatches && opts[fix].method == 'exclude')) {
+					eval(fix + '();');
+				}
+			}
 		};
 
 		// Adds width attribute to img elements that don't have one
