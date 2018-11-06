@@ -779,7 +779,7 @@ var lqx = lqx || {
 					currElem = jQuery(this);
 					currElemTop = currElem.offset().top;
 					currElemHeight = currElem.height();
-          var j = 0;
+					var j = 0;
 
 					if(currElemTop != currRowTop) {
 						// new row has started, set the height for the previous row if it has more than one element
@@ -986,7 +986,15 @@ var lqx = lqx || {
 					}
 
 					// check if it is a download link (not a webpage) and track as pageview
-					else if(lqx.settings.tracking.downloads && elem.pathname.match(/\.(htm|html|php)$/i) === null ) {
+					else if(lqx.settings.tracking.downloads && (
+						elem.href.match(/\.(gif|png|jpg|jpeg|tif|tiff|svg|webp|bmp)$/i) !== null ||
+						elem.href.match(/\.(zip|rar|gzip|gz|7z|tar)$/i) !== null ||
+						elem.href.match(/\.(exe|msi|dmg)$/i) !== null ||
+						elem.href.match(/\.(txt|pdf|rtf|doc|docx|dot|dotx|xls|xlsx|xlt|xltx|ppt|pptx|pot|potx)$/i) !== null ||
+						elem.href.match(/\.(aac|aiff|mp3|mp4|m4a|m4p|wav|wma)$/i) !== null ||
+						elem.href.match(/\.(3gp|3g2|mkv|vob|ogv|ogg|webm|wma|m2v|m4v|mpg|mp2|mpeg|mpe|mpv|mov|avi|wmv|flv|f4v|swf|qt)$/i) !== null ||
+						elem.href.match(/\.(xml|js|json|css|less|sass)$/i) !== null
+					) && !elem.hasAttribute('data-featherlight-image') && !elem.hasAttribute('data-featherlight')) {
 						jQuery(elem).click(function(e){
 							e.preventDefault();
 							var url = elem.href;
