@@ -230,7 +230,15 @@ if(lqx && !('analytics' in lqx)) {
 						}
 
 						// check if it is a download link (not a webpage) and track as pageview
-						else if(opts.downloads && elem.pathname.match(/\.(htm|html|php)$/i)[1] === null ) {
+						else if(opts.downloads && (
+							elem.href.match(/\.(gif|png|jpg|jpeg|tif|tiff|svg|webp|bmp)$/i) !== null ||
+							elem.href.match(/\.(zip|rar|gzip|gz|7z|tar)$/i) !== null ||
+							elem.href.match(/\.(exe|msi|dmg)$/i) !== null ||
+							elem.href.match(/\.(txt|pdf|rtf|doc|docx|dot|dotx|xls|xlsx|xlt|xltx|ppt|pptx|pot|potx)$/i) !== null ||
+							elem.href.match(/\.(aac|aiff|mp3|mp4|m4a|m4p|wav|wma)$/i) !== null ||
+							elem.href.match(/\.(3gp|3g2|mkv|vob|ogv|ogg|webm|wma|m2v|m4v|mpg|mp2|mpeg|mpe|mpv|mov|avi|wmv|flv|f4v|swf|qt)$/i) !== null ||
+							elem.href.match(/\.(xml|js|json|css|less|sass)$/i) !== null
+						)) {
 							jQuery(elem).click(function(e){
 								e.preventDefault();
 								var url = elem.href;
@@ -279,7 +287,7 @@ if(lqx && !('analytics' in lqx)) {
 				});
 
 				// add listener to page unload
-				lqx.vars.window.on('unload', function(){
+				lqx.vars.window.on('beforeunload', function(){
 					ga('send', {
 						'hitType' : 'event',
 						'eventCategory' : 'Scroll Depth',
@@ -329,7 +337,7 @@ if(lqx && !('analytics' in lqx)) {
 				lqx.log('Setting active time tracking');
 
 				// Add listener on page unload
-				lqx.vars.window.on('unload', function(){
+				lqx.vars.window.on('beforeunload', function(){
 					ga('send', {
 						'hitType' : 'event',
 						'eventCategory' : 'User Active Time',
