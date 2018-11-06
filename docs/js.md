@@ -266,6 +266,10 @@ Function for handling cookies with ease, inspired by https://github.com/js-cooki
     * `secure`: any non-false value
     * `httpOnly`: any non-false value
 
+**`lqx.util.hash(str)`**
+
+Provides a simple hash function. Should not be used for very long strings, nor for crytographic applications.
+
 **`lqx.util.swipe(selector, callback, options)`**
 
 Adds a swipe detection listener on element(s) identified by `selector`, and triggers the `callback` function when a swipe is detected, passing the direction of the swap: :u (up), d (down), l (left), r (right), or a combination of vertical and horizontal direction.

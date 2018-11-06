@@ -46,6 +46,13 @@ if(lqx && !('util' in lqx)) {
 			return true;
 		},
 
+		// Simple hash function
+		hash: function(str) {
+			for(var i = 0, h = 4641154056; i < str.length; i++) h = Math.imul(h + str.charCodeAt(i) | 0, 2654435761);
+			h = (h ^ h >>> 17) >>> 0;
+			return h.toString(36);
+		},
+
 		// add unique value to the query string of form's action URL, to avoid caching problem
 		uniqueUrl: function(sel, attrib) {
 			var elems = jQuery(sel);
