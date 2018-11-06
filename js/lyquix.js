@@ -986,7 +986,7 @@ var lqx = lqx || {
 					}
 
 					// check if it is a download link (not a webpage) and track as pageview
-					else if(lqx.settings.tracking.downloads && elem.pathname.match(/\.(htm|html|php)$/i)[1] === null ) {
+					else if(lqx.settings.tracking.downloads && elem.pathname.match(/\.(htm|html|php)$/i) === null ) {
 						jQuery(elem).click(function(e){
 							e.preventDefault();
 							var url = elem.href;
