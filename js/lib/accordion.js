@@ -33,7 +33,13 @@ if(lqx && !('accordion' in lqx)) {
 		var opts = {
 			scrollTop: {
 				enabled: true,
-				padding: 5, // percentage from top of screen
+				padding: { // From top of the viewport, in px or %, per screen size
+					xs: '50px',
+					sm: '50px',
+					md: '50px',
+					lg: '50px',
+					xl: '50px'
+				},
 				duration: 500, // in ms
 			}
 		};
@@ -170,7 +176,14 @@ if(lqx && !('accordion' in lqx)) {
 					}
 
 					// Scroll position: add padding
-					scrollPos -= lqx.vars.window.height() * opts.scrollTop.padding / 100;
+					var padding = opts.scrollTop.padding[lqx.responsive.screen()].match(/^\s*([\d\.]+)\s*(|px|%)\s*$/);
+					if(padding == null) padding = 0;
+					else {
+						if(padding[2] == 'px' || padding[2] == '') padding = parseFloat(padding[1]);
+						else if(padding[2] == '%') padding = lqx.vars.window.height() *  parseFloat(padding[1]) / 100;
+						else padding = 0;
+					}
+					scrollPos -= padding;
 					jQuery('html, body').animate({scrollTop: scrollPos}, opts.scrollTop.duration);
 				}
 
