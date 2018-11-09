@@ -140,23 +140,24 @@ if(lqx && !('fixes' in lqx)) {
 						if(type in match) {
 							if('version' in match[type]) {
 								if(match[type].version[0] != null && match[type].version[1] == null) {
-									if(match[type].type == lqx.detect.os().type &&
-									lqx.util.versionCompare(lqx.detect.os().version, match[type].version[0]) !== -1) fixMatches = true;
+									if(match[type].type == lqx.detect[type]().type &&
+									lqx.util.versionCompare(lqx.detect[type]().version, match[type].version[0]) !== -1) fixMatches = true;
 								}
 								else if(match[type].version[0] == null && match[type].version[1] != null) {
-									if(match[type].type == lqx.detect.os().type &&
-									lqx.util.versionCompare(lqx.detect.os().version, match[type].version[1]) !== 1) fixMatches = true;
+									if(match[type].type == lqx.detect[type]().type &&
+									lqx.util.versionCompare(lqx.detect[type]().version, match[type].version[1]) !== 1) fixMatches = true;
 								}
 								else if(match[type].version[0] != null && match[type].version[1] != null) {
-									if(match[type].type == lqx.detect.os().type &&
-									lqx.util.versionCompare(lqx.detect.os().version, match[type].version[0]) !== -1 &&
-									lqx.util.versionCompare(lqx.detect.os().version, match[type].version[1]) !== 1) fixMatches = true;
+									if(match[type].type == lqx.detect[type]().type &&
+									lqx.util.versionCompare(lqx.detect[type]().version, match[type].version[0]) !== -1 &&
+									lqx.util.versionCompare(lqx.detect[type]().version, match[type].version[1]) !== 1) fixMatches = true;
 								}
 							}
 							else {
-								if(match[type].type == lqx.detect.os().type) fixMatches = true;
+								if(match[type].type == lqx.detect[type]().type) fixMatches = true;
 							}
 						}
+						if(fixMatches) lqx.log('Match found for fix ' + fix, match);
 					});
 				});
 				if((fixMatches && opts[fix].method == 'include') || (!fixMatches && opts[fix].method == 'exclude')) {
