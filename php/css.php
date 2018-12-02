@@ -144,38 +144,62 @@ if (!is_dir($tmpl_path . '/dist/')) {
 // Check if file has already been created
 if(!file_exists($tmpl_path . '/dist/' . $stylesheet_filename)) {
 	// Regular expression to find url in files
-	$regex = '/url\(\s*[\"\\\']?([^\"\\\'\)]+)[\"\\\']?\s*\)/';
+	$urlRegex = '/url\(\s*[\"\\\']?([^\"\\\'\)]+)[\"\\\']?\s*\)/';
+	// Regular expression to find @import rules in files
+	$importRegex = '/(@import\s+[^;]*;)/';
 	// Prepare file
 	$stylesheet_data = "/* " . $stylesheet_filename . " */\n";
+	$stylesheet_imports = "/* @import rules moved to the top of the document */\n";
 	foreach($stylesheets as $idx => $stylesheet) {
 		if(array_key_exists('data', $stylesheet)) {
 			$stylesheet_data .= "/* Custom stylesheet declaration */\n";
-			$stylesheet_data .= $stylesheet['data'] . "\n";
+			$tmp = $stylesheet['data'];
+			// Move @import rules
+			preg_match_all($importRegex, $tmp, $matches);
+			foreach($matches[1] as $imp) {
+				$stylesheet_imports .= $imp . "\n";
+				$tmp = str_replace($imp, "\n/*@import rule moved to the top of the file*/\n", $tmp);
+			}
+			$stylesheet_data .= $tmp . "\n";
 		}
 		elseif (array_key_exists('version', $stylesheet)) {
 			$stylesheet_data .= "/* Local stylesheet: " . $stylesheet['url'] . ", Version: " . $stylesheet['version'] . " */\n";
 			$tmp = file_get_contents(JPATH_BASE . $stylesheet['url']) . "\n";
-			preg_match_all($regex, $tmp, $matches);
+			// Update URLs
+			preg_match_all($urlRegex, $tmp, $matches);
 			foreach($matches[1] as $rel) {
 				$abs = rel2absURL($rel, $stylesheet['url']);
 				$tmp = str_replace($rel, $abs, $tmp);
 			}
-			$stylesheet_data .= $tmp;
+			// Move @import rules
+			preg_match_all($importRegex, $tmp, $matches);
+			foreach($matches[1] as $imp) {
+				$stylesheet_imports .= $imp . "\n";
+				$tmp = str_replace($imp, "\n/*@import rule moved to the top of the file*/\n", $tmp);
+			}
+			$stylesheet_data .= $tmp . "\n";
 		}
 		else {
 			$stylesheet_data .= "/* Remote stylesheet: " . $stylesheet['url'] . " */\n";
 			$tmp = file_get_contents($stylesheet['url']) . "\n";
-			preg_match_all($regex, $tmp, $matches);
+			// Update URLs
+			preg_match_all($urlRegex, $tmp, $matches);
 			foreach($matches[1] as $rel) {
 				$abs = rel2absURL($rel, $stylesheet['url']);
 				$tmp = str_replace($rel, $abs, $tmp);
 			}
-			$stylesheet_data .= $tmp;
+			// Move @import rules
+			preg_match_all($importRegex, $tmp, $matches);
+			foreach($matches[1] as $imp) {
+				$stylesheet_imports .= $imp . "\n";
+				$tmp = str_replace($imp, "\n/*@import rule moved to the top of the file*/\n", $tmp);
+			}
+			$stylesheet_data .= $tmp . "\n";
 		}
 	}
 	// Save file
-	file_put_contents($tmpl_path . '/dist/' . $stylesheet_filename, $stylesheet_data);
-	unset($stylesheet_data);
+	file_put_contents($tmpl_path . '/dist/' . $stylesheet_filename, $stylesheet_imports . "\n" . $stylesheet_data);
+	unset($stylesheet_imports, $stylesheet_data);
 }
 ?>
 <style>

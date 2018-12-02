@@ -188,4 +188,6 @@ The following CSS files are concatenated:
   * **Additional CSS Libraries**: these are defined in the template options, and are always included.
   * The last file included is `css/styles.css` (or `css/styles.min.css`).
 
+When merging CSS files, relative URLs contained in rules are converted to absolute URLs using the original CSS file URL as the base URL. Additionally, all @import rules are moved to the top of the merged CSS document.
+
 The resulting CSS file is saved to `dist/`. The file name is a hash of the list of files included and their version number. If there are any changes to either the hash will be changed.
