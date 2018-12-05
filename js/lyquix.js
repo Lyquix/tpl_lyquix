@@ -124,6 +124,7 @@ var lqx = lqx || {
 		youTubeIframeAPIReady: false,
 		youTubeIframeAPIReadyAttempts: 0,
 		urlParams: {},
+		errorHashes: []
 	},
 
 	// setOptions
@@ -1022,11 +1023,19 @@ var lqx = lqx || {
 		// Track errors
 		if(lqx.settings.tracking.errors) {
 			// Add listener to window element for javascript errors
-			window.addEventListener('error', function(e) {
-				ga('send', 'exception', {
-					'exDescription': e.message + ' [' + e.error + '] ' + e.filename + ':' + e.lineno,
-					'exFatal': false
-				});
+			window.addEventListener('error', function(e){
+				var errStr = e.message + ' [' + e.error + '] ' + e.filename + ':' + e.lineno + ':' + e.colno;
+				var errHash = lqx.strHash(errStr);
+				if(lqx.vars.errorHashes.indexOf(errHash) == -1 && lqx.vars.errorHashes.length < 100) {
+					lqx.vars.errorHashes.push(errHash);
+					ga('send', {
+						'hitType' : 'event',
+						'eventCategory' : 'JavaScript Errors',
+						'eventAction' : 'error',
+						'eventLabel' : errStr,
+						'nonInteraction' : true
+					});
+				}
 				return false;
 			});
 		}
@@ -2248,6 +2257,13 @@ var lqx = lqx || {
 				});
 			}
 		}
+	},
+
+	// Simple string hash function
+	strHash: function(str) {
+		for(var i = 0, h = 4641154056; i < str.length; i++) h = Math.imul(h + str.charCodeAt(i) | 0, 2654435761);
+		h = (h ^ h >>> 17) >>> 0;
+		return h.toString(36);
 	},
 
 	// self initialization function
