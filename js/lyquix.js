@@ -958,7 +958,7 @@ var lqx = lqx || {
 		// NOTE: this function is triggered by lqx.gaReady
 
 		// track downloads and outbound links
-		if(lqx.settings.tracking.outbound || lqx.settings.tracking.download){
+		if(lqx.settings.tracking.outbound || lqx.settings.tracking.downloads){
 			// find all a tags and cycle through them
 			jQuery('a').each(function(){
 				var elem = this;
