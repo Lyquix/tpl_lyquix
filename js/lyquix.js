@@ -1022,10 +1022,13 @@ var lqx = lqx || {
 		// Track errors
 		if(lqx.settings.tracking.errors) {
 			// Add listener to window element for javascript errors
-			window.addEventListener('error', function(e) {
-				ga('send', 'exception', {
-					'exDescription': e.message + ' [' + e.error + '] ' + e.filename + ':' + e.lineno,
-					'exFatal': false
+			window.addEventListener('error', function(e){
+				ga('send', {
+					'hitType' : 'event',
+					'eventCategory' : 'JavaScript Errors',
+					'eventAction' : 'error',
+					'eventLabel' : e.message + ' [' + e.error + '] ' + e.filename + ':' + e.lineno,
+					'nonInteraction' : true
 				});
 				return false;
 			});
