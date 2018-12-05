@@ -1018,7 +1018,7 @@ var lqx = lqx || {
 			});
 
 		}
-		
+
 		// Track errors
 		if(lqx.settings.tracking.errors) {
 			// Add listener to window element for javascript errors
@@ -1027,7 +1027,7 @@ var lqx = lqx || {
 					'exDescription': e.message + ' [' + e.error + '] ' + e.filename + ':' + e.lineno,
 					'exFatal': false
 				});
-				return false;	
+				return false;
 			});
 		}
 
@@ -2380,7 +2380,7 @@ var lqx = lqx || {
 		// callback function called by iframe youtube players when they are ready
 		window.onYouTubeIframeAPIReady = function(){
 			if(lqx.vars.youTubeIframeAPIReady && (typeof YT !== 'undefined') && YT && YT.Player) {
-				lqx.vars.youtubePlayers.forEach(function(playerId) {
+				Object.keys(lqx.vars.youtubePlayers).forEach(function(playerId) {
 					if(typeof lqx.vars.youtubePlayers[playerId].playerObj == 'undefined') {
 						lqx.vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, {
 							events: {
