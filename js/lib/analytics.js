@@ -13,6 +13,7 @@ if(lqx && !('analytics' in lqx)) {
 	lqx.analytics = (function(){
 		var opts = {
 			downloads: true,
+			errors: true,
 			outbound: true,
 			scrollDepth: true,
 			lyqBox: true,
@@ -269,6 +270,21 @@ if(lqx && !('analytics' in lqx)) {
 
 				// Add a mutation handler for links added to the DOM
 				lqx.mutation.addHandler('addNode', 'a', setup);
+			}
+
+			// Track errors
+			if(opts.errors) {
+				// Add listener to window element for javascript errors
+				window.addEventListener('error', function(e) {
+					ga('send', {
+						'hitType' : 'event',
+						'eventCategory' : 'JavaScript Errors',
+						'eventAction' : 'error',
+						'eventLabel' : e.message + ' [' + e.error + '] ' + e.filename + ':' + e.lineno,
+						'nonInteraction' : true
+					});
+					return false;
+				});
 			}
 
 			// Track scroll depth
