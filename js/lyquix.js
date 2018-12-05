@@ -1047,8 +1047,8 @@ var lqx = lqx || {
 				}
 			});
 
-			// add listener to page unload
-			jQuery(window).on('unload', function(){
+			// add listener to page beforeunload
+			jQuery(window).on('beforeunload', function(){
 
 				ga('send', {
 					'hitType' : 'event',
@@ -1121,8 +1121,8 @@ var lqx = lqx || {
 
 		// track active time
 		if(lqx.settings.tracking.activetime) {
-			// add listener to page unload
-			jQuery(window).on('unload', function(){
+			// add listener to page beforeunload
+			jQuery(window).on('beforeunload', function(){
 
 				ga('send', {
 					'hitType' : 'event',
