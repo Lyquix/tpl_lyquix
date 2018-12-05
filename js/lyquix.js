@@ -23,6 +23,7 @@ var lqx = lqx || {
 		},
 		tracking: {
 			downloads: true,
+			errors: true,
 			outbound: true,
 			scrolldepth: true,
 			photogallery: true,
@@ -1016,6 +1017,18 @@ var lqx = lqx || {
 				}
 			});
 
+		}
+		
+		// Track errors
+		if(lqx.settings.tracking.errors) {
+			// Add listener to window element for javascript errors
+			window.addEventListener('error', function(e) {
+				ga('send', 'exception', {
+					'exDescription': e.message + ' [' + e.error + '] ' + e.filename + ':' + e.lineno,
+					'exFatal': false
+				});
+				return false;	
+			});
 		}
 
 
