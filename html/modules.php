@@ -2,7 +2,7 @@
 /**
  * pagination.php - Custom module rendering
  *
- * @version     1.0.8
+ * @version     1.0.9
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2017 Lyquix
