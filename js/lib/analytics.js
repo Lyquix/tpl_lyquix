@@ -13,7 +13,10 @@ if(lqx && !('analytics' in lqx)) {
 	lqx.analytics = (function(){
 		var opts = {
 			downloads: true,
-			errors: true,
+			errors: {
+				enabled: true,
+				maxErrors: 100
+			},
 			outbound: true,
 			scrollDepth: true,
 			lyqBox: true,
@@ -42,7 +45,8 @@ if(lqx && !('analytics' in lqx)) {
 			youTubeIframeAPIReadyAttempts: 0,
 			youtubePlayers: {},
 			vimeoPlayers: {},
-			userActive: null
+			userActive: null,
+			errorHashes: []
 		};
 
 		var init = function(){
@@ -276,13 +280,18 @@ if(lqx && !('analytics' in lqx)) {
 			if(opts.errors) {
 				// Add listener to window element for javascript errors
 				window.addEventListener('error', function(e) {
-					ga('send', {
-						'hitType' : 'event',
-						'eventCategory' : 'JavaScript Errors',
-						'eventAction' : 'error',
-						'eventLabel' : e.message + ' [' + e.error + '] ' + e.filename + ':' + e.lineno,
-						'nonInteraction' : true
-					});
+					var errStr = e.message + ' [' + e.error + '] ' + e.filename + ':' + e.lineno + ':' + e.colno;
+					var errHash = lqx.util.hash(errStr);
+					if(vars.errorHashes.indexOf(errHash) == -1 && vars.errorHashes.length < opts.errors.maxErrors) {
+						vars.errorHashes.push(errHash);
+						ga('send', {
+							'hitType' : 'event',
+							'eventCategory' : 'JavaScript Errors',
+							'eventAction' : 'error',
+							'eventLabel' : errStr,
+							'nonInteraction' : true
+						});
+					}
 					return false;
 				});
 			}
