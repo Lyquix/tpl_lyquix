@@ -32,6 +32,7 @@ Provides functionality for custom event tracking with Google Analytics:
   * **Photo Gallery:** Generates events on gallery open, as well as individual events for each image displayed, including the image URL.
   * **Video Player:** Tracks events in YouTube and Vimeo players. It automatically enabled Javascript API if not enabled in the embed code. It tracks Start, progress and completion events, for example: Start, 10%, 20%, ..., 90%, Complete.
   * **User Active:** Keeps track of the time a user is active while viewing a page. It uses several techniques to assess if the user is active or not. Reports the percentage and absolute time that the user has been active and inactive. Tracking stops after 30 minutes.
+  * **JavaScript Errors:** Tracks unique JavaScript errors, providing information on the error message, the location of the error (file, line, column). These events are useful to identify errors affecting specific browsers or operating systems.
 
 **AutoResize [`js/lib/autoresize.js`](../js/lib/autoresize.js)**
 
