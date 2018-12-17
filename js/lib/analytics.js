@@ -360,6 +360,7 @@ if(lqx && !('analytics' in lqx)) {
 			// Track active time
 			if(opts.activetime) {
 				lqx.log('Setting active time tracking');
+				initUserActive();
 
 				// Add listener on page unload
 				lqx.vars.window.on('beforeunload', function(){
@@ -667,7 +668,7 @@ if(lqx && !('analytics' in lqx)) {
 			// refresh active and inactive time counters
 			var timer = setInterval(function(){
 				// Stop updating if maxTime is reached
-				if(vars.userActive.activeTime + vars.userActive.inactiveTime >= vars.userActive.maxTime) clearInterval(timer);
+				if(vars.userActive.activeTime + vars.userActive.inactiveTime >= opts.userActive.maxTime) clearInterval(timer);
 				// Update counters
 				else {
 					if(vars.userActive.active) {
@@ -681,9 +682,10 @@ if(lqx && !('analytics' in lqx)) {
 					// update last change time
 					vars.userActive.lastChangeTime = (new Date()).getTime();
 				}
-			}, lqx.opts.userActive.refresh);
+			}, opts.userActive.refresh);
+
 			// initialize active state
-			lqx.userActive();
+			userActive();
 		};
 
 		// function called to indicate user is currently active (heartbeat)
@@ -691,7 +693,7 @@ if(lqx && !('analytics' in lqx)) {
 			// if no throttle
 			if(!vars.userActive.throttle) {
 				vars.userActive.throttle = true;
-				setTimeout(function(){vars.userActive.throttle = false;}, lqx.opts.userActive.throttle);
+				setTimeout(function(){vars.userActive.throttle = false;}, opts.userActive.throttle);
 				// when changing from being inactive
 				if(!vars.userActive.active) {
 					// set state to active
@@ -707,7 +709,7 @@ if(lqx && !('analytics' in lqx)) {
 
 				// after idle time turn inactive
 				clearTimeout(vars.userActive.timer);
-				vars.userActive.timer = setTimeout(function(){userInactive();}, lqx.opts.userActive.idleTime);
+				vars.userActive.timer = setTimeout(function(){userInactive();}, opts.userActive.idleTime);
 			}
 		};
 
