@@ -106,8 +106,8 @@ if(lqx && !('util' in lqx)) {
 					elem: e.currentTarget
 				};
 			});
-			document.querySelectorAll(sel).forEach(function(elem){
-				elem.addEventListener('touchmove', function(e) {
+			jQuery(sel).each(function(){
+				this.addEventListener('touchmove', function(e) {
 					if(opts.disableScroll) e.preventDefault();
 					var t = e.touches[0];
 					swp.endX = t.clientX;
