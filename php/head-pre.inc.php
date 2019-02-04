@@ -12,6 +12,7 @@
 
 // set some base vars
 $doc = JFactory::getDocument();
+$app = JFactory::getApplication();
 $site_abs_url = JURI::root();
 $site_rel_url = JURI::root(true);
 $tmpl_url = $site_rel_url . '/templates/' . $this->template;
@@ -65,4 +66,5 @@ if(is_array($this->params->get('joomla_js'))) {
 $home = $mobile = $phone = $tablet = false;
 
 // Check if we are on the home page
-if(JRequest::getVar('Itemid') == JFactory::getApplication()->getMenu()->getDefault()->id){ $home = true; }
+$menu = $app->getMenu();
+if($menu->getActive() == $menu->getDefault($menu->getActive()->language)) { $home = true; }
