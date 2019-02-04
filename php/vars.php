@@ -20,6 +20,7 @@ $cdnjs_url = 'https://cdnjs.cloudflare.com/ajax/libs/';
 
 // Check if we are on the home page
 $home = false;
-if(JRequest::getVar('Itemid') == $app -> getMenu() -> getDefault() -> id){
+$menu = $app -> getMenu();
+if($menu -> getActive() == $menu -> getDefault($menu -> getActive() -> language){
 	$home = true;
 }
