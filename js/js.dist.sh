@@ -1,3 +1,4 @@
+#!/bin/bash
 ###
 #
 # js.dist.sh - Shell script to concatenate and minify lyquix Javascript library, and vue components/controllers

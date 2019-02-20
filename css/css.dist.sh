@@ -1,3 +1,4 @@
+#!/bin/bash
 ###
 #
 # css.dist.sh - Bash script to process SCSS files, run autoprefixer, and chunk files
