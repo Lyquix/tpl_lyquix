@@ -105,7 +105,7 @@ if(lqx && !('responsive' in lqx)) {
 		// Sets the attribute "orientation" to the body tag that indicates the current orientation of the screen
 		var setOrientation = function() {
 			var o = window.screen.orientation.type;
-			if(o.indexOf(vars.orientation) != -1) {
+			if(o.indexOf(vars.orientation) == -1) {
 				switch (o) {
 					case 'portrait-primary':
 					case 'portrait-secondary':
