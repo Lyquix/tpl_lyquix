@@ -21,6 +21,6 @@ $cdnjs_url = 'https://cdnjs.cloudflare.com/ajax/libs/';
 // Check if we are on the home page
 $home = false;
 $menu = $app -> getMenu();
-if($menu -> getActive() == $menu -> getDefault($menu -> getActive() -> language){
+if($menu -> getActive() == $menu -> getDefault($menu -> getActive() -> language)){
 	$home = true;
 }
