@@ -381,7 +381,7 @@ Remove JS libraries added by components, modules or plugins by entering their UR
 
 ## Processing JS Files
 
-You may use the shell script [`js/js.sh`](../js/js.sh) to process the SCSS files for your project. This scripts creates `js/lyquix.js` from the JavaScript library modules located at `js/lib/`, and `js/vue.js` from the custom controllers and components located atS `js/custom/`. It also creates `.min.js` versions of both files and of `js/scripts.js`.
+You may use the shell script [`js/js.sh`](../js/js.sh) to process the JS files for your project. This scripts creates `js/lyquix.js` from the JavaScript library modules located at `js/lib/`, and `js/vue.js` from the custom controllers and components located atS `js/custom/`. It also creates `.min.js` versions of both files and of `js/scripts.js`.
 
 ## Merged JS Files
 
