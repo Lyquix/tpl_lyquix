@@ -46,7 +46,7 @@ require __DIR__ . '/php/body.php';
 <body class="<?php echo implode(' ', $body_classes); ?>">
 <?php
 // If blank-page parameter is set to true, only the component will be output
-if($this -> params -> get('blank_page', 0) == 0 && $app -> input-> get('tmpl') == '') :  ?>
+if($this -> params -> get('tmpl_mode', 0) == 0 && ($app -> input-> get('tmpl') == '' || $app -> input-> get('tmpl') == 'index')) :  ?>
 <header>
 	<?php if($this -> countModules('header')): ?>
 	<jdoc:include type="modules" name="header" />
