@@ -322,8 +322,8 @@ if(lqx && !('util' in lqx)) {
 			if(a === b) return 0;
 
 			// Split into arrays and get the length of the shortest
-			a = a.split(".");
-			b = b.split(".");
+			a = String(a).split(".");
+			b = String(b).split(".");
 			var len = Math.min(a.length, b.length);
 
 			// Loop while the components are equal
