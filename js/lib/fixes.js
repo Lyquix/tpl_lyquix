@@ -117,6 +117,10 @@ if(lqx && !('fixes' in lqx)) {
 						matchFix('imgWidthAttrib');
 						matchFix('fontFeatureOpts');
 						matchFix('cssGrid');
+					});
+					
+					// Trigger functions on document loaded
+					lqx.vars.window.load(function() {
 						matchFix('objectFit');
 					});
 
