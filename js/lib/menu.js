@@ -54,7 +54,7 @@ if(lqx && !('menu' in lqx)) {
 
 			// Open/close slide-out menu
 			lqx.vars.body.on('click', '.menu-control', function(){
-				var menu = jQuery(this).sibblings('ul');
+				var menu = jQuery(this).siblings('ul');
 				if(jQuery(menu).hasClass('open')) {
 					jQuery(menu).removeClass('open');
 				}
