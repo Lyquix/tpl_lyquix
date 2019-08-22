@@ -64,51 +64,51 @@ function pagination_list_render($list){
 function pagination_item_active(&$item){
 	$display = '';
 
-	if ($item->text == JText::_('JLIB_HTML_START')){
+	if ($item -> text == JText::_('JLIB_HTML_START')){
 		$class = 'first';
 	}
 
-	if ($item->text == JText::_('JPREV')){
+	if ($item -> text == JText::_('JPREV')){
 		$class = 'prev';
 	}
 
-	if ($item->text == JText::_('JNEXT')){
+	if ($item -> text == JText::_('JNEXT')){
 		$class = 'next';
 	}
 
-	if ($item->text == JText::_('JLIB_HTML_END')){
+	if ($item -> text == JText::_('JLIB_HTML_END')){
 		$class = 'last';
 	}
 
 	if(!isset($class))	{
-		$display = $item->text;
+		$display = $item -> text;
 		$class = 'page';
 	}
 
-	return '<li class="active ' . $class . '"><a href="' . $item->link . '">' . $display . '</a></li>';
+	return '<li class="active ' . $class . '"><a href="' . $item -> link . '">' . $display . '</a></li>';
 }
 
 function pagination_item_inactive(&$item) {
 	$display = '';
 
-	if ($item->text == JText::_('JLIB_HTML_START')){
+	if ($item -> text == JText::_('JLIB_HTML_START')){
 		$class = 'first';
 	}
 
-	if ($item->text == JText::_('JPREV')){
+	if ($item -> text == JText::_('JPREV')){
 		$class = 'prev';
 	}
 
-	if ($item->text == JText::_('JNEXT')){
+	if ($item -> text == JText::_('JNEXT')){
 		$class = 'next';
 	}
 
-	if ($item->text == JText::_('JLIB_HTML_END')){
+	if ($item -> text == JText::_('JLIB_HTML_END')){
 		$class = 'last';
 	}
 
 	if(!isset($class))	{
-		$display = $item->text;
+		$display = $item -> text;
 		$class = 'page';
 	}
 

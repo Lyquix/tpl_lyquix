@@ -25,7 +25,7 @@ else :
 ?><!DOCTYPE html>
 <html>
 	<body>
-		File <span style="font-family: monospace;"><?php echo JPATH_BASE . '/templates/' . $this->template; ?>/custom.php</span> not found.
+		File <span style="font-family: monospace;"><?php echo JPATH_BASE . '/templates/' . $this -> template; ?>/custom.php</span> not found.
 	</body>
 </html>
 <?php endif; // endif for including custom.php
