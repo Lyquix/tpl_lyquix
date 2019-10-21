@@ -144,6 +144,9 @@ if(lqx && !('accordion' in lqx)) {
 			if(typeof id == 'undefined') var id = null;
 			id = parseInt(id);
 			if(!isNaN(id) && id >= 0 && id < vars.length) {
+				// Update accordion jst before opening
+				update(id);
+				
 				// Get accordion data
 				var a = vars[id];
 
