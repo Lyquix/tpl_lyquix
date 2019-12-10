@@ -61,7 +61,8 @@ else {
 			body: null, // Populated after the lqxready event
 			// Other
 			scrollThrottle: false,
-			resizeThrottle: false
+			resizeThrottle: false,
+			screenWidth: 0
 		};
 
 		var init = function() {
@@ -70,7 +71,11 @@ else {
 			// scrollthrotle event
 			lqx.log('Setup scrollthrottle event');
 			lqx.vars.window.scroll(function() {
-				if(!lqx.vars.scrollThrottle) {
+				// Get current screen width
+				var w = lqx.vars.window.width();
+				// Trigger only for width resize
+				if(!lqx.vars.resizeThrottle && w != lqx.vars.screenWidth) {
+					lqx.vars.screenWidth = w;
 					lqx.vars.document.trigger('scrollthrottle');
 					lqx.vars.scrollThrottle = true;
 					setTimeout(function() {
