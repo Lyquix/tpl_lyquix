@@ -118,7 +118,7 @@ if(lqx && !('fixes' in lqx)) {
 						matchFix('fontFeatureOpts');
 						matchFix('cssGrid');
 					});
-					
+
 					// Trigger functions on document loaded
 					lqx.vars.window.load(function() {
 						matchFix('objectFit');
@@ -298,7 +298,7 @@ if(lqx && !('fixes' in lqx)) {
 			if('object-fit' in styles) {
 				// Copy original URL into data-object-fit (this will be used later for updates)
 				var src = img.attr('src');
-				img.attr('data-src', src);
+				if (img.attr('data-object-fit') !== 'true') img.attr('data-src', src);
 
 				// Set image to background and add styling
 				setBackgroundStyles(img, styles);
