@@ -35,11 +35,12 @@ gulp.task('default', function () {
 		'./css/styles.scss',
 		'./css/custom/*.scss',
 		'./css/lib/*.scss'
-	], ['process-css']);
+	], gulp.series('process-css'));
 	gulp.watch([
 		'./js/scripts.js',
 		'./js/custom/*.js',
 		'./js/custom/components/*.js',
 		'./js/custom/controllers/*.js',
-		'./js/lib/*.js'], ['process-js']);
+		'./js/lib/*.js'],
+		gulp.series('process-js'));
 });
