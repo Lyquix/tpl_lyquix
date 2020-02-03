@@ -29,18 +29,62 @@ if(lqx && !('accordion' in lqx)) {
 
 			If the accordion is a child of an .accordion-group parent, when one accordion
 			is opened the rest are closed.
+
+			You can add scrolltop settings for a specific accordion or an accordion group
+			by adding the attribute data-accordion-scrolltop with value a json string that is used
+			to extend the global settings - global settings are extended by accordion
+			group settings (if any) and then by accordion settings (if any)
 		**/
 		var opts = {
+			/**
+			 * scrollTop settings can be defined as a primitive (string, number, boolean) or as an object
+			 * with keys for each screen size for example:
+			 *
+			 * scrollTop : {
+			 *   enabled: true,
+			 *   padding: '50px',
+			 *   target: 'self',
+			 *   duration: 500
+			 * }
+			 *
+			 * or
+			 *
+			 * scrollTop: {
+			 *   enabled: {
+			 *     xs: false,
+			 *     sm: false,
+			 *     md: true,
+			 *     lg: true,
+			 *     xl: true
+			 *   },
+			 *   padding: {
+			 *     xs: '50px',
+			 *     sm: '50px',
+			 *     md: '75px',
+			 *     lg: '90px',
+			 *     xl: '90px'
+			 *   },
+			 *   target: {
+			 *     xs: 'self',
+			 *     sm: 'self',
+			 *     md: 'self',
+			 *     lg: 'self',
+			 *     xl: 'self'
+			 *   }
+			 *   duration: {
+			 *     xs: 500,
+			 *     sm: 500,
+			 *     md: 500,
+			 *     lg: 400,
+			 *     xl: 400
+			 *   }
+			 * }
+			 */
 			scrollTop: {
 				enabled: true,
-				padding: { // From top of the viewport, in px or %, per screen size
-					xs: '50px',
-					sm: '50px',
-					md: '50px',
-					lg: '50px',
-					xl: '50px'
-				},
-				duration: 500, // in ms
+				target: 'self', 	// To what element is the page scrolling: self (default), group, or CSS selector
+				padding: '50px', 	// From top of the viewport, in px or %, per screen size
+				duration: 500, 		// in ms
 			}
 		};
 
@@ -144,9 +188,9 @@ if(lqx && !('accordion' in lqx)) {
 			if(typeof id == 'undefined') var id = null;
 			id = parseInt(id);
 			if(!isNaN(id) && id >= 0 && id < vars.length) {
+
 				// Update accordion jst before opening
 				update(id);
-				
 				// Get accordion data
 				var a = vars[id];
 
@@ -159,13 +203,38 @@ if(lqx && !('accordion' in lqx)) {
 				// Are we in an accordion group?
 				var group = a.elem.parents('.accordion-group');
 
-				// Scroll page to top of open accordion
-				if(opts.scrollTop.enabled) {
-					// Scroll position: start with top of current accordion
-					var scrollPos = a.elem.offset().top;
+				// Get scrollTop settings
+				var scrollTop = {
+					global: Object.assign({}, opts.scrollTop),
+					group: group.attr('data-accordion-scrolltop'),
+					accordion: a.elem.attr('data-accordion-scrolltop')
+				};
 
-					// Reduce scroll position if other accordions are open above the current accordion
-					if(group.length) {
+				if(typeof scrollTop.group != 'undefined') {
+					scrollTop.group = JSON.parse(scrollTop.group);
+					if(typeof scrollTop.group == 'object') jQuery.extend(scrollTop.global, scrollTop.group);
+				}
+				if(typeof scrollTop.accordion != 'undefined') {
+					scrollTop.accordion = JSON.parse(scrollTop.accordion);
+					if(typeof scrollTop.accordion == 'object') jQuery.extend(scrollTop.global, scrollTop.accordion);
+				}
+
+				scrollTop = scrollTop.global;
+
+				// Scroll page to top of open accordion
+				if(typeof scrollTop.enabled == 'object'? scrollTop.enabled[lqx.responsive.screen()] : scrollTop.enabled) {
+					// Scroll position: start with top of current accordion
+					var targetElem = 'self';
+					if('target' in scrollTop) {
+						targetElem = typeof scrollTop.target == 'object' ? targetElem[lqx.responsive.screen()] : scrollTop.target;
+					}
+					if(targetElem == 'self') targetElem = a.elem;
+					else if (targetElem == 'group') targetElem = group;
+					else targetElem = jQuery(targetElem).eq(0);
+					var scrollPos = targetElem.offset().top;
+
+					// Reduce scroll position of other accordions are open above the current accordion
+					if(targetElem == a.elem && group.length) {
 						group.eq(0).find('.accordion.open').not(a.elem).each(function(id, sibling){
 							sibling = jQuery(sibling);
 							if(sibling.offset().top < a.elem.offset().top) {
@@ -179,7 +248,8 @@ if(lqx && !('accordion' in lqx)) {
 					}
 
 					// Scroll position: add padding
-					var padding = opts.scrollTop.padding[lqx.responsive.screen()].match(/^\s*([\d\.]+)\s*(|px|%)\s*$/);
+					var padding = typeof scrollTop.padding == 'object' ? scrollTop.padding[lqx.responsive.screen()] : scrollTop.padding;
+					padding = padding.match(/^\s*([\d\.]+)\s*(|px|%)\s*$/);
 					if(padding == null) padding = 0;
 					else {
 						if(padding[2] == 'px' || padding[2] == '') padding = parseFloat(padding[1]);
@@ -187,7 +257,7 @@ if(lqx && !('accordion' in lqx)) {
 						else padding = 0;
 					}
 					scrollPos -= padding;
-					jQuery('html, body').animate({scrollTop: scrollPos}, opts.scrollTop.duration);
+					jQuery('html, body').animate({scrollTop: scrollPos}, typeof scrollTop.duration == 'object' ? scrollTop.duration[lqx.responsive.screen()] : scrollTop.duration);
 				}
 
 				// Close the rest of the accordions in group
