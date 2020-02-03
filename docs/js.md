@@ -20,6 +20,10 @@ The height of the accordion when open and closed is recalculated on resize, scre
 
 If the accordion is a child of an `.accordion-group` parent, then when one accordion is opened the rest are closed.
 
+When an accordion is opened, the screen is scrolled to the top of the accordion. This function includes handling the closing of accordions placed above the opening accordion without screen "jumpiness". The settings for scrolling can be controlled globally, by screen size, and can be overriden at accordion group and accordion level.
+
+It is possible to define a "padding" above the accordion as the scroll position. This padding can be measured in pixels or a percentage of screen height. Optionally, the scroll position can be based on the accordion group or any other DOM element.
+
 Provides an interface to open, close and update accordions programatically.
 
 **Analytics [`js/lib/analytics.js`](../js/lib/analytics.js)**

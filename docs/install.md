@@ -5,8 +5,7 @@
 ### Pre-Requisites
 
   * NodeJS and npm
-  * SASS, PostCSS, autoprefixer, UglifyCSS, Uglify-JS (use command `npm install -g *package*`)
-  * In Windows you may want to use git bash terminal to run [`css/css.sh`](../css/css.sh) and [`js/js.sh`](../js/js.sh), and you will need to download wget from https://eternallybored.org/misc/wget/ and copy it to `C:\Program Files\Git\mingw64\bin`.
+  * Git BASH terminal
 
 ### First Install
 
@@ -20,10 +19,10 @@
   3. Copy or rename [`css/styles.dist.scss`](../css/styles.dist.scss) to `css/styles.scss`.
   4. Copy or rename [`css/custom/custom.dist.scss`](../css/custom/custom.dist.scss) to `css/custom/custom.scss`.
   5. Copy or rename [`css/css.dist.sh`](../css/css.dist.sh) to `css/css.sh`.
-  6. Run `css/css.sh` to generate `css/styles.css`.
   6. Copy or rename [`js/scripts.dist.scss`](../js/scripts.dist.scss) to `js/scripts.js`.
   7. Copy or rename [`js/js.dist.sh`](../js/js.dist.sh) to `js/js.sh`.
-  8. Run `js/js.sh` to generate various custom scripts and Vue files.
+  8. Run `npm install` once to get all local packages installed
+  9. Run `npx gulp` to get the gulp watcher started and have CSS and JS files automatically processed when saved. You may need to restart gulp after creating new CSS and JS files to ensure they are being watched.
 
 ### Configuring Template Options
 
