@@ -22,14 +22,14 @@ for MOD in "${MODULES[@]}"
 do
 	cat ./lib/$MOD.js >> ./lyquix.js
 done
-uglifyjs ./lyquix.js > ./lyquix.min.js
+npx terser ./lyquix.js > ./lyquix.min.js
 
 
 # Vue
 #if [ -f ./custom/components/*.js -o -f ./custom/controllers/*.js ]; then
 if [[ -n $(find ./custom/components ./custom/controllers -name '*.js' -not -name '*.dist.js') ]]; then
-	wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js > ./vue.js
-	wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js > ./vue.min.js
+	npx wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js > ./vue.js
+	npx wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js > ./vue.min.js
 fi
 if [[ -n $(find ./custom/components -name '*.js' -not -name '*.dist.js') ]]; then
 	find ./custom/components -name '*.js' -not -name '*.dist.js' -exec cat {} + >> ./vue.js
@@ -43,5 +43,5 @@ fi
 
 # Scripts
 if [ -f ./scripts.js ]; then
-    uglifyjs ./scripts.js > ./scripts.min.js
+    npx terser ./scripts.js > ./scripts.min.js
 fi

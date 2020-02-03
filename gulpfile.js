@@ -31,6 +31,15 @@ gulp.task('process-js', function(){
 });
 
 gulp.task('default', function () {
-	gulp.watch(['./css/styles.scss', './css/custom/*.scss'], ['process-css']);
-	gulp.watch(['./js/scripts.js', './js/custom/*.js', './js/custom/components/*.js', './js/custom/controllers/*.js'], ['process-js']);
+	gulp.watch([
+		'./css/styles.scss',
+		'./css/custom/*.scss',
+		'./css/lib/*.scss'
+	], ['process-css']);
+	gulp.watch([
+		'./js/scripts.js',
+		'./js/custom/*.js',
+		'./js/custom/components/*.js',
+		'./js/custom/controllers/*.js',
+		'./js/lib/*.js'], ['process-js']);
 });
