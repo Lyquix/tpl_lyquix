@@ -1,7 +1,7 @@
 /**
  * menu.js - Menu functionality
  *
- * @version     2.2.0
+ * @version     2.2.1
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
