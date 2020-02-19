@@ -1,6 +1,6 @@
 # Favicons
 
-`@version     2.2.1`
+`@version     2.2.2`
 
 The template automatically adds favicons to the `<head>` when files are present in the `images/favicon/` directory.
 
