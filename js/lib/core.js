@@ -62,7 +62,7 @@ else {
 			// Other
 			scrollThrottle: false,
 			resizeThrottle: false,
-			screenWidth: 0
+			resizeThrottleWidth: 0
 		};
 
 		var init = function() {
@@ -71,30 +71,29 @@ else {
 			// scrollthrotle event
 			lqx.log('Setup scrollthrottle event');
 			lqx.vars.window.scroll(function() {
-				// Get current screen width
-				var w = lqx.vars.window.width();
-				// Trigger only for width resize
-				if(!lqx.vars.resizeThrottle && w == lqx.vars.screenWidth) {
+				if(!lqx.vars.scrollThrottle) {
 					lqx.vars.document.trigger('scrollthrottle');
 					lqx.vars.scrollThrottle = true;
-					setTimeout(function() {
+					requestAnimationFrame(function() {
 						lqx.vars.scrollThrottle = false;
 						lqx.vars.document.trigger('scrollthrottle');
-					}, 15);
+					});
 				}
-				lqx.vars.screenWidth = w;
 			});
 
 			// resizethrottle event
 			lqx.log('Setup resizethrottle event');
 			lqx.vars.window.resize(function() {
-				if(!lqx.vars.resizeThrottle) {
+				// Trigger only when screen width changes
+				var w = lqx.vars.window.width();
+				if(!lqx.vars.resizeThrottle && w != lqx.vars.resizeThrottleWidth) {
 					lqx.vars.document.trigger('resizethrottle');
 					lqx.vars.resizeThrottle = true;
-					setTimeout(function () {
+					lqx.vars.resizeThrottleWidth = w;
+					requestAnimationFrame(function () {
 						lqx.vars.resizeThrottle = false;
 						lqx.vars.document.trigger('resizethrottle');
-					}, 15);
+					});
 				}
 			});
 
