@@ -333,7 +333,7 @@ if(lqx && !('analytics' in lqx)) {
 
 				// Load YouTube iframe API
 				var tag = jQuery('<script src="https://www.youtube.com/iframe_api"></script>');
-				tag.load(function(){
+				tag.on('load', function(){
 					vars.youTubeIframeAPIReady = true;
 				});
 				tag.appendTo('head');

@@ -120,7 +120,7 @@ if(lqx && !('fixes' in lqx)) {
 					});
 
 					// Trigger functions on document loaded
-					lqx.vars.window.load(function() {
+					lqx.vars.window.on('load', function() {
 						matchFix('objectFit');
 					});
 
