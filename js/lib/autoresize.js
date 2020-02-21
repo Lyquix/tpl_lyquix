@@ -87,7 +87,7 @@ if(lqx && !('autoresize' in lqx)) {
 			if(elems.length) {
 				lqx.log('Setting up ' + elems.length + ' autoresize fields', elems);
 				elems.forEach(function(elem){
-					jQuery(elem).on('input', resize(elem));
+					jQuery(elem).on('input', function(){resize(elem);});
 					resize(elem);
 				});
 			}
