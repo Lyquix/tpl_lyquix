@@ -10,13 +10,13 @@
  */
 
 // Width variables
-@blk-padding-border-left: @blk-border-left + @blk-padding-left;
-@blk-padding-border-right: @blk-border-right + @blk-padding-right;
-@blk-padding-border-width: (@blk-padding-border-left + @blk-padding-border-right) / 2;
-@blk-padding-border-margin-left: @blk-padding-border-left + @blk-margin-left;
-@blk-padding-border-margin-right: @blk-padding-border-right + @blk-margin-right;
-@blk-padding-border-margin-left-right: @blk-padding-border-margin-left + @blk-padding-border-margin-right;
-@blk-padding-border-margin-width: (@blk-padding-border-margin-left + @blk-padding-border-margin-right) / 2;
+@blk-padding-border-left: unit(unit(@blk-border-left) + unit(@blk-padding-left), px);
+@blk-padding-border-right: unit(unit(@blk-border-right) + unit(@blk-padding-right), px);
+@blk-padding-border-width: unit((unit(@blk-padding-border-left) + unit(@blk-padding-border-right)) / 2, px);
+@blk-padding-border-margin-left: unit(unit(@blk-padding-border-left) + unit(@blk-margin-left), px);
+@blk-padding-border-margin-right: unit(unit(@blk-padding-border-right) + unit(@blk-margin-right), px);
+@blk-padding-border-margin-left-right: unit(unit(@blk-padding-border-margin-left) + unit(@blk-padding-border-margin-right), px);
+@blk-padding-border-margin-width: unit((unit(@blk-padding-border-margin-left) + unit(@blk-padding-border-margin-right)) / 2, px);
 
 @blk1-width: @blk-content-width * 1 + (@blk-padding-border-margin-left + @blk-padding-border-margin-right) * 0;
 @blk2-width: @blk-content-width * 2 + (@blk-padding-border-margin-left + @blk-padding-border-margin-right) * 1;
