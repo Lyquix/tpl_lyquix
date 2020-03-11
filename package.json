@@ -1,0 +1,22 @@
+{
+  "name": "lyquix",
+  "version": "1.0.10",
+  "description": "Lyquix package configuration file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^9.7.3",
+    "bless": "^4.0.4",
+    "gulp": "^4.0.2",
+    "gulp-shell": "^0.6.5",
+    "less": "^3.0.4",
+    "postcss-cli": "^6.1.3",
+    "terser": "^4.6.6",
+    "uglifycss": "0.0.29"
+  },
+  "dependencies": {}
+}

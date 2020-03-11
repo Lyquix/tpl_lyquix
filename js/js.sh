@@ -12,7 +12,7 @@
 ###
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
-uglifyjs $DIR/lyquix.js > $DIR/lyquix.min.js
+npx terser $DIR/lyquix.js > $DIR/lyquix.min.js
 if [ -f $DIR/scripts.js ]; then
-    uglifyjs $DIR/scripts.js > $DIR/scripts.min.js
+    npx terser $DIR/scripts.js > $DIR/scripts.min.js
 fi
