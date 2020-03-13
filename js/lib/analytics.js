@@ -207,7 +207,7 @@ if(lqx && !('analytics' in lqx)) {
 		// Initialize tracking
 		var initTracking = function() {
 			// Track downloads and outbound links
-			if(opts.outbound || opts.download) {
+			if(opts.outbound || opts.downloads) {
 				lqx.log('Setting up outbound/download links tracking');
 
 				function setup(elem) {
@@ -297,7 +297,7 @@ if(lqx && !('analytics' in lqx)) {
 			}
 
 			// Track scroll depth
-			if(opts.scrolldepth) {
+			if(opts.scrollDepth) {
 				lqx.log('Setting up scroll depth tracking');
 
 				// get the initial scroll position
@@ -358,7 +358,7 @@ if(lqx && !('analytics' in lqx)) {
 			}
 
 			// Track active time
-			if(opts.activetime) {
+			if(opts.userActive.enabled) {
 				lqx.log('Setting active time tracking');
 				initUserActive();
 
