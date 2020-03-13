@@ -12,15 +12,42 @@
 if(lqx && !('analytics' in lqx)) {
 	lqx.analytics = (function(){
 		var opts = {
-			downloads: true,
+			downloads: {
+				enabled: true,
+				extensions: [
+					// Images
+					'gif','png','jpg','jpeg','tif','tiff','svg','webp','bmp',
+					// Compressed
+					'zip','rar','gzip','gz','7z','tar',
+					// Executables, installation, binaries
+					'exe','msi','dmg','dll',
+					// Documents
+					'txt','log','pdf','rtf','doc','docx','dot','dotx','xls','xlsx','xlt','xltx','ppt','pptx','pot','potx',
+					// Audio
+					'aac','aiff','mp3','mp4','m4a','m4p','wav','wma',
+					// Video
+					'3gp','3g2','mkv','vob','ogv','ogg','webm','wma','m2v','m4v','mpg','mp2','mpeg','mpe','mpv','mov','avi','wmv','flv','f4v','swf','qt',
+					// Web code
+					'xml','js','json','jsonp','css','less','sass','scss'
+				]
+			},
 			errors: {
 				enabled: true,
 				maxErrors: 100
 			},
-			outbound: true,
-			scrollDepth: true,
-			lyqBox: true,
-			video: true,
+			outbound: {
+				enabled: true,
+				exclude: [] // Array of domains to be excluded, not considered external sites
+			},
+			scrollDepth: {
+				enabled: true
+			},
+			lyqBox: {
+				enabled: true
+			},
+			video: {
+				enabled: true
+			},
 			userActive: {
 				enabled: true,
 				idleTime: 5000,	// idle time (ms) before user is set to inactive
@@ -207,70 +234,74 @@ if(lqx && !('analytics' in lqx)) {
 		// Initialize tracking
 		var initTracking = function() {
 			// Track downloads and outbound links
-			if(opts.outbound || opts.downloads) {
+			if(opts.outbound.enabled || opts.downloads.enabled) {
 				lqx.log('Setting up outbound/download links tracking');
 
-				function setup(elem) {
-					elem = jQuery(elem);
-					// check if it has an href attribute, otherwise it is just a page anchor
-					if(elem.href) {
-						// check if it is an outbound link, track as event
-						if(opts.outbound && elem.host != location.host) {
-							jQuery(elem).click(function(e){
-								e.preventDefault();
-								var url = elem.href;
-								var label = url;
-								if(jQuery(elem).attr('title')) {
-									label = jQuery(elem).attr('title') + ' [' + url + ']';
+				function setup(elems) {
+					if(elems instanceof Node) {
+						// Not an array, convert to an array
+						elems = [elems];
+					}
+					else if(elems instanceof jQuery) {
+						// Convert jQuery to array
+						elems = elems.toArray();
+					}
+					if(elems.length) {
+						lqx.log('Setting up ' + elems.length + ' accordions', elems);
+						elems.forEach(function(elem){
+							// check if it has an href attribute, otherwise it is just a page anchor
+							if(elem.href) {
+								// check if it is an outbound link, track as event
+								if(opts.outbound.enabled && elem.host != location.host && opts.outbound.exclude.indexOf(elem.host) == -1) {
+									lqx.log('Found outbound link to ' + elem.href);
+									jQuery(elem).click(function(e){
+										e.preventDefault();
+										var url = elem.href;
+										lqx.log('Outbound link to: ' + url);
+										var label = url;
+										if(jQuery(elem).attr('title')) {
+											label = jQuery(elem).attr('title') + ' [' + url + ']';
+										}
+										ga('send', {
+											'hitType': 'event',
+											'eventCategory': 'Outbound Links',
+											'eventAction': 'click',
+											'eventLabel': label,
+											'nonInteraction': true,
+											'hitCallback': function(){ window.location.href = url; } // Regarless of target value link will open in same window, otherwise it is blocked by browser
+										});
+									});
 								}
-								ga('send', {
-									'hitType': 'event',
-									'eventCategory': 'Outbound Links',
-									'eventAction': 'click',
-									'eventLabel': label,
-									'nonInteraction': true,
-									'hitCallback': function(){ window.location.href = url; } // Regarless of target value link will open in same window, otherwise it is blocked by browser
-								});
-							});
-						}
 
-						// check if it is a download link (not a webpage) and track as pageview
-						else if(opts.downloads && (
-							elem.href.match(/\.(gif|png|jpg|jpeg|tif|tiff|svg|webp|bmp)$/i) !== null ||
-							elem.href.match(/\.(zip|rar|gzip|gz|7z|tar)$/i) !== null ||
-							elem.href.match(/\.(exe|msi|dmg)$/i) !== null ||
-							elem.href.match(/\.(txt|pdf|rtf|doc|docx|dot|dotx|xls|xlsx|xlt|xltx|ppt|pptx|pot|potx)$/i) !== null ||
-							elem.href.match(/\.(aac|aiff|mp3|mp4|m4a|m4p|wav|wma)$/i) !== null ||
-							elem.href.match(/\.(3gp|3g2|mkv|vob|ogv|ogg|webm|wma|m2v|m4v|mpg|mp2|mpeg|mpe|mpv|mov|avi|wmv|flv|f4v|swf|qt)$/i) !== null ||
-							elem.href.match(/\.(xml|js|json|css|less|sass)$/i) !== null
-						)) {
-							jQuery(elem).click(function(e){
-								e.preventDefault();
-								var url = elem.href;
-								var loc = elem.protocol + '//' + elem.hostname + elem.pathname + elem.search;
-								var page = elem.pathname + elem.search;
-								var title = 'Download: ' + page;
-								if(jQuery(elem).attr('title')) {
-									title = jQuery(elem).attr('title');
+								// check if it is a download link (not a webpage) and track as pageview
+								else if(opts.downloads.enabled && elem.href.match(new RegExp('\.(' + opts.downloads.extensions.join('|') + ')$', 'i')) !== null) {
+									lqx.log('Found download link to ' + elem.href);
+									jQuery(elem).click(function(e){
+										e.preventDefault();
+										var url = elem.href;
+										lqx.log('Download link to: ' + url);
+										var loc = elem.protocol + '//' + elem.hostname + elem.pathname + elem.search;
+										var page = elem.pathname + elem.search;
+										var title = 'Download: ' + page;
+										if(jQuery(elem).attr('title')) {
+											title = jQuery(elem).attr('title');
+										}
+										ga('send', {
+											'hitType': 'pageview',
+											'location': loc,
+											'page': page,
+											'title': title,
+											'hitCallback': function(){ window.location.href = url; } // Regarless of target value link will open in same window, otherwise it is blocked by browser
+										});
+									});
 								}
-								ga('send', {
-									'hitType': 'pageview',
-									'location': loc,
-									'page': page,
-									'title': title,
-									'hitCallback': function(){ window.location.href = url; } // Regarless of target value link will open in same window, otherwise it is blocked by browser
-								});
-							});
-						}
+							}
+						});
 					}
 				}
-				// Find all a tags and cycle through them
-				var elems = jQuery('a');
 
-				elems.each(function(){
-					var elem = this;
-					setup(elem);
-				});
+				// Find all a tags and cycle through them
+				setup(jQuery('a'));
 
 				// Add a mutation handler for links added to the DOM
 				lqx.mutation.addHandler('addNode', 'a', setup);
@@ -297,7 +328,7 @@ if(lqx && !('analytics' in lqx)) {
 			}
 
 			// Track scroll depth
-			if(opts.scrollDepth) {
+			if(opts.scrollDepth.enabled) {
 				lqx.log('Setting up scroll depth tracking');
 
 				// get the initial scroll position
@@ -323,12 +354,12 @@ if(lqx && !('analytics' in lqx)) {
 			}
 
 			// Track LyqBox
-			if(opts.lyqBox){
+			if(opts.lyqBox.enabled){
 				// Do nothing here, all analytics will be handled in lyqbox.js
 			}
 
 			// Track video
-			if(opts.video){
+			if(opts.video.enabled){
 				lqx.log('Setting video tracking');
 
 				// Load YouTube iframe API
