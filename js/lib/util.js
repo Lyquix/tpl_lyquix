@@ -10,7 +10,7 @@
  */
 
 if(lqx && !('util' in lqx)) {
-	lqx.util = {
+	lqx.util = (function(){
 		// Function for handling cookies with ease
 		// inspired by https://github.com/js-cookie/js-cookie and https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie/Simple_document.cookie_framework
 		// lqx.util.cookie(name) to get value of cookie name
@@ -24,7 +24,7 @@ if(lqx && !('util' in lqx)) {
 		// domain: string
 		// secure: any non-false value
 		// httpOnly: any non-false value
-		cookie: function(name, value, attributes) {
+		var cookie = function(name, value, attributes) {
 			if(arguments.length === 0 || !name) return false;
 
 			// get cookie
@@ -44,36 +44,96 @@ if(lqx && !('util' in lqx)) {
 			// set cookie
 			document.cookie = c;
 			return true;
-		},
+		};
 
 		// Simple hash function
-		hash: function(str) {
+		var hash = function(str) {
 			for(var i = 0, h = 4641154056; i < str.length; i++) h = Math.imul(h + str.charCodeAt(i) | 0, 2654435761);
 			h = (h ^ h >>> 17) >>> 0;
 			return h.toString(36);
-		},
+		};
+
+		// Super simple XOR encrypt function
+		// Not secure!
+		// Based on https://gist.github.com/sukima/5613286
+		var encrypt = function(key, plaintext) {
+			let rta = [];
+			for (let i = 0; i < plaintext.length; i++) {
+				let c = plaintext[i];
+				rta.push(c.charCodeAt(0) ^ key.charCodeAt(Math.floor(i % key.length)));
+			}
+			rta = rta.map(function(x) {
+				x = x.toString(16);
+				if(x.length < 2) x = '0' + x;
+				return x;
+			});
+			return rta.join('');
+		};
+
+		// Super simple XOR decrypt function
+		// Not secure!
+		// Based on https://gist.github.com/sukima/5613286
+		var decrypt = function(key, cyphertext) {
+			cyphertext = cyphertext.match(/.{1,2}/g).map(x => parseInt(x, 16));
+			let rta = [];
+			for (let i = 0; i < cyphertext.length; i++) {
+				let c = cyphertext[i];
+				rta.push(String.fromCharCode(c ^ key.charCodeAt(Math.floor(i % key.length))));
+			}
+			return rta.join('');
+		};
+
+		// Generates a 256-bit key fromm a password
+		// Not secure!
+		var passwordKey = function(password) {
+			if(!password) password = randomStr(8);
+			var key = hash(password);
+			while(key.length < 64) {
+				password = key;
+				key = '';
+				Array.from(password).forEach(function(x) {
+					var h = hash(x);
+					key += h.substring(h.length - 4);
+				});
+			}
+			return key.substring(0,64);
+		};
+
+		// Generates a random string of the specificed length
+		var randomStr = function(len) {
+			var str = parseInt(Math.random()*10e6).toString(36);
+			if(typeof len == 'undefined') return str;
+			else {
+				while(str.length < len) str += parseInt(Math.random()*10e6).toString(36);
+				return str.substring(str.length - len);
+			}
+		};
+
+		// Creates a pseudo-unique string using current time and random number
+		var uniqueStr = function() {
+			var d = new Date();
+			var dd = new Date(d.getFullYear() - 3,0,1);
+			return ((d.getTime() - dd.getTime()) * 1000 + d.getMilliseconds()).toString(36) + randomStr();
+		};
 
 		// add unique value to the query string of form's action URL, to avoid caching problem
-		uniqueUrl: function(sel, attrib) {
+		var uniqueUrl = function(sel, attrib) {
 			var elems = jQuery(sel);
 			if(elems.length) {
 				lqx.log('Setting unique URLs in ' + attrib + ' for ' + sel + ' ' + elems.length + ' elements');
-				var d = new Date();
-				var s = (d.getTime() * 1000 + d.getMilliseconds()).toString(36);
-
 				elems.each(function(){
 					var url = jQuery(this).attr(attrib);
 					if(typeof url != 'undefined') {
-						jQuery(this).attr(attrib, url + (url.indexOf('?') !== -1 ? '&' : '?') + s + parseInt(Math.random()*10e6).toString(36));
+						jQuery(this).attr(attrib, url + (url.indexOf('?') !== -1 ? '&' : '?') + uniqueStr());
 					}
 				});
 			}
-		},
+		};
 
 		// Enable swipe detection
 		// sel - element selector
 		// func - name of callback function, will receive selector and direction (up, dn, lt, rt)
-		swipe: function(sel, callback, options) {
+		var swipe = function(sel, callback, options) {
 			lqx.log('Setting up swipe detection for ' + sel);
 
 			var swp = {};
@@ -138,13 +198,13 @@ if(lqx && !('util' in lqx)) {
 					}
 				}
 			});
-		},
+		};
 
 		// Porting of sprintf function
 		// Returns a formatted string using provided format and data
 		// From https://github.com/kvz/locutus/blob/master/src/php/strings/sprintf.js
 		// Docs http://php.net/manual/en/function.sprintf.php
-		sprintf: function() {
+		var sprintf = function() {
 			var regex = /%%|%(?:(\d+)\$)?((?:[-+#0 ]|'[\s\S])*)(\d+)?(?:\.(\d*))?([\s\S])/g;
 			var args = arguments;
 			var i = 0;
@@ -310,14 +370,14 @@ if(lqx && !('util' in lqx)) {
 			catch (err) {
 				return false;
 			}
-		},
+		};
 
 		// Compares version strings
 		// Returns:
 		// 0: equal
 		// 1: a > b
 		// -1: a < b
-		versionCompare: function(a, b) {
+		var versionCompare = function(a, b) {
 			// If they are equal
 			if(a === b) return 0;
 
@@ -340,6 +400,20 @@ if(lqx && !('util' in lqx)) {
 
 			// Otherwise they are the same.
 			return 0;
-		}
-	};
+		};
+
+		return {
+			cookie: cookie,
+			encrypt: encrypt,
+			decrypt: decrypt,
+			hash: hash,
+			passwordKey: passwordKey,
+			randomStr: randomStr,
+			uniqueStr: uniqueStr,
+			uniqueUrl: uniqueUrl,
+			swipe: swipe,
+			sprintf: sprintf,
+			versionCompare: versionCompare
+		};
+	})();
 }
