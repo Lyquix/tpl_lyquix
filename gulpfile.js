@@ -25,7 +25,7 @@ gulp.task('process-css', function(){
 });
 
 gulp.task('process-js', function(){
-	return gulp.src(['js/scripts.js'])
+	return gulp.src(['js/scripts.core.js'])
 		.on('error', errorLog)
 		.pipe(shell(['bash ' + cwd + '/js/js.sh']));
 });
