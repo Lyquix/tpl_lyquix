@@ -23,6 +23,7 @@ do
 	cat ./lib/$MOD.js >> ./lyquix.js
 done
 npx terser ./lyquix.js > ./lyquix.min.js
+npx jshint ./lyquix.js --verbose
 
 
 # Vue
@@ -39,9 +40,12 @@ if [[ -n $(find ./custom/controllers -name '*.js' -not -name '*.dist.js') ]]; th
 	find ./custom/controllers -name '*.js' -not -name '*.dist.js' -exec cat {} + >> ./vue.js
 	find ./custom/controllers -name '*.js' -not -name '*.dist.js' -exec cat {} + >> ./vue.min.js
 fi
-
+if [ -f ./vue.js ]; then
+		npx jshint ./vue.js --verbose
+fi
 
 # Scripts
 if [ -f ./scripts.js ]; then
     npx terser ./scripts.js > ./scripts.min.js
+	npx jshint ./scripts.js --verbose
 fi
