@@ -20,8 +20,21 @@ if(lqx && !('tabs' in lqx)) {
 		 *
 		**/
 
+		var opts = {
+			analytics: {
+				enabled: true,
+				nonInteraction: true
+			}
+		};
+
+		var vars = [];
+
 		var init = function(){
-			// Copy default opts and vars
+			// Copy default opts
+			jQuery.extend(lqx.opts.tabs, opts);
+			opts = lqx.opts.tabs;
+
+			// Create vars
 			vars = lqx.vars.tabs = [];
 
 			// Initialize on lqxready
@@ -29,6 +42,10 @@ if(lqx && !('tabs' in lqx)) {
 				// Initialize only if enabled
 				if(lqx.opts.tabs.enabled) {
 					lqx.log('Initializing `tabs`');
+
+					// Disable analytics if the analytics module is not enabled
+					opts.analytics.enabled = lqx.opts.analytics.enabled ? opts.analytics.enabled : false;
+					if(opts.analytics.enabled) lqx.log('Setting tabs tracking');
 
 					// Trigger functions on document ready
 					lqx.vars.document.ready(function() {
@@ -108,9 +125,21 @@ if(lqx && !('tabs' in lqx)) {
 										// Open clicked tab and matching panel
 										tab.removeClass('closed').addClass('open');
 										panel.removeClass('closed').addClass('open');
+
 										// Close all other tabs and panels in the group
 										nav.find('.tab').not(tab).removeClass('open').addClass('closed');
 										content.find('.tab-panel').not(panel).removeClass('open').addClass('closed');
+
+										// Send event for tab clicked
+										if(opts.analytics.enabled && typeof ga !== 'undefined') {
+											ga('send', {
+												'hitType': 'event',
+												'eventCategory': 'Tab',
+												'eventAction': 'Click',
+												'eventLabel': tab.text(),
+												'nonInteraction': opts.analytics.nonInteraction
+											});
+										}
 									});
 								}
 								// No matching panel found
