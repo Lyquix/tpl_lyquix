@@ -29,24 +29,26 @@ if(lqx && !('analytics' in lqx)) {
 					'3gp','3g2','mkv','vob','ogv','ogg','webm','wma','m2v','m4v','mpg','mp2','mpeg','mpe','mpv','mov','avi','wmv','flv','f4v','swf','qt',
 					// Web code
 					'xml','js','json','jsonp','css','less','sass','scss'
-				]
+				],
+				hitType: 'pageview', // pageview or event
+				nonInteraction: false // for events only
 			},
 			errors: {
 				enabled: true,
-				maxErrors: 100
+				maxErrors: 100,
+				ieVersion: 11 // IE older than this version will be ignored
 			},
 			outbound: {
 				enabled: true,
-				exclude: [] // Array of domains to be excluded, not considered external sites
+				exclude: [], // Array of domains to be excluded, not considered external sites
+				nonInteraction: true
 			},
 			scrollDepth: {
 				enabled: true
 			},
-			lyqBox: {
-				enabled: true
-			},
 			video: {
-				enabled: true
+				enabled: true,
+				nonInteraction: false
 			},
 			userActive: {
 				enabled: true,
@@ -54,6 +56,12 @@ if(lqx && !('analytics' in lqx)) {
 				throttle: 100,	// throttle period (ms)
 				refresh: 250,	// refresh period (ms)
 				maxTime: 1800000 // max time when tracking stops (ms)
+			},
+			rageClicks: {
+				enabled: true,
+				minClicks: 3, // Look for 3 consecutive clicks or more...
+				maxTime: 5, // ... within 5 seconds...
+				maxDistance: 100 // within a 100x100 pixel area
 			},
 			// Google Analytics opts
 			createParams: null,			// example: {default: {trackingId: 'UA-XXXXX-Y', cookieDomain: 'auto', fieldsObject: {}}}, where "default" is the tracker name
@@ -73,7 +81,8 @@ if(lqx && !('analytics' in lqx)) {
 			youtubePlayers: {},
 			vimeoPlayers: {},
 			userActive: null,
-			errorHashes: []
+			errorHashes: [],
+			clickEvents: []
 		};
 
 		var init = function(){
@@ -263,12 +272,12 @@ if(lqx && !('analytics' in lqx)) {
 											label = jQuery(elem).attr('title') + ' [' + url + ']';
 										}
 										ga('send', {
-											'hitType': 'event',
-											'eventCategory': 'Outbound Links',
-											'eventAction': 'click',
-											'eventLabel': label,
-											'nonInteraction': true,
-											'hitCallback': function(){ window.location.href = url; } // Regarless of target value link will open in same window, otherwise it is blocked by browser
+											hitType:'event',
+											eventCategory: 'Outbound Links',
+											eventAction: 'click',
+											eventLabel: label,
+											nonInteraction: opts.outbound.nonInteraction,
+											hitCallback: function(){ window.location.href = url; } // Regarless of target value link will open in same window, otherwise it is blocked by browser
 										});
 									});
 								}
@@ -286,13 +295,25 @@ if(lqx && !('analytics' in lqx)) {
 										if(jQuery(elem).attr('title')) {
 											title = jQuery(elem).attr('title');
 										}
-										ga('send', {
-											'hitType': 'pageview',
-											'location': loc,
-											'page': page,
-											'title': title,
-											'hitCallback': function(){ window.location.href = url; } // Regarless of target value link will open in same window, otherwise it is blocked by browser
-										});
+										if(opts.downloads.hitType == 'pageview') {
+											ga('send', {
+												hitType: 'pageview',
+												location: loc,
+												page: page,
+												title: title,
+												hitCallback: function(){ window.location.href = url; } // Regarless of target value link will open in same window, otherwise it is blocked by browser
+											});
+										}
+										if(opts.downloads.hitType == 'event') {
+											ga('send', {
+												hitType:'event',
+												eventCategory: 'Download Links',
+												eventAction: 'click',
+												eventLabel: page,
+												nonInteraction: opts.downloads.nonInteraction,
+												hitCallback: function(){ window.location.href = url; } // Regarless of target value link will open in same window, otherwise it is blocked by browser
+											});
+										}
 									});
 								}
 							}
@@ -308,7 +329,7 @@ if(lqx && !('analytics' in lqx)) {
 			}
 
 			// Track errors
-			if(opts.errors) {
+			if(opts.errors.enabled && lqx.detect.browser().type != 'msie' ? true : lqx.detect.browser().version >= opts.errors.ieVersion) {
 				// Add listener to window element for javascript errors
 				window.addEventListener('error', function(e) {
 					var errStr = e.message + ' [' + e.error + '] ' + e.filename + ':' + e.lineno + ':' + e.colno;
@@ -316,11 +337,11 @@ if(lqx && !('analytics' in lqx)) {
 					if(vars.errorHashes.indexOf(errHash) == -1 && vars.errorHashes.length < opts.errors.maxErrors) {
 						vars.errorHashes.push(errHash);
 						ga('send', {
-							'hitType' : 'event',
-							'eventCategory' : 'JavaScript Errors',
-							'eventAction' : 'error',
-							'eventLabel' : errStr,
-							'nonInteraction' : true
+							hitType: 'event',
+							eventCategory: 'JavaScript Errors',
+							eventAction: 'error',
+							eventLabel: errStr,
+							nonInteraction: true
 						});
 					}
 					return false;
@@ -345,17 +366,12 @@ if(lqx && !('analytics' in lqx)) {
 				// add listener to page unload
 				lqx.vars.window.on('beforeunload', function(){
 					ga('send', {
-						'hitType' : 'event',
-						'eventCategory' : 'Scroll Depth',
-						'eventAction' : vars.scrollDepthMax,
-						'nonInteraction' : true
+						hitType: 'event',
+						eventCategory: 'Scroll Depth',
+						eventAction: vars.scrollDepthMax,
+						nonInteraction: true
 					});
 				});
-			}
-
-			// Track LyqBox
-			if(opts.lyqBox.enabled){
-				// Do nothing here, all analytics will be handled in lyqbox.js
 			}
 
 			// Track video
@@ -396,28 +412,82 @@ if(lqx && !('analytics' in lqx)) {
 				// Add listener on page unload
 				lqx.vars.window.on('beforeunload', function(){
 					ga('send', {
-						'hitType' : 'event',
-						'eventCategory' : 'User Active Time',
-						'eventAction' : 'Percentage',
-						'eventValue' : parseInt(100 * vars.userActive.activeTime / (vars.userActive.activeTime + vars.userActive.inactiveTime)),
-						'nonInteraction' : true
+						hitType: 'event',
+						eventCategory: 'User Active Time',
+						eventAction: 'Percentage',
+						eventValue: parseInt(100 * vars.userActive.activeTime / (vars.userActive.activeTime + vars.userActive.inactiveTime)),
+						nonInteraction: true
 					});
 
 					ga('send', {
-						'hitType' : 'event',
-						'eventCategory' : 'User Active Time',
-						'eventAction' : 'Active Time (ms)',
-						'eventValue' : parseInt(vars.userActive.activeTime),
-						'nonInteraction' : true
+						hitType: 'event',
+						eventCategory: 'User Active Time',
+						eventAction: 'Active Time (ms)',
+						eventValue: parseInt(vars.userActive.activeTime),
+						nonInteraction: true
 					});
 
 					ga('send', {
-						'hitType' : 'event',
-						'eventCategory' : 'User Active Time',
-						'eventAction' : 'Inactive Time (ms)',
-						'eventValue' : parseInt(vars.userActive.inactiveTime),
-						'nonInteraction' : true
+						hitType: 'event',
+						eventCategory: 'User Active Time',
+						eventAction: 'Inactive Time (ms)',
+						eventValue: parseInt(vars.userActive.inactiveTime),
+						nonInteraction: true
 					});
+				});
+			}
+
+			// Track rage clicks
+			if(opts.rageClicks.enabled) {
+				jQuery('body').click(function(event){
+					// Save click event
+					vars.clickEvents.push({
+						event: event,
+						time: (new Date()).getTime() / 1000
+					});
+
+					// Are there at least minClicks in the array?
+					if(vars.clickEvents.length >= opts.rageClicks.minClicks) {
+						// Get index of last event
+						var totalClicks = vars.clickEvents.length;
+						var lastClick = totalClicks - 1;
+
+						// Check if clicks within maxTime
+						var timeDiff = vars.clickEvents[lastClick].time - vars.clickEvents[0].time;
+						if(timeDiff <= opts.rageClicks.maxTime) {
+							// Find the max and min x and y coordinates of all clicks
+							var minX = vars.clickEvents[0].event.clientX;
+							var maxX = vars.clickEvents[0].event.clientX;
+							var minY = vars.clickEvents[0].event.clientY;
+							var maxY = vars.clickEvents[0].event.clientY;
+							for(var i = 1; i <= lastClick; i++) {
+								var x = vars.clickEvents[i].event.clientX;
+								var y = vars.clickEvents[i].event.clientY;
+								if(x < minX) minX = x;
+								if(x > maxX) maxX = x;
+								if(y < minY) minY = y;
+								if(y > maxY) maxY = y;
+							}
+
+							// Check if clicks are within the maxDistance
+							if((maxX - minX <= opts.rageClicks.maxDistance) && (maxY - minY <= opts.rageClicks.maxDistance)) {
+								// Round area of first click to closest 50 pixels to avoid to many differing values in the event
+								minX = Math.floor(minX / 50) * 50;
+								maxX = Math.ceil(maxX / 50) * 50;
+								minY = Math.floor(minY / 50) * 50;
+								maxY = Math.ceil(maxY / 50) * 50;
+								ga('send', {
+									hitType: 'event',
+									eventCategory: 'Rage Click',
+									eventAction: 'click',
+									eventLabel: [minX, minY, maxX, maxY].join(','),
+									nonInteraction: true
+								});
+							}
+						}
+						// Remove used Clicks
+						vars.clickEvents.splice(0, totalClicks);
+					}
 				});
 			}
 		};
@@ -486,10 +556,10 @@ if(lqx && !('analytics' in lqx)) {
 					if(!('playerObj' in vars.youtubePlayers[playerId])) {
 						vars.youtubePlayers[playerId].playerObj = new YT.Player(playerId, {
 							events: {
-								'onReady': function(e){
+								onReady: function(e){
 									youtubePlayerReady(e, playerId);
 								},
-								'onStateChange': function(e){
+								onStateChange: function(e){
 									youtubePlayerStateChange(e, playerId);
 								}
 							}
@@ -595,7 +665,6 @@ if(lqx && !('analytics' in lqx)) {
 				// iframe no longer exists, remove it from array
 				delete vars.youtubePlayers[playerId];
 			}
-
 		};
 
 		var vimeoReceiveMessage = function(e){
@@ -650,11 +719,7 @@ if(lqx && !('analytics' in lqx)) {
 				if(label){
 					videoTrackingEvent(data.player_id, label, 'No title', player.progress * 10); // vimeo doesn't provide a mechanism for getting the video title
 				}
-
 			}
-
-
-
 		};
 
 		var vimeoSendMessage = function(playerId, origin, action, value){
@@ -669,11 +734,12 @@ if(lqx && !('analytics' in lqx)) {
 
 		var videoTrackingEvent = function(playerId, label, title, value) {
 			ga('send', {
-				'hitType': 'event',
-				'eventCategory' : 'Video',
-				'eventAction' : label,
-				'eventLabel' : title + ' (' + jQuery('#' + playerId).attr('src').split('?')[0] + ')',
-				'eventValue': value
+				hitType:'event',
+				eventCategory: 'Video',
+				eventAction: label,
+				eventLabel: title + ' (' + jQuery('#' + playerId).attr('src').split('?')[0] + ')',
+				eventValue: value,
+				nonInteraction: opts.video.nonInteraction
 			});
 		};
 
