@@ -17,6 +17,7 @@ if(lqx && !('geolocate' in lqx)) {
 
 		var vars = {
 			location: {
+				source: null,
 				city: null,
 				subdivision: null,
 				country: null,
@@ -24,7 +25,8 @@ if(lqx && !('geolocate' in lqx)) {
 				time_zone: null,
 				lat: null,
 				lon: null,
-				radius: null
+				radius: null,
+				ip: null
 			}
 		};
 
@@ -48,7 +50,7 @@ if(lqx && !('geolocate' in lqx)) {
 			return lqx.geolocate.init = true;
 		};
 
-		// Get function
+		// Get current location
 		var location = function() {
 			return vars.location;
 		};
@@ -65,38 +67,51 @@ if(lqx && !('geolocate' in lqx)) {
 				url: lqx.opts.tmplURL + '/php/ip2geo/',
 				success: function(data, status, xhr){
 					vars.location = data;
+					vars.location.source = 'ip2geo';
 
 					lqx.log('IP geolocation result', vars.location);
 
 					// If GPS enabled, attempt to get lat/lon
-					if(opts.gps && ('geolocate' in navigator)) {
-						lqx.log('Attempting GPS geolocation');
-						navigator.geolocate.getCurrentPosition(function(position) {
-							vars.location.lat = position.coords.latitude;
-							vars.location.lon = position.coords.longitude;
-							vars.location.radius = 0;
-							lqx.log('GPS geolocation result', {lat: vars.location.lat, lon: vars.location.lon});
-						});
-					}
-
-					// Add location attributes to body tag
-					for(var key in vars.location) {
-						if(key == 'time_zone') {
-							lqx.vars.body.attr('time-zone', vars.location[key]);
-						}
-						else {
-							lqx.vars.body.attr(key, vars.location[key]);
-						}
-					}
-
-					// Trigger custom event 'geolocateready'
-					lqx.log('geolocateready event');
-					jQuery(document).trigger('geolocateready');
+					if(opts.gps && 'geolocation' in window.navigator) getGPS();
+					else bodyGeoData();
 				},
 				error: function(xhr, status, error){
 					lqx.error('Geolocate error ' + status + ' ' + error);
 				}
 			});
+		};
+
+		// Geolocation from GPS
+		var getGPS = function() {
+			if('geolocation' in window.navigator) {
+				lqx.log('Attempting GPS geolocation');
+				window.navigator.geolocation.getCurrentPosition(function(position) {
+					vars.location.lat = position.coords.latitude;
+					vars.location.lon = position.coords.longitude;
+					vars.location.radius = position.coords.accuracy / 1000; // in km
+					vars.location.source = 'gps';
+
+					lqx.log('GPS geolocation result', {lat: vars.location.lat, lon: vars.location.lon});
+
+					bodyGeoData();
+				});
+			}
+		};
+
+		// Save results to body attributes and trigger geolocateready event
+		var bodyGeoData = function() {
+			// Add location attributes to body tag
+			for(var key in vars.location) {
+				if(key == 'time_zone') {
+					lqx.vars.body.attr('time-zone', vars.location.time_zone);
+				}
+				else if(['source', 'ip'].indexOf(key) == -1) {
+					lqx.vars.body.attr(key, vars.location[key]);
+				}
+			}
+			// Trigger custom event 'geolocateready'
+			lqx.log('geolocateready event');
+			jQuery(document).trigger('geolocateready');
 		};
 
 		var inCircle = function(test, center, radius) {
@@ -150,6 +165,7 @@ if(lqx && !('geolocate' in lqx)) {
 
 		return {
 			init: init,
+			getGPS: getGPS,
 			location: location,
 			inCircle: inCircle,
 			inSquare: inSquare,
