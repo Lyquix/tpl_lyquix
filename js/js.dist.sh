@@ -22,8 +22,8 @@ for MOD in "${MODULES[@]}"
 do
 	cat ./lib/$MOD.js >> ./lyquix.js
 done
-npx terser ./lyquix.js > ./lyquix.min.js
 npx jshint ./lyquix.js --verbose
+npx terser --comments false ./lyquix.js > ./lyquix.min.js
 
 
 # Vue
@@ -46,6 +46,6 @@ fi
 
 # Scripts
 if [ -f ./scripts.js ]; then
-    npx terser ./scripts.js > ./scripts.min.js
 	npx jshint ./scripts.js --verbose
+	npx terser --comments false ./scripts.js > ./scripts.min.js
 fi
