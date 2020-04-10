@@ -85,6 +85,11 @@ if(lqx && !('accordion' in lqx)) {
 				target: 'self', 	// To what element is the page scrolling: self (default), group, or CSS selector
 				padding: '50px', 	// From top of the viewport, in px or %, per screen size
 				duration: 500, 		// in ms
+			},
+			analytics: {
+				enabled: true,
+				nonInteraction: true,
+				onClose: true 	// Sends event on accordion close
 			}
 		};
 
@@ -101,6 +106,10 @@ if(lqx && !('accordion' in lqx)) {
 				// Initialize only if enabled
 				if(lqx.opts.accordion.enabled) {
 					lqx.log('Initializing `accordion`');
+
+					// Disable analytics if the analytics module is not enabled
+					opts.analytics.enabled = lqx.opts.analytics.enabled ? opts.analytics.enabled : false;
+					if(opts.analytics.enabled) lqx.log('Setting accordions tracking');
 
 					// Trigger functions on document ready
 					lqx.vars.document.ready(function() {
@@ -269,6 +278,17 @@ if(lqx && !('accordion' in lqx)) {
 						close(jQuery(elem).attr('data-accordion'));
 					});
 				}
+
+				// Send event for accordion opened
+				if(opts.analytics.enabled && typeof ga !== 'undefined') {
+					ga('send', {
+						'hitType': 'event',
+						'eventCategory': 'Accordion',
+						'eventAction': 'Open',
+						'eventLabel': a.header.text(),
+						'nonInteraction': opts.analytics.nonInteraction
+					});
+				}
 			}
 			else {
 				lqx.warn('Invalid accordion id');
@@ -287,6 +307,17 @@ if(lqx && !('accordion' in lqx)) {
 				// Close the accordion
 				a.elem.addClass('closed').removeClass('open');
 				a.elem.css('height', a.closedHeight);
+
+				// Send event for accordion closed
+				if(opts.analytics.enabled && opts.analytics.onClose && typeof ga !== 'undefined') {
+					ga('send', {
+						'hitType': 'event',
+						'eventCategory': 'Accordion',
+						'eventAction': 'Close',
+						'eventLabel': a.header.text(),
+						'nonInteraction': opts.analytics.nonInteraction
+					});
+				}
 			}
 			else {
 				lqx.warn('Invalid accordion id');
