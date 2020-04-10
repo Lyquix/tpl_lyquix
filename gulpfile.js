@@ -37,7 +37,7 @@ gulp.task('default', function () {
 		'./css/lib/*.scss'
 	], gulp.series('process-css'));
 	gulp.watch([
-		'./js/scripts.js',
+		'./js/scripts.core.js',
 		'./js/custom/*.js',
 		'./js/custom/components/*.js',
 		'./js/custom/controllers/*.js',
