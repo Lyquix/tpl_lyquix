@@ -27,7 +27,6 @@ npx terser --comments false ./lyquix.js > ./lyquix.min.js
 
 
 # Vue
-#if [ -f ./custom/components/*.js -o -f ./custom/controllers/*.js ]; then
 if [[ -n $(find ./custom/components ./custom/controllers -name '*.js' -not -name '*.dist.js') ]]; then
 	npx wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js > ./vue.js
 	npx wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js > ./vue.min.js
@@ -45,7 +44,11 @@ if [ -f ./vue.js ]; then
 fi
 
 # Scripts
-if [ -f ./scripts.js ]; then
+if [ -f ./scripts.core.js ]; then
+	cat ./scripts.core.js > ./scripts.js
+	if [[ -n $(find ./custom/scripts -name '*.js' -not -name '*.dist.js') ]]; then
+		find ./custom/scripts -name '*.js' -not -name '*.dist.js' -exec cat {} + >> ./scripts.js
+	fi
 	npx jshint ./scripts.js --verbose
 	npx terser --comments false ./scripts.js > ./scripts.min.js
 fi
