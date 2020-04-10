@@ -79,7 +79,10 @@ if(lqx && !('lyqbox' in lqx)) {
 					'<div class="thumbnails"></div>' +
 					'<div class="loading"></div>' +
 				'</div>',
-			analytics: true
+			analytics: {
+				enabled: true,
+				nonInteraction: true
+			}
 		};
 
 		var vars = {
@@ -118,8 +121,8 @@ if(lqx && !('lyqbox' in lqx)) {
 					lqx.log('Initializing `lyqbox`');
 
 					// Disable analytics if the analytics module is not enabled
-					if(!lqx.opts.analytics.enabled || !lqx.opts.analytics.lyqBox) opts.analytics = false;
-					if(opts.analytics) lqx.log('Setting LyqBox tracking');
+					opts.analytics.enabled = lqx.opts.analytics.enabled ? opts.analytics.enabled : false;
+					if(opts.analytics.enabled) lqx.log('Setting LyqBox tracking');
 
 					// Initialize on document ready
 					lqx.vars.window.ready(function() {
@@ -302,11 +305,12 @@ if(lqx && !('lyqbox' in lqx)) {
 			lqx.log('Open LyqBox', elem);
 
 			// Send event for lightbox opened
-			if(opts.analytics && typeof ga !== 'undefined') {
+			if(opts.analytics.enabled && typeof ga !== 'undefined') {
 				ga('send', {
 					'hitType': 'event',
 					'eventCategory': 'LyqBox',
-					'eventAction': 'Open'
+					'eventAction': 'Open',
+					'nonInteraction': opts.analytics.nonInteraction
 				});
 			}
 
@@ -449,7 +453,7 @@ if(lqx && !('lyqbox' in lqx)) {
 			}
 
 			// Send event for load
-			if(opts.analytics && typeof ga !== 'undefined') {
+			if(opts.analytics.enabled && typeof ga !== 'undefined') {
 			// Set the analytics event label
 				var eventLabel = vars.album[index].type +
 					(vars.album[index].albumId ? ':' + vars.album[index].albumId : '') +
@@ -460,7 +464,8 @@ if(lqx && !('lyqbox' in lqx)) {
 					'hitType': 'event',
 					'eventCategory': 'LyqBox',
 					'eventAction': 'Load Slide',
-					'eventLabel': eventLabel
+					'eventLabel': eventLabel,
+					'nonInteraction': opts.analytics.nonInteraction
 				});
 			}
 		};
@@ -625,11 +630,12 @@ if(lqx && !('lyqbox' in lqx)) {
 			lqx.log('Close LyqBox');
 
 			// Send event for lightbox opened
-			if(opts.analytics && typeof ga !== 'undefined') {
+			if(opts.analytics.enabled && typeof ga !== 'undefined') {
 				ga('send', {
 					'hitType': 'event',
 					'eventCategory': 'LyqBox',
-					'eventAction': 'Close'
+					'eventAction': 'Close',
+					'nonInteraction': opts.analytics.nonInteraction
 				});
 			}
 		};
