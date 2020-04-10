@@ -50,7 +50,7 @@ if(lqx && !('string' in lqx)) {
 					opts.funcs.forEach(function(func){
 						if(!(func in String.prototype)) {
 							String.prototype[func] = f[func];
-							added.push(func)
+							added.push(func);
 						}
 					});
 					lqx.log('Added new functions to String prototype', added);
@@ -333,7 +333,7 @@ if(lqx && !('string' in lqx)) {
 				var str = this;
 
 				return r[key].test(str);
-			}
+			};
 		});
 
 		return {

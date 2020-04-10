@@ -252,7 +252,7 @@ if(lqx && !('analytics' in lqx)) {
 							// check if it has an href attribute, otherwise it is just a page anchor
 							if(elem.href) {
 								// check if it is an outbound link, track as event
-								if(opts.outbound.enabled && elem.host != location.host && opts.outbound.exclude.indexOf(elem.host) == -1) {
+								if(opts.outbound.enabled && elem.host != window.location.host && opts.outbound.exclude.indexOf(elem.host) == -1) {
 									lqx.log('Found outbound link to ' + elem.href);
 									jQuery(elem).click(function(e){
 										e.preventDefault();
@@ -500,7 +500,7 @@ if(lqx && !('analytics' in lqx)) {
 			else {
 				// keep track how many time we have attempted, retry unless it has been more than 30secs
 				vars.youTubeIframeAPIReadyAttempts++;
-				if(vars.youTubeIframeAPIReadyAttempts < 120) setTimeout(function(){
+				if(vars.youTubeIframeAPIReadyAttempts < 120) window.setTimeout(function(){
 					onYouTubeIframeAPIReady();
 				}, 250);
 			}
@@ -555,7 +555,7 @@ if(lqx && !('analytics' in lqx)) {
 				// video playing
 				if(vars.youtubePlayers[playerId].playerObj.getPlayerState() == 1) {
 					// recursively call this function in 1s to keep track of video progress
-					vars.youtubePlayers[playerId].timer = setTimeout(function(){youtubePlayerStateChange(e, playerId);}, 1000);
+					vars.youtubePlayers[playerId].timer = window.setTimeout(function(){youtubePlayerStateChange(e, playerId);}, 1000);
 
 					// if this is the first time we get the playing status, track it as start
 					if(!vars.youtubePlayers[playerId].start){
@@ -574,7 +574,7 @@ if(lqx && !('analytics' in lqx)) {
 							}
 
 							else {
-								clearTimeout(vars.youtubePlayers[playerId].timer);
+								window.clearTimeout(vars.youtubePlayers[playerId].timer);
 							}
 						}
 					}
@@ -583,7 +583,7 @@ if(lqx && !('analytics' in lqx)) {
 				// video buffering
 				if(vars.youtubePlayers[playerId].playerObj.getPlayerState() == 3) {
 					// recursively call this function in 1s to keep track of video progress
-					vars.youtubePlayers[playerId].timer = setTimeout(function(){youtubePlayerStateChange(e, playerId);}, 1000);
+					vars.youtubePlayers[playerId].timer = window.setTimeout(function(){youtubePlayerStateChange(e, playerId);}, 1000);
 				}
 
 				// send event to GA if label was set
@@ -604,7 +604,7 @@ if(lqx && !('analytics' in lqx)) {
 			if((/^https?:\/\/player.vimeo.com/).test(e.origin)) {
 				// parse the data
 				var data = JSON.parse(e.data);
-				player = vars.vimeoPlayers[data.player_id];
+				var player = vars.vimeoPlayers[data.player_id];
 				var label;
 
 				switch (data.event) {
@@ -697,9 +697,9 @@ if(lqx && !('analytics' in lqx)) {
 			lqx.vars.window.on('focusout', function(){userInactive();});
 
 			// refresh active and inactive time counters
-			var timer = setInterval(function(){
+			var timer = window.setInterval(function(){
 				// Stop updating if maxTime is reached
-				if(vars.userActive.activeTime + vars.userActive.inactiveTime >= opts.userActive.maxTime) clearInterval(timer);
+				if(vars.userActive.activeTime + vars.userActive.inactiveTime >= opts.userActive.maxTime) window.clearInterval(timer);
 				// Update counters
 				else {
 					if(vars.userActive.active) {
@@ -724,7 +724,7 @@ if(lqx && !('analytics' in lqx)) {
 			// if no throttle
 			if(!vars.userActive.throttle) {
 				vars.userActive.throttle = true;
-				setTimeout(function(){vars.userActive.throttle = false;}, opts.userActive.throttle);
+				window.setTimeout(function(){vars.userActive.throttle = false;}, opts.userActive.throttle);
 				// when changing from being inactive
 				if(!vars.userActive.active) {
 					// set state to active
@@ -739,8 +739,8 @@ if(lqx && !('analytics' in lqx)) {
 				vars.userActive.active = true;
 
 				// after idle time turn inactive
-				clearTimeout(vars.userActive.timer);
-				vars.userActive.timer = setTimeout(function(){userInactive();}, opts.userActive.idleTime);
+				window.clearTimeout(vars.userActive.timer);
+				vars.userActive.timer = window.setTimeout(function(){userInactive();}, opts.userActive.idleTime);
 			}
 		};
 
@@ -749,7 +749,7 @@ if(lqx && !('analytics' in lqx)) {
 			// set state to inactive
 			vars.userActive.active = false;
 			// clear timer
-			clearTimeout(vars.userActive.timer);
+			window.clearTimeout(vars.userActive.timer);
 			// add active time
 			vars.userActive.activeTime += (new Date()).getTime() - vars.userActive.lastChangeTime;
 			// update last change time

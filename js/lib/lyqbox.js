@@ -478,7 +478,7 @@ if(lqx && !('lyqbox' in lqx)) {
 				// Hide loader
 				vars.loadingElem.addClass('hide');
 			}
-		}
+		};
 
 		var updateContent = function(content, index, type) {
 			// Add onload event to hide loader for image and videos
@@ -574,7 +574,7 @@ if(lqx && !('lyqbox' in lqx)) {
 				else {
 					hash = '';
 				}
-				if(hash) history.replaceState(null, null, hash);
+				if(hash) window.history.replaceState(null, null, hash);
 			}
 		};
 
@@ -620,7 +620,7 @@ if(lqx && !('lyqbox' in lqx)) {
 			vars.overlay.removeClass('open');
 
 			// Remove hash
-			history.replaceState(null, null, '');
+			window.history.replaceState(null, null, '');
 
 			lqx.log('Close LyqBox');
 

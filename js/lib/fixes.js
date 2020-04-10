@@ -259,7 +259,6 @@ if(lqx && !('fixes' in lqx)) {
 			if(fontFamilyStr) {
 				// Parse font-family property for object-fit and object-position
 				var re = /(([\w-]+)\s*:\s*([\w\s-%#\/\(\)\.']+);*)/g;
-				var styles = {};
 				fontFamilyStr.replace(/(^"|"$)/g,'').replace(re, function(match, g1, property, value) {
 					if((property == 'object-fit' && (value == 'cover' || value == 'contain')) || property == 'object-position'){
 						styles[property] = value;

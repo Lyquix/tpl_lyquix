@@ -120,7 +120,7 @@ if(lqx && !('tabs' in lqx)) {
 							}
 							// Element has no data-tab attribute
 							else {
-								lqx.error('No data-tab attribute for .tab element')
+								lqx.error('No data-tab attribute for .tab element');
 							}
 						}
 						// There is no tab group

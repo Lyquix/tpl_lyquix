@@ -9,11 +9,16 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+/* jshint browser: true, devel: true, esversion: 6, jquery: true, strict: true */
+/* globals ga, MobileDetect, YT */
+
+"use strict";
+
 if(typeof lqx !== 'undefined') {
-	console.error('`lqx` already exist!');
+	window.console.error('`lqx` already exist!');
 }
 else if(typeof jQuery == 'undefined') {
-	console.error('`jQuery` has not been loaded!');
+	window.console.error('`jQuery` has not been loaded!');
 }
 else {
 	var lqx = (function(){
@@ -74,7 +79,7 @@ else {
 				if(!lqx.vars.scrollThrottle) {
 					lqx.vars.document.trigger('scrollthrottle');
 					lqx.vars.scrollThrottle = true;
-					requestAnimationFrame(function() {
+					window.requestAnimationFrame(function() {
 						lqx.vars.scrollThrottle = false;
 						lqx.vars.document.trigger('scrollthrottle');
 					});
@@ -90,7 +95,7 @@ else {
 					lqx.vars.document.trigger('resizethrottle');
 					lqx.vars.resizeThrottle = true;
 					lqx.vars.resizeThrottleWidth = w;
-					requestAnimationFrame(function () {
+					window.requestAnimationFrame(function () {
 						lqx.vars.resizeThrottle = false;
 						lqx.vars.document.trigger('resizethrottle');
 					});
@@ -132,7 +137,7 @@ else {
 		var log = function() {
 			if(opts.debug) {
 				for (var i = 0; i < arguments.length; i++) {
-					console.log(arguments[i]);
+					window.console.log(arguments[i]);
 				}
 			}
 		};
@@ -140,7 +145,7 @@ else {
 		var warn = function() {
 			if(opts.debug) {
 				for (var i = 0; i < arguments.length; i++) {
-					console.warn(arguments[i]);
+					window.console.warn(arguments[i]);
 				}
 			}
 		};
@@ -148,7 +153,7 @@ else {
 		var error = function() {
 			if(opts.debug) {
 				for (var i = 0; i < arguments.length; i++) {
-					console.error(arguments[i]);
+					window.console.error(arguments[i]);
 				}
 			}
 		};

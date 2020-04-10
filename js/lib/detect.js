@@ -75,7 +75,7 @@ if(lqx && !('detect' in lqx)) {
 		};
 		var features = function() {
 			return vars.features;
-		}
+		};
 
 		// Uses the mobile-detect.js library to detect if the browser is a mobile device
 		// Adds the classes mobile, phone and tablet to the body tag if applicable
@@ -114,7 +114,7 @@ if(lqx && !('detect' in lqx)) {
 		// based on: https://github.com/ded/bowser
 		// list of user agen strings: http://www.webapps-online.com/online-tools/user-agent-strings/dv
 		var detectBrowser = function(){
-			var ua = navigator.userAgent, browser;
+			var ua = window.navigator.userAgent, browser;
 
 			// Helper functions to deal with common regex
 			function getFirstMatch(regex) {
@@ -199,7 +199,7 @@ if(lqx && !('detect' in lqx)) {
 		// Based on bowser: https://github.com/ded/bowser
 		// List of user agent strings: http://www.webapps-online.com/online-tools/user-agent-strings/dv
 		var detectOS = function() {
-			var ua = navigator.userAgent, os;
+			var ua = window.navigator.userAgent, os;
 
 			// Helper functions to deal with common regex
 			function getFirstMatch(regex) {
