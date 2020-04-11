@@ -42,7 +42,7 @@ if(lqx && !('string' in lqx)) {
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(lqx.opts.string.enabled) {
+				if(opts.string.enabled) {
 					lqx.log('Initializing `string`');
 
 					// Add functions to prototype

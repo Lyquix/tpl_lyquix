@@ -33,7 +33,7 @@ if(lqx && !('responsive' in lqx)) {
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(lqx.opts.responsive.enabled) {
+				if(opts.responsive.enabled) {
 					lqx.log('Initializing `responsive`');
 
 					// Check screen size for the first time

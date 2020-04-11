@@ -42,7 +42,7 @@ if(lqx && !('detect' in lqx)) {
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(lqx.opts.detect.enabled) {
+				if(opts.detect.enabled) {
 					lqx.log('Initializing `detect`');
 
 					if(opts.mobile) detectMobile();

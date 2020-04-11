@@ -23,7 +23,7 @@ if(lqx && !('menu' in lqx)) {
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(lqx.opts.menu.enabled) {
+				if(opts.menu.enabled) {
 					lqx.log('Initializing `menu`');
 
 					// Trigger setup on lqxready

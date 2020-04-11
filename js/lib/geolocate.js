@@ -40,7 +40,7 @@ if(lqx && !('geolocate' in lqx)) {
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(lqx.opts.geolocate.enabled) {
+				if(opts.geolocate.enabled) {
 					lqx.log('Initializing `geolocate`');
 
 					geoLocate();

@@ -117,7 +117,7 @@ if(lqx && !('lyqbox' in lqx)) {
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(lqx.opts.lyqbox.enabled) {
+				if(opts.lyqbox.enabled) {
 					lqx.log('Initializing `lyqbox`');
 
 					// Disable analytics if the analytics module is not enabled

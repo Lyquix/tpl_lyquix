@@ -40,7 +40,7 @@ if(lqx && !('tabs' in lqx)) {
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(lqx.opts.tabs.enabled) {
+				if(opts.tabs.enabled) {
 					lqx.log('Initializing `tabs`');
 
 					// Disable analytics if the analytics module is not enabled

@@ -68,7 +68,7 @@ if(lqx && !('fittext' in lqx)) {
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(lqx.opts.fittext.enabled) {
+				if(opts.fittext.enabled) {
 					lqx.log('Initializing `fittext`');
 
 					// Trigger functions on document ready

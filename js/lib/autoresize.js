@@ -51,7 +51,7 @@ if(lqx && !('autoresize' in lqx)) {
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(lqx.opts.autoresize.enabled) {
+				if(opts.autoresize.enabled) {
 					lqx.log('Initializing `autoresize`');
 
 					// Add the .autoresize class

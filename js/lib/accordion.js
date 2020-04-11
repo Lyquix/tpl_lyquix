@@ -104,7 +104,7 @@ if(lqx && !('accordion' in lqx)) {
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(lqx.opts.accordion.enabled) {
+				if(opts.accordion.enabled) {
 					lqx.log('Initializing `accordion`');
 
 					// Disable analytics if the analytics module is not enabled

@@ -106,7 +106,7 @@ if(lqx && !('fixes' in lqx)) {
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(lqx.opts.fixes.enabled) {
+				if(opts.fixes.enabled) {
 					lqx.log('Initializing `fixes`');
 
 					// Trigger functions immediately
