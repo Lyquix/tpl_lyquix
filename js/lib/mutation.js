@@ -25,7 +25,7 @@ if(lqx && !('mutation' in lqx)) {
 		var init = function(){
 			// Copy default opts and vars
 			jQuery.extend(true, lqx.opts.mutation, opts);
-			opts = lqx.mutation.menu;
+			opts = lqx.opts.mutation;
 			jQuery.extend(true, lqx.vars.mutation, vars);
 			vars = lqx.vars.mutation;
 
