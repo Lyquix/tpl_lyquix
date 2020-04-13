@@ -34,7 +34,7 @@ if(lqx && !('string' in lqx)) {
 			],
 		};
 
-		var vars = [];
+		var vars = {};
 
 		var init = function() {
 			// Copy default opts and vars

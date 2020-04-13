@@ -15,7 +15,7 @@ if(lqx && !('menu' in lqx)) {
 			screens: ['xs', 'sm', 'md', 'lg', 'xl']
 		};
 
-		var vars = [];
+		var vars = {};
 
 		var init = function(){
 			// Copy default opts and vars

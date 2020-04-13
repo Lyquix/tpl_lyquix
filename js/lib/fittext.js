@@ -65,6 +65,7 @@ if(lqx && !('fittext' in lqx)) {
 			opts = lqx.opts.fittext;
 			jQuery.extend(true, lqx.vars.fittext, vars);
 			vars = lqx.vars.fittext
+
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled

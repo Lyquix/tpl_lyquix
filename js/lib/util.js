@@ -11,6 +11,28 @@
 
 if(lqx && !('util' in lqx)) {
 	lqx.util = (function(){
+		var opts = {};
+
+		var vars = {};
+
+		var init = function(){
+			// Copy default opts
+			jQuery.extend(true, lqx.opts.util, opts);
+			opts = lqx.opts.util;
+			jQuery.extend(true, lqx.vars.util, vars);
+			vars = lqx.vars.util;
+
+			// Initialize on lqxready
+			lqx.vars.window.on('lqxready', function() {
+				// Initialize only if enabled
+				if(opts.enabled) {
+					lqx.log('Initializing `util`');
+				}
+			});
+
+			return lqx.util.init = true;
+		};
+
 		// Function for handling cookies with ease
 		// inspired by https://github.com/js-cookie/js-cookie and https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie/Simple_document.cookie_framework
 		// lqx.util.cookie(name) to get value of cookie name
@@ -403,6 +425,7 @@ if(lqx && !('util' in lqx)) {
 		};
 
 		return {
+			init: init,
 			cookie: cookie,
 			encrypt: encrypt,
 			decrypt: decrypt,
@@ -416,4 +439,5 @@ if(lqx && !('util' in lqx)) {
 			versionCompare: versionCompare
 		};
 	})();
+	lqx.util.init();
 }

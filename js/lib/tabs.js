@@ -29,17 +29,12 @@ if(lqx && !('tabs' in lqx)) {
 
 		var vars = [];
 
-		var vars = [];
-
 		var init = function(){
 			// Copy default opts
 			jQuery.extend(true, lqx.opts.tabs, opts);
 			opts = lqx.opts.tabs;
 			jQuery.extend(true, lqx.vars.tabs, vars);
 			vars = lqx.vars.tabs;
-
-			// Create vars
-			vars = lqx.vars.tabs = [];
 
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {

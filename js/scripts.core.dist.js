@@ -28,7 +28,7 @@ else {
 		// Options for modules
 		var opts = {
 			// Modules
-			module:				{enabled: true}
+			module:   {enabled: true}
 		};
 
 		// Working data for modules
@@ -40,7 +40,7 @@ else {
 			body: null, // Populated after the $lqxready event
 
 			// Modules
-			module:				{}
+			module:   {}
 		};
 
 		var init = function(){

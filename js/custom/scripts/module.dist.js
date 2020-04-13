@@ -17,11 +17,11 @@ if($lqx && !('module' in $lqx)) {
 			 */
 		};
 
-		var vars = [
+		var vars = {
 			/**
 			 * If needed the variable data structure for the module can be added here
 			 */
-		];
+		};
 
 		// Init function for module
 		var init = function(){
