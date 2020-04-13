@@ -148,7 +148,7 @@ if(lqx && !('util' in lqx)) {
 			};
 
 			if(typeof options == 'object') {
-				jQuery.extend(opts, options);
+				jQuery.extend(true, opts, options);
 			}
 
 			lqx.vars.body.on('touchstart', sel, function(e) {

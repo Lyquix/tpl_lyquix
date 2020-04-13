@@ -32,15 +32,15 @@ if(lqx && !('geolocate' in lqx)) {
 
 		var init = function(){
 			// Copy default opts and vars
-			jQuery.extend(lqx.opts.geolocate, opts);
+			jQuery.extend(true, lqx.opts.geolocate, opts);
 			opts = lqx.opts.geolocate;
-			jQuery.extend(lqx.vars.geolocate, vars);
+			jQuery.extend(true, lqx.vars.geolocate, vars);
 			vars = lqx.vars.geolocate;
 
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(opts.geolocate.enabled) {
+				if(opts.enabled) {
 					lqx.log('Initializing `geolocate`');
 
 					geoLocate();

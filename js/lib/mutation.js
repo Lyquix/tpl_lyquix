@@ -11,6 +11,10 @@
 
 if(lqx && !('mutation' in lqx)) {
 	lqx.mutation = (function(){
+		var opts = {
+
+		};
+
 		var vars = {
 			observer: null,
 			addNode: [],
@@ -20,13 +24,15 @@ if(lqx && !('mutation' in lqx)) {
 
 		var init = function(){
 			// Copy default opts and vars
-			jQuery.extend(lqx.vars.mutation, vars);
+			jQuery.extend(true, lqx.opts.mutation, opts);
+			opts = lqx.mutation.menu;
+			jQuery.extend(true, lqx.vars.mutation, vars);
 			vars = lqx.vars.mutation;
 
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(lqx.opts.mutation.enabled) {
+				if(opts.enabled) {
 					lqx.log('Initializing `mutation`');
 
 					// Create observer

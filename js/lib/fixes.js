@@ -98,15 +98,15 @@ if(lqx && !('fixes' in lqx)) {
 
 		var init = function(){
 			// Copy default opts and vars
-			jQuery.extend(lqx.opts.fixes, opts);
+			jQuery.extend(true, lqx.opts.fixes, opts);
 			opts = lqx.opts.fixes;
-			jQuery.extend(lqx.vars.fixes, vars);
+			jQuery.extend(true, lqx.vars.fixes, vars);
 			vars = lqx.vars.fixes;
 
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(opts.fixes.enabled) {
+				if(opts.enabled) {
 					lqx.log('Initializing `fixes`');
 
 					// Trigger functions immediately

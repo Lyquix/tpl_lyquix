@@ -25,15 +25,15 @@ if(lqx && !('responsive' in lqx)) {
 
 		var init = function(){
 			// Copy default opts and vars
-			jQuery.extend(lqx.opts.responsive, opts);
+			jQuery.extend(true, lqx.opts.responsive, opts);
 			opts = lqx.opts.responsive;
-			jQuery.extend(lqx.vars.responsive, vars);
+			jQuery.extend(true, lqx.vars.responsive, vars);
 			vars = lqx.vars.responsive;
 
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(opts.responsive.enabled) {
+				if(opts.enabled) {
 					lqx.log('Initializing `responsive`');
 
 					// Check screen size for the first time

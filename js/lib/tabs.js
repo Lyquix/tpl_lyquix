@@ -29,10 +29,14 @@ if(lqx && !('tabs' in lqx)) {
 
 		var vars = [];
 
+		var vars = [];
+
 		var init = function(){
 			// Copy default opts
-			jQuery.extend(lqx.opts.tabs, opts);
+			jQuery.extend(true, lqx.opts.tabs, opts);
 			opts = lqx.opts.tabs;
+			jQuery.extend(true, lqx.vars.tabs, vars);
+			vars = lqx.vars.tabs;
 
 			// Create vars
 			vars = lqx.vars.tabs = [];
@@ -40,7 +44,7 @@ if(lqx && !('tabs' in lqx)) {
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(opts.tabs.enabled) {
+				if(opts.enabled) {
 					lqx.log('Initializing `tabs`');
 
 					// Disable analytics if the analytics module is not enabled

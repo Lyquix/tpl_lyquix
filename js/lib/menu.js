@@ -15,15 +15,19 @@ if(lqx && !('menu' in lqx)) {
 			screens: ['xs', 'sm', 'md', 'lg', 'xl']
 		};
 
+		var vars = [];
+
 		var init = function(){
 			// Copy default opts and vars
-			jQuery.extend(lqx.opts.menu, opts);
+			jQuery.extend(true, lqx.opts.menu, opts);
 			opts = lqx.opts.menu;
+			jQuery.extend(true, lqx.vars.menu, vars);
+			vars = lqx.vars.menu;
 
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(opts.menu.enabled) {
+				if(opts.enabled) {
 					lqx.log('Initializing `menu`');
 
 					// Trigger setup on lqxready

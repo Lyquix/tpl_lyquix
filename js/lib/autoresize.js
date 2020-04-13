@@ -43,15 +43,15 @@ if(lqx && !('autoresize' in lqx)) {
 
 		var init = function(){
 			// Copy default opts and vars
-			jQuery.extend(lqx.opts.autoresize, opts);
+			jQuery.extend(true, lqx.opts.autoresize, opts);
 			opts = lqx.opts.autoresize;
-			jQuery.extend(lqx.vars.autoresize, vars);
+			jQuery.extend(true, lqx.vars.autoresize, vars);
 			vars = lqx.vars.autoresize;
 
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(opts.autoresize.enabled) {
+				if(opts.enabled) {
 					lqx.log('Initializing `autoresize`');
 
 					// Add the .autoresize class

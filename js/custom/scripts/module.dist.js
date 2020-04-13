@@ -26,14 +26,15 @@ if($lqx && !('module' in $lqx)) {
 		// Init function for module
 		var init = function(){
 			// Copy default opts and vars
-			jQuery.extend($lqx.opts.module, opts);
+			jQuery.extend(true, $lqx.opts.module, opts);
 			opts = $lqx.opts.module;
-			vars = $lqx.vars.module = [];
+			jQuery.extend(true, $lqx.vars.module, vars);
+			vars = $lqx.vars.module;
 
 			// Initialize on $lqxready
 			$lqx.vars.window.on('$lqxready', function() {
 				// Initialize only if enabled
-				if($lqx.opts.module.enabled) {
+				if(opts.enabled) {
 					lqx.log('Initializing `module`');
 
 					/**

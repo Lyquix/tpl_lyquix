@@ -34,15 +34,19 @@ if(lqx && !('string' in lqx)) {
 			],
 		};
 
+		var vars = [];
+
 		var init = function() {
 			// Copy default opts and vars
-			jQuery.extend(lqx.opts.string, opts);
+			jQuery.extend(true, lqx.opts.string, opts);
 			opts = lqx.opts.string;
+			jQuery.extend(true, lqx.vars.string, vars);
+			vars = lqx.vars.string;
 
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(opts.string.enabled) {
+				if(opts.enabled) {
 					lqx.log('Initializing `string`');
 
 					// Add functions to prototype

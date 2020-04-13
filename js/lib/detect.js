@@ -34,15 +34,15 @@ if(lqx && !('detect' in lqx)) {
 
 		var init = function(){
 			// Copy default opts and vars
-			jQuery.extend(lqx.opts.detect, opts);
+			jQuery.extend(true, lqx.opts.detect, opts);
 			opts = lqx.opts.detect;
-			jQuery.extend(lqx.vars.detect, vars);
+			jQuery.extend(true, lqx.vars.detect, vars);
 			vars = lqx.vars.detect;
 
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(opts.detect.enabled) {
+				if(opts.enabled) {
 					lqx.log('Initializing `detect`');
 
 					if(opts.mobile) detectMobile();

@@ -97,14 +97,15 @@ if(lqx && !('accordion' in lqx)) {
 
 		var init = function(){
 			// Copy default opts and vars
-			jQuery.extend(lqx.opts.accordion, opts);
+			jQuery.extend(true, lqx.opts.accordion, opts);
 			opts = lqx.opts.accordion;
-			vars = lqx.vars.accordion = [];
+			jQuery.extend(true, lqx.vars.accordion, vars);
+			vars = lqx.vars.accordion;
 
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(opts.accordion.enabled) {
+				if(opts.enabled) {
 					lqx.log('Initializing `accordion`');
 
 					// Disable analytics if the analytics module is not enabled
@@ -221,11 +222,11 @@ if(lqx && !('accordion' in lqx)) {
 
 				if(typeof scrollTop.group != 'undefined') {
 					scrollTop.group = JSON.parse(scrollTop.group);
-					if(typeof scrollTop.group == 'object') jQuery.extend(scrollTop.global, scrollTop.group);
+					if(typeof scrollTop.group == 'object') jQuery.extend(true, scrollTop.global, scrollTop.group);
 				}
 				if(typeof scrollTop.accordion != 'undefined') {
 					scrollTop.accordion = JSON.parse(scrollTop.accordion);
-					if(typeof scrollTop.accordion == 'object') jQuery.extend(scrollTop.global, scrollTop.accordion);
+					if(typeof scrollTop.accordion == 'object') jQuery.extend(true, scrollTop.global, scrollTop.accordion);
 				}
 
 				scrollTop = scrollTop.global;

@@ -61,14 +61,14 @@ if(lqx && !('fittext' in lqx)) {
 
 		var init = function(){
 			// Copy default opts and vars
-			jQuery.extend(lqx.opts.fittext, opts);
+			jQuery.extend(true, lqx.opts.fittext, opts);
 			opts = lqx.opts.fittext;
-			vars = lqx.vars.fittext = [];
-
+			jQuery.extend(true, lqx.vars.fittext, vars);
+			vars = lqx.vars.fittext
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(opts.fittext.enabled) {
+				if(opts.enabled) {
 					lqx.log('Initializing `fittext`');
 
 					// Trigger functions on document ready
@@ -131,14 +131,10 @@ if(lqx && !('fittext' in lqx)) {
 				elem = jQuery(elem);
 
 				// Get options
-				var options = {
-					global: Object.assign({}, opts),
-					elem: elem.attr('data-fittext')
-				};
 				var elemOpts = elem.attr('data-fittext');
 				if(typeof elemOpts != 'undefined') elemOpts = JSON.parse(elemOpts);
 				if(typeof elemOpts != 'object') elemOpts = {};
-				jQuery.extend(elemOpts, opts);
+				elemOpts = jQuery.extend(true, Object.assign({}, opts), elemOpts);
 				Object.keys(elemOpts).forEach(function(key){
 					if(typeof elemOpts[key] == 'object') elemOpts[key] = elemOpts[key][lqx.responsive.screen()];
 				});

@@ -87,15 +87,15 @@ if(lqx && !('analytics' in lqx)) {
 
 		var init = function(){
 			// Copy default opts and vars
-			jQuery.extend(lqx.opts.analytics, opts);
+			jQuery.extend(true, lqx.opts.analytics, opts);
 			opts = lqx.opts.analytics;
-			jQuery.extend(lqx.vars.analytics, vars);
+			jQuery.extend(true, lqx.vars.analytics, vars);
 			vars = lqx.vars.analytics;
 
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(lqx.opts.analytics.enabled) {
+				if(opts.enabled) {
 					lqx.log('Initializing `analytics`');
 
 					// Load Google Analytics

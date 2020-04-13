@@ -109,15 +109,15 @@ if(lqx && !('lyqbox' in lqx)) {
 
 		var init = function(){
 			// Copy default opts and vars
-			jQuery.extend(lqx.opts.lyqbox, opts);
+			jQuery.extend(true, lqx.opts.lyqbox, opts);
 			opts = lqx.opts.lyqbox;
-			jQuery.extend(lqx.vars.lyqbox, vars);
+			jQuery.extend(true, lqx.vars.lyqbox, vars);
 			vars = lqx.vars.lyqbox;
 
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
-				if(opts.lyqbox.enabled) {
+				if(opts.enabled) {
 					lqx.log('Initializing `lyqbox`');
 
 					// Disable analytics if the analytics module is not enabled
