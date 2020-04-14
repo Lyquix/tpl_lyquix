@@ -79,54 +79,76 @@ if(lqx && !('util' in lqx)) {
 		// Not secure!
 		// Based on https://gist.github.com/sukima/5613286
 		var encrypt = function(key, plaintext) {
-			let rta = [];
+			let cyphertext = [];
+			// Convert to hex to properly handle UTF8
+			plaintext = Array.from(plaintext).map(function(c) {
+				if(c.charCodeAt(0) < 128) return c.charCodeAt(0).toString(16).padStart(2, '0');
+				else return encodeURIComponent(c).replace(/\%/g,'').toLowerCase();
+			}).join('');
+			// Convert each hex to decimal
+			plaintext = plaintext.match(/.{1,2}/g).map(x => parseInt(x, 16));
+			// Perform xor operation
 			for (let i = 0; i < plaintext.length; i++) {
-				let c = plaintext[i];
-				rta.push(c.charCodeAt(0) ^ key.charCodeAt(Math.floor(i % key.length)));
+				cyphertext.push(plaintext[i] ^ key.charCodeAt(Math.floor(i % key.length)));
 			}
-			rta = rta.map(function(x) {
-				x = x.toString(16);
-				if(x.length < 2) x = '0' + x;
-				return x;
+			// Convert to hex
+			cyphertext = cyphertext.map(function(x) {
+        return x.toString(16).padStart(2, '0');
 			});
-			return rta.join('');
+			return cyphertext.join('');
 		};
 
 		// Super simple XOR decrypt function
 		// Not secure!
 		// Based on https://gist.github.com/sukima/5613286
 		var decrypt = function(key, cyphertext) {
-			cyphertext = cyphertext.match(/.{1,2}/g).map(x => parseInt(x, 16));
-			let rta = [];
-			for (let i = 0; i < cyphertext.length; i++) {
-				let c = cyphertext[i];
-				rta.push(String.fromCharCode(c ^ key.charCodeAt(Math.floor(i % key.length))));
+			try {
+				cyphertext = cyphertext.match(/.{1,2}/g).map(x => parseInt(x, 16));
+				let plaintext = [];
+				for (let i = 0; i < cyphertext.length; i++) {
+					plaintext.push((cyphertext[i] ^ key.charCodeAt(Math.floor(i % key.length))).toString(16).padStart(2, '0'));
+				}
+				return decodeURIComponent('%' + plaintext.join('').match(/.{1,2}/g).join('%'));
 			}
-			return rta.join('');
+			catch(e) {
+				return false;
+			}
 		};
 
-		// Generates a 256-bit key fromm a password
+		// Generates an encryption key fromm a password
 		// Not secure!
-		var passwordKey = function(password) {
-			if(!password) password = randomStr(8);
-			var key = hash(password);
-			while(key.length < 64) {
-				password = key;
-				key = '';
-				Array.from(password).forEach(function(x) {
-					var h = hash(x);
-					key += h.substring(h.length - 4);
-				});
+		var passwordDerivedKey = function(password, salt, iterations, len) {
+			if(!password) password = randomStr();
+			if(!salt) salt = '80ymb4oZ';
+			if(!iterations) iterations = 8;
+			if(!len) len = 256;
+			len = Math.ceil(len / 8);
+			var key = '';
+
+			while(key.length < len) {
+				var i = 0;
+				var intSalt = salt;
+				var intKey = '';
+				while(i < iterations) {
+					intKey = hash(password + intSalt);
+					var newSalt = '';
+					for(let j = 0; j < intSalt.length; j++) {
+						newSalt += (intSalt.charCodeAt(j) ^ intKey.charCodeAt(Math.floor(j % key.length))).toString(36);
+					}
+					intSalt = newSalt;
+					i++;
+				}
+				key += intKey;
 			}
-			return key.substring(0,64);
+			return key.substring(0, len);
 		};
 
 		// Generates a random string of the specificed length
 		var randomStr = function(len) {
-			var str = parseInt(Math.random()*10e6).toString(36);
+			var str = parseInt(Math.random()*10e16).toString(36);
 			if(typeof len == 'undefined') return str;
 			else {
-				while(str.length < len) str += parseInt(Math.random()*10e6).toString(36);
+				while(str.length < len) str += parseInt(Math.random()*10e16).toString(36);
 				return str.substring(str.length - len);
 			}
 		};
@@ -430,7 +452,7 @@ if(lqx && !('util' in lqx)) {
 			encrypt: encrypt,
 			decrypt: decrypt,
 			hash: hash,
-			passwordKey: passwordKey,
+			passwordDerivedKey: passwordDerivedKey,
 			randomStr: randomStr,
 			uniqueStr: uniqueStr,
 			uniqueUrl: uniqueUrl,
