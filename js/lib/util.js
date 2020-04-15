@@ -93,7 +93,7 @@ if(lqx && !('util' in lqx)) {
 			}
 			// Convert to hex
 			cyphertext = cyphertext.map(function(x) {
-        return x.toString(16).padStart(2, '0');
+				return x.toString(16).padStart(2, '0');
 			});
 			return cyphertext.join('');
 		};
@@ -133,7 +133,7 @@ if(lqx && !('util' in lqx)) {
 					intKey = hash(password + intSalt);
 					var newSalt = '';
 					for(let j = 0; j < intSalt.length; j++) {
-						newSalt += (intSalt.charCodeAt(j) ^ intKey.charCodeAt(Math.floor(j % key.length))).toString(36);
+						newSalt += (intSalt.charCodeAt(j) ^ intKey.charCodeAt(Math.floor(j % intKey.length))).toString(36);
 					}
 					intSalt = newSalt;
 					i++;
@@ -149,7 +149,7 @@ if(lqx && !('util' in lqx)) {
 			if(typeof len == 'undefined') return str;
 			else {
 				while(str.length < len) str += parseInt(Math.random()*10e16).toString(36);
-				return str.substring(str.length - len);
+				return str.substring(0, len);
 			}
 		};
 
@@ -157,7 +157,7 @@ if(lqx && !('util' in lqx)) {
 		var uniqueStr = function() {
 			var d = new Date();
 			var dd = new Date(d.getFullYear() - 3,0,1);
-			return ((d.getTime() - dd.getTime()) * 1000 + d.getMilliseconds()).toString(36) + randomStr();
+			return ((d.getTime() - dd.getTime()) * 1000 + d.getMilliseconds()).toString(36) + randomStr(3);
 		};
 
 		// add unique value to the query string of form's action URL, to avoid caching problem
