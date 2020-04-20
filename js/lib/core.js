@@ -130,8 +130,16 @@ else {
 
 		// Triggers custom event 'lqxready'
 		var ready = function(opts) {
+			// Overide default options with passed options
 			if(typeof opts == 'object') lqx.options(opts);
+
+			// Overdide default and passed options with development options, if available
+			if(window.location.hostname.match(/^dev\.|\.dev$|\.test$/) !== null && typeof window.lqxDevOpts == 'object') lqx.options(window.lqxDevOpts);
+
+			// Get the body tag object
 			lqx.vars.body = jQuery(document.body);
+
+			// Trigger the lqxready event
 			lqx.log('lqxready event');
 			lqx.vars.window.trigger('lqxready');
 
