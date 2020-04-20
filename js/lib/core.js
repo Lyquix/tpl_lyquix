@@ -25,8 +25,12 @@ else {
 		// Default opts
 		var opts = {
 			debug: false,
-			siteURL: null,
-			tmplURL: null,
+			siteURL: window.location.protocol + '//' + window.location.hostname,
+			tmplURL: (function(){
+				let a = document.createElement("a");
+				a.href = jQuery('script[src*="/js/lyquix."]').attr('src');
+				return a.href.slice(0, a.href.indexOf('/js/lyquix.'));
+			})(),
 			// Modules
 			accordion:  {enabled: true},
 			analytics:  {enabled: true},
