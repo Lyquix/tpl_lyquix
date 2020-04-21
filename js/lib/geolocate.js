@@ -298,8 +298,7 @@ if(lqx && !('geolocate' in lqx)) {
 			inSquare: inSquare,
 			inPolygon: inPolygon,
 			setRegions: setRegions,
-			getRegions: getRegions,
-			regionDisplay: regionDisplay
+			getRegions: getRegions
 		};
 	})();
 	lqx.geolocate.init();
