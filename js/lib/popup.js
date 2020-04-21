@@ -63,8 +63,10 @@ if(lqx && !('popup' in lqx)) {
 
 					// Trigger functions on document ready
 					lqx.vars.document.ready(function() {
-						// Save elems to localStorage and auto-save on exit
-						lqx.store.saveOnExit('popup', 'elems');
+						// Get saved elems fom localStorage and setup auto-save on exit
+						vars.elems = lqx.store.get('popup', 'elems');
+						if(vars.elems == undefined) vars.elems = {};
+						lqx.store.set('popup', 'elems');
 
 						// Disable analytics if the analytics module is not enabled
 						opts.analytics.enabled = lqx.opts.analytics.enabled ? opts.analytics.enabled : false;
@@ -118,12 +120,12 @@ if(lqx && !('popup' in lqx)) {
 
 					// Get last state
 					if(!(elemId in vars.elems)) vars.elems[elemId] = {
-						elem: elem,
 						opts: elemOpts,
 						state: 'closed',
 						lastClose: 0,
 						lastDismiss: 0
 					};
+					vars.elems[elemId].elem = elem;
 					var elemState = vars.elems[elemId];
 
 					// Check if pop-up should be opened
@@ -189,19 +191,20 @@ if(lqx && !('popup' in lqx)) {
 
 		var open = function(elemId, openDelay) {
 			if(typeof openDelay == 'undefined') openDelay = 0;
+			var elemState = vars.elems[elemId];
 			setTimeout(function(){
-				vars.elems[elemId].elem.addClass('open').removeClass('closed');
-				vars.elems[elemId].state = 'open';
+				elemState.elem.addClass('open').removeClass('closed');
+				elemState.state = 'open';
 
 				// Auto-close after delay
-				if(vars.elems[elemId].opts.autoCloseDelay !== null) {
+				if(elemState.opts.autoCloseDelay !== null) {
 					setTimeout(function(){
 						close(elemId);
-					}, vars.elems[elemId].opts.autoCloseDelay * 1000);
+					}, elemState.opts.autoCloseDelay * 1000);
 				}
 
 				// Send event for accordion opened
-				if(opts.analytics.enabled && opts.analytics.onOpen && typeof ga !== 'undefined') {
+				if(opts.analytics.enabled && elemState.opts.analytics.onOpen && typeof ga !== 'undefined') {
 					ga('send', {
 						'hitType': 'event',
 						'eventCategory': 'Popup',
@@ -214,12 +217,13 @@ if(lqx && !('popup' in lqx)) {
 		};
 
 		var close = function(elemId) {
-			vars.elems[elemId].elem.addClass('closed').removeClass('open');
-			vars.elems[elemId].state = 'closed';
-			vars.elems[elemId].lastClose = (new Date()).getTime();
+			var elemState = vars.elems[elemId];
+			elemState.elem.addClass('closed').removeClass('open');
+			elemState.state = 'closed';
+			elemState.lastClose = (new Date()).getTime();
 
 			// Send event for accordion opened
-			if(opts.analytics.enabled && opts.analytics.onClose && typeof ga !== 'undefined') {
+			if(opts.analytics.enabled && elemState.opts.analytics.onClose && typeof ga !== 'undefined') {
 				ga('send', {
 					'hitType': 'event',
 					'eventCategory': 'Popup',
@@ -231,12 +235,13 @@ if(lqx && !('popup' in lqx)) {
 		};
 
 		var dismiss = function(elemId) {
-			vars.elems[elemId].elem.addClass('closed').removeClass('open');
-			vars.elems[elemId].state = 'closed';
-			vars.elems[elemId].lastDismiss = (new Date()).getTime();
+			var elemState = vars.elems[elemId];
+			elemState.elem.addClass('closed').removeClass('open');
+			elemState.state = 'closed';
+			elemState.lastDismiss = (new Date()).getTime();
 
 			// Send event for accordion opened
-			if(opts.analytics.enabled && opts.analytics.onDismiss && typeof ga !== 'undefined') {
+			if(opts.analytics.enabled && elemState.opts.analytics.onDismiss && typeof ga !== 'undefined') {
 				ga('send', {
 					'hitType': 'event',
 					'eventCategory': 'Popup',
