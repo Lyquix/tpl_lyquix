@@ -8,6 +8,15 @@ All the scripting files are located in the [`js/`](../js/) directory. We have de
 
 ## JavaScript Library
 
+### Core
+
+The library core [`js/lib/core.js`](../js/lib/core.js) implemented undelying and common functionality for all modules:
+
+  * Provides structure of options (`lqx.opts`) and variables (`lqx.vars`) that will contain the data for all modules.
+  * Provides functionality for persistent storage using localStorage, with ability for auto-save tracked data every 15 seconds and on page unload.
+  * Creates `scrollthrottle` and `resizethrottle` custom events that can be used instead of the standard `scroll` and `resize` events to prevent overloading the browser with too many callbacks
+  * Provides a proxy for `console.log`, `console.warn`, and `console.error` that can be easily turned on and off using the `debug` option
+
 ### Modules
 
 The library is made up by a collection of modules that can be disabled and configured to meet the needs of your project.
@@ -26,16 +35,19 @@ It is possible to define a "padding" above the accordion as the scroll position.
 
 Provides an interface to open, close and update accordions programatically.
 
+Triggers Google Analytics events on accordion open and close.
+
 **Analytics [`js/lib/analytics.js`](../js/lib/analytics.js)**
 
 Provides functionality for custom event tracking with Google Analytics:
 
   * **Outbound Links:** Track outbound links (links pointing to a different domain) that users follow when leaving your site. This is recorded as an event that is triggered right before the browser abandons the page.
-  * **Download Links:** Track download links, such as PDF files, Microsoft Office files, text files, etc. that don't have JavaScript capabilities and normally don't generate a page view. This custom event tracks the link as a page view.
+  * **Download Links:** Track download links, such as PDF files, Microsoft Office files, text files, etc. that don't have JavaScript capabilities and normally don't generate a page view. By default, this custom event tracks the link as a page view.
   * **Scroll Depth:** Tracks the maximum percentage of a page that was visible to the user. This metric can be used to get a sense on whether users are scrolling down on pages to extend beyond the fold. An event is triggered right before abandoning the page, and reports the maximum tenth percentage (e.g. 10%, 20%, ..., 100%).
   * **Photo Gallery:** Generates events on gallery open, as well as individual events for each image displayed, including the image URL.
   * **Video Player:** Tracks events in YouTube and Vimeo players. It automatically enabled Javascript API if not enabled in the embed code. It tracks Start, progress and completion events, for example: Start, 10%, 20%, ..., 90%, Complete.
   * **User Active:** Keeps track of the time a user is active while viewing a page. It uses several techniques to assess if the user is active or not. Reports the percentage and absolute time that the user has been active and inactive. Tracking stops after 30 minutes.
+  * **Rage Clicks:** detects rage clicks (rapid sequence of clicks in nearby area), and triggers a Google Analytics event for it.
   * **JavaScript Errors:** Tracks unique JavaScript errors, providing information on the error message, the location of the error (file, line, column). These events are useful to identify errors affecting specific browsers or operating systems.
 
 **AutoResize [`js/lib/autoresize.js`](../js/lib/autoresize.js)**
@@ -59,6 +71,12 @@ A collection of detection utilities. Adds classes to the `<body>` that can be he
   * **URL Params:** detects the URL query parameters and make them available at `lqx.detect.urlParams`.
   * **Browser Features:** detects specific browser features that may impact JavaScript of CSS rendering.
 
+**FitText [`js/lib/fittext.js`](../js/lib/fittext.js)**
+
+Provides functionality for fitting paragraph text in a specific number of lines by automatically adjusting its font size.
+
+Settings include minimum and maximum allowed font sizes, and settings can be applied on a per-screen size basis.
+
 **Fixes [`js/lib/fixes.js`](../js/lib/fixes.js)**
 
 Applies various fixes to specific browsers and operating systems.
@@ -75,11 +93,13 @@ Uses the user IP address to get an approximate location of the user, using the G
 
 The process is done entirely via Javascript and a dedicated PHP script that searches the user IP address in the database, avoiding any issues with cached pages.
 
-You must download the file `GeoLite2-City.mmdb` from http://dev.maxmind.com/geoip/geoip2/geolite2/ and save it to [`php/ip2geo`](../php/ip2geo).
+You must sign up for a free account at http://dev.maxmind.com/geoip/geoip2/geolite2/, obtain an API key, and enter it on [`php/ip2geo/config.php`](../php/ip2geo/config.dist.php). The system will automatically download the database and update it periodically.
 
 Once located, the script adds attributes to the `<body>` tag: city, subdivision, country, continent, time-zone, latitude and longitude.
 
-Optionally, you can enable GPS geolocation for accurate latitude and longitude. This will show an alert/prompt to users asking for their permission to access their location. Bear in mind that using GPS only updates the latitude and longitude, therefore, there could be discrepancies with the location obtained from the IP address and reflected in the rest of the location info (city, state, country, etc.).
+Optionally, you can enable GPS geolocation for accurate latitude and longitude, either automatically on page load, or on demand. This will show an alert/prompt to users asking for their permission to access their location. Bear in mind that using GPS only updates the latitude and longitude, therefore, there could be discrepancies with the location obtained from the IP address and reflected in the rest of the location info (city, state, country, etc.).
+
+This module includes functionality for the matching of the current location against geographic regions. The functions `inCircle`, `inSquare`, and `inPolygon` test a lat/lon point against regions of various shapes. Additionally it is possible to generate a list of regions and define what DOM elements should be show or hidden based on the current matching regions, using the function `setRegions` and adding the attribute `data-regions-display`.
 
 **LyqBox [`js/lib/lyqbox.js`](../js/lib/lyqbox.js)**
 
@@ -95,6 +115,7 @@ Our own lightbox. Provides the following features
   * Zoom control for images
   * Thumbnails for easy navigation
   * Ability to create custom HTML structure
+  * Triggers Google Analytics events
 
 To activate an element in your page with lightbox add the following attributes:
 
@@ -144,6 +165,18 @@ Provides a simple interface for detecting DOM mutations and triggering callbacks
 
 See below `lqx.mutation.addHandler` for info on how to add observers.
 
+**PopUp [`js/lib/popup.js`](../js/lib/popup.js)**
+
+Provides functionality for controlling the display of popups:
+
+  * Adds a class `open` or `closed` to control popup styling
+  * Allows automatic open delay time after page load
+  * Allows automatic popup closing after time (optional)
+  * Provides two different closing actions: close and dismiss. Each can be handled from different elements and can provide different behavior regarding re-opening of the popup
+  * Control how much time the popup shall be closed after close and dismiss actions
+  * Allow for close/dismiss when any link on the popup content is clicked, or when an overlay element is clicked
+  * Allow for popup to be re-opened during the same session
+
 **Responsive [`js/lib/responsive.js`](../js/lib/responsive.js)**
 
 Provides the functionality to enable responsiveness:
@@ -181,6 +214,8 @@ Moves the `.tab` elements to a group `.tab-nav`, and moves the `.tab-panel` elem
 
 For the tab/panel selected it adds the class `.open`, otherwise adds the class `.closed`.
 
+Triggers Google Analytics events on tab open.
+
 **Util [`js/lib/util.js`](../js/lib/util.js)**
 
 Provides utility functions, listed below.
@@ -197,9 +232,17 @@ Pass an accordion id (see in the accordion element for the `data-accordion` attr
 
 Pass an accordion id (see in the accordion element for the `data-accordion` attribute) to open it.
 
+**`lqx.accordion.setup(elem)`**
+
+Setups an element `elem` (DOM element or jQuery) as an accordion.
+
 **`lqx.accordion.update(id)`**
 
 Update accordions stored open and closed heights. If no id is passed, all accordions are updated.
+
+**`lqx.autoresize.setup(elem)`**
+
+Setups an element `elem` (DOM element or jQuery) for autoresize.
 
 **`lqx.detect.browser()`**
 
@@ -225,6 +268,18 @@ Returns details of URL parts.
 
 Use instead of `console.error` if you want to easily turn off all console messages when `debug` option is disabled. Accepts string or objects to be displayed in the console, only when the `debug` option is enabled.
 
+**`lqx.fittext.resize(id)`**
+
+Forces the FitText element identified by `id` to be updated. This is a useful function to execute after layout and style changes other than those caused by screen resizes or orientation changes.
+
+**`lqx.fittext.setup(elem)`**
+
+Setups an element `elem` (DOM element or jQuery) for fittext functionality.
+
+**`lqx.geolocate.getGPS()`**
+
+Allows for the on-demand requests of location to the browser. On mobile devices this usually relies on the usage of GPS coordinates, in other cases, location is approximate based on browser and operating system on methods. Note that this usually triggers a request for approval from the user.
+
 **`lqx.geolocate.inCircle(test, center, radius)`**
 
 Returns `true` if a test point is within a circle defined by a center point and radius. Test and center points are object with keys `lat` and `lon`, and radius is distance in kilometers.
@@ -241,6 +296,14 @@ Returns `true` if a test point is within a square region defined by two opposite
 
 Returns location information: city, state, country, continent, time zone, latitude, longitude, and radius.
 
+**`lqx.geolocate.setRegions(regions)`**
+
+Processes the region definitions in `region` and identifies what regions match the current location. Triggers the showing or hiding of elements based on regions rules.
+
+**`lqx.geolocate.getRegions()`**
+
+Returns an array of regions that match the current location.
+
 **`lqx.log(arg)`**
 
 Use instead of `console.log` if you want to easily turn off all console messages when `debug` option is disabled. Accepts string or objects to be displayed in the console, only when the `debug` option is enabled.
@@ -253,9 +316,32 @@ Adds an observer of type `addNode`, `removeNode` or `modAttrib`, and when the ta
 
 Overrides or extends default or current option (settings) values. Accepts an object of options. Refer to [Lyquix Options](lqxoptions.md).
 
+**`lqx.options(opts)`**
+
+
 **`lqx.ready(opts)`**
 
 Initializes the library and sets the initial options. This function should be executed once on your page, after the `<body>` tag is available. This function triggers the custom event `lqxready`.
+
+**`lqx.store.get(module, prop)`**
+
+Returns the value of the provided module/property stored in the persistent storage.
+
+**`lqx.store.set(module, prop)`**
+
+Saves the current value of `lqx.vars[module][prop]` in the persisten storage, and initiates the automatic saving (every 15 seconds), as well as saving upon page unload.
+
+**`lqx.store.unset(module, prop)`**
+
+Removes the provided module/property from the persistent storage.
+
+**`lqx.store.update()`**
+
+Forces tracked module/properties to be updated from `lqx.vars` to the persisten storage.
+
+**`lqx.tabs.setup(elem)`**
+
+Setups an element `elem` (DOM element or jQuery) a tab.
 
 **`lqx.util.cookie(name, value, attributes)`**
 
@@ -271,9 +357,26 @@ Function for handling cookies with ease, inspired by https://github.com/js-cooki
     * `secure`: any non-false value
     * `httpOnly`: any non-false value
 
+**`lqx.util.decrypt(key, cyphertext)`**
+
+Decryption function for cyphertext generated with `lqx.util.encrypt`.
+
+**`lqx.util.encrypt(key, plaintext)`**
+
+Basic XOR-based encryption function. Provides a "decent" security level as long as the key is longer than the total length of encrypted text. **Not recommended for sensitive applications requiring strong encryption.** Proper support for UTF8 strings.
+
 **`lqx.util.hash(str)`**
 
 Provides a simple hash function. Should not be used for very long strings, nor for crytographic applications.
+
+**`lqx.util.passwordDerivedKey(password, salt, iterations, len)`**
+
+Generates a 256-bit encryption key. All arguments are optional.
+
+**`lqx.util.randomStr(len)`**
+
+Generates a random string of length `len`.
+
 
 **`lqx.util.swipe(selector, callback, options)`**
 
@@ -293,6 +396,10 @@ Optionally you can pass custom `options`, an object with keys
 Returns a string produced according to the formatting string `format`, utilizing the data passed in the following arguments.
 
 Refer to http://php.net/manual/en/function.sprintf.php for complete formatting options.
+
+**`lqx.util.uniqueStr()`**
+
+Generates a pseudo-random string based on current time and a random seed.
 
 **`lqx.util.uniqueUrl(sel, attrib)`**
 
@@ -350,16 +457,17 @@ Triggers every 15ms when the `scroll` event is being triggered. Use this event i
 
 ## Custom Project Scripts
 
-**`js/scripts.js`**
+**`js/scripts.core.js`**
 
 Use this file to include any global, utility, or minor functionality that you need for your project.
 
-You may use the file `js/scripts.dist.js` included in the template as the template, just copy or rename it to `js/scripts.js`. Please bear in mind how this file has been structured:
+You may use the file `js/scripts.core.dist.js` included in the template as the template, just copy or rename it to `js/scripts.core.js`. Please bear in mind how this file has been structured:
 
-  * It takes the `$` namespace. If you have other libraries already using `$` you can change it to your own namespace to avoid conflicts.
+  * It takes the `$lqx` namespace. If you have other libraries already using `$lqx` you can change it to your own namespace to avoid conflicts.
   * It checks for jQuery and lqx libraries. You can add other dependencies.
   * The main structure is a self-executing function that returns only the variables and functions that need to be access from outside.
   * Runs `init()` as soon as it's loaded.
+  * Additional modules can be added and saved in the `js/custom/scripts` directory, following the structure of modules in `js/lib`
 
 **Vue**
 

@@ -54,11 +54,13 @@ This template is intended to be the foundation for developers that build custom 
     * Custom events: lqxready, resizethrottle, scrollthrottle, geolocateready
     * Simple implementation of mutation handlers
     * Detection of OS, device type, browser type/version, URL parts, and URL parameters
-    * Support functionality for accordions, tabs, menus, and lightboxes
-    * Analytics functions to track outbound links, download links, active time, scroll depth, video usage, JavaScript errors
+    * Support functionality for accordions, tabs, menus, lightboxes, and popups
+    * Analytics functions to track outbound links, download links, active time, scroll depth, video usage, rage clicks, JavaScript errors
     * Geolocation using IP address or GPS, utility functions to test location against circle, square, and polygon regions
     * Autoresize textarea, input and select elements to display values
-    * Utility functions: cookies, swipe detection, unique URLs to prevent caching, sprintf porting, and several new functions for the String prototype
+    * Fit text to specific number of lines
+    * Utility functions: cookies, swipe detection, unique URLs to prevent caching, sprintf porting, encryption, decryption
+    * Adds new functions to the String prototype: capitalize, slugify, latinize, camel case, kebab case, snake care, and detection of useful patterns like credit cards, email, SSN, URL, US phone, and ZIP code
   * Uses polyfill.io to automatically load JS polyfills, customized for each browser type and version
   * Choose what modules of the library to include in your project.
 
