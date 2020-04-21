@@ -27,7 +27,8 @@ if(lqx && !('geolocate' in lqx)) {
 				lon: null,
 				radius: null,
 				ip: null
-			}
+			},
+			regions: {}
 		};
 
 		var init = function(){
@@ -163,13 +164,142 @@ if(lqx && !('geolocate' in lqx)) {
 			return oddNodes;
 		};
 
+		// Process region data
+		var setRegions = function(regions) {
+			/**
+			 * Receives the regions definition as an object in the format below
+			 * and then calls regionDisplay()
+			 * Should be called after geolocateready event
+			 *
+			 * {
+			 *		region1: {
+			 * 	 		circles: [
+			 * 				{lat: centerLat, lon: centerLon, radius: circleTadius},
+			 * 				...
+			 * 				{lat: centerLat, lon: centerLon, radius: circleTadius}
+			 * 			],
+			 * 			squares: [
+			 * 				{corner1: {lat: corner1Lat, lon: corner1Lon}, corner2: {lat: corner2Lat, lon: corner2Lon}},
+			 * 				...
+			 * 				{corner1: {lat: corner1Lat, lon: corner1Lon}, corner2: {lat: corner2Lat, lon: corner2Lon}}
+			 * 			],
+			 * 			polygons: [
+			 * 				[{lat: point1Lat, lon: point1Lon},..., {lat: pointNLat, lon: pointNLon}].
+			 * 				...
+			 * 				[{lat: point1Lat, lon: point1Lon},..., {lat: pointNLat, lon: pointNLon}]
+			 * 			]
+			 * 		}
+			 * }
+			 */
+			// Get current lat / lon
+			var here = {
+				lat: vars.location.lat,
+				lon: vars.location.lon
+			};
+
+			// Check what regions match
+			Object.key(regions).forEach(function(region){
+				vars.regions[region] = false;
+				// Check circles
+				if('circles' in regions[region]) {
+					regions[region].circles.forEach(function(x){
+						if(inCircle(here, {lat: x.lat, lon: x.lon}, x.radius)) vars.regions[region] = true;
+					})
+				}
+
+				// Check squares
+				if('squares' in regions[region]) {
+					regions[region].squares.forEach(function(x){
+						if(inSquare(here, {lat: x.corner1.lat, lon: x.corner1.lon}, {lat: x.corner2.lat, lon: x.corner2.lon})) vars.regions[region] = true;
+					})
+				}
+
+				// Check polygons
+				if('polygons' in regions[region]) {
+					regions[region].polygons.forEach(function(x){
+						if(inPolygon(here, x)) vars.regions[region] = true;
+					})
+				}
+
+				// Remove if not matching
+				if(!vars.regions[region]) delete vars.regions[region];
+			});
+			vars.regions = Object.keys(vars.regions);
+
+			// Set body tag attribute
+			lqx.vars.body.attr('regions', vars.regions.join(','));
+
+			// Setup elements with attribute data-region-display
+			regionDisplay(jQuery('[data-region-display]'));
+		};
+
+		// Get array of current matching regions
+		var getRegions = function() {
+			return vars.regions;
+		};
+
+		// Show/hide element based on region
+		var regionDisplay = function(elems) {
+			/**
+			 *
+			 * Checks for elements with attribute data-region-display and shows/hides elements as needed
+			 *
+			 * Attribute includes a JSON string with the following structure:
+			 *
+			 * {
+			 * 	regions: [			//  an array of region ids (names or numbers) as provided via setRegions function
+			 * 		'nyc',
+			 * 		'philly'
+			 * 	],
+			 * 	action: 'show'	// optional, defaults to 'show', set to 'hide' to hide matching elements instead of showing them
+			 * }
+			 *
+			 */
+			if(elems instanceof Node) {
+				// Not an array, convert to an array
+				elems = [elems];
+			}
+			else if(elems instanceof jQuery) {
+				// Convert jQuery to array
+				elems = elems.toArray();
+			}
+			if(elems.length) {
+				elems.forEach(function(elem){
+					elem = jQuery(elem);
+
+					// Get options
+					var elemOpts = JSON.parse(elem.attr('data-region-display'));
+					if(typeof elemOpts != 'object') {
+						lqx.error('Unable to process region display, data-region-display is not a JSON object');
+						return;
+					}
+					if(typeof elemOpts.regions == 'string') elemOpts.regions = [elemOpts.regions];
+					if(!('action' in elemOpts)) elemOpts.action = true;
+					else if(elemOpts.action == 'show') elemOpts.action = true;
+					else if(elemOpts.action == 'hide') elemOpts.action = false;
+					elemOpts.match = false;
+
+					elemOpts.regions.forEach(function(region){
+						if(vars.regions.indexOf(region) != -1) elemOpts.match = true;
+					});
+
+					// Hide the element if action=show and no-match, or if action=hide and match
+					if((elemOpts.action && !elemOpts.match) || (!elemOpts.action && elemOpts.match)) elem.hide();
+					else elem.show();
+				});
+			}
+		};
+
 		return {
 			init: init,
 			getGPS: getGPS,
 			location: location,
 			inCircle: inCircle,
 			inSquare: inSquare,
-			inPolygon: inPolygon
+			inPolygon: inPolygon,
+			setRegions: setRegions,
+			getRegions: getRegions,
+			regionDisplay: regionDisplay
 		};
 	})();
 	lqx.geolocate.init();
