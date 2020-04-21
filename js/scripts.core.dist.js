@@ -43,6 +43,95 @@ else {
 			module:   {}
 		};
 
+		// Persistent storage
+		var store = (function(){
+			// Initialize $lqxStore
+			if(window.localStorage.getItem('$lqxStore') === null) window.localStorage.setItem('$lqxStore', '{}');
+
+			// Array of data to save on exit
+			var saveOnExit = [];
+
+			// Get a variable value
+			var get = function(module, prop) {
+				if(typeof module == 'undefined' || typeof prop == 'undefined') return undefined;
+
+				// Get data from localStorage
+				let $lqxStore = JSON.parse(window.localStorage.getItem('$lqxStore'));
+
+				return $lqxStore[module][prop];
+			};
+
+			// Set a variable value
+			var set = function(module, prop) {
+				if(typeof module == 'undefined' || typeof prop == 'undefined') return undefined;
+
+				// Get data from localStorage
+				let $lqxStore = JSON.parse(window.localStorage.getItem('$lqxStore'));
+
+				// Create module if not existing already
+				if(!(module in $lqxStore)) $lqxStore[module] = {};
+				if(!(prop in $lqxStore[module])) $lqxStore[module][prop] = {};
+				$lqxStore[module][prop] = $lqx.vars[module][prop];
+
+				// Save data
+				$lqxStore = JSON.stringify($lqxStore);
+				window.localStorage.setItem('$lqxStore', $lqxStore);
+
+				// Verify data
+				if($lqxStore !== window.localStorage.getItem('$lqxStore')) window.console.error('Error verifying saved data to localStorage');
+
+				// Add module.prop to save on exit array
+				if(saveOnExit.indexOf(module + '.' + prop) == -1) saveOnExit.push(module + '.' + prop);
+
+				return true;
+			};
+
+			var unset = function(module, prop) {
+				if(typeof module == 'undefined') return;
+
+				// Get data from localStorage
+				let $lqxStore = JSON.parse(window.localStorage.getItem('$lqxStore'));
+
+				// Delete module/prop
+				if(typeof prop != 'undefined' && prop != '') delete $lqxStore[module];
+				else delete $lqxStore[module][prop];
+
+				// Save updated data
+				window.localStorage.setItem('$lqxStore', JSON.stringify($lqxStore));
+
+				// Remove module.prop from save on exit array
+				saveOnExit = saveOnExit.filter(e => e !== module + '.' + prop);
+
+				return true;
+			};
+
+			// Add event listener
+			window.addEventListener('beforeunload', function(){
+				// Get data from localStorage
+				var $lqxStore = JSON.parse(window.localStorage.getItem('$lqxStore'));
+
+				// Save all recorded module.props
+				saveOnExit.forEach(function(s) {
+					s = s.split('.');
+					$lqxStore[module][prop] = $lqx.vars[module][prop];
+				});
+
+				// Save data
+				$lqxStore = JSON.stringify(lqxStore);
+				window.localStorage.setItem('lqxStore', $lqxStore);
+
+				// Verify data
+				if($lqxStore !== window.localStorage.getItem('$lqxStore')) window.console.error('Error verifying saved data to localStorage');
+			});
+
+			return {
+				get: get,
+				set: set,
+				unset: unset
+			}
+		})();
+
+		// Init function
 		var init = function(){
 
 			/**
@@ -88,6 +177,7 @@ else {
 		return {
 			opts: opts,
 			vars: vars,
+			store: store,
 			init: init,
 			options: options,
 			ready: ready,
