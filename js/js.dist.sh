@@ -17,7 +17,7 @@ cd $DIR
 
 # Lyquix
 cat ./lib/core.js > ./lyquix.js
-MODULES=("string" "util" "detect" "mutation" "geolocate" "analytics" "responsive" "fixes" "accordion" "autoresize" "menu" "tabs" "fittext" "lyqbox" "popup")
+MODULES=("string" "util" "detect" "mutation" "fixes" "geolocate" "analytics" "responsive" "accordion" "autoresize" "menu" "tabs" "fittext" "lyqbox" "popup")
 for MOD in "${MODULES[@]}"
 do
 	cat ./lib/$MOD.js >> ./lyquix.js
