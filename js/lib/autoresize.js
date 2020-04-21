@@ -28,6 +28,7 @@ if(lqx && !('autoresize' in lqx)) {
 		 */
 
 		var opts = {
+			autoresizeSelector: '.autoresize',
 			sel: [
 				'textarea',
 				'input[type=text]',
@@ -56,7 +57,7 @@ if(lqx && !('autoresize' in lqx)) {
 
 					// Add the .autoresize class
 					opts.sel.forEach(function(sel, idx){
-						opts.sel[idx] = sel + '.autoresize';
+						opts.sel[idx] = sel + opts.autoresizeSelector;
 					});
 					// Process the sel option into a selector string
 					vars.sel = opts.sel.join(', ');

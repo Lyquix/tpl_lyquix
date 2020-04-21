@@ -80,6 +80,9 @@ if(lqx && !('accordion' in lqx)) {
 			 *   }
 			 * }
 			 */
+			accordionSelector: '.accordion',
+			headerClass: '.accordion-header',
+			groupSelector: '.accordion-group',
 			scrollTop: {
 				enabled: true,
 				target: 'self', 	// To what element is the page scrolling: self (default), group, or CSS selector
@@ -115,7 +118,7 @@ if(lqx && !('accordion' in lqx)) {
 					// Trigger functions on document ready
 					lqx.vars.document.ready(function() {
 						// Setup accordions loaded initially on the page
-						setup(jQuery('.accordion'));
+						setup(jQuery(opts.accordionSelector));
 
 						// Add listener for screen change and orientation change
 						lqx.vars.window.on('load screensizechange orientationchange resizethrottle', function(){
@@ -123,7 +126,7 @@ if(lqx && !('accordion' in lqx)) {
 						});
 
 						// Add a mutation handler for accordions added to the DOM
-						lqx.mutation.addHandler('addNode', '.accordion', setup);
+						lqx.mutation.addHandler('addNode', opts.accordionSelector, setup);
 					});
 				}
 			});
@@ -147,13 +150,13 @@ if(lqx && !('accordion' in lqx)) {
 					a.elem = jQuery(elem);
 
 					// Get header element: first child with class .accordion-header (if none, just pick the first child)
-					a.header = a.elem.find('.accordion-header');
+					a.header = a.elem.find('.' + opts.headerClass);
 					if(a.header.length) {
 						a.header = jQuery(a.header[0]);
 					}
 					else {
 						a.header = jQuery(a.elem.children()[0]);
-						a.header.addClass('accordion-header');
+						a.header.addClass(opts.headerClass);
 					}
 
 					// Force remove all transitions
@@ -211,7 +214,7 @@ if(lqx && !('accordion' in lqx)) {
 				a.elem.css('height', a.openHeight);
 
 				// Are we in an accordion group?
-				var group = a.elem.parents('.accordion-group');
+				var group = a.elem.parents(opts.groupSelector);
 
 				// Get scrollTop settings
 				var scrollTop = {
@@ -245,7 +248,7 @@ if(lqx && !('accordion' in lqx)) {
 
 					// Reduce scroll position of other accordions are open above the current accordion
 					if(targetElem == a.elem && group.length) {
-						group.eq(0).find('.accordion.open').not(a.elem).each(function(id, sibling){
+						group.eq(0).find(opts.accordionSelector + '.open').not(a.elem).each(function(id, sibling){
 							sibling = jQuery(sibling);
 							if(sibling.offset().top < a.elem.offset().top) {
 								// Get open outer height
@@ -275,7 +278,7 @@ if(lqx && !('accordion' in lqx)) {
 					lqx.log('Closing all other open accordions in group', group[0]);
 
 					// Do not close self
-					group.eq(0).find('.accordion.open').not(a.elem).each(function(id, elem){
+					group.eq(0).find(opts.accordionSelector + '.open').not(a.elem).each(function(id, elem){
 						close(jQuery(elem).attr('data-accordion'));
 					});
 				}

@@ -21,6 +21,11 @@ if(lqx && !('tabs' in lqx)) {
 		**/
 
 		var opts = {
+			tabSelector: '.tab',
+			tabGroupSelector: '.tab-group',
+			tabPanelSelector: '.tab-panel',
+			tabContentClass: 'tab-content',
+			tabNavClass: 'tab-nav',
 			analytics: {
 				enabled: true,
 				nonInteraction: true
@@ -49,10 +54,10 @@ if(lqx && !('tabs' in lqx)) {
 					// Trigger functions on document ready
 					lqx.vars.document.ready(function() {
 						// Setup tabss loaded initially on the page
-						setup(jQuery('.tab'));
+						setup(jQuery(opts.tabSelector));
 
 						// Add a mutation handler for tabss added to the DOM
-						lqx.mutation.addHandler('addNode', '.tab', setup);
+						lqx.mutation.addHandler('addNode', opts.tabSelector, setup);
 					});
 				}
 			});
@@ -78,21 +83,21 @@ if(lqx && !('tabs' in lqx)) {
 					// Check if tab is already initialized
 					if(tab.attr('ready') === undefined) {
 						// Check if this .tab is part of .tab-group
-						var group = tab.parents('.tab-group');
+						var group = tab.parents(opts.tabGroupSelector);
 						if(group.length) {
 							// Check if it has a data-tab attribute
 							var tabName = tab.attr('data-tab');
 							if(tabName) {
 								// Check if there is a matching panel element
-								var panel = group.find('.tab-panel[data-tab="' + tabName + '"]');
+								var panel = group.find(opts.tabPanelSelector + '[data-tab="' + tabName + '"]');
 								if(panel.length) {
 									// Add the "ready" attribute
 									tab.attr('ready', '');
 
 									// Check if .tab-content exists, otherwise create it
-									var content = group.find('.tab-content');
+									var content = group.find('.' + opts.tabContentClass);
 									if(!content.length) {
-										content = jQuery('<div class="tab-content"></div>');
+										content = jQuery('<div class="' + opts.tabContentClass + '"></div>');
 										content.prependTo(group);
 									}
 
@@ -100,9 +105,9 @@ if(lqx && !('tabs' in lqx)) {
 									panel.appendTo(content);
 
 									// Check if .tab-nav exists, otherwise create it
-									var nav = group.find('.tab-nav');
+									var nav = group.find('.' + opts.tabNavClass);
 									if(!nav.length) {
-										nav = jQuery('<div class="tab-nav"></div>');
+										nav = jQuery('<div class="' + opts.tabNavClass + '"></div>');
 										nav.prependTo(group);
 									}
 
@@ -110,7 +115,7 @@ if(lqx && !('tabs' in lqx)) {
 									tab.appendTo(nav);
 
 									// If first tab in nav, mark it as open
-									if(nav.find('.tab').index(tab) == 0) {
+									if(nav.find(opts.tabSelector).index(tab) == 0) {
 										tab.addClass('open');
 										panel.addClass('open');
 									}
@@ -126,8 +131,8 @@ if(lqx && !('tabs' in lqx)) {
 										panel.removeClass('closed').addClass('open');
 
 										// Close all other tabs and panels in the group
-										nav.find('.tab').not(tab).removeClass('open').addClass('closed');
-										content.find('.tab-panel').not(panel).removeClass('open').addClass('closed');
+										nav.find(opts.tabSelector).not(tab).removeClass('open').addClass('closed');
+										content.find(opts.tabPanelSelector).not(panel).removeClass('open').addClass('closed');
 
 										// Send event for tab clicked
 										if(opts.analytics.enabled && typeof ga !== 'undefined') {

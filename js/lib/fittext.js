@@ -52,6 +52,7 @@ if(lqx && !('fittext' in lqx)) {
 			 * }
 			 *
 			 */
+			fittextSelector: '.fittext',
 			lines: 1,
 			minFontSize: 8,
 			maxFontSize: 72
@@ -75,7 +76,7 @@ if(lqx && !('fittext' in lqx)) {
 					// Trigger functions on document ready
 					lqx.vars.document.ready(function() {
 						// Setup fittext loaded initially on the page
-						setup(jQuery('.fittext'));
+						setup(jQuery(opts.fittextSelector));
 
 						// Add listener for screen change and orientation change
 						lqx.vars.window.on('load screensizechange orientationchange resizethrottle', function(){
@@ -83,7 +84,7 @@ if(lqx && !('fittext' in lqx)) {
 						});
 
 						// Add a mutation handler for fittext added to the DOM
-						lqx.mutation.addHandler('addNode', '.fittext', setup);
+						lqx.mutation.addHandler('addNode', opts.fittextSelector, setup);
 					});
 				}
 			});

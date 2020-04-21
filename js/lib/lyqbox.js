@@ -49,6 +49,7 @@ if(lqx && !('lyqbox' in lqx)) {
 		 *
 		 */
 		var opts = {
+			lyqboxId: 'lyqbox',
 			html:
 				'<div id="lyqbox">' +
 					'<div class="content-wrapper">' +
@@ -143,7 +144,7 @@ if(lqx && !('lyqbox' in lqx)) {
 
 		var setup = function() {
 			// Append HTML structure
-			if(jQuery('#lyqbox').length) {
+			if(jQuery(opts.lyqboxId).length) {
 				lqx.error('There is an existing #lyqbox element!');
 				return false;
 			}
@@ -152,20 +153,20 @@ if(lqx && !('lyqbox' in lqx)) {
 			}
 
 			// Get jQuery elements
-			vars.overlay = jQuery('#lyqbox');
-			vars.closeElem = jQuery('#lyqbox .close');
-			vars.nextElem = jQuery('#lyqbox .next');
-			vars.prevElem = jQuery('#lyqbox .prev');
-			vars.zoomInElem = jQuery('#lyqbox .zoom-in');
-			vars.zoomOutElem = jQuery('#lyqbox .zoom-out');
-			vars.thumbsElem = jQuery('#lyqbox .thumbnails');
-			vars.loadingElem  = jQuery('#lyqbox .loading');
-			vars.titleElem  = jQuery('#lyqbox .info .title');
-			vars.captionElem  = jQuery('#lyqbox .info .caption');
-			vars.creditElem  = jQuery('#lyqbox .info .credit');
-			vars.counterElem  = jQuery('#lyqbox .counter');
-			vars.counterCurrElem  = jQuery('#lyqbox .counter .current');
-			vars.counterTotalElem  = jQuery('#lyqbox .counter .total');
+			vars.overlay = jQuery(opts.lyqboxId);
+			vars.closeElem = jQuery(opts.lyqboxId + ' .close');
+			vars.nextElem = jQuery(opts.lyqboxId + ' .next');
+			vars.prevElem = jQuery(opts.lyqboxId + ' .prev');
+			vars.zoomInElem = jQuery(opts.lyqboxId + ' .zoom-in');
+			vars.zoomOutElem = jQuery(opts.lyqboxId + ' .zoom-out');
+			vars.thumbsElem = jQuery(opts.lyqboxId + ' .thumbnails');
+			vars.loadingElem  = jQuery(opts.lyqboxId + ' .loading');
+			vars.titleElem  = jQuery(opts.lyqboxId + ' .info .title');
+			vars.captionElem  = jQuery(opts.lyqboxId + ' .info .caption');
+			vars.creditElem  = jQuery(opts.lyqboxId + ' .info .credit');
+			vars.counterElem  = jQuery(opts.lyqboxId + ' .counter');
+			vars.counterCurrElem  = jQuery(opts.lyqboxId + ' .counter .current');
+			vars.counterTotalElem  = jQuery(opts.lyqboxId + ' .counter .total');
 
 			// Assign active content container to the first .content box
 			vars.containerActive = vars.overlay.find('.content-wrapper').first().addClass('active');
@@ -201,7 +202,7 @@ if(lqx && !('lyqbox' in lqx)) {
 			});
 
 			// Add swipe event handler, only on images and videos
-			lqx.util.swipe('#lyqbox .content.image, #lyqbox .content.video', function(swp){
+			lqx.util.swipe(opts.lyqboxId + ' .content.image, ' + opts.lyqboxId + ' .content.video', function(swp){
 				if(swp.dir.indexOf('l') != -1) next(); // Swipe to the left equals right arrow
 				if(swp.dir.indexOf('r') != -1) prev(); // Swipe to the right equals left arrow
 			});

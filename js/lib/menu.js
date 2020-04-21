@@ -12,6 +12,9 @@
 if(lqx && !('menu' in lqx)) {
 	lqx.menu = (function(){
 		var opts = {
+			horizontalMenuSelector: '.horizontal',
+			verticalMenuSelector: '.vertical',
+			menuControlSelector: '.menu-control',
 			screens: ['xs', 'sm', 'md', 'lg', 'xl']
 		};
 
@@ -45,13 +48,13 @@ if(lqx && !('menu' in lqx)) {
 
 		var setup = function() {
 			// Add listeners to <a> tags
-			lqx.vars.body.on('click', '.horizontal a, .vertical a', function(e){
+			lqx.vars.body.on('click', opts.horizontalMenuSelector + ' a,' + opts.verticalMenuSelector + ' a', function(e){
 				e.preventDefault();
 				click(this);
 			});
 
 			// Prevent propagation of clicks
-			lqx.vars.body.on('click', '.horizontal, .vertical', function(e){
+			lqx.vars.body.on('click', opts.horizontalMenuSelector + ', ' + opts.verticalMenuSelector, function(e){
 				// Do not propagate click events outside menus
 				e.stopPropagation();
 			});
@@ -69,7 +72,7 @@ if(lqx && !('menu' in lqx)) {
 
 			// When clicking outside the menus, hide the menus if visible and close the slide out menu if open
 			lqx.vars.body.click(function() {
-				jQuery('.horizontal, .vertical').find('.open').removeClass('open');
+				jQuery(opts.horizontalMenuSelector + ', ' + opts.verticalMenuSelector).find('.open').removeClass('open');
 			});
 
 		};
