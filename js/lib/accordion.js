@@ -81,7 +81,7 @@ if(lqx && !('accordion' in lqx)) {
 			 * }
 			 */
 			accordionSelector: '.accordion',
-			headerClass: '.accordion-header',
+			headerClass: 'accordion-header',
 			groupSelector: '.accordion-group',
 			scrollTop: {
 				enabled: true,
