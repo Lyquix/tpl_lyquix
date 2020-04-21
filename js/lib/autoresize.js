@@ -141,7 +141,8 @@ if(lqx && !('autoresize' in lqx)) {
 		};
 
 		return {
-			init: init
+			init: init,
+			setup: setup
 		};
 	})();
 	lqx.autoresize.init();

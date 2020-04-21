@@ -213,6 +213,7 @@ if(lqx && !('fittext' in lqx)) {
 
 		return {
 			init: init,
+			setup: setup,
 			resize: resize
 		};
 	})();

@@ -379,6 +379,7 @@ if(lqx && !('accordion' in lqx)) {
 			init: init,
 			open: open,
 			close: close,
+			setup: setup,
 			update: update
 		};
 	})();

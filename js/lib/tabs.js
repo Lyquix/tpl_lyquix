@@ -166,7 +166,8 @@ if(lqx && !('tabs' in lqx)) {
 		};
 
 		return {
-			init: init
+			init: init,
+			setup: setup
 		};
 	})();
 	lqx.tabs.init();
