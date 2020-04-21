@@ -153,7 +153,7 @@ else {
 				// Save all recorded module.props
 				tracked.forEach(function(s) {
 					s = s.split('.');
-					lqxStore[module][prop] = lqx.vars[module][prop];
+					lqxStore[s[0]][s[1]] = lqx.vars[s[0]][s[1]];
 				});
 
 				// Save data
@@ -180,7 +180,7 @@ else {
 				set: set,
 				unset: unset,
 				update: update
-			}
+			};
 		})();
 
 		var init = function() {

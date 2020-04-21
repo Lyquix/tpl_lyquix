@@ -160,14 +160,14 @@ if(lqx && !('popup' in lqx)) {
 
 					// Link listener
 					if(elemOpts.onLinkClick == 'close') {
-						elem.find(elemOpts.overlaySelector).on('click', function(){
+						elem.find(elemOpts.overlaySelector).on('click', function(e){
 							e.preventDefault();
 							close(elemId);
 							window.location = jQuery(this).attr('href');
 						});
 					}
 					if(elemOpts.onLinkClick == 'dismiss') {
-						elem.find(elemOpts.overlaySelector).on('click', function(){
+						elem.find(elemOpts.overlaySelector).on('click', function(e){
 							e.preventDefault();
 							dismiss(elemId);
 							window.location = jQuery(this).attr('href');

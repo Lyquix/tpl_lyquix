@@ -204,21 +204,21 @@ if(lqx && !('geolocate' in lqx)) {
 				if('circles' in regions[region]) {
 					regions[region].circles.forEach(function(x){
 						if(inCircle(here, {lat: x.lat, lon: x.lon}, x.radius)) vars.regions[region] = true;
-					})
+					});
 				}
 
 				// Check squares
 				if('squares' in regions[region]) {
 					regions[region].squares.forEach(function(x){
 						if(inSquare(here, {lat: x.corner1.lat, lon: x.corner1.lon}, {lat: x.corner2.lat, lon: x.corner2.lon})) vars.regions[region] = true;
-					})
+					});
 				}
 
 				// Check polygons
 				if('polygons' in regions[region]) {
 					regions[region].polygons.forEach(function(x){
 						if(inPolygon(here, x)) vars.regions[region] = true;
-					})
+					});
 				}
 
 				// Remove if not matching
