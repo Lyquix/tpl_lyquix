@@ -120,7 +120,7 @@ if(lqx && !('util' in lqx)) {
 		var passwordDerivedKey = function(password, salt, iterations, len) {
 			if(!password) password = randomStr();
 			if(!salt) salt = '80ymb4oZ';
-			if(!iterations) iterations = 8;
+			if(!iterations) iterations = 16;
 			if(!len) len = 256;
 			len = Math.ceil(len / 8);
 			var key = '';
@@ -138,7 +138,7 @@ if(lqx && !('util' in lqx)) {
 					intSalt = newSalt;
 					i++;
 				}
-				key += intKey;
+				key = intKey + key;
 			}
 			return key.substring(0, len);
 		};
