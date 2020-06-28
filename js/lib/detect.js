@@ -54,7 +54,12 @@ if(lqx && !('detect' in lqx)) {
 				}
 			});
 
-			return lqx.detect.init = true;
+			// Run only once
+			lqx.detect.init = function(){
+				console.warn('lqx.detect.init already executed');
+			};
+
+			return true;
 		};
 
 		// Get functions

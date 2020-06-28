@@ -30,7 +30,12 @@ if(lqx && !('util' in lqx)) {
 				}
 			});
 
-			return lqx.util.init = true;
+			// Run only once
+			lqx.util.init = function(){
+				console.warn('lqx.util.init already executed');
+			};
+
+			return true;
 		};
 
 		// Function for handling cookies with ease

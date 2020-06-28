@@ -48,7 +48,12 @@ if(lqx && !('geolocate' in lqx)) {
 				}
 			});
 
-			return lqx.geolocate.init = true;
+			// Run only once
+			lqx.geolocate.init = function(){
+				console.warn('lqx.geolocate.init already executed');
+			};
+
+			return true;
 		};
 
 		// Get current location

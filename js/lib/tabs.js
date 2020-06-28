@@ -62,7 +62,12 @@ if(lqx && !('tabs' in lqx)) {
 				}
 			});
 
-			return lqx.tabs.init = true;
+			// Run only once
+			lqx.tabs.init = function(){
+				console.warn('lqx.tabs.init already executed');
+			};
+
+			return true;
 		};
 
 		var setup = function(elems){

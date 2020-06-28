@@ -81,7 +81,12 @@ if(lqx && !('popup' in lqx)) {
 				}
 			});
 
-			return lqx.popup.init = true;
+			// Run only once
+			lqx.popup.init = function(){
+				console.warn('lqx.popup.init already executed');
+			};
+
+			return true;
 		};
 
 		var setup = function(elems){

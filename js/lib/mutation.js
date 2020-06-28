@@ -40,7 +40,12 @@ if(lqx && !('mutation' in lqx)) {
 				}
 			});
 
-			return lqx.mutation.init = true;
+			// Run only once
+			lqx.mutation.init = function(){
+				console.warn('lqx.mutation.init already executed');
+			};
+
+			return true;
 		};
 
 		// create a custom mutation observer that will trigger any needed functions

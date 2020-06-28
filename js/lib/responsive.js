@@ -58,7 +58,12 @@ if(lqx && !('responsive' in lqx)) {
 				}
 			});
 
-			return lqx.responsive.init = true;
+			// Run only once
+			lqx.responsive.init = function(){
+				console.warn('lqx.responsive.init already executed');
+			};
+
+			return true;
 		};
 
 		// Get functions

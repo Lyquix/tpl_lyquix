@@ -131,7 +131,12 @@ if(lqx && !('fixes' in lqx)) {
 				}
 			});
 
-			return lqx.fixes.init = true;
+			// Run only once
+			lqx.fixes.init = function(){
+				console.warn('lqx.fixes.init already executed');
+			};
+
+			return true;
 		};
 
 		// Runs fix code if browser, os, and device type match configuration

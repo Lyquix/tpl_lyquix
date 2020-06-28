@@ -223,7 +223,12 @@ else {
 				}
 			});
 
-			return lqx.init = true;
+			// Run only once
+			lqx.init = function(){
+				console.warn('lqx.init already executed');
+			};
+
+			return true;
 		};
 
 		// Extends/updates the opts object
@@ -250,7 +255,12 @@ else {
 			lqx.log('lqxready event');
 			lqx.vars.window.trigger('lqxready');
 
-			return lqx.ready = true;
+			// Run only once
+			lqx.ready = function(){
+				console.warn('lqx.ready already executed');
+			};
+
+			return true;
 		};
 
 		// Internal console log/warn/error functions

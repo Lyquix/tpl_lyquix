@@ -73,7 +73,12 @@ if(lqx && !('autoresize' in lqx)) {
 				}
 			});
 
-			return lqx.autoresize.init = true;
+			// Run only once
+			lqx.autoresize.init = function(){
+				console.warn('lqx.autoresize.init already executed');
+			};
+
+			return true;
 		};
 
 		var setup = function(elems) {

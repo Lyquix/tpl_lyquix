@@ -89,7 +89,12 @@ if(lqx && !('fittext' in lqx)) {
 				}
 			});
 
-			return lqx.fittext.init = true;
+			// Run only once
+			lqx.fittext.init = function(){
+				console.warn('lqx.fittext.init already executed');
+			};
+
+			return true;
 		};
 
 		var setup = function(elems){

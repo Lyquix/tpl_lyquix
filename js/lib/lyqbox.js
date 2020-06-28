@@ -139,7 +139,12 @@ if(lqx && !('lyqbox' in lqx)) {
 				}
 			});
 
-			return lqx.lyqbox.init = true;
+			// Run only once
+			lqx.lyqbox.init = function(){
+				console.warn('lqx.lyqbox.init already executed');
+			};
+
+			return true;
 		};
 
 		var setup = function() {

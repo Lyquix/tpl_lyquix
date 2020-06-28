@@ -61,7 +61,12 @@ if(lqx && !('string' in lqx)) {
 				}
 			});
 
-			return lqx.string.init = true;
+			// Run only once
+			lqx.string.init = function(){
+				console.warn('lqx.string.init already executed');
+			};
+
+			return true;
 		};
 
 		// A regular expression string matching whitespace

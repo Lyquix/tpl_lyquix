@@ -43,7 +43,12 @@ if(lqx && !('menu' in lqx)) {
 				}
 			});
 
-			return lqx.menu.init = true;
+			// Run only once
+			lqx.menu.init = function(){
+				console.warn('lqx.menu.init already executed');
+			};
+
+			return true;
 		};
 
 		var setup = function() {

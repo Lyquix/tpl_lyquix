@@ -110,7 +110,12 @@ if(lqx && !('analytics' in lqx)) {
 				}
 			});
 
-			return lqx.analytics.init = true;
+			// Run only once
+			lqx.analytics.init = function(){
+				console.warn('lqx.analytics.init already executed');
+			};
+
+			return true;
 		};
 
 		var gaCode = function() {

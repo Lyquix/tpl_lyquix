@@ -131,7 +131,12 @@ if(lqx && !('accordion' in lqx)) {
 				}
 			});
 
-			return lqx.accordion.init = true;
+			// Run only once
+			lqx.accordion.init = function(){
+				console.warn('lqx.accordion.init already executed');
+			};
+
+			return true;
 		};
 
 		var setup = function(elems){
