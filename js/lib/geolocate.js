@@ -12,7 +12,11 @@
 if(lqx && !('geolocate' in lqx)) {
 	lqx.geolocate = (function(){
 		var opts = {
-			gps: false
+			gps: false,
+			useCookies: false,
+			cookieExpirationIP: 300, // 5 minutes
+			cookieExpirationGPS: 900, // 15 minutes
+			regionDisplaySelectors: '[data-region-display], [class*="region-show-"],  [class*="region-hide-"]'
 		};
 
 		var vars = {
@@ -28,7 +32,15 @@ if(lqx && !('geolocate' in lqx)) {
 				radius: null,
 				ip: null
 			},
-			regions: {}
+			regions: {},
+			cookies: {
+				ip: null,
+				gps: null
+			},
+			status: {
+				ip: null,
+				gps: null
+			}
 		};
 
 		var init = function(){
@@ -45,6 +57,12 @@ if(lqx && !('geolocate' in lqx)) {
 					lqx.log('Initializing `geolocate`');
 
 					geoLocate();
+
+					// Trigger functions on document ready
+					lqx.vars.document.ready(function() {
+						// Add a mutation handler for accordions added to the DOM
+						lqx.mutation.addHandler('addNode', opts.regionDisplaySelector, regionDisplay);
+					});
 				}
 			});
 
@@ -64,7 +82,44 @@ if(lqx && !('geolocate' in lqx)) {
 		// geoLocate
 		// attempts to locate position of user by means of gps or ip address
 		var geoLocate = function() {
+			if(opts.useCookies) {
+				lqx.log('Attempting to geolocate from cookies');
+
+				// Get data from cookies
+				vars.cookies.ip = lqx.util.cookie('lqx.geolocate.cookies.ip');
+				if(vars.cookies.ip !== null) vars.cookies.ip = JSON.parse(vars.cookies.ip);
+
+				if(vars.cookies.ip !== null) {
+					vars.location = Object.assign({}, vars.cookies.ip);
+					vars.location.source = 'ip2geo-cookie';
+					vars.status.ip = 'done';
+				}
+				else getIP();
+
+				vars.cookies.gps = lqx.util.cookie('lqx.geolocate.cookies.gps');
+				if(vars.cookies.gps !== null) vars.cookies.gps = JSON.parse(vars.cookies.gps);
+
+				if(opts.gps && 'geolocation' in window.navigator) {
+					if(vars.cookies.gps !== null) {
+						vars.location = Object.assign({}, vars.cookies.gps);
+						vars.location.source = 'gps-cookie';
+						vars.status.gps = 'done';
+					}
+					else getGPS();
+				}
+				else vars.status.gps = 'done';
+
+				bodyGeoData();
+			}
+			else {
+				getIP();
+				if(opts.gps && 'geolocation' in window.navigator) getGPS();
+			}
+		};
+
+		var getIP = function() {
 			lqx.log('Attempting IP geolocation');
+			vars.status.ip = 'waiting';
 			// ip2geo to get location info
 			jQuery.ajax({
 				async: true,
@@ -74,12 +129,14 @@ if(lqx && !('geolocate' in lqx)) {
 				success: function(data, status, xhr){
 					vars.location = data;
 					vars.location.source = 'ip2geo';
+					vars.status.ip = 'done';
 
 					lqx.log('IP geolocation result', vars.location);
 
-					// If GPS enabled, attempt to get lat/lon
-					if(opts.gps && 'geolocation' in window.navigator) getGPS();
-					else bodyGeoData();
+					// Save cookie
+					if(opts.useCookies) lqx.util.cookie('lqx.geolocate.locationIP', JSON.stringify(vars.location), {maxAge: opts.cookieExpirationIP, path: '/', secure: true});
+
+					bodyGeoData();
 				},
 				error: function(xhr, status, error){
 					lqx.error('Geolocate error ' + status + ' ' + error);
@@ -91,33 +148,41 @@ if(lqx && !('geolocate' in lqx)) {
 		var getGPS = function() {
 			if('geolocation' in window.navigator) {
 				lqx.log('Attempting GPS geolocation');
+				vars.status.gps = 'waiting';
 				window.navigator.geolocation.getCurrentPosition(function(position) {
 					vars.location.lat = position.coords.latitude;
 					vars.location.lon = position.coords.longitude;
 					vars.location.radius = position.coords.accuracy / 1000; // in km
 					vars.location.source = 'gps';
+					vars.status.gps = 'done';
 
-					lqx.log('GPS geolocation result', {lat: vars.location.lat, lon: vars.location.lon});
+					lqx.log('GPS geolocation result', vars.location);
+
+					// Save cookie
+					if(opts.useCookies) lqx.util.cookie('lqx.geolocate.locationGPS', JSON.stringify(vars.location), {maxAge: opts.cookieExpirationGPS, path: '/', secure: true});
 
 					bodyGeoData();
 				});
 			}
+			else vars.status.gps = 'done';
 		};
 
 		// Save results to body attributes and trigger geolocateready event
 		var bodyGeoData = function() {
-			// Add location attributes to body tag
-			for(var key in vars.location) {
-				if(key == 'time_zone') {
-					lqx.vars.body.attr('time-zone', vars.location.time_zone);
+			if(vars.status.ip == 'done' && vars.status.gps == 'done') {
+				// Add location attributes to body tag
+				for(var key in vars.location) {
+					if(key == 'time_zone') {
+						lqx.vars.body.attr('time-zone', vars.location.time_zone);
+					}
+					else if(['source', 'ip'].indexOf(key) == -1) {
+						lqx.vars.body.attr(key, vars.location[key]);
+					}
 				}
-				else if(['source', 'ip'].indexOf(key) == -1) {
-					lqx.vars.body.attr(key, vars.location[key]);
-				}
+				// Trigger custom event 'geolocateready'
+				lqx.log('geolocateready event');
+				jQuery(document).trigger('geolocateready');
 			}
-			// Trigger custom event 'geolocateready'
-			lqx.log('geolocateready event');
-			jQuery(document).trigger('geolocateready');
 		};
 
 		var inCircle = function(test, center, radius) {
@@ -234,8 +299,19 @@ if(lqx && !('geolocate' in lqx)) {
 			// Set body tag attribute
 			lqx.vars.body.attr('regions', vars.regions.join(','));
 
-			// Setup elements with attribute data-region-display
-			regionDisplay(jQuery('[data-region-display]'));
+			// Trigger regionready event
+			lqx.log('regionready event');
+			jQuery(document).trigger('regionready');
+
+			// Setup elements with attribute data-region-display, or class names that start with region-show- or region-hide-
+			regionDisplay(jQuery(opts.regionDisplaySelector));
+
+			// Run only once
+			lqx.geolocate.setRegions = function(){
+				console.warn('lqx.geolocate.setRegions already executed');
+			};
+
+			return true;
 		};
 
 		// Get array of current matching regions
@@ -247,17 +323,22 @@ if(lqx && !('geolocate' in lqx)) {
 		var regionDisplay = function(elems) {
 			/**
 			 *
-			 * Checks for elements with attribute data-region-display and shows/hides elements as needed
+			 * Checks for elements with attribute data-region-display,or class names that start with region-show- or region-hide-
+			 * and shows/hides elements as needed
 			 *
-			 * Attribute includes a JSON string with the following structure:
+			 * [data-region-display] attribute includes a JSON string with the following structure:
 			 *
 			 * {
-			 * 	regions: [			//  an array of region ids (names or numbers) as provided via setRegions function
+			 * 	regions: [			//  a string or an array of region ids (names or numbers) as provided via setRegions function
 			 * 		'nyc',
 			 * 		'philly'
 			 * 	],
 			 * 	action: 'show'	// optional, defaults to 'show', set to 'hide' to hide matching elements instead of showing them
 			 * }
+			 *
+			 * NOTE:
+			 *  - if conflicting rules are found, only the first rule found will be applied
+			 *  - rules are processed in this order: data-region-display rules, region-show- classes, region-hide- classes
 			 *
 			 */
 			if(elems instanceof Node) {
@@ -271,26 +352,45 @@ if(lqx && !('geolocate' in lqx)) {
 			if(elems.length) {
 				elems.forEach(function(elem){
 					elem = jQuery(elem);
+					var showElem = [];
 
-					// Get options
-					var elemOpts = JSON.parse(elem.attr('data-region-display'));
-					if(typeof elemOpts != 'object') {
-						lqx.error('Unable to process region display, data-region-display is not a JSON object');
-						return;
+					// Get attribute options
+					var elemOpts = elem.attr('data-region-display');
+					if(typeof elemOpts != 'undefined') {
+						elemOpts = JSON.parse(elemOpts);
+						if(typeof elemOpts == 'object') {
+							if(typeof elemOpts.regions == 'string') elemOpts.regions = [elemOpts.regions];
+
+							elemOpts.regions.forEach(function(region){
+								if(vars.regions.indexOf(region) != -1) {
+									if(!('action' in elemOpts) && elemOpts.action == 'hide') showElem.push(false);
+									else showElem.push(true);
+								}
+							});
+						}
 					}
-					if(typeof elemOpts.regions == 'string') elemOpts.regions = [elemOpts.regions];
-					if(!('action' in elemOpts)) elemOpts.action = true;
-					else if(elemOpts.action == 'show') elemOpts.action = true;
-					else if(elemOpts.action == 'hide') elemOpts.action = false;
-					elemOpts.match = false;
 
-					elemOpts.regions.forEach(function(region){
-						if(vars.regions.indexOf(region) != -1) elemOpts.match = true;
+					// Get classes
+					var elemClasses = elem.attr('class').split(/\s+/);
+					elemClasses.forEach(function(elemClass){
+						if(elemClass.indexOf('region-show-') == 0) {
+							if(vars.regions.indexOf(elemClass.replace('region-show-','')) != -1) {
+								showElem.push(true);
+							}
+						}
+						if(elemClass.indexOf('region-hide-') == 0) {
+							if(vars.regions.indexOf(elemClass.replace('region-hide-','')) != -1) {
+								showElem.push(false);
+							}
+						}
 					});
 
-					// Hide the element if action=show and no-match, or if action=hide and match
-					if((elemOpts.action && !elemOpts.match) || (!elemOpts.action && elemOpts.match)) elem.hide();
-					else elem.show();
+					if(showElem.length) {
+						if(showElem.length > 1) lqx.warn('Multiple region display rules found', elem);
+
+						// Hide the element
+						if(!showElem[0]) elem.hide();
+					}
 				});
 			}
 		};
@@ -303,7 +403,8 @@ if(lqx && !('geolocate' in lqx)) {
 			inSquare: inSquare,
 			inPolygon: inPolygon,
 			setRegions: setRegions,
-			getRegions: getRegions
+			getRegions: getRegions,
+			regionDisplay: regionDisplay
 		};
 	})();
 	lqx.geolocate.init();
