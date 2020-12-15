@@ -389,7 +389,7 @@ if(lqx && !('geolocate' in lqx)) {
 					elemClasses.forEach(function(elemClass){
 						if(elemClass.indexOf('region-action-') == 0) elemOpts.action = elemClass.replace('region-action-','');
 						else if(elemClass.indexOf('region-display-') == 0) elemOpts.display = elemClass.replace('region-display-','');
-						else if(elemClass.indexOf('region-') == 0) elemOpts.regions.push(elemClass.replace('region-',''));
+						else if(elemClass.indexOf('region-name-') == 0) elemOpts.regions.push(elemClass.replace('region-name-',''));
 					});
 					elemOpts.regions.forEach(function(region){
 						if(vars.regions.indexOf(region) != -1) elemRegionMatch = true;
