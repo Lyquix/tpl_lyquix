@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
-
+​
 if(lqx && !('geolocate' in lqx)) {
 	lqx.geolocate = (function(){
 		var opts = {
@@ -16,9 +16,10 @@ if(lqx && !('geolocate' in lqx)) {
 			useCookies: false,
 			cookieExpirationIP: 300, // 5 minutes
 			cookieExpirationGPS: 900, // 15 minutes
-			regionDisplaySelectors: '[data-region-display], [class*="region-show-"],  [class*="region-hide-"]'
+			regionDisplaySelectors: '[data-region-display], [class*="region-"]',
+			handleNoRegionMatch: true // Set to false if we don't want unmatched elements to be forcefully shown/hidden
 		};
-
+​
 		var vars = {
 			location: {
 				source: null,
@@ -42,22 +43,22 @@ if(lqx && !('geolocate' in lqx)) {
 				gps: null
 			}
 		};
-
+​
 		var init = function(){
 			// Copy default opts and vars
 			jQuery.extend(true, lqx.opts.geolocate, opts);
 			opts = lqx.opts.geolocate;
 			jQuery.extend(true, lqx.vars.geolocate, vars);
 			vars = lqx.vars.geolocate;
-
+​
 			// Initialize on lqxready
 			lqx.vars.window.on('lqxready', function() {
 				// Initialize only if enabled
 				if(opts.enabled) {
 					lqx.log('Initializing `geolocate`');
-
+​
 					geoLocate();
-
+​
 					// Trigger functions on document ready
 					lqx.vars.document.ready(function() {
 						// Add a mutation handler for accordions added to the DOM
@@ -65,40 +66,40 @@ if(lqx && !('geolocate' in lqx)) {
 					});
 				}
 			});
-
+​
 			// Run only once
 			lqx.geolocate.init = function(){
 				console.warn('lqx.geolocate.init already executed');
 			};
-
+​
 			return true;
 		};
-
+​
 		// Get current location
 		var location = function() {
 			return vars.location;
 		};
-
+​
 		// geoLocate
 		// attempts to locate position of user by means of gps or ip address
 		var geoLocate = function() {
 			if(opts.useCookies) {
 				lqx.log('Attempting to geolocate from cookies');
-
+​
 				// Get data from cookies
 				vars.cookies.ip = lqx.util.cookie('lqx.geolocate.cookies.ip');
 				if(vars.cookies.ip !== null) vars.cookies.ip = JSON.parse(vars.cookies.ip);
-
+​
 				if(vars.cookies.ip !== null) {
 					vars.location = Object.assign({}, vars.cookies.ip);
 					vars.location.source = 'ip2geo-cookie';
 					vars.status.ip = 'done';
 				}
 				else getIP();
-
+​
 				vars.cookies.gps = lqx.util.cookie('lqx.geolocate.cookies.gps');
 				if(vars.cookies.gps !== null) vars.cookies.gps = JSON.parse(vars.cookies.gps);
-
+​
 				if(opts.gps && 'geolocation' in window.navigator) {
 					if(vars.cookies.gps !== null) {
 						vars.location = Object.assign({}, vars.cookies.gps);
@@ -108,7 +109,7 @@ if(lqx && !('geolocate' in lqx)) {
 					else getGPS();
 				}
 				else vars.status.gps = 'done';
-
+​
 				bodyGeoData();
 			}
 			else {
@@ -116,7 +117,7 @@ if(lqx && !('geolocate' in lqx)) {
 				if(opts.gps && 'geolocation' in window.navigator) getGPS();
 			}
 		};
-
+​
 		var getIP = function() {
 			lqx.log('Attempting IP geolocation');
 			vars.status.ip = 'waiting';
@@ -130,12 +131,12 @@ if(lqx && !('geolocate' in lqx)) {
 					vars.location = data;
 					vars.location.source = 'ip2geo';
 					vars.status.ip = 'done';
-
+​
 					lqx.log('IP geolocation result', vars.location);
-
+​
 					// Save cookie
 					if(opts.useCookies) lqx.util.cookie('lqx.geolocate.locationIP', JSON.stringify(vars.location), {maxAge: opts.cookieExpirationIP, path: '/', secure: true});
-
+​
 					bodyGeoData();
 				},
 				error: function(xhr, status, error){
@@ -143,7 +144,7 @@ if(lqx && !('geolocate' in lqx)) {
 				}
 			});
 		};
-
+​
 		// Geolocation from GPS
 		var getGPS = function() {
 			if('geolocation' in window.navigator) {
@@ -155,18 +156,18 @@ if(lqx && !('geolocate' in lqx)) {
 					vars.location.radius = position.coords.accuracy / 1000; // in km
 					vars.location.source = 'gps';
 					vars.status.gps = 'done';
-
+​
 					lqx.log('GPS geolocation result', vars.location);
-
+​
 					// Save cookie
 					if(opts.useCookies) lqx.util.cookie('lqx.geolocate.locationGPS', JSON.stringify(vars.location), {maxAge: opts.cookieExpirationGPS, path: '/', secure: true});
-
+​
 					bodyGeoData();
 				});
 			}
 			else vars.status.gps = 'done';
 		};
-
+​
 		// Save results to body attributes and trigger geolocateready event
 		var bodyGeoData = function() {
 			if(vars.status.ip == 'done' && vars.status.gps == 'done') {
@@ -184,7 +185,7 @@ if(lqx && !('geolocate' in lqx)) {
 				jQuery(document).trigger('geolocateready');
 			}
 		};
-
+​
 		var inCircle = function(test, center, radius) {
 			/** Accepts:
 			 * test: location to test, object with keys lat and lon
@@ -200,7 +201,7 @@ if(lqx && !('geolocate' in lqx)) {
 			var d = 6371 * c; // Distance in km
 			return (d <= radius && true) || false;
 		};
-
+​
 		var inSquare = function(test, corner1, corner2) {
 			/** Accepts:
 			 * test: location to test, object with keys lat and lon
@@ -213,7 +214,7 @@ if(lqx && !('geolocate' in lqx)) {
 				test.lon <= Math.max(corner1.lon, corner2.lon) &&
 				test.lon >= Math.min(corner1.lon, corner2.lon);
 		};
-
+​
 		var inPolygon = function(test, poly) {
 			/** Accepts:
 			 * test: location to test, object with keys lat and lon
@@ -222,7 +223,7 @@ if(lqx && !('geolocate' in lqx)) {
 			 * Known limitation: doesn't handle polygons that cross the poles or the international date line
 			 */
 			var i, j = poly.length - 1, oddNodes = false;
-
+​
 			for(i=0; i < poly.length; i++) {
 				if(poly[i].lat < test.lat && poly[j].lat >= test.lat ||  poly[j].lat < test.lat && poly[i].lat >= test.lat) {
 					if(poly[i].lon + (test.lat - poly[i].lat) / (poly[j].lat - poly[i].lat) * (poly[j].lon - poly[i].lon) < test.lon) {
@@ -233,9 +234,9 @@ if(lqx && !('geolocate' in lqx)) {
 			}
 			return oddNodes;
 		};
-
+​
 		// Process region data
-		var setRegions = function(regions) {
+		var setRegions = function(regions, outsideRegionName, callRegionDisplay) {
 			/**
 			 * Receives the regions definition as an object in the format below
 			 * and then calls regionDisplay()
@@ -260,13 +261,20 @@ if(lqx && !('geolocate' in lqx)) {
 			 * 			]
 			 * 		}
 			 * }
+			 *
+			 * outsideRegionName: set to a string to be used as name of region when no regions match
+			 * callRegionDisplay: set to false to prevent regionDiscplay to be called automatically
 			 */
+​
+			if(typeof outsideRegionName == 'undefined') outsideRegionName = '';
+			if(typeof blockRegionDisplay == 'undefined') callRegionDisplay = true;
+​
 			// Get current lat / lon
 			var here = {
 				lat: vars.location.lat,
 				lon: vars.location.lon
 			};
-
+​
 			// Check what regions match
 			Object.key(regions).forEach(function(region){
 				vars.regions[region] = false;
@@ -276,54 +284,59 @@ if(lqx && !('geolocate' in lqx)) {
 						if(inCircle(here, {lat: x.lat, lon: x.lon}, x.radius)) vars.regions[region] = true;
 					});
 				}
-
+​
 				// Check squares
 				if('squares' in regions[region]) {
 					regions[region].squares.forEach(function(x){
 						if(inSquare(here, {lat: x.corner1.lat, lon: x.corner1.lon}, {lat: x.corner2.lat, lon: x.corner2.lon})) vars.regions[region] = true;
 					});
 				}
-
+​
 				// Check polygons
 				if('polygons' in regions[region]) {
 					regions[region].polygons.forEach(function(x){
 						if(inPolygon(here, x)) vars.regions[region] = true;
 					});
 				}
-
+​
 				// Remove if not matching
 				if(!vars.regions[region]) delete vars.regions[region];
 			});
 			vars.regions = Object.keys(vars.regions);
-
+​
+			if(vars.regions.length == 0 && outsideRegionName != '') vars.regions = [outsideRegionName];
+​
 			// Set body tag attribute
 			lqx.vars.body.attr('regions', vars.regions.join(','));
-
+​
 			// Trigger regionready event
 			lqx.log('regionready event');
 			jQuery(document).trigger('regionready');
-
+​
 			// Setup elements with attribute data-region-display, or class names that start with region-show- or region-hide-
-			regionDisplay(jQuery(opts.regionDisplaySelector));
-
+			if(callRegionDisplay) regionDisplay(jQuery(opts.regionDisplaySelector));
+​
 			// Run only once
 			lqx.geolocate.setRegions = function(){
 				console.warn('lqx.geolocate.setRegions already executed');
 			};
-
+​
 			return true;
 		};
-
+​
 		// Get array of current matching regions
 		var getRegions = function() {
 			return vars.regions;
 		};
-
+​
 		// Show/hide element based on region
 		var regionDisplay = function(elems) {
 			/**
 			 *
-			 * Checks for elements with attribute data-region-display,or class names that start with region-show- or region-hide-
+			 * Checks for elements with attribute data-region-display,or class names that start with region-
+			 * region-alias
+			 * region-action-show, region-action-hide
+			 * region-display-block, region-display-inline, region-display-flex
 			 * and shows/hides elements as needed
 			 *
 			 * [data-region-display] attribute includes a JSON string with the following structure:
@@ -333,7 +346,8 @@ if(lqx && !('geolocate' in lqx)) {
 			 * 		'nyc',
 			 * 		'philly'
 			 * 	],
-			 * 	action: 'show'	// optional, defaults to 'show', set to 'hide' to hide matching elements instead of showing them
+			 * 	action: 'show',	// optional, defaults to 'show', set to 'hide' to hide matching elements instead of showing them
+			 *  display: 'block' // optional, defaults to 'block', set to the desired CSS display type e.g. inline, flex, etc.
 			 * }
 			 *
 			 * NOTE:
@@ -352,49 +366,50 @@ if(lqx && !('geolocate' in lqx)) {
 			if(elems.length) {
 				elems.forEach(function(elem){
 					elem = jQuery(elem);
-					var showElem = [];
-
-					// Get attribute options
-					var elemOpts = elem.attr('data-region-display');
-					if(typeof elemOpts != 'undefined') {
-						elemOpts = JSON.parse(elemOpts);
-						if(typeof elemOpts == 'object') {
+​
+					var elemOpts = {regions: []};
+					var displayElem = '';
+					var elemRegionMatch = false;
+​
+					// Get attribute options first
+					var elemAttribOpts = elem.attr('data-region-display');
+					if(typeof elemAttribOpts != 'undefined') {
+						elemAttribOpts = JSON.parse(elemAttribOpts);
+						if(typeof elemAttribOpts == 'object') {
+							elemOpts = elemAttribOpts;
 							if(typeof elemOpts.regions == 'string') elemOpts.regions = [elemOpts.regions];
-
 							elemOpts.regions.forEach(function(region){
-								if(vars.regions.indexOf(region) != -1) {
-									if(!('action' in elemOpts) && elemOpts.action == 'hide') showElem.push(false);
-									else showElem.push(true);
-								}
+								if(vars.regions.indexOf(region) != -1) elemRegionMatch = true;
 							});
 						}
 					}
-
+​
 					// Get classes
 					var elemClasses = elem.attr('class').split(/\s+/);
 					elemClasses.forEach(function(elemClass){
-						if(elemClass.indexOf('region-show-') == 0) {
-							if(vars.regions.indexOf(elemClass.replace('region-show-','')) != -1) {
-								showElem.push(true);
-							}
-						}
-						if(elemClass.indexOf('region-hide-') == 0) {
-							if(vars.regions.indexOf(elemClass.replace('region-hide-','')) != -1) {
-								showElem.push(false);
-							}
-						}
+						if(elemClass.indexOf('region-action-') == 0) elemOpts.action = elemClass.replace('region-action-','');
+						else if(elemClass.indexOf('region-display-') == 0) elemOpts.display = elemClass.replace('region-display-','');
+						else if(elemClass.indexOf('region-') == 0) elemOpts.regions.push(elemClass.replace('region-',''));
 					});
-
-					if(showElem.length) {
-						if(showElem.length > 1) lqx.warn('Multiple region display rules found', elem);
-
-						// Hide the element
-						if(!showElem[0]) elem.hide();
+					elemOpts.regions.forEach(function(region){
+						if(vars.regions.indexOf(region) != -1) elemRegionMatch = true;
+					});
+​
+					// Show/hide element
+					if(!('action' in elemOpts)) elemOpts.action = 'show';
+					if(!('display' in elemOpts)) elemOpts.display = 'block';
+					if(elemRegionMatch) {
+						if(elemOpts.action == 'show') elem.css('display', elemOpts.display);
+						else if(elemOpts.action == 'hide') elem.css('display', 'none');
+					}
+					else if(!elemRegionMatch && handleNoRegionMatch) {
+						if(elemOpts.action == 'show') elem.css('display', 'none');
+						else if(elemOpts.action == 'hide') elem.css('display', elemOpts.display);
 					}
 				});
 			}
 		};
-
+​
 		return {
 			init: init,
 			getGPS: getGPS,
