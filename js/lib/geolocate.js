@@ -16,7 +16,7 @@ if(lqx && !('geolocate' in lqx)) {
 			useCookies: false,
 			cookieExpirationIP: 300, // 5 minutes
 			cookieExpirationGPS: 900, // 15 minutes
-			regionDisplaySelectors: '[data-region-display], [class*="region-"]',
+			regionDisplaySelectors: '[data-region-display], [class*="region-name-"]',
 			handleNoRegionMatch: true // Set to false if we don't want unmatched elements to be forcefully shown/hidden
 		};
 ​
