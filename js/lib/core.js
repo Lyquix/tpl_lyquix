@@ -44,6 +44,7 @@ else {
 			mutation:   {enabled: true},
 			popup:      {enabled: true},
 			responsive: {enabled: true},
+			store:      {enabled: true},
 			string:     {enabled: true},
 			tabs:       {enabled: true},
 			util:       {enabled: true}
@@ -64,6 +65,7 @@ else {
 			mutation:   {},
 			popup:      {},
 			responsive: {},
+			store:      {},
 			string:     {},
 			tabs:       {},
 			util:       {},
@@ -77,111 +79,6 @@ else {
 			resizeThrottle: false,
 			resizeThrottleWidth: 0
 		};
-
-		// Persistent storage
-		var store = (function(){
-			// Initialize lqxStore
-			if(window.localStorage.getItem('lqxStore') === null) window.localStorage.setItem('lqxStore', '{}');
-
-			// Array of data to save on exit
-			var tracked = [];
-
-			// Get a variable value
-			var get = function(module, prop) {
-				if(typeof module == 'undefined' || typeof prop == 'undefined') return undefined;
-
-				// Get data from localStorage
-				let lqxStore = JSON.parse(window.localStorage.getItem('lqxStore'));
-
-				if(typeof lqxStore[module] == 'undefined') return undefined;
-				if(typeof lqxStore[module][prop] == 'undefined') return undefined;
-
-				return lqxStore[module][prop];
-			};
-
-			// Set a variable value
-			var set = function(module, prop) {
-				if(typeof module == 'undefined' || typeof prop == 'undefined') return undefined;
-
-				// Get data from localStorage
-				let lqxStore = JSON.parse(window.localStorage.getItem('lqxStore'));
-
-				// Create module if not existing already
-				if(!(module in lqxStore)) lqxStore[module] = {};
-				if(!(prop in lqxStore[module])) lqxStore[module][prop] = {};
-				lqxStore[module][prop] = lqx.vars[module][prop];
-
-				// Save data
-				lqxStore = JSON.stringify(lqxStore);
-				window.localStorage.setItem('lqxStore', lqxStore);
-
-				// Verify data
-				if(lqxStore !== window.localStorage.getItem('lqxStore')) {
-					window.console.error('Error verifying saved data to localStorage');
-					return false;
-				}
-
-				// Add module.prop to save on exit array
-				if(tracked.indexOf(module + '.' + prop) == -1) tracked.push(module + '.' + prop);
-
-				return true;
-			};
-
-			var unset = function(module, prop) {
-				if(typeof module == 'undefined') return;
-
-				// Get data from localStorage
-				let lqxStore = JSON.parse(window.localStorage.getItem('lqxStore'));
-
-				// Delete module/prop
-				if(typeof prop != 'undefined' && prop != '') delete lqxStore[module];
-				else delete lqxStore[module][prop];
-
-				// Save updated data
-				window.localStorage.setItem('lqxStore', JSON.stringify(lqxStore));
-
-				// Remove module.prop from save on exit array
-				tracked = tracked.filter(e => e !== module + '.' + prop);
-
-				return true;
-			};
-
-			var update = function() {
-				// Get data from localStorage
-				var lqxStore = JSON.parse(window.localStorage.getItem('lqxStore'));
-
-				// Save all recorded module.props
-				tracked.forEach(function(s) {
-					s = s.split('.');
-					lqxStore[s[0]][s[1]] = lqx.vars[s[0]][s[1]];
-				});
-
-				// Save data
-				lqxStore = JSON.stringify(lqxStore);
-				window.localStorage.setItem('lqxStore', lqxStore);
-
-				// Verify data
-				if(lqxStore !== window.localStorage.getItem('lqxStore')) {
-					window.console.error('Error verifying saved data to localStorage');
-					return false;
-				}
-
-				return true;
-			};
-
-			// Add event listener
-			window.addEventListener('beforeunload', update);
-
-			// Add periodic update every 15 seconds
-			window.setInterval(update, 15000);
-
-			return {
-				get: get,
-				set: set,
-				unset: unset,
-				update: update
-			};
-		})();
 
 		var init = function() {
 			lqx.log('Initializing `lqx`');
@@ -315,12 +212,11 @@ else {
 			}
 		};
 
-		var version = '2.1.0';
+		var version = '2.2.2';
 
 		return {
 			opts: opts,
 			vars: vars,
-			store: store,
 			init: init,
 			options: options,
 			ready: ready,
