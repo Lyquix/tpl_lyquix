@@ -102,6 +102,8 @@ if(lqx && !('analytics' in lqx)) {
 					if(opts.createParams && opts.createParams.default && opts.createParams.default.trackingId) {
 						gaCode();
 					}
+					// Attempt to init custom Google Analytics tracking code when GA is loaded by other methods e.g. GTM
+					else if(typeof ga == 'function') ga(initTracking);
 
 					// Set YouTube API callback function
 					window.onYouTubeIframeAPIReady = function(){
