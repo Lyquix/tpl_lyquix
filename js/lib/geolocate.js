@@ -62,7 +62,7 @@ if(lqx && !('geolocate' in lqx)) {
 					// Trigger functions on document ready
 					lqx.vars.document.ready(function() {
 						// Add a mutation handler for accordions added to the DOM
-						lqx.mutation.addHandler('addNode', opts.regionDisplaySelector, regionDisplay);
+						lqx.mutation.addHandler('addNode', opts.regionDisplaySelectors, regionDisplay);
 					});
 				}
 			});
@@ -276,7 +276,7 @@ if(lqx && !('geolocate' in lqx)) {
 			};
 ​
 			// Check what regions match
-			Object.key(regions).forEach(function(region){
+			Object.keys(regions).forEach(function(region){
 				vars.regions[region] = false;
 				// Check circles
 				if('circles' in regions[region]) {
@@ -314,7 +314,7 @@ if(lqx && !('geolocate' in lqx)) {
 			jQuery(document).trigger('regionready');
 ​
 			// Setup elements with attribute data-region-display, or class names that start with region-show- or region-hide-
-			if(callRegionDisplay) regionDisplay(jQuery(opts.regionDisplaySelector));
+			if(callRegionDisplay) regionDisplay(jQuery(opts.regionDisplaySelectors));
 ​
 			// Run only once
 			lqx.geolocate.setRegions = function(){
@@ -402,7 +402,7 @@ if(lqx && !('geolocate' in lqx)) {
 						if(elemOpts.action == 'show') elem.css('display', elemOpts.display);
 						else if(elemOpts.action == 'hide') elem.css('display', 'none');
 					}
-					else if(!elemRegionMatch && handleNoRegionMatch) {
+					else if(!elemRegionMatch && opts.handleNoRegionMatch) {
 						if(elemOpts.action == 'show') elem.css('display', 'none');
 						else if(elemOpts.action == 'hide') elem.css('display', elemOpts.display);
 					}
