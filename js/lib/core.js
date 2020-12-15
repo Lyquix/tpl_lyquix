@@ -10,7 +10,7 @@
  */
 
 /* jshint browser: true, devel: true, esversion: 6, jquery: true, strict: true */
-/* globals ga, MobileDetect, YT */
+/* globals ga, MobileDetect, YT, google */
 
 "use strict";
 
@@ -25,11 +25,11 @@ else {
 		// Default opts
 		var opts = {
 			debug: false,
-			siteURL: window.location.protocol + '//' + window.location.hostname,
+			siteURL: window.location.protocol + '//' + window.location.hostname + (window.location.port != '' ? ':' + window.location.port : ''),
 			tmplURL: (function(){
 				let a = document.createElement("a");
-				a.href = jQuery('script[src*="/js/lyquix."]').attr('src');
-				return a.href.slice(0, a.href.indexOf('/js/lyquix.'));
+				a.href = jQuery('script[src*="js/lyquix.js"], script[src*="js/lyquix.min.js"]').attr('src');
+				return a.href.slice(0, a.href.indexOf('js/lyquix.'));
 			})(),
 			// Modules
 			accordion:  {enabled: true},
@@ -53,11 +53,11 @@ else {
 		// Holds working data
 		var vars = {
 			// Modules
-			accordion:  {},
+			accordion:  [],
 			analytics:  {},
 			autoresize: {},
 			detect:     {},
-			fittext:    {},
+			fittext:    [],
 			fixes:      {},
 			geolocate:  {},
 			lyqbox:     {},
