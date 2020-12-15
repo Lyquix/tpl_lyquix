@@ -268,7 +268,7 @@ if(lqx && !('analytics' in lqx)) {
 								// check if it is an outbound link, track as event
 								if(opts.outbound.enabled && elem.host != window.location.host && opts.outbound.exclude.indexOf(elem.host) == -1) {
 									lqx.log('Found outbound link to ' + elem.href);
-									jQuery(elem).click(function(e){
+									jQuery(elem).on('click', function(e){
 										e.preventDefault();
 										var url = elem.href;
 										lqx.log('Outbound link to: ' + url);
@@ -290,7 +290,7 @@ if(lqx && !('analytics' in lqx)) {
 								// check if it is a download link (not a webpage) and track as pageview
 								else if(opts.downloads.enabled && elem.href.match(new RegExp('\.(' + opts.downloads.extensions.join('|') + ')$', 'i')) !== null) {
 									lqx.log('Found download link to ' + elem.href);
-									jQuery(elem).click(function(e){
+									jQuery(elem).on('click', function(e){
 										e.preventDefault();
 										var url = elem.href;
 										lqx.log('Download link to: ' + url);
@@ -444,7 +444,7 @@ if(lqx && !('analytics' in lqx)) {
 
 			// Track rage clicks
 			if(opts.rageClicks.enabled) {
-				jQuery('body').click(function(event){
+				jQuery('body').on('click', function(event){
 					// Save click event
 					vars.clickEvents.push({
 						event: event,

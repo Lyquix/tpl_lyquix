@@ -130,7 +130,7 @@ if(lqx && !('tabs' in lqx)) {
 									}
 
 									// Listener for click on tab
-									tab.click(function(){
+									tab.on('click', function(){
 										// Open clicked tab and matching panel
 										tab.removeClass('closed').addClass('open');
 										panel.removeClass('closed').addClass('open');

@@ -182,7 +182,7 @@ if(lqx && !('accordion' in lqx)) {
 					a.elem.css('transition', '');
 
 					// Add click listener
-					a.header.click(function(){
+					a.header.on('click', function(){
 						// Open accordion
 						if(a.elem.hasClass('closed')) {
 							open(a.elem.attr('data-accordion'));

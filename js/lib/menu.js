@@ -76,7 +76,7 @@ if(lqx && !('menu' in lqx)) {
 			});
 
 			// When clicking outside the menus, hide the menus if visible and close the slide out menu if open
-			lqx.vars.body.click(function() {
+			lqx.vars.body.on('click', function() {
 				jQuery(opts.horizontalMenuSelector + ', ' + opts.verticalMenuSelector).find('.open').removeClass('open');
 			});
 
