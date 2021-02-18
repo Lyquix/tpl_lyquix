@@ -168,6 +168,7 @@ $lqx_options = [
 
 if($this -> params -> get('lqx_debug', 0)) {
 	$lqx_options['debug'] = true;
+	$scripts_options['debug'] = true;
 }
 
 if($this -> params -> get('ga_account')) {
@@ -183,5 +184,6 @@ if($this -> params -> get('ga_account')) {
 
 // Merge with options from template settings
 $lqx_options = array_replace_recursive($lqx_options, json_decode($this -> params -> get('lqx_options', '{}'), true));
+$scripts_options = array_replace_recursive($scripts_options, json_decode($this -> params -> get('scripts_options', '{}'), true));
 ?>
-<script defer src="<?php echo $tmpl_url . '/dist/' . $scripts_filename; ?>" onload="lqx.ready(<?php echo htmlentities(json_encode($lqx_options)); ?>);"></script>
+<script defer src="<?php echo $tmpl_url . '/dist/' . $scripts_filename; ?>" onload="lqx.ready(<?php echo htmlentities(json_encode($lqx_options)); ?>); $lqx.ready(<?php echo htmlentities(json_encode($scripts_options)); ?>);"></script>
