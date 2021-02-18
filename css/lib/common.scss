@@ -120,11 +120,7 @@
 	// Font family type
 	.font-serif { font-family: $font-serif; }
 	.font-sans-serif { font-family: $font-sans-serif; }
-	.font-monospace {
-		font-family: $font-monospace;
-		// set figures to fixed-width, lining (same height as caps), and slashed zero
-		font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 0, "pnum" 0, "dlig" 0, "tnum" 1,  "lnum" 1, "zero" 1;
-	}
+	.font-monospace { font-family: $font-monospace; }
 
 	// Font weight
 	.font-thin { font-weight:100; }
@@ -140,8 +136,6 @@
 	// Text transformations
 	.text-smallcaps { font-variant: small-caps; }
 	.text-uppercase { text-transform: uppercase; }
-	.text-smallcaps,
-	.text-uppercase { font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0, "smcp" 1; }
 	.text-lowercase { text-transform: lowercase; }
 	.text-capitalize { text-transform: capitalize; }
 

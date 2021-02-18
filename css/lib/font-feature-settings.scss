@@ -1,0 +1,57 @@
+/**
+ * font-feature-settings.scss - Sets sizes, colors, typography and other styles for base tags
+ *
+ * @version     2.2.2
+ * @package     tpl_lyquix
+ * @author      Lyquix
+ * @copyright   Copyright (C) 2015 - 2018 Lyquix
+ * @license     GNU General Public License version 2 or later
+ * @link        https://github.com/Lyquix/tpl_lyquix
+ */
+
+// OpenType feature settings:
+// enable: kerning, basic ligatures (liga), contextual-alternate (calt), old-style figures (onum), proportional figures (pnum)
+// disable: discretionary ligatures (dlig), tabular figures (tnum), lining figures (lnum)
+// ref: https://www.microsoft.com/typography/otspec/featurelist.htm
+html {
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0;
+}
+
+code,
+kbd,
+pre,
+samp {
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 0, "pnum" 0, "dlig" 0, "tnum" 1,  "lnum" 1, "zero" 1;
+}
+
+h1,
+h2,
+h3 {
+	// Add discretionary ligatures
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 1, "tnum" 0,  "lnum" 0;
+}
+
+sup {
+	// Add superscript font feature
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0, "sups" 1;
+}
+
+sub {
+	// Add subscript font feature
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0, "subs" 1;
+}
+
+td,
+th {
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 0, "pnum" 0, "dlig" 0, "tnum" 1,  "lnum" 1, "zero" 1;
+}
+
+.font-monospace {
+	// set figures to fixed-width, lining (same height as caps), and slashed zero
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 0, "pnum" 0, "dlig" 0, "tnum" 1,  "lnum" 1, "zero" 1;
+}
+
+.text-smallcaps,
+.text-uppercase {
+	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0, "smcp" 1; }
+}

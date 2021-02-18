@@ -30,12 +30,6 @@ html {
 	// Set box-sizing to border-box
 	box-sizing: border-box;
 
-	// OpenType feature settings:
-	// enable: kerning, basic ligatures (liga), contextual-alternate (calt), old-style figures (onum), proportional figures (pnum)
-	// disable: discretionary ligatures (dlig), tabular figures (tnum), lining figures (lnum)
-	// ref: https://www.microsoft.com/typography/otspec/featurelist.htm
-	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0;
-
 	// Set default font-size to 10px, then use rem units for the rest of the stylesheet
 	font-size: 10px;
 }
@@ -60,7 +54,6 @@ kbd,
 pre,
 samp {
 	font-family: $font-monospace;
-	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 0, "pnum" 0, "dlig" 0, "tnum" 1,  "lnum" 1, "zero" 1;
 }
 
 a {
@@ -136,23 +129,6 @@ h6 {
 	font-weight: $font-weight-h6;
 	line-height: $line-height-heading;
 	margin: $elem-margin-heading 0;
-}
-
-h1,
-h2,
-h3 {
-	// Add discretionary ligatures
-	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 1, "tnum" 0,  "lnum" 0;
-}
-
-sup {
-	// Add superscript font feature
-	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0, "sups" 1;
-}
-
-sub {
-	// Add subscript font feature
-	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1, "pnum" 1, "dlig" 0, "tnum" 0,  "lnum" 0, "subs" 1;
 }
 
 input,
@@ -265,7 +241,6 @@ th {
 	text-align: left;
 	padding: 0.5em;
 	vertical-align: top;
-	font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 0, "pnum" 0, "dlig" 0, "tnum" 1,  "lnum" 1, "zero" 1;
 }
 
 th {
