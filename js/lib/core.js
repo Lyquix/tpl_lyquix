@@ -164,25 +164,25 @@ else {
 		// Use instead of console.log(), console.warn() and console.error(), use lqx.opts.debug to enable/disable
 		var log = function() {
 			if(opts.debug) {
-				for (var i = 0; i < arguments.length; i++) {
-					window.console.log(arguments[i]);
-				}
+				var args = [arguments.callee.name];
+				for(var i = 0; i < arguments.length; i++) args.push(arguments[i]);
+				window.console.log.apply(this, args);
 			}
 		};
 
 		var warn = function() {
 			if(opts.debug) {
-				for (var i = 0; i < arguments.length; i++) {
-					window.console.warn(arguments[i]);
-				}
+				var args = [arguments.callee.name];
+				for(var i = 0; i < arguments.length; i++) args.push(arguments[i]);
+				window.console.warn.apply(this, args);
 			}
 		};
 
 		var error = function() {
 			if(opts.debug) {
-				for (var i = 0; i < arguments.length; i++) {
-					window.console.error(arguments[i]);
-				}
+				var args = [arguments.callee.name];
+				for(var i = 0; i < arguments.length; i++) args.push(arguments[i]);
+				window.console.error.apply(this, args);
 			}
 		};
 
