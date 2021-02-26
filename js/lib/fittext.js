@@ -2,11 +2,11 @@
  * fittext.js - Functionality to fit text to specific number of lines
  *
  * @version     2.2.2
- * @package     lyquix_html
+ * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
  * @license     GNU General Public License version 2 or later
- * @link        https://github.com/Lyquix/lyquix_html
+ * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
 if(lqx && !('fittext' in lqx)) {
