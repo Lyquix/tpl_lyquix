@@ -133,7 +133,7 @@ if(lqx && !('accordion' in lqx)) {
 
 			// Run only once
 			lqx.accordion.init = function(){
-				console.warn('lqx.accordion.init already executed');
+				lqx.warn('lqx.accordion.init already executed');
 			};
 
 			return true;

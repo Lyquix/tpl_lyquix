@@ -75,7 +75,7 @@ if(lqx && !('autoresize' in lqx)) {
 
 			// Run only once
 			lqx.autoresize.init = function(){
-				console.warn('lqx.autoresize.init already executed');
+				lqx.warn('lqx.autoresize.init already executed');
 			};
 
 			return true;

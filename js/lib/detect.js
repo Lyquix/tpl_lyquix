@@ -56,7 +56,7 @@ if(lqx && !('detect' in lqx)) {
 
 			// Run only once
 			lqx.detect.init = function(){
-				console.warn('lqx.detect.init already executed');
+				lqx.warn('lqx.detect.init already executed');
 			};
 
 			return true;

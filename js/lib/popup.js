@@ -83,7 +83,7 @@ if(lqx && !('popup' in lqx)) {
 
 			// Run only once
 			lqx.popup.init = function(){
-				console.warn('lqx.popup.init already executed');
+				lqx.warn('lqx.popup.init already executed');
 			};
 
 			return true;

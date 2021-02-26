@@ -32,7 +32,7 @@ if(lqx && !('util' in lqx)) {
 
 			// Run only once
 			lqx.util.init = function(){
-				console.warn('lqx.util.init already executed');
+				lqx.warn('lqx.util.init already executed');
 			};
 
 			return true;

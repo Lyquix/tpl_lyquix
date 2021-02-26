@@ -42,7 +42,7 @@ if(lqx && !('mutation' in lqx)) {
 
 			// Run only once
 			lqx.mutation.init = function(){
-				console.warn('lqx.mutation.init already executed');
+				lqx.warn('lqx.mutation.init already executed');
 			};
 
 			return true;

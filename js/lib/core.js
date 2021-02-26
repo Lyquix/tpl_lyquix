@@ -122,7 +122,7 @@ else {
 
 			// Run only once
 			lqx.init = function(){
-				console.warn('lqx.init already executed');
+				lqx.warn('lqx.init already executed');
 			};
 
 			return true;
@@ -154,7 +154,7 @@ else {
 
 			// Run only once
 			lqx.ready = function(){
-				console.warn('lqx.ready already executed');
+				lqx.warn('lqx.ready already executed');
 			};
 
 			return true;

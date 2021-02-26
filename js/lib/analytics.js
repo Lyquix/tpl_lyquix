@@ -114,7 +114,7 @@ if(lqx && !('analytics' in lqx)) {
 
 			// Run only once
 			lqx.analytics.init = function(){
-				console.warn('lqx.analytics.init already executed');
+				lqx.warn('lqx.analytics.init already executed');
 			};
 
 			return true;

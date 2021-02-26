@@ -133,7 +133,7 @@ if(lqx && !('fixes' in lqx)) {
 
 			// Run only once
 			lqx.fixes.init = function(){
-				console.warn('lqx.fixes.init already executed');
+				lqx.warn('lqx.fixes.init already executed');
 			};
 
 			return true;

@@ -69,7 +69,7 @@ if(lqx && !('geolocate' in lqx)) {
 ​
 			// Run only once
 			lqx.geolocate.init = function(){
-				console.warn('lqx.geolocate.init already executed');
+				lqx.warn('lqx.geolocate.init already executed');
 			};
 ​
 			return true;
@@ -318,7 +318,7 @@ if(lqx && !('geolocate' in lqx)) {
 ​
 			// Run only once
 			lqx.geolocate.setRegions = function(){
-				console.warn('lqx.geolocate.setRegions already executed');
+				lqx.warn('lqx.geolocate.setRegions already executed');
 			};
 ​
 			return true;

@@ -45,7 +45,7 @@ if(lqx && !('menu' in lqx)) {
 
 			// Run only once
 			lqx.menu.init = function(){
-				console.warn('lqx.menu.init already executed');
+				lqx.warn('lqx.menu.init already executed');
 			};
 
 			return true;

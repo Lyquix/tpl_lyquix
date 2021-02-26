@@ -60,7 +60,7 @@ if(lqx && !('responsive' in lqx)) {
 
 			// Run only once
 			lqx.responsive.init = function(){
-				console.warn('lqx.responsive.init already executed');
+				lqx.warn('lqx.responsive.init already executed');
 			};
 
 			return true;

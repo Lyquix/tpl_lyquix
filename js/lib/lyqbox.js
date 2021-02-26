@@ -141,7 +141,7 @@ if(lqx && !('lyqbox' in lqx)) {
 
 			// Run only once
 			lqx.lyqbox.init = function(){
-				console.warn('lqx.lyqbox.init already executed');
+				lqx.warn('lqx.lyqbox.init already executed');
 			};
 
 			return true;

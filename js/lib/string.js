@@ -63,7 +63,7 @@ if(lqx && !('string' in lqx)) {
 
 			// Run only once
 			lqx.string.init = function(){
-				console.warn('lqx.string.init already executed');
+				lqx.warn('lqx.string.init already executed');
 			};
 
 			return true;

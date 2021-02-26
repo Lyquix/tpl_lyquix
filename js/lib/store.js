@@ -50,7 +50,7 @@ if(lqx && !('store' in lqx)) {
 
 			// Run only once
 			lqx.store.init = function(){
-				console.warn('lqx.store.init already executed');
+				lqx.warn('lqx.store.init already executed');
 			};
 
 			return true;
@@ -87,7 +87,7 @@ if(lqx && !('store' in lqx)) {
 
 			// Verify data
 			if(lqxStore !== window.localStorage.getItem(opts.itemName)) {
-				window.console.error('Error verifying saved data to localStorage');
+				lqx.console.error('Error verifying saved data to localStorage');
 				return false;
 			}
 
@@ -132,7 +132,7 @@ if(lqx && !('store' in lqx)) {
 
 			// Verify data
 			if(lqxStore !== window.localStorage.getItem(opts.itemName)) {
-				window.console.error('Error verifying saved data to localStorage');
+				lqx.console.error('Error verifying saved data to localStorage');
 				return false;
 			}
 

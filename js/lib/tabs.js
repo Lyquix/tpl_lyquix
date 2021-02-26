@@ -64,7 +64,7 @@ if(lqx && !('tabs' in lqx)) {
 
 			// Run only once
 			lqx.tabs.init = function(){
-				console.warn('lqx.tabs.init already executed');
+				lqx.warn('lqx.tabs.init already executed');
 			};
 
 			return true;
