@@ -1,7 +1,7 @@
 /**
  * popup.js - Functionality to handle popups
  *
- * @version     2.2.2
+ * @version     2.3.0
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix

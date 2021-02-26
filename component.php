@@ -2,7 +2,7 @@
 /**
  * component.php - Component template file, calls the project custom component template file.
  *
- * @version     2.2.2
+ * @version     2.3.0
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
