@@ -49,7 +49,7 @@ if(lqx && !('lyqbox' in lqx)) {
 		 *
 		 */
 		var opts = {
-			lyqboxId: 'lyqbox',
+			lyqboxId: '#lyqbox',
 			html:
 				'<div id="lyqbox">' +
 					'<div class="content-wrapper">' +
