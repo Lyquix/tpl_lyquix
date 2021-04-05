@@ -133,10 +133,7 @@ if(lqx && !('store' in lqx)) {
 			// Verify data
 			if(lqxStore !== window.localStorage.getItem(opts.itemName)) {
 				lqx.console.error('Error verifying saved data to localStorage');
-				return false;
 			}
-
-			return true;
 		};
 
 		return {

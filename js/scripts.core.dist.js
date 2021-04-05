@@ -128,10 +128,7 @@ else {
 				// Verify data
 				if($lqxStore !== window.localStorage.getItem('$lqxStore')) {
 					window.console.error('Error verifying saved data to localStorage');
-					return false;
 				}
-
-				return true;
 			};
 
 			// Add event listener
