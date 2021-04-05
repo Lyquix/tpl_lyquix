@@ -58,11 +58,6 @@ if(lqx && !('mutation' in lqx)) {
 				vars.observer = new mo(handler);
 				vars.observer.observe(document, {childList: true, subtree: true, attributes: true});
 			}
-			else {
-				jQuery(document).on('DOMNodeInserted DOMNodeRemoved DOMAttrModified', function(e) {
-					handler(e);
-				});
-			}
 		};
 
 		var addHandler = function(type, selector, callback) {
@@ -92,49 +87,26 @@ if(lqx && !('mutation' in lqx)) {
 					case 'childList':
 						// Handle nodes added
 						if (mutRec.addedNodes.length > 0) {
-							Array.from(mutRec.addedNodes).forEach(function(e){
-								if(e.nodeType == Node.ELEMENT_NODE) {
-									vars.addNode.forEach(function(h){
-										if(e.matches(h.selector)) h.callback(e);
-									});
-								}
+							var nodes = nodesArray(mutRec.addedNodes)
+							nodes.forEach(function(e){
+								vars.addNode.forEach(function(h){
+									if(jQuery(e).is(h.selector)) h.callback(e);
+								});
 							});
 						}
 
 						// Handle nodes removed
 						if (mutRec.removedNodes.length > 0) {
-							Array.from(mutRec.removedNodes).forEach(function(e){
-								if(e.nodeType == Node.ELEMENT_NODE) {
-									vars.removeNode.forEach(function(h){
-										if(e.matches(h.selector)) h.callback(e);
-									});
-								}
+							var nodes = nodesArray(mutRec.removedNodes)
+							nodes.forEach(function(e){
+								vars.removeNode.forEach(function(h){
+									if(jQuery(e).is(h.selector)) h.callback(e);
+								});
 							});
 						}
 						break;
 
-					case 'DOMNodeInserted':
-					Array.from(mutRec.addedNodes).forEach(function(e){
-							if(e.nodeType == Node.ELEMENT_NODE) {
-								vars.addNode.forEach(function(h){
-									if(e.matches(h.selector)) h.callback(e);
-								});
-							}
-						});
-						break;
-
-					case 'DOMNodeRemoved':
-					Array.from(mutRec.removedNodes).forEach(function(e){
-							if(e.nodeType == Node.ELEMENT_NODE) {
-								vars.removeNode.forEach(function(h){
-									if(e.matches(h.selector)) h.callback(e);
-								});
-							}
-						});
-						break;
-
 					case 'attributes':
-					case 'DOMAttrModified':
 						vars.modAttrib.forEach(function(h){
 							if(mutRec.target.matches(h.selector)) h.callback(mutRec.target);
 						});
@@ -142,6 +114,17 @@ if(lqx && !('mutation' in lqx)) {
 				}
 			});
 		};
+
+		var nodesArray = function(nodes) {
+			var o = [];
+			for(var i = 0; i < nodes.length; i++) {
+				var n = jQuery(nodes[i]);
+				o.push(n);
+				var children = n.find('*').toArray();
+				if(children.length) o = o.concat(children);
+			}
+			return o;
+		}
 
 		return {
 			init: init,

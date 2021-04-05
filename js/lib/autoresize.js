@@ -68,7 +68,7 @@ if(lqx && !('autoresize' in lqx)) {
 						setup(jQuery(vars.sel));
 
 						// Add a mutation handler for accordions added to the DOM
-						lqx.mutation.addHandler('addNode', opts.sel, setup);
+						lqx.mutation.addHandler('addNode', opts.sel.join(','), setup);
 					});
 				}
 			});
