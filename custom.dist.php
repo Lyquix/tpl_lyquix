@@ -113,6 +113,8 @@ if($this -> params -> get('tmpl_mode', 0) == 0 && ($app -> input-> get('tmpl') =
 <?php
 // Include IE alerts
 require __DIR__ . '/php/ie-alert.php';
+// Add body closing tag code
+require __DIR__ . '/php/body-bottom.php';
 ?>
 <jdoc:include type="modules" name="body-scripts" />
 </body>

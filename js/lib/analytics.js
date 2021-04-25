@@ -64,6 +64,8 @@ if(lqx && !('analytics' in lqx)) {
 				maxDistance: 100 // within a 100x100 pixel area
 			},
 			// Google Analytics opts
+			usingGTM: false,		// set to true if Google Analytics is loaded via GTM
+			sendPageview: true,		// set to false if you don't want to send the Pageview (e.g. when sent via GTM)
 			createParams: null,			// example: {default: {trackingId: 'UA-XXXXX-Y', cookieDomain: 'auto', fieldsObject: {}}}, where "default" is the tracker name
 			setParams: null,			// example: {default: {dimension1: 'Age', metric1: 25}}
 			requireParams: null,		// example: {default: {pluginName: 'displayFeatures', pluginOptions: {cookieName: 'mycookiename'}}}
@@ -99,11 +101,11 @@ if(lqx && !('analytics' in lqx)) {
 					lqx.log('Initializing `analytics`');
 
 					// Load Google Analytics
-					if(opts.createParams && opts.createParams.default && opts.createParams.default.trackingId) {
+					if(!opts.usingGTM && opts.createParams && opts.createParams.default && opts.createParams.default.trackingId) {
 						gaCode();
 					}
 					// Attempt to init custom Google Analytics tracking code when GA is loaded by other methods e.g. GTM
-					else if(typeof ga == 'function') ga(initTracking);
+					if(opts.usingGTM) checkGA();
 
 					// Set YouTube API callback function
 					window.onYouTubeIframeAPIReady = function(){
@@ -118,6 +120,12 @@ if(lqx && !('analytics' in lqx)) {
 			};
 
 			return true;
+		};
+
+		var checkGA = function(count) {
+			if(count == undefined) count = 0;
+			if('GoogleAnalyticsObject' in window && typeof window.ga == 'function') initTracking();
+			else if(count < 600) setTimeout(function() {checkGA(count++);}, 100);
 		};
 
 		var gaCode = function() {
@@ -238,9 +246,11 @@ if(lqx && !('analytics' in lqx)) {
 				},
 
 				function(){
-					lqx.log('Sending pageview event');
-					// Send pageview
-					ga('send', 'pageview');
+					if(opts.sendPageview) {
+						lqx.log('Sending pageview event');
+						// Send pageview
+						ga('send', 'pageview');
+					}
 					// Initialize tracking
 					initTracking();
 				}

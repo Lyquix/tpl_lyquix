@@ -182,11 +182,29 @@ if($this -> params -> get('ga_account')) {
 	];
 }
 
+if(!$this -> params -> get('ga_pageview')) $lqx_options['analytics']['sendPageview'] = false;
+
+if($this -> params -> get('ga_via_gtm', 0)) $lqx_options['analytics']['usingGTM'] = true;
+
 // Merge with options from template settings
 $lqx_options = array_replace_recursive($lqx_options, json_decode($this -> params -> get('lqx_options', '{}'), true));
 $scripts_options = array_replace_recursive($scripts_options, json_decode($this -> params -> get('scripts_options', '{}'), true));
 ?>
 <script defer src="<?php echo $tmpl_url . '/dist/' . $scripts_filename; ?>" onload="lqx.ready(<?php echo htmlentities(json_encode($lqx_options)); ?>); $lqx.ready(<?php echo htmlentities(json_encode($scripts_options)); ?>);"></script>
-<?php if($this -> params -> get('remove_srcset', 0)): ?>
-<script>jQuery(document).ready(function() {jQuery('[srcset]').attr('srcset', '');});</script>
+<?php
+// Load GTM head code
+if($this -> params -> get('gtm_account')) : ?>
+<script>
+(function(w, d, s, l, i) {
+	w[l] = w[l] || [];
+	w[l].push({
+		'gtm.start': new Date().getTime(),
+		event: 'gtm.js'
+	});
+	var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+	j.async = true;
+	j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+	f.parentNode.insertBefore(j, f);
+})(window, document, 'script', 'dataLayer', '<?php echo $this -> params -> get('gtm_account'); ?>');
+</script>
 <?php endif;
