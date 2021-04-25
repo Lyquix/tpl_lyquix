@@ -70,6 +70,10 @@
 				</field>
 			</fieldset>
 			<fieldset name="joomla_tab" label="Joomla">
+				<field name="remove_srcset" type="radio" default="0" label="Remove srcset" description="">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
 				<field name="disable_mootools" type="radio" default="1" label="Disable MooTools" description="">
 					<option value="0">No</option>
 					<option value="1">Yes</option>

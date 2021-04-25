@@ -187,3 +187,6 @@ $lqx_options = array_replace_recursive($lqx_options, json_decode($this -> params
 $scripts_options = array_replace_recursive($scripts_options, json_decode($this -> params -> get('scripts_options', '{}'), true));
 ?>
 <script defer src="<?php echo $tmpl_url . '/dist/' . $scripts_filename; ?>" onload="lqx.ready(<?php echo htmlentities(json_encode($lqx_options)); ?>); $lqx.ready(<?php echo htmlentities(json_encode($scripts_options)); ?>);"></script>
+<?php if($this -> params -> get('remove_srcset', 0)): ?>
+<script>jQuery(document).ready(function() {jQuery('[srcset]').attr('srcset', '');});</script>
+<?php endif;
