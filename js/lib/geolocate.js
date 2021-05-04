@@ -17,7 +17,8 @@ if(lqx && !('geolocate' in lqx)) {
 			cookieExpirationIP: 300, // 5 minutes
 			cookieExpirationGPS: 900, // 15 minutes
 			regionDisplaySelectors: '[data-region-display], [class*="region-name-"]',
-			handleNoRegionMatch: true // Set to false if we don't want unmatched elements to be forcefully shown/hidden
+			handleNoRegionMatch: true, // Set to false if we don't want unmatched elements to be forcefully shown/hidden
+			removeNoRegionMatch: true // Set to false to hide (display: none) unmatched elements, instead of removing them
 		};
 ​
 		var vars = {
@@ -368,7 +369,6 @@ if(lqx && !('geolocate' in lqx)) {
 					elem = jQuery(elem);
 ​
 					var elemOpts = {regions: []};
-					var displayElem = '';
 					var elemRegionMatch = false;
 ​
 					// Get attribute options first
@@ -400,11 +400,17 @@ if(lqx && !('geolocate' in lqx)) {
 					if(!('display' in elemOpts)) elemOpts.display = 'block';
 					if(elemRegionMatch) {
 						if(elemOpts.action == 'show') elem.css('display', elemOpts.display);
-						else if(elemOpts.action == 'hide') elem.css('display', 'none');
+						else if(elemOpts.action == 'hide') {
+							if(opts.removeNoRegionMatch) elem.remove();
+							else elem.css('display', 'none');
+						}
 					}
 					else if(!elemRegionMatch && opts.handleNoRegionMatch) {
 						if(elemOpts.action == 'show') elem.css('display', 'none');
-						else if(elemOpts.action == 'hide') elem.css('display', elemOpts.display);
+						else if(elemOpts.action == 'hide') {
+							if(opts.removeNoRegionMatch) elem.remove();
+							else elem.css('display', elemOpts.display);
+						}
 					}
 				});
 			}
