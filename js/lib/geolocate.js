@@ -413,6 +413,10 @@ if(lqx && !('geolocate' in lqx)) {
 						}
 					}
 				});
+
+				// Trigger regiondisplayready event
+				lqx.log('regiondisplayready event');
+				jQuery(document).trigger('regiondisplayready');
 			}
 		};
 ​
