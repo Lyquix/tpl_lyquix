@@ -74,9 +74,14 @@ if(lqx && !('analytics' in lqx)) {
 			abTestName: null,			// Set a test name to activate A/B Testing Dimension
 			abTestNameDimension: null,		// Set the Google Analytics dimension number to use for test name
 			abTestGroupDimension: null,		// Set the Google Analytics dimension number to use for group
+			abTestSplit: 0.5, 		// Sets the percentage of users that will be assigned to group A, default if 50%
+			abTestRemoveNoMatch: true,		// Set to false to hide no-match elements instead of removing them from DOM
+			abTestCookieDays: 30,		// How long should the group assignment be saved in cookie, default 30 days
+			abTestDisplaySelector: '[data-abtest-group], [class*="abtest-group--"]', // Selectors for attributes and classes for a/b testing
 		};
 
 		var vars = {
+			abTestGroup: null,
 			scrollDepthMax: null,
 			youTubeIframeAPIReady: false,
 			youTubeIframeAPIReadyAttempts: 0,
@@ -217,19 +222,24 @@ if(lqx && !('analytics' in lqx)) {
 					if(opts.abTestName !== null && opts.abTestNameDimension !== null && opts.abTestGroupDimension !== null) {
 						lqx.log('abTest params', {abTestName: opts.abTestName, abTestNameDimension: opts.abTestNameDimension, abTestGroupDimension: opts.abTestGroupDimension});
 						// get a/b test group cookie
-						var abTestGroup = lqx.utils.cookie('abTestGroup');
-						if(abTestGroup === null) {
+						vars.abTestGroup = lqx.utils.cookie('abTestGroup');
+						if(vars.abTestGroup === null) {
 							// set a/b test group
-							if(Math.random() < 0.5) abTestGroup = 'A';
-							else abTestGroup = 'B';
-							lqx.utils.cookie('abTestGroup', abTestGroup, {maxAge: 30*24*60*60, path: '/'});
+							if(Math.random() < opts.abTestSplit) vars.abTestGroup = 'A';
+							else vars.abTestGroup = 'B';
+							lqx.utils.cookie('abTestGroup', vars.abTestGroup, {maxAge: opts.abTestCookieDays * 86400, path: '/'});
 						}
 						// Set body attribute that can be used by css and js
-						lqx.vars.body.attr('data-abtest', abTestGroup);
+						lqx.vars.body.attr('abtestgroup', vars.abTestGroup);
 
 						// Set the GA dimensions
 						ga('set', 'dimension' + opts.abTestNameDimension, opts.abTestName);
 						ga('set', 'dimension' + opts.abTestGroupDimension, abTestGroup);
+
+						// Show/hide elements based on their attributes and classes
+						abTestDisplay(jQuery(opts.abTestDisplaySelector));
+						lqx.mutation.addHandler('addNode', opts.abTestDisplaySelector, abTestDisplay);
+
 					}
 				},
 
@@ -837,6 +847,43 @@ if(lqx && !('analytics' in lqx)) {
 			vars.userActive.activeTime += (new Date()).getTime() - vars.userActive.lastChangeTime;
 			// update last change time
 			vars.userActive.lastChangeTime = (new Date()).getTime();
+		};
+
+		// Show/hide element based on region
+		var abTestDisplay = function(elems) {
+			/**
+			 *
+			 * Checks for elements with attribute data-abtest-group with values 'A' or 'B',
+			 * or class names 'abtest-group-a' or 'abtest-group-b'
+			 *
+			 */
+			if(elems instanceof Node) {
+				// Not an array, convert to an array
+				elems = [elems];
+			}
+			else if(elems instanceof jQuery) {
+				// Convert jQuery to array
+				elems = elems.toArray();
+			}
+			if(elems.length) {
+				elems.forEach(function(elem){
+					elem = jQuery(elem);
+
+					var elemGroupMatch = false;
+
+					// Get attribute options first
+					if(elem.attr('data-abtest-group') === vars.abTestGroup) elemGroupMatch = true;
+
+					// Get classes
+					if(elem.hasClass('abtest-group-' + vars.abTestGroup.toLowerCase())) elemGroupMatch = true;
+
+					// hide/remove element
+					if(!elemGroupMatch) {
+						if(opts.abTestRemoveNoMatch) elem.remove();
+						else elem.css('display', 'none');
+					}
+				});
+			}
 		};
 
 		return {
