@@ -71,13 +71,14 @@ if(lqx && !('analytics' in lqx)) {
 			requireParams: null,		// example: {default: {pluginName: 'displayFeatures', pluginOptions: {cookieName: 'mycookiename'}}}
 			provideParams: null,		// example: {default: {pluginName: 'MyPlugin', pluginConstructor: myPluginFunc}}
 			customParamsFuncs: null,	// example: myFunctionName
-			abTestName: null,			// Set a test name to activate A/B Testing Dimension
-			abTestNameDimension: null,		// Set the Google Analytics dimension number to use for test name
-			abTestGroupDimension: null,		// Set the Google Analytics dimension number to use for group
-			abTestSplit: 0.5, 		// Sets the percentage of users that will be assigned to group A, default if 50%
-			abTestRemoveNoMatch: true,		// Set to false to hide no-match elements instead of removing them from DOM
-			abTestCookieDays: 30,		// How long should the group assignment be saved in cookie, default 30 days
-			abTestDisplaySelector: '[data-abtest-group], [class*="abtest-group--"]', // Selectors for attributes and classes for a/b testing
+			abTest: {
+				name: null,			// Set a test name to activate A/B Testing Dimension
+				dimension: null,		// Set the Google Analytics dimension that will save the test name and assigned group
+				split: 0.5, 		// Sets the percentage of users that will be assigned to group A, default if 50%
+				removeNoMatch: true,		// Set to false to hide no-match elements instead of removing them from DOM
+				cookieDays: 30,		// How long should the group assignment be saved in cookie, default 30 days
+				displaySelector: '[data-abtest], [class*="abtest-"]', // Do not change
+			}
 		};
 
 		var vars = {
@@ -219,26 +220,25 @@ if(lqx && !('analytics' in lqx)) {
 					}
 
 					// A/B testing opts
-					if(opts.abTestName !== null && opts.abTestNameDimension !== null && opts.abTestGroupDimension !== null) {
-						lqx.log('abTest params', {abTestName: opts.abTestName, abTestNameDimension: opts.abTestNameDimension, abTestGroupDimension: opts.abTestGroupDimension});
+					if(opts.abTest.name !== null && opts.abTest.dimension !== null) {
+						lqx.log('abTest params', opts.abTest);
 						// get a/b test group cookie
 						vars.abTestGroup = lqx.utils.cookie('abTestGroup');
 						if(vars.abTestGroup === null) {
 							// set a/b test group
-							if(Math.random() < opts.abTestSplit) vars.abTestGroup = 'A';
-							else vars.abTestGroup = 'B';
-							lqx.utils.cookie('abTestGroup', vars.abTestGroup, {maxAge: opts.abTestCookieDays * 86400, path: '/'});
+							if(Math.random() < opts.abTest.split) vars.abTestGroup = opts.abTest.name + '-A';
+							else vars.abTestGroup = opts.abTest.name + '-B';
+							lqx.utils.cookie('abTestGroup', vars.abTestGroup, {maxAge: opts.abTest.cookieDays * 86400, path: '/'});
 						}
 						// Set body attribute that can be used by css and js
 						lqx.vars.body.attr('abtestgroup', vars.abTestGroup);
 
-						// Set the GA dimensions
-						ga('set', 'dimension' + opts.abTestNameDimension, opts.abTestName);
-						ga('set', 'dimension' + opts.abTestGroupDimension, abTestGroup);
+						// Set the GA dimension
+						ga('set', 'dimension' + opts.abTest.dimension, vars.abTestGroup);
 
 						// Show/hide elements based on their attributes and classes
-						abTestDisplay(jQuery(opts.abTestDisplaySelector));
-						lqx.mutation.addHandler('addNode', opts.abTestDisplaySelector, abTestDisplay);
+						abTestDisplay(jQuery(opts.abTest.displaySelector));
+						lqx.mutation.addHandler('addNode', opts.abTest.displaySelector, abTestDisplay);
 
 					}
 				},
@@ -853,8 +853,8 @@ if(lqx && !('analytics' in lqx)) {
 		var abTestDisplay = function(elems) {
 			/**
 			 *
-			 * Checks for elements with attribute data-abtest-group with values 'A' or 'B',
-			 * or class names 'abtest-group-a' or 'abtest-group-b'
+			 * Checks for elements with attribute data-abtest with values 'testName-A' or 'testName-B',
+			 * or class names 'abtest-testName-a' or 'abtest-testName-b'
 			 *
 			 */
 			if(elems instanceof Node) {
@@ -872,14 +872,14 @@ if(lqx && !('analytics' in lqx)) {
 					var elemGroupMatch = false;
 
 					// Get attribute options first
-					if(elem.attr('data-abtest-group') === vars.abTestGroup) elemGroupMatch = true;
+					if(elem.attr('data-abtest') === vars.abTestGroup) elemGroupMatch = true;
 
 					// Get classes
-					if(elem.hasClass('abtest-group-' + vars.abTestGroup.toLowerCase())) elemGroupMatch = true;
+					if(elem.hasClass('abtest-' + vars.abTestGroup)) elemGroupMatch = true;
 
 					// hide/remove element
 					if(!elemGroupMatch) {
-						if(opts.abTestRemoveNoMatch) elem.remove();
+						if(opts.abTest.removeNoMatch) elem.remove();
 						else elem.css('display', 'none');
 					}
 				});
