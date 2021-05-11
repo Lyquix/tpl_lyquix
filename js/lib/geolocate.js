@@ -16,7 +16,7 @@ if(lqx && !('geolocate' in lqx)) {
 			useCookies: false,
 			cookieExpirationIP: 300, // 5 minutes
 			cookieExpirationGPS: 900, // 15 minutes
-			regionDisplaySelectors: '[data-region-display], [class*="region-name-"]',
+			regionDisplaySelectors: '[data-region-display], [class*="region-name-"]', // Do not change
 			handleNoRegionMatch: true, // Set to false if we don't want unmatched elements to be forcefully shown/hidden
 			removeNoRegionMatch: true // Set to false to hide (display: none) unmatched elements, instead of removing them
 		};
@@ -406,11 +406,11 @@ if(lqx && !('geolocate' in lqx)) {
 						}
 					}
 					else if(!elemRegionMatch && opts.handleNoRegionMatch) {
-						if(elemOpts.action == 'show') elem.css('display', 'none');
-						else if(elemOpts.action == 'hide') {
+						if(elemOpts.action == 'show') {
 							if(opts.removeNoRegionMatch) elem.remove();
-							else elem.css('display', elemOpts.display);
+							elem.css('display', 'none');
 						}
+						else if(elemOpts.action == 'hide') elem.css('display', elemOpts.display);
 					}
 				});
 
