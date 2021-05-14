@@ -226,10 +226,13 @@ if(lqx && !('analytics' in lqx)) {
 						vars.abTestGroup = lqx.utils.cookie('abTestGroup');
 						if(vars.abTestGroup === null) {
 							// set a/b test group
-							if(Math.random() < opts.abTest.split) vars.abTestGroup = opts.abTest.name + '-A';
-							else vars.abTestGroup = opts.abTest.name + '-B';
-							lqx.utils.cookie('abTestGroup', vars.abTestGroup, {maxAge: opts.abTest.cookieDays * 86400, path: '/'});
+							if (Math.random() < opts.abTest.split)  {
+								vars.abTestGroup = opts.abTest.name + '-A';
+							} else {
+								vars.abTestGroup = opts.abTest.name + '-B';
+							}
 						}
+						lqx.util.cookie('abTestGroup', vars.abTestGroup, {maxAge: opts.abTest.cookieDays * 86400, path: '/'});
 						// Set body attribute that can be used by css and js
 						lqx.vars.body.attr('abtestgroup', vars.abTestGroup);
 
