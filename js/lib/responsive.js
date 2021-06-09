@@ -36,13 +36,21 @@ if(lqx && !('responsive' in lqx)) {
 				if(opts.enabled) {
 					lqx.log('Initializing `responsive`');
 
-					// Check screen size for the first time
-					setScreen();
+					// Set listeners for each screen size
+					opts.breakPoints.forEach(function(breakPoint, s) {
+						var cssQuery = '';
+						if(s == 0) cssQuery = '(max-width: ' + (opts.breakPoints[s + 1] - 1) + 'px)';
+						else if(s == opts.breakPoints.length - 1) cssQuery = '(min-width: ' + opts.breakPoints[s] + 'px)';
+						else cssQuery = '(min-width: ' + opts.breakPoints[s] + 'px) and (max-width: ' + (opts.breakPoints[s + 1] - 1) + 'px)';
 
-					// Listeners for setScreen
-					lqx.vars.window.on('resizethrottle orientationchange', function() {
-						// Check screen size
-						setScreen();
+						// Add listener
+						var mm = lqx.vars.window.matchMedia(cssQuery);
+						mm.addListener(function(e) {
+							if(e.matches) setScreen(s);
+						});
+
+						// Check screen size for the first time
+						if(mm.matches) setScreen(s);
 					});
 
 					if('orientation' in window.screen) {
@@ -75,26 +83,14 @@ if(lqx && !('responsive' in lqx)) {
 		};
 
 		// Sets the attribute "screen" to the body tag that indicates the current size of the screen
-		var setScreen = function() {
-			// Get current screen width
-			var w = lqx.vars.window.width();
-			var s = null;
-
-			// Find in what breakpoint are we
-			if(w < opts.breakPoints[1]) s = 0;
-			else if(w >= opts.breakPoints[1] && w < opts.breakPoints[2]) s = 1;
-			else if(w >= opts.breakPoints[2] && w < opts.breakPoints[3]) s = 2;
-			else if(w >= opts.breakPoints[3] && w < opts.breakPoints[4]) s = 3;
-			else if(w >= opts.breakPoints[4]) s = 4;
-
-			// Adjust calculated size to min and max range
-			if(s < opts.minIndex) s = opts.minIndex;
-			if(s > opts.maxIndex) s = opts.maxIndex;
-
-			// If different from previous screen size
+		var setScreen = function(s) {
 			if(opts.sizes[s] != vars.screen) {
+				// Adjust calculated size to min and max range
+				if(s < opts.minIndex) s = opts.minIndex;
+				if(s > opts.maxIndex) s = opts.maxIndex;
+
 				// Change the body screen attribute
-				lqx.vars.body.attr('screen',opts.sizes[s]);
+				lqx.vars.body.attr('screen', opts.sizes[s]);
 
 				// Save the current screen size
 				vars.screen = opts.sizes[s];
