@@ -49,6 +49,7 @@ Provides functionality for custom event tracking with Google Analytics:
   * **User Active:** Keeps track of the time a user is active while viewing a page. It uses several techniques to assess if the user is active or not. Reports the percentage and absolute time that the user has been active and inactive. Tracking stops after 30 minutes.
   * **Rage Clicks:** detects rage clicks (rapid sequence of clicks in nearby area), and triggers a Google Analytics event for it.
   * **JavaScript Errors:** Tracks unique JavaScript errors, providing information on the error message, the location of the error (file, line, column). These events are useful to identify errors affecting specific browsers or operating systems.
+  * **A/B Testing:** Randomly assigs visitors to A/B groups, tracks such assignment via Google Analytics dimensions. Allows to hide or remove DOM elements based on attributes and classes.
 
 **AutoResize [`js/lib/autoresize.js`](../js/lib/autoresize.js)**
 
