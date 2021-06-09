@@ -294,7 +294,8 @@ if(lqx && !('analytics' in lqx)) {
 								if(opts.outbound.enabled && elem.host != window.location.host && opts.outbound.exclude.indexOf(elem.host) == -1) {
 									lqx.log('Found outbound link to ' + elem.href);
 									jQuery(elem).on('click', function(e){
-										e.preventDefault();
+										// determine if the link is opening in a new window
+										var newWindow = (elem.attr('target') && !elem.attr('target').match(/^_(self|parent|top)$/i)) || e.ctrlKey || e.shiftKey || e.metaKey;
 										var url = elem.href;
 										lqx.log('Outbound link to: ' + url);
 										var label = url;
@@ -307,8 +308,13 @@ if(lqx && !('analytics' in lqx)) {
 											eventAction: 'click',
 											eventLabel: label,
 											nonInteraction: opts.outbound.nonInteraction,
-											hitCallback: function(){ window.location.href = url; } // Regarless of target value link will open in same window, otherwise it is blocked by browser
+											hitCallback: newWindow ? null : function() {
+												window.location.href = url; // when opening in same window, wait for ga event to be sent
+											}
 										});
+
+										// when opening in new window, allow the link to proceed, otherwise wait for ga event
+										return newWindow;
 									});
 								}
 
