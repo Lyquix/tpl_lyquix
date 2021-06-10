@@ -2,7 +2,7 @@
 /**
  * index.php - Main template file, calls custom project template
  *
- * @version     2.3.0
+ * @version     2.3.1
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix

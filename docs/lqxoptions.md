@@ -1,6 +1,6 @@
 # lqx Options
 
-`@version     2.3.0`
+`@version     2.3.1`
 
 ## Default Options
 

@@ -1,7 +1,7 @@
 /**
  * core.js - Lyquix JavaScript library
  *
- * @version     2.3.0
+ * @version     2.3.1
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
@@ -214,7 +214,7 @@ else {
 			}
 		};
 
-		var version = '2.3.0';
+		var version = '2.3.1';
 
 		return {
 			opts: opts,
