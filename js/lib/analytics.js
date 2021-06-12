@@ -290,18 +290,27 @@ if(lqx && !('analytics' in lqx)) {
 						elems.forEach(function(elem){
 							// check if it has an href attribute, otherwise it is just a page anchor
 							if(elem.href) {
+								elem = jQuery(elem);
+
+								// get absolute url
+								var url = new URL(elem.attr('href'), window.location.href);
+
+								// determine if the link target is opening in a new window
+								var newWindow = (elem.attr('target') && !elem.attr('target').match(/^_(self|parent|top)$/i));
+
 								// check if it is an outbound link, track as event
-								if(opts.outbound.enabled && elem.host != window.location.host && opts.outbound.exclude.indexOf(elem.host) == -1) {
-									lqx.log('Found outbound link to ' + elem.href);
-									jQuery(elem).on('click', function(e){
-										// determine if the link is opening in a new window
-										var newWindow = (elem.attr('target') && !elem.attr('target').match(/^_(self|parent|top)$/i)) || e.ctrlKey || e.shiftKey || e.metaKey;
-										var url = elem.href;
-										lqx.log('Outbound link to: ' + url);
-										var label = url;
-										if(jQuery(elem).attr('title')) {
-											label = jQuery(elem).attr('title') + ' [' + url + ']';
-										}
+								if(opts.outbound.enabled && url.host != window.location.host && opts.outbound.exclude.indexOf(url.host) == -1) {
+									lqx.log('Found outbound link to ' + url.href);
+									elem.on('click', function(e){
+										lqx.log('Outbound link to: ' + url.href);
+
+										// links opens in a new window when user holds the ctrl key
+										newWindow = newWindow || e.ctrlKey || e.shiftKey || e.metaKey;
+
+										// set label
+										var label = elem.attr('title') ? elem.attr('title') + ' [' + url.href + ']' : url.href;
+
+										// send event
 										ga('send', {
 											hitType:'event',
 											eventCategory: 'Outbound Links',
@@ -309,7 +318,7 @@ if(lqx && !('analytics' in lqx)) {
 											eventLabel: label,
 											nonInteraction: opts.outbound.nonInteraction,
 											hitCallback: newWindow ? null : function() {
-												window.location.href = url; // when opening in same window, wait for ga event to be sent
+												window.location.href = url.href; // when opening in same window, wait for ga event to be sent
 											}
 										});
 
@@ -319,37 +328,49 @@ if(lqx && !('analytics' in lqx)) {
 								}
 
 								// check if it is a download link (not a webpage) and track as pageview
-								else if(opts.downloads.enabled && elem.href.match(new RegExp('\.(' + opts.downloads.extensions.join('|') + ')$', 'i')) !== null) {
-									lqx.log('Found download link to ' + elem.href);
-									jQuery(elem).on('click', function(e){
-										e.preventDefault();
-										var url = elem.href;
-										lqx.log('Download link to: ' + url);
-										var loc = elem.protocol + '//' + elem.hostname + elem.pathname + elem.search;
-										var page = elem.pathname + elem.search;
-										var title = 'Download: ' + page;
-										if(jQuery(elem).attr('title')) {
-											title = jQuery(elem).attr('title');
-										}
+								if(opts.downloads.enabled && url.href.match(new RegExp('\.(' + opts.downloads.extensions.join('|') + ')$', 'i')) !== null) {
+									lqx.log('Found download link to ' + url.href);
+									elem.on('click', function(e){
+										lqx.log('Download link to: ' + url.href);
+
+										// links opens in a new window when user holds the ctrl key
+										newWindow = newWindow || e.ctrlKey || e.shiftKey || e.metaKey;
+
+										// set labels
+										var loc = url.protocol + '//' + url.hostname + url.pathname + url.search;
+										var page = url.pathname + url.search;
+										var title = elem.attr('title') ? elem.attr('title') : 'Download: ' + page;
+										var label = elem.attr('title') ? elem.attr('title') + ' [' + page + ']' : page;
+
+										// send pageview
 										if(opts.downloads.hitType == 'pageview') {
 											ga('send', {
 												hitType: 'pageview',
 												location: loc,
 												page: page,
 												title: title,
-												hitCallback: function(){ window.location.href = url; } // Regarless of target value link will open in same window, otherwise it is blocked by browser
+												hitCallback: newWindow ? null : function() {
+													window.location.href = url.href; // when opening in same window, wait for ga event to be sent
+												}
 											});
 										}
-										if(opts.downloads.hitType == 'event') {
+
+										// or send event
+										else if(opts.downloads.hitType == 'event') {
 											ga('send', {
 												hitType:'event',
 												eventCategory: 'Download Links',
 												eventAction: 'click',
-												eventLabel: page,
+												eventLabel: label,
 												nonInteraction: opts.downloads.nonInteraction,
-												hitCallback: function(){ window.location.href = url; } // Regarless of target value link will open in same window, otherwise it is blocked by browser
+												hitCallback: newWindow ? null : function() {
+													window.location.href = url.href; // when opening in same window, wait for ga event to be sent
+												}
 											});
 										}
+
+										// when opening in new window, allow the link to proceed, otherwise wait for ga event
+										return newWindow;
 									});
 								}
 							}
