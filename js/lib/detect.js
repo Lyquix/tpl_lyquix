@@ -9,8 +9,12 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+/* jshint browser: true, devel: true, jquery: true, strict: true */
+/* globals lqx, ga, MobileDetect, YT, google */
+
 if(lqx && !('detect' in lqx)) {
 	lqx.detect = (function(){
+		'use strict';
 		var opts = {
 			// Control what specific detections to enable
 			mobile: true,

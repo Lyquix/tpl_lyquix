@@ -9,8 +9,12 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+/* jshint browser: true, devel: true, jquery: true, strict: true */
+/* globals lqx, ga, MobileDetect, YT, google */
+
 if(lqx && !('string' in lqx)) {
 	lqx.string = (function(){
+		'use strict';
 		/**
 		 * Adds new functionality to the String prototype.
 		 * Inspired by https://github.com/panzerdp/voca

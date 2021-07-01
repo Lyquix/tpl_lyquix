@@ -9,8 +9,12 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+/* jshint browser: true, devel: true, jquery: true, strict: true */
+/* globals lqx, ga, MobileDetect, YT, google */
+
 if(lqx && !('fittext' in lqx)) {
 	lqx.fittext = (function(){
+		'use strict';
 		/** Adds fittext functionality to any element
 			with the .fittext class
 		**/

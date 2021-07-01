@@ -9,8 +9,12 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+/* jshint browser: true, devel: true, jquery: true, strict: true */
+/* globals lqx, ga, MobileDetect, YT, google */
+
 if(lqx && !('popup' in lqx)) {
 	lqx.popup = (function(){
+		'use strict';
 		/**
 		 * Looks for elements with the class .popup and adds a class open when pop-up is to be
 		 * displayed.

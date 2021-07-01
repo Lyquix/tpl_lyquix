@@ -9,8 +9,12 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+/* jshint browser: true, devel: true, jquery: true, strict: true */
+/* globals lqx, ga, MobileDetect, YT, google */
+
 if(lqx && !('store' in lqx)) {
 	lqx.store = (function(){
+		'use strict';
 		/**
 		 *
 		**/
@@ -61,7 +65,7 @@ if(lqx && !('store' in lqx)) {
 			if(typeof module == 'undefined' || typeof prop == 'undefined') return undefined;
 
 			// Get data from localStorage
-			let lqxStore = JSON.parse(window.localStorage.getItem(opts.itemName));
+			var lqxStore = JSON.parse(window.localStorage.getItem(opts.itemName));
 
 			if(typeof lqxStore[module] == 'undefined') return undefined;
 			if(typeof lqxStore[module][prop] == 'undefined') return undefined;
@@ -74,7 +78,7 @@ if(lqx && !('store' in lqx)) {
 			if(typeof module == 'undefined' || module == 'store' || typeof prop == 'undefined') return undefined;
 
 			// Get data from localStorage
-			let lqxStore = JSON.parse(window.localStorage.getItem(opts.itemName));
+			var lqxStore = JSON.parse(window.localStorage.getItem(opts.itemName));
 
 			// Create module if not existing already
 			if(!(module in lqxStore)) lqxStore[module] = {};
@@ -101,7 +105,7 @@ if(lqx && !('store' in lqx)) {
 			if(typeof module == 'undefined') return;
 
 			// Get data from localStorage
-			let lqxStore = JSON.parse(window.localStorage.getItem(opts.itemName));
+			var lqxStore = JSON.parse(window.localStorage.getItem(opts.itemName));
 
 			// Delete module/prop
 			if(typeof prop != 'undefined' && prop != '') delete lqxStore[module];
@@ -111,7 +115,7 @@ if(lqx && !('store' in lqx)) {
 			window.localStorage.setItem(opts.itemName, JSON.stringify(lqxStore));
 
 			// Remove module.prop from save on exit array
-			vars.tracked = vars.tracked.filter(e => e !== module + '.' + prop);
+			vars.tracked = vars.tracked.filter(function(e) {return e !== module + '.' + prop;});
 
 			return true;
 		};

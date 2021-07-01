@@ -9,8 +9,12 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+/* jshint browser: true, devel: true, jquery: true, strict: true */
+/* globals lqx, ga, MobileDetect, YT, google */
+
 if(lqx && !('analytics' in lqx)) {
 	lqx.analytics = (function(){
+		'use strict';
 		var opts = {
 			downloads: {
 				enabled: true,
@@ -276,7 +280,7 @@ if(lqx && !('analytics' in lqx)) {
 			if(opts.outbound.enabled || opts.downloads.enabled) {
 				lqx.log('Setting up outbound/download links tracking');
 
-				function setup(elems) {
+				var setup = function(elems) {
 					if(elems instanceof Node) {
 						// Not an array, convert to an array
 						elems = [elems];
@@ -376,7 +380,7 @@ if(lqx && !('analytics' in lqx)) {
 							}
 						});
 					}
-				}
+				};
 
 				// Find all a tags and cycle through them
 				setup(jQuery('a'));

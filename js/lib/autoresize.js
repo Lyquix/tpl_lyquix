@@ -9,8 +9,12 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+/* jshint browser: true, devel: true, jquery: true, strict: true */
+/* globals lqx, ga, MobileDetect, YT, google */
+
 if(lqx && !('autoresize' in lqx)) {
 	lqx.autoresize = (function(){
+		'use strict';
 		/**
 		 * Makes textarea, input and select elements to resize automatically
 		 * to display its complete value.

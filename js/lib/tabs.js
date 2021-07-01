@@ -9,8 +9,12 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+/* jshint browser: true, devel: true, jquery: true, strict: true */
+/* globals lqx, ga, MobileDetect, YT, google */
+
 if(lqx && !('tabs' in lqx)) {
 	lqx.tabs = (function(){
+		'use strict';
 		/** Looks for elements with the class .tab and .tab-panel, wrapped in a .tab-group element
 		 *
 		 * In .tab elements looks for the attribute data-tab, and in .panels looks for a matching data-tab attribute

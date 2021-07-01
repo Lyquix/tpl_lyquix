@@ -9,8 +9,12 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+/* jshint browser: true, devel: true, jquery: true, strict: true */
+/* globals lqx, ga, MobileDetect, YT, google */
+
 if(lqx && !('responsive' in lqx)) {
 	lqx.responsive = (function(){
+		'use strict';
 		var opts = {
 			sizes: ['xs', 'sm', 'md', 'lg', 'xl'],
 			breakPoints: [320, 640, 960, 1280, 1600],

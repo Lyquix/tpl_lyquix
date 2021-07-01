@@ -9,8 +9,12 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+/* jshint browser: true, devel: true, jquery: true, strict: true */
+/* globals lqx, ga, MobileDetect, YT, google */
+
 if(lqx && !('menu' in lqx)) {
 	lqx.menu = (function(){
+		'use strict';
 		var opts = {
 			horizontalMenuSelector: '.horizontal',
 			verticalMenuSelector: '.vertical',

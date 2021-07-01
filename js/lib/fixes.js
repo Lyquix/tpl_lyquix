@@ -9,8 +9,12 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+/* jshint browser: true, devel: true, jquery: true, strict: true */
+/* globals lqx, ga, MobileDetect, YT, google */
+
 if(lqx && !('fixes' in lqx)) {
 	lqx.fixes = (function(){
+		'use strict';
 		var opts = {
 			// Control what specific fixes to apply
 			imgWidthAttrib: {

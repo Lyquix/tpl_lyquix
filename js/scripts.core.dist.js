@@ -9,10 +9,8 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-/* jshint browser: true, devel: true, esversion: 6, jquery: true, strict: true */
-/* globals lqx, ga */
-
-"use strict";
+/* jshint browser: true, devel: true, jquery: true, strict: true */
+/* globals lqx, ga, MobileDetect, YT, google */
 
 if(typeof $lqx !== 'undefined') {
 	window.console.error('`$lqx` already exist!');
@@ -25,6 +23,7 @@ else if(typeof lqx == 'undefined') {
 }
 else {
 	var $lqx = (function(){
+		'use strict';
 		// Options for modules
 		var opts = {
 			// Modules

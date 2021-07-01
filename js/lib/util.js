@@ -9,8 +9,12 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+/* jshint browser: true, devel: true, jquery: true, strict: true */
+/* globals lqx, ga, MobileDetect, YT, google */
+
 if(lqx && !('util' in lqx)) {
 	lqx.util = (function(){
+		'use strict';
 		var opts = {};
 
 		var vars = {};
@@ -84,16 +88,16 @@ if(lqx && !('util' in lqx)) {
 		// Not secure!
 		// Based on https://gist.github.com/sukima/5613286
 		var encrypt = function(key, plaintext) {
-			let cyphertext = [];
+			var cyphertext = [];
 			// Convert to hex to properly handle UTF8
 			plaintext = Array.from(plaintext).map(function(c) {
 				if(c.charCodeAt(0) < 128) return c.charCodeAt(0).toString(16).padStart(2, '0');
 				else return encodeURIComponent(c).replace(/\%/g,'').toLowerCase();
 			}).join('');
 			// Convert each hex to decimal
-			plaintext = plaintext.match(/.{1,2}/g).map(x => parseInt(x, 16));
+			plaintext = plaintext.match(/.{1,2}/g).map(function(x) {parseInt(x, 16);});
 			// Perform xor operation
-			for (let i = 0; i < plaintext.length; i++) {
+			for (var i = 0; i < plaintext.length; i++) {
 				cyphertext.push(plaintext[i] ^ key.charCodeAt(Math.floor(i % key.length)));
 			}
 			// Convert to hex
@@ -108,9 +112,9 @@ if(lqx && !('util' in lqx)) {
 		// Based on https://gist.github.com/sukima/5613286
 		var decrypt = function(key, cyphertext) {
 			try {
-				cyphertext = cyphertext.match(/.{1,2}/g).map(x => parseInt(x, 16));
-				let plaintext = [];
-				for (let i = 0; i < cyphertext.length; i++) {
+				cyphertext = cyphertext.match(/.{1,2}/g).map(function(x) {parseInt(x, 16);});
+				var plaintext = [];
+				for (var i = 0; i < cyphertext.length; i++) {
 					plaintext.push((cyphertext[i] ^ key.charCodeAt(Math.floor(i % key.length))).toString(16).padStart(2, '0'));
 				}
 				return decodeURIComponent('%' + plaintext.join('').match(/.{1,2}/g).join('%'));
@@ -137,7 +141,7 @@ if(lqx && !('util' in lqx)) {
 				while(i < iterations) {
 					intKey = hash(password + intSalt);
 					var newSalt = '';
-					for(let j = 0; j < intSalt.length; j++) {
+					for(var j = 0; j < intSalt.length; j++) {
 						newSalt += (intSalt.charCodeAt(j) ^ intKey.charCodeAt(Math.floor(j % intKey.length))).toString(36);
 					}
 					intSalt = newSalt;

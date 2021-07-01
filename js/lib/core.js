@@ -9,10 +9,8 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-/* jshint browser: true, devel: true, esversion: 6, jquery: true, strict: true */
+/* jshint browser: true, devel: true, jquery: true, strict: true */
 /* globals ga, MobileDetect, YT, google */
-
-"use strict";
 
 if(typeof lqx !== 'undefined') {
 	window.console.error('`lqx` already exist!');
@@ -22,12 +20,13 @@ else if(typeof jQuery == 'undefined') {
 }
 else {
 	var lqx = (function(){
+		'use strict';
 		// Default opts
 		var opts = {
 			debug: false,
 			siteURL: window.location.protocol + '//' + window.location.hostname + (window.location.port != '' ? ':' + window.location.port : ''),
 			tmplURL: (function(){
-				let a = document.createElement("a");
+				var a = document.createElement("a");
 				a.href = jQuery('script[src*="js/lyquix.js"], script[src*="js/lyquix.min.js"]').attr('src');
 				return a.href.slice(0, a.href.indexOf('js/lyquix.'));
 			})(),

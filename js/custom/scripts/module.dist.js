@@ -9,8 +9,12 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+/* jshint browser: true, devel: true, jquery: true, strict: true */
+/* globals lqx, $lqx, ga, MobileDetect, YT, google */
+
 if($lqx && !('module' in $lqx)) {
 	$lqx.module = (function(){
+		'use strict';
 		var opts = {
 			/**
 			 * Place options and parameters specific to this module

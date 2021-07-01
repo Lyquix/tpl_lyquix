@@ -9,8 +9,12 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+/* jshint browser: true, devel: true, jquery: true, strict: true */
+/* globals lqx, ga, MobileDetect, YT, google */
+
 if(lqx && !('geolocate' in lqx)) {
 	lqx.geolocate = (function(){
+		'use strict';
 		var opts = {
 			gps: false,
 			useCookies: false,

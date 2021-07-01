@@ -9,8 +9,12 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+/* jshint browser: true, devel: true, jquery: true, strict: true */
+/* globals lqx, ga, MobileDetect, YT, google */
+
 if(lqx && !('lyqbox' in lqx)) {
 	lqx.lyqbox = (function(){
+		'use strict';
 		/**
 		 * Lyquix lightbox functionality
 		 *
