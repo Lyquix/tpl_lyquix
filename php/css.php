@@ -202,10 +202,4 @@ if(!file_exists($tmpl_path . '/dist/' . $stylesheet_filename)) {
 	unset($stylesheet_imports, $stylesheet_data);
 }
 ?>
-<style>
-/* FOUC workaround */
-body {
-	opacity:0;
-}
-</style>
 <link href="<?php echo $tmpl_url . '/dist/' . $stylesheet_filename; ?>" rel="preload" as="style" onload="this.rel='stylesheet'" />
