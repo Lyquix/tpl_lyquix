@@ -299,9 +299,7 @@ if(lqx && !('geolocate' in lqx)) {
 
 				// Check polygons
 				if('polygons' in regions[region]) {
-					regions[region].polygons.forEach(function(x){
-						if(inPolygon(here, x)) vars.regions[region] = true;
-					});
+					if(inPolygon(here, regions[region].polygons)) vars.regions[region] = true;
 				}
 
 				// Remove if not matching
