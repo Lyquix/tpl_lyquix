@@ -146,7 +146,7 @@ if(!file_exists($tmpl_path . '/dist/' . $stylesheet_filename)) {
 	// Regular expression to find url in files
 	$urlRegex = '/url\(\s*[\"\\\']?([^\"\\\'\)]+)[\"\\\']?\s*\)/';
 	// Regular expression to find @import rules in files
-	$importRegex = '/(@import\s+[^;]*;)/';
+	$importRegex = '/(@import.*?["\'][^"\']+["\'].*?;)/';
 	// Prepare file
 	$stylesheet_data = "/* " . $stylesheet_filename . " */\n";
 	$stylesheet_imports = "/* @import rules moved to the top of the document */\n";
