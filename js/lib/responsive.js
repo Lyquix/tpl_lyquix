@@ -48,8 +48,8 @@ if(lqx && !('responsive' in lqx)) {
 						else cssQuery = '(min-width: ' + opts.breakPoints[s] + 'px) and (max-width: ' + (opts.breakPoints[s + 1] - 1) + 'px)';
 
 						// Add listener
-						var mm = lqx.vars.window.matchMedia(cssQuery);
-						mm.addListener(function(e) {
+						var mm = window.matchMedia(cssQuery);
+						mm.addEventListener('change', function(e) {
 							if(e.matches) setScreen(s);
 						});
 
