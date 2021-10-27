@@ -13,3 +13,8 @@
 
 # Disable directory listing
 Options -Indexes
+
+# Block access to project notes file
+<Files "NOTES.md">
+  Require all denied
+</Files>
