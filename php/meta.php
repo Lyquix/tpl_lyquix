@@ -22,9 +22,9 @@ if($this -> params -> get('polyfill', 1)): ?>
 <?php endif;
 // Adds search engine domain validation strings to home page only
 if($home) {
-	echo $this -> params -> get('google_site_verification') ? '<meta name="google-site-verification" content="' . htmlentities($this -> params -> get('google_site_verification')) . '" />' . "\n" : '';
-	echo $this -> params -> get('msvalidate') ? '<meta name="msvalidate.01" content="' . htmlentities($this -> params -> get('msvalidate')) . '" />' . "\n" : '';
-	echo $this -> params -> get('p_domain_verify') ? '<meta name="p:domain_verify" content="' . htmlentities($this -> params -> get('p_domain_verify')) . '"/>' . "\n" : '';
+	echo $this -> params -> get('google_site_verification', '') ? '<meta name="google-site-verification" content="' . htmlentities($this -> params -> get('google_site_verification')) . '" />' . "\n" : '';
+	echo $this -> params -> get('msvalidate', '') ? '<meta name="msvalidate.01" content="' . htmlentities($this -> params -> get('msvalidate')) . '" />' . "\n" : '';
+	echo $this -> params -> get('p_domain_verify', '') ? '<meta name="p:domain_verify" content="' . htmlentities($this -> params -> get('p_domain_verify')) . '"/>' . "\n" : '';
 	echo '<link href="' . JURI::root() . '" rel="canonical" />' . "\n";
 }
 // Add og:title and og:description tags if not already set

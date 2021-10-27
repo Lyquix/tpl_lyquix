@@ -11,9 +11,9 @@
  */
 
 // Prevent adding component css and js libraries in <jdoc:include type="head" />
-$remove_css_libraries = explode("\n", trim($this -> params -> get('remove_css_libraries')));
+$remove_css_libraries = explode("\n", trim($this -> params -> get('remove_css_libraries', '')));
 foreach($remove_css_libraries as $css_url) unset($doc -> _styleSheets[trim($css_url)]);
-$remove_js_libraries = explode("\n", trim($this -> params -> get('remove_js_libraries')));
+$remove_js_libraries = explode("\n", trim($this -> params -> get('remove_js_libraries', '')));
 foreach($remove_js_libraries as $js_url) unset($doc -> _scripts[trim($js_url)]);
 
 // Disable MooTools
@@ -39,7 +39,7 @@ if($this -> params -> get('enable_jquery', 1)) {
 }
 
 // Enable jQuery UI
-if($this -> params -> get('enable_jquery_ui')) {
+if($this -> params -> get('enable_jquery_ui', '')) {
 	JHtml::_('jquery.ui', explode(",", $this -> params -> get('enable_jquery_ui')));
 }
 

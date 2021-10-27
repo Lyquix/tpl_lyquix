@@ -11,9 +11,9 @@
  */
 
  // Load GTM body code
-if($this -> params -> get('gtm_account')) : ?>
+if($this -> params -> get('gtm_account', '')) : ?>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo $this -> params -> get('gtm_account'); ?>" height="0" width="0" style="display:none; visibility:hidden"></iframe></noscript>
-<?php
+<?php endif;
 
 // Load code to remove srcset
 if($this -> params -> get('remove_srcset', 0)): ?>

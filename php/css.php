@@ -55,7 +55,7 @@ if(in_array('inline', $merge_css)) {
 }
 
 // Use non minified version?
-$non_min_css = $this -> params -> get('non_min_css');
+$non_min_css = $this -> params -> get('non_min_css', 0);
 
 // Animte.css
 if($this -> params -> get('animatecss', 0)) {

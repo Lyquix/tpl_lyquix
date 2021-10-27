@@ -55,7 +55,7 @@ if(in_array('inline', $merge_js)) {
 }
 
 // Use non minified version?
-$non_min_js = $this -> params -> get('non_min_js');
+$non_min_js = $this -> params -> get('non_min_js', 0);
 
 // LoDash
 if($this -> params -> get('lodash', 0)) {
@@ -170,7 +170,7 @@ if($this -> params -> get('lqx_debug', 0)) {
 	$lqx_options['debug'] = true;
 }
 
-if($this -> params -> get('ga_account')) {
+if($this -> params -> get('ga_account', '')) {
 	$lqx_options['analytics'] = [
 		'createParams' => [
 			'default' => [
@@ -181,7 +181,7 @@ if($this -> params -> get('ga_account')) {
 	];
 }
 
-if(!$this -> params -> get('ga_pageview')) $lqx_options['analytics']['sendPageview'] = false;
+if(!$this -> params -> get('ga_pageview', 1)) $lqx_options['analytics']['sendPageview'] = false;
 
 if($this -> params -> get('ga_via_gtm', 0)) $lqx_options['analytics']['usingGTM'] = true;
 
@@ -192,7 +192,7 @@ $scripts_options = array_replace_recursive([], json_decode($this -> params -> ge
 <script defer src="<?php echo $tmpl_url . '/dist/' . $scripts_filename; ?>" onload="lqx.ready(<?php echo htmlentities(json_encode($lqx_options)); ?>); $lqx.ready(<?php echo htmlentities(json_encode($scripts_options)); ?>);"></script>
 <?php
 // Load GTM head code
-if($this -> params -> get('gtm_account')) : ?>
+if($this -> params -> get('gtm_account', '')) : ?>
 <script>
 (function(w, d, s, l, i) {
 	w[l] = w[l] || [];
