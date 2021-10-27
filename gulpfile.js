@@ -41,6 +41,7 @@ gulp.task('default', function () {
 		'./js/custom/*.js',
 		'./js/custom/components/*.js',
 		'./js/custom/controllers/*.js',
+		'./js/custom/scripts/*.js',
 		'./js/lib/*.js'],
 		gulp.series('process-js'));
 });
