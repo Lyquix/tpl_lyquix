@@ -55,3 +55,5 @@ if [ -f ./scripts.core.js ]; then
 	npx jshint ./scripts.js --verbose
 	npx babel --presets env --no-comments --compact --minified --comments false ./scripts.js > ./scripts.min.js
 fi
+
+rm -f ../dist/*.js

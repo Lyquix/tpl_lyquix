@@ -19,3 +19,4 @@ cd $DIR
 npx sass ./styles.scss > ./styles.css
 npx postcss -u autoprefixer -b \"\> 0.5%, last 3 versions\" -r ./styles.css
 npx uglifycss ./styles.css > ./styles.min.css
+rm -f ../dist/*.css
