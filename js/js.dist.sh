@@ -29,7 +29,7 @@ npx babel --presets env --no-comments --compact --minified --comments false ./ly
 # Vue
 if [[ -n $(find ./custom/components ./custom/controllers -name '*.js' -not -name '*.dist.js') ]]; then
 	npx wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js > ./vue.js
-	npx wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js > ./vue.min.js
+	npx wget -O- -q https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js > ./vue.min.js
 fi
 if [[ -n $(find ./custom/components -name '*.js' -not -name '*.dist.js') ]]; then
 	find ./custom/components -name '*.js' -not -name '*.dist.js' -exec cat {} + >> ./vue.js
