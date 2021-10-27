@@ -10,14 +10,15 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-$ie9 = $this -> params -> get('ie9_alert', 1);
-$ie10 = $this -> params -> get('ie10_alert', 1);
-$ie11 = $this -> params -> get('ie11_alert', 0);
+$ie_alerts = [];
+foreach([9, 10, 11] as $v) {
+	if($this -> params -> get('ie' . $v . '_alert', 1)) $ie_alerts[] = 'ie' . $v;
+}
 
-if($ie9 || $ie10 || $ie11) : ?>
-<link href="<?php echo $tmpl_url; ?>/css/ie-alert.css" rel="preload" as="style" onload="this.rel='stylesheet'" />
-<div class="ie-alert<?php echo ($ie9 ? ' ie9' : '') . ($ie10 ? ' ie10' : '') . ($ie11 ? ' ie11' : ''); ?>">You are using an unsupported version of Internet Explorer. To ensure security, performance, and full functionality, <a href="http://browsehappy.com/?locale=en">please upgrade to an up-to-date browser.</a><i></i></div>
+if(count($ie_alerts)) : ?>
+<link href="<?php echo $tmpl_url; ?>/css/ie-alert.css" rel="stylesheet" />
+<div id="ie-alert" class="<?php echo implode(' ', $ie_alerts); ?>">You are using an unsupported version of Internet Explorer. To ensure security, performance, and full functionality, <a href="http://browsehappy.com/?locale=en">please upgrade to an up-to-date browser.</a><i></i></div>
 <script>
-document.querySelector('.ie-alert i').addEventListener('click', function(){document.querySelector('.ie-alert').style.display = 'none';});
+document.querySelector('#ie-alert i').addEventListener('click', function(){document.querySelector('#ie-alert').style.display = 'none';});
 </script>
 <?php endif;

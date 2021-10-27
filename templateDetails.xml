@@ -198,7 +198,7 @@
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
-				<field name="ie11_alert" type="radio" default="0" label="IE11 alert" description="Shows an uprade alert for IE11">
+				<field name="ie11_alert" type="radio" default="1" label="IE11 alert" description="Shows an uprade alert for IE11">
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>

@@ -9,9 +9,9 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
- .ie-alert {
+ #ie-alert {
 	display: none;
-	color: black;
+	color: black !important;
 	position: fixed;
 	bottom: 2px;
 	background-color: white;
@@ -19,19 +19,19 @@
 	padding: 15px 20px;
 	margin-left: auto;
 	margin-right: auto;
-	font-family: Segoe UI, Tahoma, Arial, sans-serif;
+	font-family: Segoe UI, Tahoma, Arial, sans-serif !important;
 	box-shadow: 0 0 3px #666;
 	width: 75%;
 	max-width: 960px;
-	text-align: left;
-	font-size: 12px;
-	font-style: normal;
-	font-weight: normal;
+	text-align: left !important;
+	font-size: 12px !important;
+	font-style: normal !important;
+	font-weight: normal !important;
 	left: 0;
 	right: 0;
 }
 
-.ie-alert:before {
+#ie-alert:before {
 	display: block;
 	position: relative;
 	content: "";
@@ -41,28 +41,28 @@
 	left: 1px;
 }
 
-.ie-alert a {
-	color: blue;
+#ie-alert a {
+	color: blue !important;
 }
 
-.ie-alert i {
+#ie-alert i {
 	display: block;
 	position: absolute;
 	right: 5px;
 	top: calc(50% - 12px);
-	cursor: pointer;
+	cursor: pointer !important;
 }
 
-.ie-alert i:before {
+#ie-alert i:before {
 	content: "\00d7";
-	font-style: normal;
-	font-weight: bold;
+	font-style: normal !important;
+	font-weight: bold !important;
 	color: #999;
-	font-size: 18px;
+	font-size: 18px !important;
 }
 
-body.msie-9 .ie-alert.ie9,
-body.msie-10 .ie-alert.ie10,
-body.msie-11 .ie-alert.ie11 {
+body.msie-9 #ie-alert.ie9,
+body.msie-10 #ie-alert.ie10,
+body.msie-11 #ie-alert.ie11 {
 	display: block;
 }
