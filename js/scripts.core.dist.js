@@ -1,7 +1,7 @@
 /**
  * scripts.core.dist.js - Sample core file for custom project JavaScript code, copy to scripts.core.js
  *
- * @version     2.3.2
+ * @version     2.3.3
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
