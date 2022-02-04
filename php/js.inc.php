@@ -41,7 +41,8 @@ foreach($add_js_libraries as $jsurl) {
 <?php endif; ?>
 <script>lqx.setOptions({
 	bodyScreenSize: {min: <?php echo $this->params->get('min_screen', 0); ?>, max: <?php echo $this->params->get('max_screen', 4); ?>}<?php if($this->params->get('ga_account')) : ?>,
-	ga: {createParams: {default: {trackingId: '<?php echo $this->params->get('ga_account'); ?>', cookieDomain: 'auto'}}}<?php endif; ?>
+	ga: {createParams: {default: {trackingId: '<?php echo $this->params->get('ga_account'); ?>', cookieDomain: 'auto', fieldsObject: {}}}},
+	usingGTM: <?php echo $this->params->get('using_gtm') ? 'true' : 'false'; ?><?php endif; ?>
 });</script>
 <?php if($this->params->get('lqx_options', '{}') != '{}') : ?>
 <script>lqx.setOptions(<?php echo $this->params->get('lqx_options', '{}'); ?>);</script>

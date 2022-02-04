@@ -98,6 +98,7 @@ var lqx = lqx || {
 			abTestNameDimension: null,		// Set the Google Analytics dimension number to use for test name
 			abTestGroupDimension: null,		// Set the Google Analytics dimension number to use for group
 		},
+		usingGTM: false,
 		geoLocation: {
 			enable: false,	// perform geolocation
 			gps: false,		// request gps data for precise lat/lon
@@ -953,9 +954,17 @@ var lqx = lqx || {
 		return 'rgb(' + (Math.round((t - R) * p) + R) + ',' + (Math.round((t - G) * p ) + G) + ',' + (Math.round((t - B) * p) + B) + ')';
 	},
 
+	initAnalytics: function() {
+		// Load Google Analytics
+		if(!lqx.settings.usingGTM && lqx.settings.ga.createParams && lqx.settings.ga.createParams.default && lqx.settings.ga.createParams.default.trackingId) {
+			lqx.gaCode();
+		}
+		// Attempt to init custom Google Analytics tracking code when GA is loaded by other methods e.g. GTM
+		if(lqx.settings.usingGTM) lqx.checkGA();
+	},
+
 	// initialize google analytics tracking
 	initTracking : function() {
-
 		// NOTE: this function is triggered by lqx.gaReady
 
 		// track downloads and outbound links
@@ -976,7 +985,7 @@ var lqx = lqx || {
 							if(jQuery(elem).attr('title')) {
 								label = jQuery(elem).attr('title') + ' [' + url + ']';
 							}
-							ga('send', {
+							lqx.gaSend({
 								'hitType' : 'event',
 								'eventCategory' : 'Outbound Links',
 								'eventAction' : 'click',
@@ -1006,7 +1015,7 @@ var lqx = lqx || {
 							if(jQuery(elem).attr('title')) {
 								title = jQuery(elem).attr('title');
 							}
-							ga('send', {
+							lqx.gaSend({
 								'hitType': 'pageview',
 								'location' : loc,
 								'page' : page,
@@ -1028,7 +1037,7 @@ var lqx = lqx || {
 				var errHash = lqx.strHash(errStr);
 				if(lqx.vars.errorHashes.indexOf(errHash) == -1 && lqx.vars.errorHashes.length < 100) {
 					lqx.vars.errorHashes.push(errHash);
-					ga('send', {
+					lqx.gaSend({
 						'hitType' : 'event',
 						'eventCategory' : 'JavaScript Errors',
 						'eventAction' : 'error',
@@ -1059,7 +1068,7 @@ var lqx = lqx || {
 			// add listener to page beforeunload
 			jQuery(window).on('beforeunload', function(){
 
-				ga('send', {
+				lqx.gaSend({
 					'hitType' : 'event',
 					'eventCategory' : 'Scroll Depth',
 					'eventAction' : lqx.vars.scrollDepthMax,
@@ -1074,7 +1083,7 @@ var lqx = lqx || {
 		if(lqx.settings.tracking.photogallery){
 			jQuery('html').on('click', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]', function(){
 				// send event for gallery opened
-				ga('send', {
+				lqx.gaSend({
 					'hitType': 'event',
 					'eventCategory' : 'Photo Gallery',
 					'eventAction' : 'Open'
@@ -1084,7 +1093,7 @@ var lqx = lqx || {
 
 			jQuery('html').on('load', 'img.lb-image', function(){
 				// send event for image displayed
-				ga('send', {
+				lqx.gaSend({
 					'hitType': 'event',
 					'eventCategory' : 'Photo Gallery',
 					'eventAction' : 'Display',
@@ -1133,7 +1142,7 @@ var lqx = lqx || {
 			// add listener to page beforeunload
 			jQuery(window).on('beforeunload', function(){
 
-				ga('send', {
+				lqx.gaSend({
 					'hitType' : 'event',
 					'eventCategory' : 'User Active Time',
 					'eventAction' : 'Percentage',
@@ -1141,7 +1150,7 @@ var lqx = lqx || {
 					'nonInteraction' : true
 				});
 
-				ga('send', {
+				lqx.gaSend({
 					'hitType' : 'event',
 					'eventCategory' : 'User Active Time',
 					'eventAction' : 'Active Time (ms)',
@@ -1149,7 +1158,7 @@ var lqx = lqx || {
 					'nonInteraction' : true
 				});
 
-				ga('send', {
+				lqx.gaSend({
 					'hitType' : 'event',
 					'eventCategory' : 'User Active Time',
 					'eventAction' : 'Inactive Time (ms)',
@@ -1415,7 +1424,7 @@ var lqx = lqx || {
 	},
 
 	videoTrackingEvent : function(playerId, label, title, value) {
-		ga('send', {
+		lqx.gaSend({
 			'hitType': 'event',
 			'eventCategory' : 'Video',
 			'eventAction' : label,
@@ -2068,89 +2077,124 @@ var lqx = lqx || {
 		lqx.vars.userActive.lastChangeTime = (new Date()).getTime();
 	},
 
+	gaCode: function() {
+		(function (i, s, o, g, r, a, m) {
+			i.GoogleAnalyticsObject = r;
+			i[r] = i[r] || function() {
+				(i[r].q = i[r].q || []).push(arguments);
+			};
+			i[r].l = 1 * new Date();
+			a = s.createElement(o);
+			m = s.getElementsByTagName(o)[0];
+			a.async = 1;
+			a.src = g;
+			m.parentNode.insertBefore(a, m);
+		})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+		// Create commands
+		var params = lqx.settings.ga.createParams;
+		ga('create', params.default.trackingId, params.default.cookieDomain , params.default.fieldsObject);
+		Object.keys(params).forEach(function(tracker){
+			if(tracker != 'default') {
+				ga('create', params[tracker].trackingId, params[tracker].cookieDomain, tracker, params[tracker].fieldsObject);
+			}
+		});
+		ga(lqx.gaReady);
+	},
+
+	checkGA: function(count) {
+		if(count == undefined) count = 0;
+		if('GoogleAnalyticsObject' in window && typeof window.ga == 'function') lqx.initTracking();
+		else if(count < 6000) setTimeout(function() {lqx.checkGA(count++);}, 250);
+	},
+
 	// handles the google analytics page view event, setting first custom parameters
 	gaReady : function(tracker) {
 		// execute functions to set custom parameters
-		jQuery.Deferred().done(
-			function(){
-				// create commands
-				if(lqx.settings.ga.createParams && typeof lqx.settings.ga.createParams == 'object') {
-					var params = lqx.settings.ga.createParams;
-					Object.keys(params).forEach(function(tracker){
-						if(tracker == 'default') ga('create', params[tracker].trackingId, params[tracker].cookieDomain, params[tracker].fieldsObject);
-						else ga('create', params[tracker].trackingId, params[tracker].cookieDomain, tracker, params[tracker].fieldsObject);
-					});
-				}
-			},
-			function(){
-				var params;
-				// set commands
-				if(lqx.settings.ga.setParams && typeof lqx.settings.ga.setParams == 'object') {
-					params = lqx.settings.ga.setParams;
-					Object.keys(params).forEach(function(tracker){
-						var cmd = 'set';
-						if(tracker != 'default') cmd = tracker + '.set';
-						Object.keys(params[tracker]).forEach(function(fieldName){
-							ga(cmd, fieldName, params[tracker][fieldName]);
-						});
-					});
-				}
-				// require commands
-				if(lqx.settings.ga.requireParams && typeof lqx.settings.ga.requireParams == 'object') {
-					params = lqx.settings.ga.requireParams;
-					Object.keys(params).forEach(function(tracker){
-						var cmd = 'require';
-						if(tracker != 'default') cmd = tracker + '.require';
-						params[tracker].forEach(function(elem){
-							ga(cmd, elem.pluginName, elem.pluginOptions);
-						});
-					});
-				}
-				// provide commands
-				if(lqx.settings.ga.provideParams && typeof lqx.settings.ga.provideParams == 'object') {
-					params = lqx.settings.ga.provideParams;
-					Object.keys(params).forEach(function(tracker){
-						var cmd = 'provide';
-						if(tracker != 'default') cmd = tracker + '.provide';
-						params[tracker].forEach(function(elem){
-							ga(cmd, elem.pluginName, elem.pluginConstructor);
-						});
-					});
-				}
-				// a/b testing settings
-				if(lqx.settings.ga.abTestName !== null && lqx.settings.ga.abTestNameDimension !== null && lqx.settings.ga.abTestGroupDimension !== null) {
-					// get a/b test group cookie
-					var abTestGroup = lqx.cookie('abTestGroup');
-					if(abTestGroup === null) {
-						// set a/b test group
-						if(Math.random() < 0.5) abTestGroup = 'A';
-						else abTestGroup = 'B';
-						lqx.cookie('abTestGroup', abTestGroup, {maxAge: 30*24*60*60, path: '/'});
-					}
-					// set body attribute that can be used by css and js
-					jQuery('body').attr('data-abtest', abTestGroup);
-					// set the GA dimensions
-					ga('set', 'dimension' + lqx.settings.ga.abTestNameDimension, lqx.settings.ga.abTestName);
-					ga('set', 'dimension' + lqx.settings.ga.abTestGroupDimension, abTestGroup);
-				}
-			},
-			function(){
-				if(typeof lqx.settings.ga.customParamsFuncs == 'function') {
-					try {
-						lqx.settings.ga.customParamsFuncs();
-					}
-					catch(e) {
-						console.log(e);
-					}
-				}
-			},
-			function(){
-				// send pageview
-				ga('send', 'pageview');
-				// initialize analytics tracking
-				lqx.initTracking();
+		jQuery.Deferred(function(){
+			// create commands
+			if(lqx.settings.ga.createParams && typeof lqx.settings.ga.createParams == 'object') {
+				var params = lqx.settings.ga.createParams;
+				Object.keys(params).forEach(function(tracker){
+					if(tracker == 'default') ga('create', params[tracker].trackingId, params[tracker].cookieDomain, params[tracker].fieldsObject);
+					else ga('create', params[tracker].trackingId, params[tracker].cookieDomain, tracker, params[tracker].fieldsObject);
+				});
 			}
-		).resolve();
+		}).then(jQuery.Deferred(function(){
+			var params;
+			// set commands
+			if(lqx.settings.ga.setParams && typeof lqx.settings.ga.setParams == 'object') {
+				params = lqx.settings.ga.setParams;
+				Object.keys(params).forEach(function(tracker){
+					var cmd = 'set';
+					if(tracker != 'default') cmd = tracker + '.set';
+					Object.keys(params[tracker]).forEach(function(fieldName){
+						ga(cmd, fieldName, params[tracker][fieldName]);
+					});
+				});
+			}
+			// require commands
+			if(lqx.settings.ga.requireParams && typeof lqx.settings.ga.requireParams == 'object') {
+				params = lqx.settings.ga.requireParams;
+				Object.keys(params).forEach(function(tracker){
+					var cmd = 'require';
+					if(tracker != 'default') cmd = tracker + '.require';
+					params[tracker].forEach(function(elem){
+						ga(cmd, elem.pluginName, elem.pluginOptions);
+					});
+				});
+			}
+			// provide commands
+			if(lqx.settings.ga.provideParams && typeof lqx.settings.ga.provideParams == 'object') {
+				params = lqx.settings.ga.provideParams;
+				Object.keys(params).forEach(function(tracker){
+					var cmd = 'provide';
+					if(tracker != 'default') cmd = tracker + '.provide';
+					params[tracker].forEach(function(elem){
+						ga(cmd, elem.pluginName, elem.pluginConstructor);
+					});
+				});
+			}
+			// a/b testing settings
+			if(lqx.settings.ga.abTestName !== null && lqx.settings.ga.abTestNameDimension !== null && lqx.settings.ga.abTestGroupDimension !== null) {
+				// get a/b test group cookie
+				var abTestGroup = lqx.cookie('abTestGroup');
+				if(abTestGroup === null) {
+					// set a/b test group
+					if(Math.random() < 0.5) abTestGroup = 'A';
+					else abTestGroup = 'B';
+					lqx.cookie('abTestGroup', abTestGroup, {maxAge: 30*24*60*60, path: '/'});
+				}
+				// set body attribute that can be used by css and js
+				jQuery('body').attr('data-abtest', abTestGroup);
+				// set the GA dimensions
+				ga('set', 'dimension' + lqx.settings.ga.abTestNameDimension, lqx.settings.ga.abTestName);
+				ga('set', 'dimension' + lqx.settings.ga.abTestGroupDimension, abTestGroup);
+			}
+		})).then(jQuery.Deferred(function(){
+			if(typeof lqx.settings.ga.customParamsFuncs == 'function') {
+				try {
+					lqx.settings.ga.customParamsFuncs();
+				}
+				catch(e) {
+					console.log(e);
+				}
+			}
+		})).then(jQuery.Deferred(function(){
+			// send pageview
+			lqx.gaSend('pageview');
+			// initialize analytics tracking
+			lqx.initTracking();
+		}));
+	},
+
+	gaSend: function(event) {
+		if(lqx.settings.usingGTM) {
+			ga.getAll()[0].send(event);
+		}
+		else {
+			ga('send', event);
+		}
 	},
 
 	// parses URL parameters into lqx.vars.urlParams
@@ -2276,6 +2320,8 @@ var lqx = lqx || {
 			lqx.bodyScreenOrientation();
 			// update URL parts attributes in body tag
 			lqx.bodyURLparts();
+			// start analytics
+			lqx.initAnalytics();
 			// geo locate
 			lqx.geoLocate();
 			// add image attributes for load error and load complete

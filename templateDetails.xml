@@ -195,6 +195,11 @@
 			</fieldset>
 			<fieldset name="accounts_tab" label="Accounts">
 				<field name="ga_account" type="text" default="" label="Google Analytics Account" description="Enter a Google Analytics property account number to load Google Analytics and send data to the account" />
+				<field name="using_gtm" type="radio" default="0" label="GA via GTM" description="Set to Yes if Google Analytics loaded via Google Tag Manager">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="gtm_account" type="text" default="" label="Google Tag Manager Account" description="Enter a Google Tag Manager account number to load GTM" />
 				<field name="google_site_verification" type="text" default="" label="google-site-verification" description="Enter your Google Webmaster Tools site verification number" />
 				<field name="msvalidate" type="text" default="" label="msvalidate.01" description="Enter your Bing/Yahoo site validation number" />
 				<field name="p_domain_verify" type="text" default="" label="p:domain_verify" description="" />
