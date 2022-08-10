@@ -9,12 +9,8 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
-/* jshint browser: true, devel: true, jquery: true, strict: true */
-/* globals lqx, ga, MobileDetect, YT, google */
-
-if(lqx && !('lyqbox' in lqx)) {
+ if(lqx && !('lyqbox' in lqx)) {
 	lqx.lyqbox = (function(){
-		'use strict';
 		/**
 		 * Lyquix lightbox functionality
 		 *
@@ -339,6 +335,7 @@ if(lqx && !('lyqbox' in lqx)) {
 					class: elem.attr('data-lyqbox-class'),
 					alias: elem.attr('data-lyqbox-alias'),
 					html: elem.attr('data-lyqbox-html'),
+					pdf: elem.attr('data-lyqbox-pdf'),
 					thumb: elem.attr('data-lyqbox-thumb'),
 					dismiss: elem.attr('data-lyqbox-alert-dismiss'),
 					expire: elem.attr('data-lyqbox-alert-expire')
@@ -429,6 +426,9 @@ if(lqx && !('lyqbox' in lqx)) {
 				case 'video':
 					updateContent('<iframe src="' + vars.album[index].link + '"></iframe>', index, vars.album[index].type);
 					break;
+				case 'pdf':
+					updateContent('<embed src="' + vars.album[index].link + '" />', index, vars.album[index].type);
+					break;
 
 				case 'html':
 				case 'alert':
@@ -497,7 +497,7 @@ if(lqx && !('lyqbox' in lqx)) {
 
 		var updateContent = function(content, index, type) {
 			// Add onload event to hide loader for image and videos
-			if(type == 'image' || type == 'video') {
+			if(type == 'image' || type == 'video' || type == 'pdf') {
 				content = jQuery(content);
 				content.on('load', function(){
 					// Hide loader
