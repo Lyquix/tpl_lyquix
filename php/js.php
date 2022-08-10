@@ -170,11 +170,12 @@ if($this -> params -> get('lqx_debug', 0)) {
 	$lqx_options['debug'] = true;
 }
 
-if($this -> params -> get('ga_account', '')) {
+if($this -> params -> get('ga_account', '') || $this -> params -> get('ga4_account', '')) {
 	$lqx_options['analytics'] = [
 		'createParams' => [
 			'default' => [
 				'trackingId' => $this -> params -> get('ga_account'),
+				'measurementId' => $this -> params -> get('ga4_account'),
 				'cookieDomain' => 'auto'
 			]
 		]
@@ -206,4 +207,9 @@ if($this -> params -> get('gtm_account', '')) : ?>
 	f.parentNode.insertBefore(j, f);
 })(window, document, 'script', 'dataLayer', '<?php echo $this -> params -> get('gtm_account'); ?>');
 </script>
+<?php endif;
+
+// Load GA4 head code
+if($this -> params -> get('ga4_account', '')) : ?>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $this -> params -> get('ga4_account'); ?>"></script>
 <?php endif;
