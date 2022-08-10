@@ -70,7 +70,7 @@ if(lqx && !('analytics' in lqx)) {
 			// Google Analytics opts
 			usingGTM: false,		// set to true if Google Analytics is loaded via GTM
 			sendPageview: true,		// set to false if you don't want to send the Pageview (e.g. when sent via GTM)
-			createParams: null,			// example: {default: {trackingId: 'UA-XXXXX-Y', cookieDomain: 'auto', fieldsObject: {}}}, where "default" is the tracker name
+			createParams: null,			// example: {default: {trackingId: 'UA-XXXXX-Y', measurementId: 'G-XXXXX', cookieDomain: 'auto', fieldsObject: {}}}, where "default" is the tracker name
 			setParams: null,			// example: {default: {dimension1: 'Age', metric1: 25}}
 			requireParams: null,		// example: {default: {pluginName: 'displayFeatures', pluginOptions: {cookieName: 'mycookiename'}}}
 			provideParams: null,		// example: {default: {pluginName: 'MyPlugin', pluginConstructor: myPluginFunc}}
@@ -110,7 +110,11 @@ if(lqx && !('analytics' in lqx)) {
 				if(opts.enabled) {
 					lqx.log('Initializing `analytics`');
 
-					// Load Google Analytics
+					// Load only Google Analytics 4
+					if(!opts.usingGTM && opts.createParams && opts.createParams.default && !opts.createParams.default.trackingId && opts.createParams.default.measurementId) {
+						ga4Code();
+					}
+					// Load Google Analytics and/or Google Analytics 4
 					if(!opts.usingGTM && opts.createParams && opts.createParams.default && opts.createParams.default.trackingId) {
 						gaCode();
 					}
@@ -138,6 +142,22 @@ if(lqx && !('analytics' in lqx)) {
 			else if(count < 600) setTimeout(function() {checkGA(count++);}, 100);
 		};
 
+		var ga4Code = function() {
+			lqx.log('Loading Google Analytics 4 code');
+			
+			// Google Analytics 4 code
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			var params = opts.createParams;
+			lqx.log('createParams', params);
+
+			gtag('config', params.default.measurementId);
+
+			initTracking();
+		};
+
 		var gaCode = function() {
 			lqx.log('Loading Google Analytics code');
 			(function (i, s, o, g, r, a, m) {
@@ -151,11 +171,21 @@ if(lqx && !('analytics' in lqx)) {
 				a.async = 1;
 				a.src = g;
 				m.parentNode.insertBefore(a, m);
-			})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+			})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga'); 
 
-			// Create commands
 			var params = opts.createParams;
 			lqx.log('createParams', params);
+
+			// Google Analytics 4 code
+			if (params.default.measurementId) {
+				window.dataLayer = window.dataLayer || [];
+				function gtag(){dataLayer.push(arguments);}
+				gtag('js', new Date());
+			  
+				gtag('config', params.default.measurementId);
+			}
+
+			// Create commands
 			ga('create', params.default.trackingId, params.default.cookieDomain, params.default.fieldsObject);
 			Object.keys(params).forEach(function(tracker){
 				if(tracker != 'default') {
