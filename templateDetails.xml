@@ -176,6 +176,7 @@
 			</fieldset>
 			<fieldset name="accounts_tab" label="Accounts">
 				<field name="ga_account" type="text" default="" label="Google Analytics Account" description="Enter a Google Analytics property account number to load Google Analytics and send data to the account" />
+				<field name="ga4_account" type="text" default="" label="Google Analytics 4 Account" description="Enter a Google Analytics 4 Measurement ID (G-XXXXX...) to load Google Analytics 4 and send data to the account" />
 				<field name="ga_pageview" type="radio" default="1" label="Send Google Analytics Pageview" description="Set to no if you want to prevent sending Pageview. This is needed if you are sending the Pageview via other scripts">
 					<option value="0">No</option>
 					<option value="1">Yes</option>

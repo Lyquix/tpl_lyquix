@@ -170,11 +170,12 @@ if($this -> params -> get('lqx_debug', 0)) {
 	$lqx_options['debug'] = true;
 }
 
-if($this -> params -> get('ga_account', '')) {
+if($this -> params -> get('ga_account', '') || $this -> params -> get('ga4_account', '')) {
 	$lqx_options['analytics'] = [
 		'createParams' => [
 			'default' => [
 				'trackingId' => $this -> params -> get('ga_account'),
+				'measurementId' => $this -> params -> get('ga4_account'),
 				'cookieDomain' => 'auto'
 			]
 		]
