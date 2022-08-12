@@ -208,8 +208,3 @@ if($this -> params -> get('gtm_account', '')) : ?>
 })(window, document, 'script', 'dataLayer', '<?php echo $this -> params -> get('gtm_account'); ?>');
 </script>
 <?php endif;
-
-// Load GA4 head code
-if($this -> params -> get('ga4_account', '')) : ?>
-	<script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $this -> params -> get('ga4_account'); ?>"></script>
-<?php endif;
