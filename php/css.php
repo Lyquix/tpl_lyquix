@@ -181,7 +181,11 @@ if(!file_exists($tmpl_path . '/dist/' . $stylesheet_filename)) {
 		}
 		else {
 			$stylesheet_data .= "/* Remote stylesheet: " . $stylesheet['url'] . " */\n";
-			$tmp = file_get_contents($stylesheet['url']) . "\n";
+			$curl = curl_init();
+			curl_setopt($curl, CURLOPT_URL, $stylesheet['url']);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+			$tmp .= curl_exec($curl) . "\n";
+			curl_close($curl);
 			// Update URLs
 			preg_match_all($urlRegex, $tmp, $matches);
 			foreach($matches[1] as $rel) {

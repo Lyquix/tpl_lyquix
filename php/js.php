@@ -148,7 +148,11 @@ if(!file_exists($tmpl_path . '/dist/' . $scripts_filename)) {
 		}
 		else {
 			$scripts_data .= "/* Remote script: " . $script['url'] . " */\n";
-			$scripts_data .= file_get_contents($script['url']) . "\n";
+			$curl = curl_init();
+			curl_setopt($curl, CURLOPT_URL, $script['url']);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+			$scripts_data .= curl_exec($curl) . "\n";
+			curl_close($curl);
 		}
 	}
 	// Save file
