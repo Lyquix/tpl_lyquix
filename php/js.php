@@ -151,6 +151,7 @@ if(!file_exists($tmpl_path . '/dist/' . $scripts_filename)) {
 			$curl = curl_init();
 			curl_setopt($curl, CURLOPT_URL, $script['url']);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 			$scripts_data .= curl_exec($curl) . "\n";
 			curl_close($curl);
 		}

@@ -184,6 +184,7 @@ if(!file_exists($tmpl_path . '/dist/' . $stylesheet_filename)) {
 			$curl = curl_init();
 			curl_setopt($curl, CURLOPT_URL, $stylesheet['url']);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 			$tmp .= curl_exec($curl) . "\n";
 			curl_close($curl);
 			// Update URLs
