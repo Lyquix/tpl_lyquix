@@ -10,6 +10,9 @@
  * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 header('Content-Type: application/json');
 
 if(!file_exists('config.php')) {
@@ -17,28 +20,35 @@ if(!file_exists('config.php')) {
 	exit;
 }
 
+include('config.php');
+
 $db = 'GeoLite2-City.mmdb'; // download updated database from http://dev.maxmind.com/geoip/geoip2/geolite2/
 $db_file_exists = file_exists($db);
 // If database doesn't exist, attempt to download and extract it
 if(!$db_file_exists || ($db_file_exists && (time() - filemtime($db) > $config['max_db_age'] * 86400))) {
-	file_put_contents('GeoLite2-City.tar.gz', fopen('https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=' . $config['maxmind_license_key'] . '&suffix=tar.gz', 'r'));
-	// Decompress gz
-	$p = new PharData('GeoLite2-City.tar.gz');
-	$p -> decompress();
-	unlink('GeoLite2-City.tar.gz');
+	try {
+		file_put_contents('GeoLite2-City.tar.gz', fopen('https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=' . $config['maxmind_license_key'] . '&suffix=tar.gz', 'r'));
+		// Decompress gz
+		$p = new PharData('GeoLite2-City.tar.gz');
+		$p -> decompress();
+		unlink('GeoLite2-City.tar.gz');
 
-	// Unarchive tar
-	$p = new PharData('GeoLite2-City.tar');
-	$p -> extractTo(__DIR__);
-	unlink('GeoLite2-City.tar');
+		// Unarchive tar
+		$p = new PharData('GeoLite2-City.tar');
+		$p -> extractTo(__DIR__);
+		unlink('GeoLite2-City.tar');
 
-	// Move file, and delete directory
-	$dir = glob('GeoLite2-City_*', GLOB_ONLYDIR)[0];
-	rename($dir . '/' . $db, $db);
-	foreach(glob($dir . '/*') as $file) {
-		unlink($file);
+		// Move file, and delete directory
+		$dir = glob('GeoLite2-City_*', GLOB_ONLYDIR)[0];
+		rename($dir . '/' . $db, $db);
+		foreach(glob($dir . '/*') as $file) {
+			unlink($file);
+		}
+		rmdir($dir);
 	}
-	rmdir($dir);
+	catch (Exception $e) {
+		echo json_encode(['error' => $e -> getMessage()]);
+	}
 }
 
 if(!file_exists($db)) {
