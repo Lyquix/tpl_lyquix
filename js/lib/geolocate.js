@@ -69,6 +69,11 @@ if(lqx && !('geolocate' in lqx)) {
 						// Add a mutation handler for accordions added to the DOM
 						lqx.mutation.addHandler('addNode', opts.regionDisplaySelectors, regionDisplay);
 					});
+
+					// Trigger functions on regionready
+					lqx.vars.window.on('regionready', function() {
+						lqx.mutation.addHandler('addNode', opts.regionDisplaySelectors, regionDisplay);
+					});
 				}
 			});
 
@@ -175,7 +180,7 @@ if(lqx && !('geolocate' in lqx)) {
 
 		// Save results to body attributes and trigger geolocateready event
 		var bodyGeoData = function() {
-			if(vars.status.ip == 'done' && vars.status.gps == 'done') {
+			if(vars.status.ip == 'done' || vars.status.gps == 'done') {
 				// Add location attributes to body tag
 				for(var key in vars.location) {
 					if(key == 'time_zone') {
@@ -393,9 +398,11 @@ if(lqx && !('geolocate' in lqx)) {
 						else if(elemClass.indexOf('region-display-') == 0) elemOpts.display = elemClass.replace('region-display-','');
 						else if(elemClass.indexOf('region-name-') == 0) elemOpts.regions.push(elemClass.replace('region-name-',''));
 					});
-					elemOpts.regions.forEach(function(region){
-						if(vars.regions.indexOf(region) != -1) elemRegionMatch = true;
-					});
+					if(vars.regions.length > 0) {
+						elemOpts.regions.forEach(function(region){
+							if(vars.regions.indexOf(region) != -1) elemRegionMatch = true;
+						});
+					}
 
 					// Show/hide element
 					if(!('action' in elemOpts)) elemOpts.action = 'show';
