@@ -651,7 +651,11 @@
 		};
 
 		return {
-			init: init
+			init: init,
+			start: start,
+			prev: prev,
+			next: next,
+			end: end
 		};
 	})();
 	lqx.lyqbox.init();
