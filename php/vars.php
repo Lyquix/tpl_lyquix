@@ -18,6 +18,9 @@ $tmpl_url = $site_rel_url . '/templates/' . $this -> template;
 $tmpl_path = JPATH_BASE . '/templates/' . $this -> template;
 $cdnjs_url = 'https://cdnjs.cloudflare.com/ajax/libs/';
 
+// Fix base url
+$doc->setBase(htmlspecialchars($site_abs_url));
+
 // Check if we are on the home page
 $home = false;
 $menu = $app -> getMenu();
