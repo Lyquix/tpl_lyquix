@@ -2,7 +2,7 @@
 /**
  * body-pre.inc.php - Includes before the <body> tag
  *
- * @version     1.0.11
+ * @version     1.0.12
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2017 Lyquix

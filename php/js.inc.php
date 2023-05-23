@@ -2,7 +2,7 @@
 /**
  * js.inc.php - Includes JavaScript libraries
  *
- * @version     1.0.11
+ * @version     1.0.12
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2017 Lyquix

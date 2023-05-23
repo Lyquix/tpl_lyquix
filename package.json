@@ -1,6 +1,6 @@
 {
   "name": "lyquix",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Lyquix package configuration file",
   "main": "index.js",
   "scripts": {
