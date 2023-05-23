@@ -38,12 +38,32 @@ foreach($add_js_libraries as $jsurl) {
 <script src="<?php echo $tmpl_url; ?>/js/lyquix<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/lyquix' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
 <?php if(file_exists($tmpl_path . '/js/scripts.js')): ?>
 <script src="<?php echo $tmpl_url; ?>/js/scripts<?php echo $this->params->get('non_min_js') ? '' : '.min'; ?>.js?v=<?php echo date("YmdHis", filemtime($tmpl_path . '/js/scripts' . ($this->params->get('non_min_js') ? '' : '.min') . '.js')); ?>"></script>
-<?php endif; ?>
-<script>lqx.setOptions({
-	bodyScreenSize: {min: <?php echo $this->params->get('min_screen', 0); ?>, max: <?php echo $this->params->get('max_screen', 4); ?>}<?php if($this->params->get('ga_account')) : ?>,
-	ga: {createParams: {default: {trackingId: '<?php echo $this->params->get('ga_account'); ?>', cookieDomain: 'auto', fieldsObject: {}}}},
-	usingGTM: <?php echo $this->params->get('using_gtm') ? 'true' : 'false'; ?><?php endif; ?>
-});</script>
-<?php if($this->params->get('lqx_options', '{}') != '{}') : ?>
-<script>lqx.setOptions(<?php echo $this->params->get('lqx_options', '{}'); ?>);</script>
-<?php endif; ?>
+<?php endif;
+
+// Set lqx options
+$lqx_options = [
+	'bodyScreenSize' => [
+		'min' => $this -> params -> get('min_screen', 0),
+		'max' => $this -> params -> get('max_screen', 4)
+	]
+];
+
+if($this -> params -> get('ga_account', '') || $this -> params -> get('ga4_account', '')) {
+	$lqx_options['ga'] = [
+		'createParams' => [
+			'default' => [
+				'trackingId' => $this -> params -> get('ga_account'),
+				'measurementId' => $this -> params -> get('ga4_account'),
+				'cookieDomain' => 'auto'
+			]
+		]
+	];
+}
+
+if($this -> params -> get('ga_via_gtm', 0)) $lqx_options['usingGTM'] = true;
+
+// Merge with options from template settings
+$lqx_options = array_replace_recursive($lqx_options, json_decode($this -> params -> get('lqx_options', '{}'), true));
+
+?>
+<script>lqx.setOptions(<?php echo json_encode($lqx_options); ?>);</script>

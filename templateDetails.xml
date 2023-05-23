@@ -195,6 +195,7 @@
 			</fieldset>
 			<fieldset name="accounts_tab" label="Accounts">
 				<field name="ga_account" type="text" default="" label="Google Analytics Account" description="Enter a Google Analytics property account number to load Google Analytics and send data to the account" />
+				<field name="ga4_account" type="text" default="" label="Google Analytics 4 Account" description="Enter a Google Analytics 4 Measurement ID (G-XXXXX...) to load Google Analytics 4 and send data to the account" />
 				<field name="using_gtm" type="radio" default="0" label="GA via GTM" description="Set to Yes if Google Analytics loaded via Google Tag Manager">
 					<option value="0">No</option>
 					<option value="1">Yes</option>

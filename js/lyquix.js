@@ -89,7 +89,7 @@ var lqx = lqx || {
 			maxTime: 1800000 // max time when tracking stops (ms)
 		},
 		ga: {
-			createParams: null,			// example: {default: {trackingId: 'UA-XXXXX-Y', cookieDomain: 'auto', fieldsObject: {}}}, where "default" is the tracker name
+			createParams: null,			// example: {default: {trackingId: 'UA-XXXXX-Y', measurementId: 'G-XXXXXXXX' cookieDomain: 'auto', fieldsObject: {}}}, where "default" is the tracker name
 			setParams: null,			// example: {default: {dimension1: 'Age', metric1: 25}}
 			requireParams: null,		// example: {default: {pluginName: 'displayFeatures', pluginOptions: {cookieName: 'mycookiename'}}}
 			provideParams: null,		// example: {default: {pluginName: 'MyPlugin', pluginConstructor: myPluginFunc}}
@@ -955,6 +955,10 @@ var lqx = lqx || {
 	},
 
 	initAnalytics: function() {
+		// Load Google Analytics 4
+		if(!lqx.settings.usingGTM && lqx.settings.ga.createParams && lqx.settings.ga.createParams.default && lqx.settings.ga.createParams.default.measurementId) {
+			lqx.ga4Code();
+		}
 		// Load Google Analytics
 		if(!lqx.settings.usingGTM && lqx.settings.ga.createParams && lqx.settings.ga.createParams.default && lqx.settings.ga.createParams.default.trackingId) {
 			lqx.gaCode();
@@ -2075,6 +2079,27 @@ var lqx = lqx || {
 		lqx.vars.userActive.activeTime += (new Date()).getTime() - lqx.vars.userActive.lastChangeTime;
 		// update last change time
 		lqx.vars.userActive.lastChangeTime = (new Date()).getTime();
+	},
+
+	ga4Code: function() {
+		var params = lqx.settings.ga.createParams;
+
+		// DOM Manipulation to add GA4 code to head
+		var ga4Script = document.createElement('script');
+		var firstScript = document.getElementsByTagName('script')[0];
+		var headElement = document.getElementsByTagName('head')[0];
+		ga4Script.async = 1;
+		ga4Script.src = 'https://www.googletagmanager.com/gtag/js?id=' + params.default.measurementId;
+		headElement.insertBefore(ga4Script, firstScript);
+
+		// Google Analytics 4 code
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', params.default.measurementId);
+
+		lqx.initTracking();
 	},
 
 	gaCode: function() {
