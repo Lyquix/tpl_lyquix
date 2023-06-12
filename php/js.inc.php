@@ -60,7 +60,7 @@ if($this -> params -> get('ga_account', '') || $this -> params -> get('ga4_accou
 	];
 }
 
-if($this -> params -> get('ga_via_gtm', 0)) $lqx_options['usingGTM'] = true;
+if($this -> params -> get('using_gtm', 0)) $lqx_options['usingGTM'] = true;
 
 // Merge with options from template settings
 $lqx_options = array_replace_recursive($lqx_options, json_decode($this -> params -> get('lqx_options', '{}'), true));
