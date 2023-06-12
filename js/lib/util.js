@@ -1,20 +1,16 @@
 /**
  * util.js - Utility functions
  *
- * @version     2.3.3
- * @package     tpl_lyquix
+ * @version     2.4.0
+ * @package     wp_theme_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
  * @license     GNU General Public License version 2 or later
- * @link        https://github.com/Lyquix/tpl_lyquix
+ * @link        https://github.com/Lyquix/wp_theme_lyquix
  */
-
-/* jshint browser: true, devel: true, jquery: true, strict: true */
-/* globals lqx, ga, MobileDetect, YT, google */
 
 if(lqx && !('util' in lqx)) {
 	lqx.util = (function(){
-		'use strict';
 		var opts = {};
 
 		var vars = {};
@@ -77,96 +73,40 @@ if(lqx && !('util' in lqx)) {
 			return true;
 		};
 
-		// Simple hash function
+		// A simple hashing function based on FNV-1a (Fowler-Noll-Vo) algorithm
 		var hash = function(str) {
-			for(var i = 0, h = 4641154056; i < str.length; i++) h = Math.imul(h + str.charCodeAt(i) | 0, 2654435761);
-			h = (h ^ h >>> 17) >>> 0;
-			return h.toString(36);
-		};
+			const FNV_PRIME = 0x01000193;
+			let hashLow = 0x811c9dc5;
+			let hashHigh = 0;
 
-		// Super simple XOR encrypt function
-		// Not secure!
-		// Based on https://gist.github.com/sukima/5613286
-		var encrypt = function(key, plaintext) {
-			var cyphertext = [];
-			// Convert to hex to properly handle UTF8
-			plaintext = Array.from(plaintext).map(function(c) {
-				if(c.charCodeAt(0) < 128) return c.charCodeAt(0).toString(16).padStart(2, '0');
-				else return encodeURIComponent(c).replace(/\%/g,'').toLowerCase();
-			}).join('');
-			// Convert each hex to decimal
-			plaintext = plaintext.match(/.{1,2}/g).map(function(x) {parseInt(x, 16);});
-			// Perform xor operation
-			for (var i = 0; i < plaintext.length; i++) {
-				cyphertext.push(plaintext[i] ^ key.charCodeAt(Math.floor(i % key.length)));
+			for (let i = 0; i < str.length; i++) {
+				hashLow ^= str.charCodeAt(i);
+				hashLow *= FNV_PRIME;
+				hashHigh ^= hashLow;
+				hashHigh *= FNV_PRIME;
 			}
-			// Convert to hex
-			cyphertext = cyphertext.map(function(x) {
-				return x.toString(16).padStart(2, '0');
-			});
-			return cyphertext.join('');
-		};
 
-		// Super simple XOR decrypt function
-		// Not secure!
-		// Based on https://gist.github.com/sukima/5613286
-		var decrypt = function(key, cyphertext) {
-			try {
-				cyphertext = cyphertext.match(/.{1,2}/g).map(function(x) {parseInt(x, 16);});
-				var plaintext = [];
-				for (var i = 0; i < cyphertext.length; i++) {
-					plaintext.push((cyphertext[i] ^ key.charCodeAt(Math.floor(i % key.length))).toString(16).padStart(2, '0'));
-				}
-				return decodeURIComponent('%' + plaintext.join('').match(/.{1,2}/g).join('%'));
-			}
-			catch(e) {
-				return false;
-			}
-		};
-
-		// Generates an encryption key fromm a password
-		// Not secure!
-		var passwordDerivedKey = function(password, salt, iterations, len) {
-			if(!password) password = randomStr();
-			if(!salt) salt = '80ymb4oZ';
-			if(!iterations) iterations = 16;
-			if(!len) len = 256;
-			len = Math.ceil(len / 8);
-			var key = '';
-
-			while(key.length < len) {
-				var i = 0;
-				var intSalt = salt;
-				var intKey = '';
-				while(i < iterations) {
-					intKey = hash(password + intSalt);
-					var newSalt = '';
-					for(var j = 0; j < intSalt.length; j++) {
-						newSalt += (intSalt.charCodeAt(j) ^ intKey.charCodeAt(Math.floor(j % intKey.length))).toString(36);
-					}
-					intSalt = newSalt;
-					i++;
-				}
-				key = intKey + key;
-			}
-			return key.substring(0, len);
+			return (hashHigh >>> 0).toString(36) + (hashLow >>> 0).toString(36);
 		};
 
 		// Generates a random string of the specificed length
 		var randomStr = function(len) {
-			var str = parseInt(Math.random()*10e16).toString(36);
-			if(typeof len == 'undefined') return str;
-			else {
-				while(str.length < len) str += parseInt(Math.random()*10e16).toString(36);
+			var str = parseInt((Math.random() * 10e16).toString()).toString(36);
+			if (typeof len == 'number') {
+				while (str.length < len) str += parseInt((Math.random() * 10e16).toString()).toString(36);
 				return str.substring(0, len);
 			}
+			return str;
+		};
+
+		// Creates a string using current time - milliseconds
+		let timeStr = () => {
+			return (new Date()).getTime().toString(36);
 		};
 
 		// Creates a pseudo-unique string using current time and random number
-		var uniqueStr = function() {
-			var d = new Date();
-			var dd = new Date(d.getFullYear() - 3,0,1);
-			return ((d.getTime() - dd.getTime()) * 1000 + d.getMilliseconds()).toString(36) + randomStr(3);
+		var uniqueStr = function(len) {
+			return timeStr() + randomStr(len);
 		};
 
 		// add unique value to the query string of form's action URL, to avoid caching problem
@@ -253,178 +193,6 @@ if(lqx && !('util' in lqx)) {
 			});
 		};
 
-		// Porting of sprintf function
-		// Returns a formatted string using provided format and data
-		// From https://github.com/kvz/locutus/blob/master/src/php/strings/sprintf.js
-		// Docs http://php.net/manual/en/function.sprintf.php
-		var sprintf = function() {
-			var regex = /%%|%(?:(\d+)\$)?((?:[-+#0 ]|'[\s\S])*)(\d+)?(?:\.(\d*))?([\s\S])/g;
-			var args = arguments;
-			var i = 0;
-			var format = args[i++];
-
-			var _pad = function (str, len, chr, leftJustify) {
-				if (!chr) {
-					chr = ' ';
-				}
-				var padding = (str.length >= len) ? '' : new Array(1 + len - str.length >>> 0).join(chr);
-				return leftJustify ? str + padding : padding + str;
-			};
-
-			var justify = function (value, prefix, leftJustify, minWidth, padChar) {
-				var diff = minWidth - value.length;
-				if (diff > 0) {
-					// when padding with zeros
-					// on the left side
-					// keep sign (+ or -) in front
-					if (!leftJustify && padChar === '0') {
-						value = [
-							value.slice(0, prefix.length),
-							_pad('', diff, '0', true),
-							value.slice(prefix.length)
-						].join('');
-					}
-					else {
-						value = _pad(value, minWidth, padChar, leftJustify);
-					}
-				}
-				return value;
-			};
-
-			var _formatBaseX = function (value, base, leftJustify, minWidth, precision, padChar) {
-				// Note: casts negative numbers to positive ones
-				var number = value >>> 0;
-				value = _pad(number.toString(base), precision || 0, '0', false);
-				return justify(value, '', leftJustify, minWidth, padChar);
-			};
-
-			// _formatString()
-			var _formatString = function (value, leftJustify, minWidth, precision, customPadChar) {
-				if (precision !== null && precision !== undefined) {
-					value = value.slice(0, precision);
-				}
-				return justify(value, '', leftJustify, minWidth, customPadChar);
-			};
-
-			// doFormat()
-			var doFormat = function (substring, argIndex, modifiers, minWidth, precision, specifier) {
-				var number, prefix, method, textTransform, value;
-
-				if (substring === '%%') {
-					return '%';
-				}
-
-				// parse modifiers
-				var padChar = ' '; // pad with spaces by default
-				var leftJustify = false;
-				var positiveNumberPrefix = '';
-				var j, l;
-
-				for (j = 0, l = modifiers.length; j < l; j++) {
-					switch (modifiers.charAt(j)) {
-						case ' ':
-						case '0':
-							padChar = modifiers.charAt(j);
-							break;
-						case '+':
-							positiveNumberPrefix = '+';
-							break;
-						case '-':
-							leftJustify = true;
-							break;
-						case "'":
-							if (j + 1 < l) {
-								padChar = modifiers.charAt(j + 1);
-								j++;
-							}
-							break;
-					}
-				}
-
-				if (!minWidth) {
-					minWidth = 0;
-				}
-				else {
-					minWidth = +minWidth;
-				}
-
-				if (!isFinite(minWidth)) {
-					throw new Error('Width must be finite');
-				}
-
-				if (!precision) {
-					precision = (specifier === 'd') ? 0 : 'fFeE'.indexOf(specifier) > -1 ? 6 : undefined;
-				}
-				else {
-					precision = +precision;
-				}
-
-				if (argIndex && +argIndex === 0) {
-					throw new Error('Argument number must be greater than zero');
-				}
-
-				if (argIndex && +argIndex >= args.length) {
-					throw new Error('Too few arguments');
-				}
-
-				value = argIndex ? args[+argIndex] : args[i++];
-
-				switch (specifier) {
-					case '%':
-						return '%';
-					case 's':
-						return _formatString(value + '', leftJustify, minWidth, precision, padChar);
-					case 'c':
-						return _formatString(String.fromCharCode(+value), leftJustify, minWidth, precision, padChar);
-					case 'b':
-						return _formatBaseX(value, 2, leftJustify, minWidth, precision, padChar);
-					case 'o':
-						return _formatBaseX(value, 8, leftJustify, minWidth, precision, padChar);
-					case 'x':
-						return _formatBaseX(value, 16, leftJustify, minWidth, precision, padChar);
-					case 'X':
-						return _formatBaseX(value, 16, leftJustify, minWidth, precision, padChar).toUpperCase();
-					case 'u':
-						return _formatBaseX(value, 10, leftJustify, minWidth, precision, padChar);
-					case 'i':
-					case 'd':
-						number = +value || 0;
-						// Plain Math.round doesn't just truncate
-						number = Math.round(number - number % 1);
-						prefix = number < 0 ? '-' : positiveNumberPrefix;
-						value = prefix + _pad(String(Math.abs(number)), precision, '0', false);
-
-						if (leftJustify && padChar === '0') {
-							// can't right-pad 0s on integers
-							padChar = ' ';
-						}
-						return justify(value, prefix, leftJustify, minWidth, padChar);
-					case 'e':
-					case 'E':
-					case 'f': // @todo: Should handle locales (as per setlocale)
-					case 'F':
-					case 'g':
-					case 'G':
-						number = +value;
-						prefix = number < 0 ? '-' : positiveNumberPrefix;
-						method = ['toExponential', 'toFixed', 'toPrecision']['efg'.indexOf(specifier.toLowerCase())];
-						textTransform = ['toString', 'toUpperCase']['eEfFgG'.indexOf(specifier) % 2];
-						value = prefix + Math.abs(number)[method](precision);
-						return justify(value, prefix, leftJustify, minWidth, padChar)[textTransform]();
-					default:
-						// unknown specifier, consume that char and return empty
-						return '';
-				}
-			};
-
-			try {
-				return format.replace(regex, doFormat);
-			}
-			catch (err) {
-				return false;
-			}
-		};
-
 		// Compares version strings
 		// Returns:
 		// 0: equal
@@ -458,15 +226,11 @@ if(lqx && !('util' in lqx)) {
 		return {
 			init: init,
 			cookie: cookie,
-			encrypt: encrypt,
-			decrypt: decrypt,
 			hash: hash,
-			passwordDerivedKey: passwordDerivedKey,
 			randomStr: randomStr,
 			uniqueStr: uniqueStr,
 			uniqueUrl: uniqueUrl,
 			swipe: swipe,
-			sprintf: sprintf,
 			versionCompare: versionCompare
 		};
 	})();

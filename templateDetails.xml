@@ -181,6 +181,10 @@
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
+				<field name="ga_use_analytics_js" type="radio" default="1" label="Use analytics.js for Universal Analytics" description="Set to no if you want to use gtag functionality for Universal Analytics">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
 				<field name="ga_via_gtm" type="radio" default="0" label="Google Analytics via GTM" description="Set to yes if your are loading Google Analytics via Google Tag Manager">
 					<option value="0">No</option>
 					<option value="1">Yes</option>

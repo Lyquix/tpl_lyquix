@@ -1,20 +1,16 @@
 /**
  * tabs.js - Functionality to handle tabs
  *
- * @version     2.3.3
- * @package     tpl_lyquix
+ * @version     2.4.0
+ * @package     wp_theme_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
  * @license     GNU General Public License version 2 or later
- * @link        https://github.com/Lyquix/tpl_lyquix
+ * @link        https://github.com/Lyquix/wp_theme_lyquix
  */
-
-/* jshint browser: true, devel: true, jquery: true, strict: true */
-/* globals lqx, ga, MobileDetect, YT, google */
 
 if(lqx && !('tabs' in lqx)) {
 	lqx.tabs = (function(){
-		'use strict';
 		/** Looks for elements with the class .tab and .tab-panel, wrapped in a .tab-group element
 		 *
 		 * In .tab elements looks for the attribute data-tab, and in .panels looks for a matching data-tab attribute

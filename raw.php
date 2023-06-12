@@ -2,7 +2,7 @@
 /**
  * raw.php - Outputs only the component. Can be used for non-HTML outputs such as JSON, or binary files.
  *
- * @version     2.3.3
+ * @version     2.4.0
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix

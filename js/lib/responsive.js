@@ -1,12 +1,12 @@
 /**
  * responsive.js - Enable responsiveness
  *
- * @version     2.3.3
- * @package     tpl_lyquix
+ * @version     2.4.0
+ * @package     wp_theme_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
  * @license     GNU General Public License version 2 or later
- * @link        https://github.com/Lyquix/tpl_lyquix
+ * @link        https://github.com/Lyquix/wp_theme_lyquix
  */
 
 /* jshint browser: true, devel: true, jquery: true, strict: true */

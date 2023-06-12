@@ -1,6 +1,6 @@
 # Lyquix Joomla Template 2.x
 
-`@version     2.3.3`
+`@version     2.4.0`
 
 ## What is this?
 

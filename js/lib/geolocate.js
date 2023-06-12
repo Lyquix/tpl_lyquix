@@ -1,20 +1,16 @@
 /**
  * geolocate.js - geolocate functionality
  *
- * @version     2.3.3
- * @package     tpl_lyquix
+ * @version     2.4.0
+ * @package     wp_theme_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
  * @license     GNU General Public License version 2 or later
- * @link        https://github.com/Lyquix/tpl_lyquix
+ * @link        https://github.com/Lyquix/wp_theme_lyquix
  */
-
-/* jshint browser: true, devel: true, jquery: true, strict: true */
-/* globals lqx, ga, MobileDetect, YT, google */
 
 if(lqx && !('geolocate' in lqx)) {
 	lqx.geolocate = (function(){
-		'use strict';
 		var opts = {
 			gps: false,
 			useCookies: false,
@@ -67,11 +63,6 @@ if(lqx && !('geolocate' in lqx)) {
 					// Trigger functions on document ready
 					lqx.vars.document.ready(function() {
 						// Add a mutation handler for accordions added to the DOM
-						lqx.mutation.addHandler('addNode', opts.regionDisplaySelectors, regionDisplay);
-					});
-
-					// Trigger functions on regionready
-					lqx.vars.window.on('regionready', function() {
 						lqx.mutation.addHandler('addNode', opts.regionDisplaySelectors, regionDisplay);
 					});
 				}
@@ -180,7 +171,7 @@ if(lqx && !('geolocate' in lqx)) {
 
 		// Save results to body attributes and trigger geolocateready event
 		var bodyGeoData = function() {
-			if(vars.status.ip == 'done' || vars.status.gps == 'done') {
+			if(vars.status.ip == 'done' && vars.status.gps == 'done') {
 				// Add location attributes to body tag
 				for(var key in vars.location) {
 					if(key == 'time_zone') {
@@ -304,7 +295,9 @@ if(lqx && !('geolocate' in lqx)) {
 
 				// Check polygons
 				if('polygons' in regions[region]) {
-					if(inPolygon(here, regions[region].polygons)) vars.regions[region] = true;
+					regions[region].polygons.forEach(function(x){
+						if(inPolygon(here, x)) vars.regions[region] = true;
+					});
 				}
 
 				// Remove if not matching
@@ -398,11 +391,9 @@ if(lqx && !('geolocate' in lqx)) {
 						else if(elemClass.indexOf('region-display-') == 0) elemOpts.display = elemClass.replace('region-display-','');
 						else if(elemClass.indexOf('region-name-') == 0) elemOpts.regions.push(elemClass.replace('region-name-',''));
 					});
-					if(vars.regions.length > 0) {
-						elemOpts.regions.forEach(function(region){
-							if(vars.regions.indexOf(region) != -1) elemRegionMatch = true;
-						});
-					}
+					elemOpts.regions.forEach(function(region){
+						if(vars.regions.indexOf(region) != -1) elemRegionMatch = true;
+					});
 
 					// Show/hide element
 					if(!('action' in elemOpts)) elemOpts.action = 'show';

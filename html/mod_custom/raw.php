@@ -2,7 +2,7 @@
 /**
  * raw.php - Raw layout for custom HTML module
  *
- * @version     2.3.3
+ * @version     2.4.0
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix

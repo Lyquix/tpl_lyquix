@@ -1,15 +1,15 @@
 /**
  * lyqbox.js - LyqBox - Lyquix lightbox functionality
  *
- * @version     2.3.3
- * @package     tpl_lyquix
+ * @version     2.4.0
+ * @package     wp_theme_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
  * @license     GNU General Public License version 2 or later
- * @link        https://github.com/Lyquix/tpl_lyquix
+ * @link        https://github.com/Lyquix/wp_theme_lyquix
  */
 
- if(lqx && !('lyqbox' in lqx)) {
+if(lqx && !('lyqbox' in lqx)) {
 	lqx.lyqbox = (function(){
 		/**
 		 * Lyquix lightbox functionality
@@ -335,7 +335,6 @@
 					class: elem.attr('data-lyqbox-class'),
 					alias: elem.attr('data-lyqbox-alias'),
 					html: elem.attr('data-lyqbox-html'),
-					pdf: elem.attr('data-lyqbox-pdf'),
 					thumb: elem.attr('data-lyqbox-thumb'),
 					dismiss: elem.attr('data-lyqbox-alert-dismiss'),
 					expire: elem.attr('data-lyqbox-alert-expire')
@@ -426,9 +425,6 @@
 				case 'video':
 					updateContent('<iframe src="' + vars.album[index].link + '"></iframe>', index, vars.album[index].type);
 					break;
-				case 'pdf':
-					updateContent('<embed src="' + vars.album[index].link + '" />', index, vars.album[index].type);
-					break;
 
 				case 'html':
 				case 'alert':
@@ -497,7 +493,7 @@
 
 		var updateContent = function(content, index, type) {
 			// Add onload event to hide loader for image and videos
-			if(type == 'image' || type == 'video' || type == 'pdf') {
+			if(type == 'image' || type == 'video') {
 				content = jQuery(content);
 				content.on('load', function(){
 					// Hide loader
@@ -651,11 +647,7 @@
 		};
 
 		return {
-			init: init,
-			start: start,
-			prev: prev,
-			next: next,
-			end: end
+			init: init
 		};
 	})();
 	lqx.lyqbox.init();

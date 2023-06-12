@@ -1,16 +1,18 @@
 /**
  * core.js - Lyquix JavaScript library
  *
- * @version     2.3.3
- * @package     tpl_lyquix
+ * @version     2.4.0
+ * @package     wp_theme_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
  * @license     GNU General Public License version 2 or later
- * @link        https://github.com/Lyquix/tpl_lyquix
+ * @link        https://github.com/Lyquix/wp_theme_lyquix
  */
 
-/* jshint browser: true, devel: true, jquery: true, strict: true */
+/* jshint browser: true, devel: true, esversion: 6, jquery: true, strict: true */
 /* globals ga, MobileDetect, YT, google */
+
+"use strict";
 
 if(typeof lqx !== 'undefined') {
 	window.console.error('`lqx` already exist!');
@@ -20,13 +22,12 @@ else if(typeof jQuery == 'undefined') {
 }
 else {
 	var lqx = (function(){
-		'use strict';
 		// Default opts
 		var opts = {
 			debug: false,
 			siteURL: window.location.protocol + '//' + window.location.hostname + (window.location.port != '' ? ':' + window.location.port : ''),
 			tmplURL: (function(){
-				var a = document.createElement("a");
+				let a = document.createElement("a");
 				a.href = jQuery('script[src*="js/lyquix.js"], script[src*="js/lyquix.min.js"]').attr('src');
 				return a.href.slice(0, a.href.indexOf('js/lyquix.'));
 			})(),
@@ -213,7 +214,7 @@ else {
 			}
 		};
 
-		var version = '2.3.3';
+		var version = '2.4.0';
 
 		return {
 			opts: opts,
