@@ -50,17 +50,13 @@ $lqx_options = [
 
 if($this -> params -> get('ga_account', '') || $this -> params -> get('ga4_account', '')) {
 	$lqx_options['ga'] = [
-		'createParams' => [
-			'default' => [
-				'trackingId' => $this -> params -> get('ga_account'),
-				'measurementId' => $this -> params -> get('ga4_account'),
-				'cookieDomain' => 'auto'
-			]
-		]
+		'trackingId' => $this -> params -> get('ga_account'),
+		'measurementId' => $this -> params -> get('ga4_account'),
+		'sendPageview' => $this -> params -> get('ga_pageview', '1') ? true : false,
+		'useAnalyticsJS' => $this -> params -> get('ga_use_analytics_js', '1') ? true : false,
+		'usingGTM' => $this -> params -> get('ga_via_gtm', '0') ? true : false
 	];
 }
-
-if($this -> params -> get('using_gtm', 0)) $lqx_options['usingGTM'] = true;
 
 // Merge with options from template settings
 $lqx_options = array_replace_recursive($lqx_options, json_decode($this -> params -> get('lqx_options', '{}'), true));

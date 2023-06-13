@@ -89,11 +89,9 @@ var lqx = lqx || {
 			maxTime: 1800000 // max time when tracking stops (ms)
 		},
 		ga: {
-			createParams: null,			// example: {default: {trackingId: 'UA-XXXXX-Y', measurementId: 'G-XXXXXXXX' cookieDomain: 'auto', fieldsObject: {}}}, where "default" is the tracker name
-			setParams: null,			// example: {default: {dimension1: 'Age', metric1: 25}}
-			requireParams: null,		// example: {default: {pluginName: 'displayFeatures', pluginOptions: {cookieName: 'mycookiename'}}}
-			provideParams: null,		// example: {default: {pluginName: 'MyPlugin', pluginConstructor: myPluginFunc}}
-			customParamsFuncs: null,	// example: {default: myCustomFunc}
+			trackingId: null,		// Google Analytics tracking ID
+			useAnalyticsJS: true, 	// Use analytics.js instead of gtag for Universal Google Analytics (old GA)
+			measurementId: null, 		// Google Analytics 4 measurement ID
 			abTestName: null,			// Set a test name to activate A/B Testing Dimension
 			abTestNameDimension: null,		// Set the Google Analytics dimension number to use for test name
 			abTestGroupDimension: null,		// Set the Google Analytics dimension number to use for group
@@ -122,8 +120,9 @@ var lqx = lqx || {
 	vars: {
 		resizeThrottle: false,  // saves current status of resizeThrottle
 		scrollThrottle: false,  // saves current status of scrollThrottle
+		gaReady: false, 	// Track status of ga function
+		gtagReady: false,	// Track status of gtag function
 		youTubeIframeAPIReady: false,
-		youTubeIframeAPIReadyAttempts: 0,
 		urlParams: {},
 		errorHashes: []
 	},
@@ -956,15 +955,177 @@ var lqx = lqx || {
 
 	initAnalytics: function() {
 		// Load Google Analytics 4
-		if(!lqx.settings.usingGTM && lqx.settings.ga.createParams && lqx.settings.ga.createParams.default && lqx.settings.ga.createParams.default.measurementId) {
-			lqx.ga4Code();
+		if(!lqx.settings.usingGTM && lqx.settings.ga.measurementId) {
+			lqx.gtagCode(lqx.settings.ga.measurementId);
 		}
 		// Load Google Analytics
-		if(!lqx.settings.usingGTM && lqx.settings.ga.createParams && lqx.settings.ga.createParams.default && lqx.settings.ga.createParams.default.trackingId) {
-			lqx.gaCode();
+		if(!lqx.settings.usingGTM && lqx.settings.ga.trackingId) {
+			if(lqx.settings.ga.useAnalyticsJS) lqx.gaCode(lqx.settings.ga.trackingId);
+			else lqx.gtagCode(lqx.settings.ga.trackingId);
 		}
-		// Attempt to init custom Google Analytics tracking code when GA is loaded by other methods e.g. GTM
-		if(lqx.settings.usingGTM) lqx.checkGA();
+		// Wait for GA to be ready before starting tracking functions
+		lqx.checkGA();
+	},
+
+	checkGA: function(count) {
+		if(count == undefined) count = 0;
+		if('GoogleAnalyticsObject' in window && typeof window.ga == 'function') initTracking();
+		else if(count < 600) setTimeout(function() {checkGA(count++);}, 100);
+
+		if (!count) count = 0;
+
+		// Check for ga ready or not in use
+		if (!lqx.settings.ga.trackingId || !lqx.settings.ga.useAnalyticsJS) vars.gaReady = true;
+		if ('ga' in window && typeof window['ga'] == 'function') vars.gaReady = true;
+
+		// Check for gtag ready or not in use
+		if (!lqx.settings.ga.measurementId && lqx.settings.ga.useAnalyticsJS) vars.gtagReady = true;
+		if ('gtag' in window && typeof window['gtag'] == 'function') vars.gtagReady = true;
+
+		// All ready?
+		if (vars.gaReady && vars.gtagReady) initTracking();
+		else if (count < 600) setTimeout(() => {
+			checkGA(count++);
+		}, 100);
+	},
+
+	gtagCode: function(tagId) {
+		lqx.log('Loading Google Analytics code (gtag.js)');
+
+		// Create the script element
+		var ga4Script = document.createElement('script');
+		ga4Script.async = true;
+		ga4Script.src = 'https://www.googletagmanager.com/gtag/js?id=' + tagId;
+
+		// Append the first script element to the head
+		document.head.appendChild(ga4Script);
+
+		// Create the second script element
+		ga4Script = document.createElement('script');
+		ga4Script.innerHTML = `
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', '${tagId}'${lqx.settings.ga.sendPageview ? '' : ", {'send_page_view': false}"});
+		`;
+
+		// Append the second script element to the head
+		document.head.appendChild(ga4Script);
+	},
+
+	gaCode: function(tagId) {
+		lqx.log('Loading Google Analytics code (analytics.js)');
+
+		// Create the script element
+		var gaScript = document.createElement('script');
+		gaScript.innerHTML = `
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+			ga('create', '${tagId}', 'auto');
+			${lqx.settings.ga.sendPageview ? "ga('send', 'pageview');" : ''}
+		`;
+
+		// Append the second script element to the head
+		document.head.appendChild(gaScript);
+	},
+
+	// Sends google analytics pageview to ga and gtag as available
+	/**
+	 *
+	 * pageInfo = {
+	 *  url
+	 *  title
+	 *  callback
+	 * }
+	 */
+	sendGAPageview: function(pageInfo) {
+		// Send event with ga
+		if (settings.ga.trackingId && settings.ga.useAnalyticsJS && vars.gaReady) {
+			if (pageInfo.url && pageInfo.title) {
+				var url = new URL(pageInfo.url, window.location.href);
+
+				var pageParams = {
+					hitType: 'pageview',
+					location: url.href,
+					page: url.pathname + url.search,
+					title: pageInfo.title
+				};
+
+				if('callback' in pageInfo) pageParams['hitCallback'] = pageInfo.callback;
+
+				ga('send', pageParams);
+			}
+			else ga('send', 'pageview');
+		}
+
+		// Send event with gtag
+		if (((settings.ga.trackingId && !settings.ga.useAnalyticsJS) || settings.ga.measurementId) && vars.gtagReady) {
+			if (pageInfo.url && pageInfo.title) {
+				var url = new URL(pageInfo.url, window.location.href);
+
+				var pageParams = {
+					page_location: url.href,
+					page_path: url.pathname + url.search,
+					page_title: pageInfo.title
+				};
+
+				if('callback' in pageInfo) pageParams['event_callback'] = pageInfo.callback;
+
+				gtag('event', 'page_view', pageParams);
+			}
+			else gtag('event', 'page_view');
+		}
+	},
+
+	// Sends google analytics events to ga and gtag as available
+	/**
+	 * eventInfo = {
+	 * 	eventName - if none passed, eventAction will be used as eventName
+	 * 	eventAction
+	 * 	eventCategory
+	 * 	eventLabel
+	 * 	nonInteraction - boolean
+	 * 	hitCallback - function
+	 * }
+	 */
+	sendGAEvent: function(eventInfo) {
+		var ga4PropMap = {
+			eventCategory: 'event_category',
+			eventLabel: 'event_label',
+			eventAction: 'event_action',
+			nonInteraction: 'non_interaction',
+			hitCallback: 'event_callback'
+		};
+
+		// Send event with ga
+		if (settings.ga.trackingId && settings.ga.useAnalyticsJS && vars.gaReady) {
+			var eventParams = {
+				hitType: 'event'
+			};
+
+			Object.keys(ga4PropMap).forEach((prop) => {
+				if (prop in eventInfo && eventInfo[prop]) eventParams[prop] = eventInfo[prop];
+			});
+
+			// send event
+			ga('send', eventParams);
+		}
+
+		// Send event with gtag
+		if (((settings.ga.trackingId && !settings.ga.useAnalyticsJS) || settings.ga.measurementId) && vars.gtagReady) {
+			var eventParams = {};
+
+			Object.keys(ga4PropMap).forEach((prop) => {
+				if (prop in eventInfo && eventInfo[prop]) eventParams[ga4PropMap[prop]] = eventInfo[prop];
+			});
+
+			var eventName = ('eventName' in eventInfo && eventInfo.eventName) ? eventInfo.eventName : eventInfo.eventAction;
+
+			// send event
+			gtag('event', eventName, eventParams);
+		}
 	},
 
 	// initialize google analytics tracking
@@ -989,8 +1150,7 @@ var lqx = lqx || {
 							if(jQuery(elem).attr('title')) {
 								label = jQuery(elem).attr('title') + ' [' + url + ']';
 							}
-							lqx.gaSend({
-								'hitType' : 'event',
+							lqx.sendGAEvent({
 								'eventCategory' : 'Outbound Links',
 								'eventAction' : 'click',
 								'eventLabel' : label,
@@ -1019,12 +1179,10 @@ var lqx = lqx || {
 							if(jQuery(elem).attr('title')) {
 								title = jQuery(elem).attr('title');
 							}
-							lqx.gaSend({
-								'hitType': 'pageview',
-								'location' : loc,
-								'page' : page,
+							lqx.sendGAPageview({
+								'url' : loc,
 								'title' : title,
-								'hitCallback' : function(){ window.location.href = url; } // regarless of target value link will open in same window, otherwise it is blocked by browser
+								'callback' : function(){ window.location.href = url; } // regarless of target value link will open in same window, otherwise it is blocked by browser
 							});
 						});
 					}
@@ -1041,8 +1199,7 @@ var lqx = lqx || {
 				var errHash = lqx.strHash(errStr);
 				if(lqx.vars.errorHashes.indexOf(errHash) == -1 && lqx.vars.errorHashes.length < 100) {
 					lqx.vars.errorHashes.push(errHash);
-					lqx.gaSend({
-						'hitType' : 'event',
+					lqx.sendGAEvent({
 						'eventCategory' : 'JavaScript Errors',
 						'eventAction' : 'error',
 						'eventLabel' : errStr,
@@ -1060,20 +1217,19 @@ var lqx = lqx || {
 			// get the initial scroll position
 			lqx.vars.scrollDepthMax = Math.ceil(((jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height()) * 10) * 10;
 
-			// add listener to scrollthrottle event
-			jQuery(window).on('scrollthrottle', function(){
-				// capture the hightest scroll point, stop calculating once reached 100
+			function calcScrollDepth() {
 				if(lqx.vars.scrollDepthMax < 100) {
-					lqx.vars.scrollDepthMax = Math.max(lqx.vars.scrollDepthMax, Math.ceil(((jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height()) * 10) * 10);
-					if(lqx.vars.scrollDepthMax > 100) lqx.vars.scrollDepthMax = 100;
+					lqx.vars.scrollDepthMax = Math.ceil(100 * (jQuery(window).scrollTop() + jQuery(window).height()) / jQuery(document).height());
 				}
-			});
+			};
+
+			// add listener to scrollthrottle event
+			jQuery(window).on('scrollthrottle', calcScrollDepth);
 
 			// add listener to page beforeunload
 			jQuery(window).on('beforeunload', function(){
-
-				lqx.gaSend({
-					'hitType' : 'event',
+				calcScrollDepth();
+				lqx.sendGAEvent({
 					'eventCategory' : 'Scroll Depth',
 					'eventAction' : lqx.vars.scrollDepthMax,
 					'nonInteraction' : true
@@ -1087,8 +1243,7 @@ var lqx = lqx || {
 		if(lqx.settings.tracking.photogallery){
 			jQuery('html').on('click', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]', function(){
 				// send event for gallery opened
-				lqx.gaSend({
-					'hitType': 'event',
+				lqx.sendGAEvent({
 					'eventCategory' : 'Photo Gallery',
 					'eventAction' : 'Open'
 				});
@@ -1097,8 +1252,7 @@ var lqx = lqx || {
 
 			jQuery('html').on('load', 'img.lb-image', function(){
 				// send event for image displayed
-				lqx.gaSend({
-					'hitType': 'event',
+				lqx.sendGAEvent({
 					'eventCategory' : 'Photo Gallery',
 					'eventAction' : 'Display',
 					'eventLabel' : jQuery(this).attr('src')
@@ -1111,20 +1265,8 @@ var lqx = lqx || {
 		// track video
 		if(lqx.settings.tracking.video){
 
-			// load youtube iframe api
-			var tag = document.createElement('script');
-			tag.src = 'https://www.youtube.com/iframe_api';
-			tag.onload = function(){lqx.vars.youTubeIframeAPIReady = true;};
-			var firstScriptTag = document.getElementsByTagName('script')[0];
-			firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
 			// set listeners for vimeo videos
-			if (window.addEventListener) {
-				window.addEventListener('message', lqx.vimeoReceiveMessage, false);
-			}
-			else {
-				window.attachEvent('onmessage', lqx.vimeoReceiveMessage, false);
-			}
+			window.addEventListener('message', lqx.vimeoReceiveMessage, false);
 
 			// initialize lqx players objects
 			lqx.vars.youtubePlayers = {};
@@ -1146,24 +1288,21 @@ var lqx = lqx || {
 			// add listener to page beforeunload
 			jQuery(window).on('beforeunload', function(){
 
-				lqx.gaSend({
-					'hitType' : 'event',
+				lqx.sendGAEvent({
 					'eventCategory' : 'User Active Time',
 					'eventAction' : 'Percentage',
 					'eventValue' : parseInt(100 * lqx.vars.userActive.activeTime / (lqx.vars.userActive.activeTime + lqx.vars.userActive.inactiveTime)),
 					'nonInteraction' : true
 				});
 
-				lqx.gaSend({
-					'hitType' : 'event',
+				lqx.sendGAEvent({
 					'eventCategory' : 'User Active Time',
 					'eventAction' : 'Active Time (ms)',
 					'eventValue' : parseInt(lqx.vars.userActive.activeTime),
 					'nonInteraction' : true
 				});
 
-				lqx.gaSend({
-					'hitType' : 'event',
+				lqx.sendGAEvent({
 					'eventCategory' : 'User Active Time',
 					'eventAction' : 'Inactive Time (ms)',
 					'eventValue' : parseInt(lqx.vars.userActive.inactiveTime),
@@ -1196,12 +1335,24 @@ var lqx = lqx || {
 	initVideoPlayerAPI : function(elem) {
 
 		var src = elem.attr('src');
-		var playerId = elem.attr('id');
-		var urlconn;
 
 		if(typeof src != 'undefined') {
+			var playerId = elem.attr('id');
 			// check youtube players
 			if (src.indexOf('youtube.com/embed/') != -1) {
+				if (!vars.youTubeIframeAPIReady) {
+					// Load YouTube iframe API
+					// Create the script element
+					let ytScript = document.createElement('script');
+					ytScript.async = true;
+					ytScript.src = 'https://www.youtube.com/iframe_api';
+					ytScript.onload = () => {
+						vars.youTubeIframeAPIReady = true;
+					};
+
+					// Append the first script element to the head
+					document.head.appendChild(ytScript);
+				}
 				// add id if it doesn't have one
 				if (typeof playerId == 'undefined') {
 					playerId = 'youtubePlayer' + (Object.keys(lqx.vars.youtubePlayers).length);
@@ -1210,11 +1361,7 @@ var lqx = lqx || {
 
 				// reload with API support enabled
 				if (src.indexOf('enablejsapi=1') == -1) {
-					urlconn = '&';
-					if (src.indexOf('?') == -1) {
-						urlconn = '?';
-					}
-					elem.attr('src', src + urlconn + 'enablejsapi=1&version=3');
+					elem.attr('src', src + (src.indexOf('?') == -1 ? '?' : '&') + 'enablejsapi=1&version=3');
 				}
 
 				// add to list of players
@@ -1236,11 +1383,7 @@ var lqx = lqx || {
 
 				// reload with API support enabled
 				if (src.indexOf('api=1') == -1) {
-					urlconn = '&';
-					if (src.indexOf('?') == -1) {
-						urlconn = '?';
-					}
-					elem.attr('src', src + urlconn + 'api=1&player_id=' + playerId);
+					elem.attr('src', src + (src.indexOf('?') == -1 ? '?' : '&') + 'api=1&player_id=' + playerId);
 				}
 
 				// add to list of players
@@ -1428,8 +1571,7 @@ var lqx = lqx || {
 	},
 
 	videoTrackingEvent : function(playerId, label, title, value) {
-		lqx.gaSend({
-			'hitType': 'event',
+		lqx.sendGAEvent({
 			'eventCategory' : 'Video',
 			'eventAction' : label,
 			'eventLabel' : title + ' (' + jQuery('#' + playerId).attr('src').split('?')[0] + ')',
@@ -2014,11 +2156,23 @@ var lqx = lqx || {
 		};
 
 		// add listener to common user action events
-		jQuery(window).on('orientationchange resize focusin', function(){lqx.userActive();});
-		jQuery(document).on('mousedown mousemove mouseup wheel keydown keypress keyup touchstart touchmove touchend', function(){lqx.userActive();});
+		['resize', 'scroll', 'orientationchange'].forEach((e) => {
+			window.addEventListener(e, userActive, { passive: true });
+		});
 
-		// add listener for window on focus out, become inactive immediately
-		jQuery(window).on('focusout', function(){lqx.userInactive();});
+		[
+			'keydown', 'keyup', 'keypress',
+			'mousewheel', 'wheel',
+			'touchstart', 'touchmove', 'touchend', 'touchcancel'
+		].forEach((e) => {
+			document.addEventListener(e, userActive, { passive: true });
+		});
+
+		// add listener for window on focus in/out
+		document.addEventListener('visibilitychange', (e) => {
+			if (document.visibilityState === 'visible') userActive();
+			else userInactive();
+		});
 
 		// refresh active and inactive time counters
 		var timer = setInterval(function(){
@@ -2079,147 +2233,6 @@ var lqx = lqx || {
 		lqx.vars.userActive.activeTime += (new Date()).getTime() - lqx.vars.userActive.lastChangeTime;
 		// update last change time
 		lqx.vars.userActive.lastChangeTime = (new Date()).getTime();
-	},
-
-	ga4Code: function() {
-		var params = lqx.settings.ga.createParams;
-
-		// DOM Manipulation to add GA4 code to head
-		var ga4Script = document.createElement('script');
-		var firstScript = document.getElementsByTagName('script')[0];
-		var headElement = document.getElementsByTagName('head')[0];
-		ga4Script.async = 1;
-		ga4Script.src = 'https://www.googletagmanager.com/gtag/js?id=' + params.default.measurementId;
-		headElement.insertBefore(ga4Script, firstScript);
-
-		// Google Analytics 4 code
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
-
-		gtag('config', params.default.measurementId);
-
-		lqx.initTracking();
-	},
-
-	gaCode: function() {
-		(function (i, s, o, g, r, a, m) {
-			i.GoogleAnalyticsObject = r;
-			i[r] = i[r] || function() {
-				(i[r].q = i[r].q || []).push(arguments);
-			};
-			i[r].l = 1 * new Date();
-			a = s.createElement(o);
-			m = s.getElementsByTagName(o)[0];
-			a.async = 1;
-			a.src = g;
-			m.parentNode.insertBefore(a, m);
-		})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-		// Create commands
-		var params = lqx.settings.ga.createParams;
-		ga('create', params.default.trackingId, params.default.cookieDomain , params.default.fieldsObject);
-		Object.keys(params).forEach(function(tracker){
-			if(tracker != 'default') {
-				ga('create', params[tracker].trackingId, params[tracker].cookieDomain, tracker, params[tracker].fieldsObject);
-			}
-		});
-		ga(lqx.gaReady);
-	},
-
-	checkGA: function(count) {
-		if(count == undefined) count = 0;
-		if('GoogleAnalyticsObject' in window && typeof window.ga == 'function') lqx.initTracking();
-		else if(count < 6000) setTimeout(function() {lqx.checkGA(count++);}, 250);
-	},
-
-	// handles the google analytics page view event, setting first custom parameters
-	gaReady : function(tracker) {
-		// execute functions to set custom parameters
-		jQuery.Deferred(function(){
-			// create commands
-			if(lqx.settings.ga.createParams && typeof lqx.settings.ga.createParams == 'object') {
-				var params = lqx.settings.ga.createParams;
-				Object.keys(params).forEach(function(tracker){
-					if(tracker == 'default') ga('create', params[tracker].trackingId, params[tracker].cookieDomain, params[tracker].fieldsObject);
-					else ga('create', params[tracker].trackingId, params[tracker].cookieDomain, tracker, params[tracker].fieldsObject);
-				});
-			}
-		}).then(jQuery.Deferred(function(){
-			var params;
-			// set commands
-			if(lqx.settings.ga.setParams && typeof lqx.settings.ga.setParams == 'object') {
-				params = lqx.settings.ga.setParams;
-				Object.keys(params).forEach(function(tracker){
-					var cmd = 'set';
-					if(tracker != 'default') cmd = tracker + '.set';
-					Object.keys(params[tracker]).forEach(function(fieldName){
-						ga(cmd, fieldName, params[tracker][fieldName]);
-					});
-				});
-			}
-			// require commands
-			if(lqx.settings.ga.requireParams && typeof lqx.settings.ga.requireParams == 'object') {
-				params = lqx.settings.ga.requireParams;
-				Object.keys(params).forEach(function(tracker){
-					var cmd = 'require';
-					if(tracker != 'default') cmd = tracker + '.require';
-					params[tracker].forEach(function(elem){
-						ga(cmd, elem.pluginName, elem.pluginOptions);
-					});
-				});
-			}
-			// provide commands
-			if(lqx.settings.ga.provideParams && typeof lqx.settings.ga.provideParams == 'object') {
-				params = lqx.settings.ga.provideParams;
-				Object.keys(params).forEach(function(tracker){
-					var cmd = 'provide';
-					if(tracker != 'default') cmd = tracker + '.provide';
-					params[tracker].forEach(function(elem){
-						ga(cmd, elem.pluginName, elem.pluginConstructor);
-					});
-				});
-			}
-			// a/b testing settings
-			if(lqx.settings.ga.abTestName !== null && lqx.settings.ga.abTestNameDimension !== null && lqx.settings.ga.abTestGroupDimension !== null) {
-				// get a/b test group cookie
-				var abTestGroup = lqx.cookie('abTestGroup');
-				if(abTestGroup === null) {
-					// set a/b test group
-					if(Math.random() < 0.5) abTestGroup = 'A';
-					else abTestGroup = 'B';
-					lqx.cookie('abTestGroup', abTestGroup, {maxAge: 30*24*60*60, path: '/'});
-				}
-				// set body attribute that can be used by css and js
-				jQuery('body').attr('data-abtest', abTestGroup);
-				// set the GA dimensions
-				ga('set', 'dimension' + lqx.settings.ga.abTestNameDimension, lqx.settings.ga.abTestName);
-				ga('set', 'dimension' + lqx.settings.ga.abTestGroupDimension, abTestGroup);
-			}
-		})).then(jQuery.Deferred(function(){
-			if(typeof lqx.settings.ga.customParamsFuncs == 'function') {
-				try {
-					lqx.settings.ga.customParamsFuncs();
-				}
-				catch(e) {
-					console.log(e);
-				}
-			}
-		})).then(jQuery.Deferred(function(){
-			// send pageview
-			lqx.gaSend('pageview');
-			// initialize analytics tracking
-			lqx.initTracking();
-		}));
-	},
-
-	gaSend: function(event) {
-		if(lqx.settings.usingGTM) {
-			ga.getAll()[0].send(event);
-		}
-		else {
-			ga('send', event);
-		}
 	},
 
 	// parses URL parameters into lqx.vars.urlParams
@@ -2315,8 +2328,7 @@ var lqx = lqx || {
 		if(lqx.settings.uniqueFormURL.enable) {
 			var forms = jQuery(lqx.settings.uniqueFormURL.selector);
 			if(forms.length) {
-				var d = new Date();
-				var s = (d.getTime() * 1000 + d.getMilliseconds()).toString(32) + (parseInt(Math.random()*10e6)).toString(32);
+				var s = (new Date()).getTime().toString(36) + (parseInt((Math.random()*10e6).toString())).toString(36);
 
 				forms.each(function(){
 					var action = jQuery(this).attr('action');
@@ -2330,9 +2342,18 @@ var lqx = lqx || {
 
 	// Simple string hash function
 	strHash: function(str) {
-		for(var i = 0, h = 4641154056; i < str.length; i++) h = Math.imul(h + str.charCodeAt(i) | 0, 2654435761);
-		h = (h ^ h >>> 17) >>> 0;
-		return h.toString(36);
+		var FNV_PRIME = 0x01000193;
+		var hashLow = 0x811c9dc5;
+		var hashHigh = 0;
+
+		for (var i = 0; i < str.length; i++) {
+			hashLow ^= str.charCodeAt(i);
+			hashLow *= FNV_PRIME;
+			hashHigh ^= hashLow;
+			hashHigh *= FNV_PRIME;
+		}
+
+		return (hashHigh >>> 0).toString(36) + (hashLow >>> 0).toString(36);
 	},
 
 	// self initialization function
@@ -2465,7 +2486,9 @@ var lqx = lqx || {
 
 		// onYouTubeIframeAPIReady
 		// callback function called by iframe youtube players when they are ready
-		window.onYouTubeIframeAPIReady = function(){
+		window.onYouTubeIframeAPIReady = function(count){
+			if(!count) count = 0;
+
 			if(lqx.vars.youTubeIframeAPIReady && (typeof YT !== 'undefined') && YT && YT.Player) {
 				Object.keys(lqx.vars.youtubePlayers).forEach(function(playerId) {
 					if(typeof lqx.vars.youtubePlayers[playerId].playerObj == 'undefined') {
@@ -2480,8 +2503,8 @@ var lqx = lqx || {
 			}
 			else {
 				// keep track how many time we have attempted, retry unless it has been more than 30secs
-				lqx.vars.youTubeIframeAPIReadyAttempts++;
-				if(lqx.vars.youTubeIframeAPIReadyAttempts < 120) setTimeout(function(){onYouTubeIframeAPIReady();},250);
+				count++;
+				if(count < 600) setTimeout(function(){onYouTubeIframeAPIReady();},100);
 			}
 		};
 
