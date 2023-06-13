@@ -105,6 +105,9 @@ if(lqx && !('analytics' in lqx)) {
 				if(opts.enabled) {
 					lqx.log('Initializing `analytics`');
 
+					// Init A-B testing before loading GA code
+					if(opts.abTest.name && opts.abTest.dimension) initABTesting();
+
 					// Load Google Analytics 4
 					if(!opts.usingGTM && opts.measurementId) {
 						gtagCode(opts.measurementId);
@@ -170,9 +173,9 @@ if(lqx && !('analytics' in lqx)) {
 			ga4Script.innerHTML = `
 				window.dataLayer = window.dataLayer || [];
 				function gtag(){dataLayer.push(arguments);}
-				gtag('js', new Date());
-				gtag('config', '${tagId}'${opts.sendPageview ? '' : ", {'send_page_view': false}"});
-			`;
+				gtag('js', new Date());` +
+				(vars.abTestGroup ? `gtag('set', 'dimension' + '${opts.abTest.dimension}', '${vars.abTestGroup}');` : '') +
+				`gtag('config', '${tagId}, '${opts.sendPageview ? '{}' : "{'send_page_view': false}"});`;
 
 			// Append the second script element to the head
 			document.head.appendChild(ga4Script);
@@ -188,9 +191,9 @@ if(lqx && !('analytics' in lqx)) {
 				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 				})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-				ga('create', '${tagId}', 'auto');
-				${opts.sendPageview ? "ga('send', 'pageview');" : ''}
-			`;
+				ga('create', '${tagId}', 'auto');` +
+				(vars.abTestGroup ? `ga('set', 'dimension' + '${opts.abTest.dimension}', '${vars.abTestGroup}');` : '') +
+				(opts.sendPageview ? "ga('send', 'pageview');" : '');
 
 			// Append the second script element to the head
 			document.head.appendChild(gaScript);
@@ -903,6 +906,29 @@ if(lqx && !('analytics' in lqx)) {
 			// update last change time
 			vars.userActive.lastChangeTime = (new Date()).getTime();
 		};
+
+		var initABTesting = function() {
+			log('abTest params', opts.abTest);
+
+			// get a/b test group cookie
+			vars.abTestGroup = util.cookie('abTestGroup');
+			if (!vars.abTestGroup.test(new RegExp(`^${opts.abTest.name}-[AB]$`))) {
+				// set a/b test group
+				if (Math.random() < opts.abTest.split) vars.abTestGroup = opts.abTest.name + '-A';
+				else vars.abTestGroup = opts.abTest.name + '-B';
+			}
+
+			// set cookie
+			util.cookie('abTestGroup', vars.abTestGroup, { maxAge: opts.abTest.cookieDays * 86400, path: '/' });
+
+			// Set body attribute that can be used by css and js
+			vars.body.attr('abtestgroup', vars.abTestGroup);
+
+			// Show/hide elements based on their attributes and classes
+			abTestDisplay(jQuery(opts.abTest.displaySelector));
+			mutation.addHandler('addNode', opts.abTest.displaySelector, abTestDisplay);
+		};
+
 
 		// Show/hide element based on region
 		var abTestDisplay = function(elems) {
