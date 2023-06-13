@@ -2,11 +2,11 @@
  * detect.js - Detection of device, browser and O/S
  *
  * @version     2.4.0
- * @package     wp_theme_lyquix
+ * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
  * @license     GNU General Public License version 2 or later
- * @link        https://github.com/Lyquix/wp_theme_lyquix
+ * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
 if(lqx && !('detect' in lqx)) {

@@ -1,12 +1,12 @@
 /**
  * fixes.js - Browser fixes
  *
- * @package     wp_theme_lyquix
+ * @package     tpl_lyquix
  * @version     2.4.0
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
  * @license     GNU General Public License version 2 or later
- * @link        https://github.com/Lyquix/wp_theme_lyquix
+ * @link        https://github.com/Lyquix/tpl_lyquix
  */
 
 if(lqx && !('fixes' in lqx)) {
