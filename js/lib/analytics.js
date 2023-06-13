@@ -34,7 +34,7 @@ if(lqx && !('analytics' in lqx)) {
 				nonInteraction: false // for events only
 			},
 			errors: {
-				enabled: true,
+				enabled: false,
 				maxErrors: 100,
 				ieVersion: 11 // IE older than this version will be ignored
 			},
@@ -62,6 +62,9 @@ if(lqx && !('analytics' in lqx)) {
 				minClicks: 3, // Look for 3 consecutive clicks or more...
 				maxTime: 5, // ... within 5 seconds...
 				maxDistance: 100 // within a 100x100 pixel area
+			},
+			performance: {
+				enabled: true
 			},
 			// Google Analytics opts
 			usingGTM: false,		// set to true if Google Analytics is loaded via GTM
@@ -136,22 +139,22 @@ if(lqx && !('analytics' in lqx)) {
 		};
 
 		var checkGA = function(count) {
-			if(count == undefined) count = 0;
-			if('GoogleAnalyticsObject' in window && typeof window.ga == 'function') initTracking();
-			else if(count < 600) setTimeout(function() {checkGA(count++);}, 100);
-
 			if (!count) count = 0;
+			let gaNeeded = false;
+			let gtagNeeded = false;
 
-			// Check for ga ready or not in use
-			if (!opts.trackingId || !opts.useAnalyticsJS) vars.gaReady = true;
-			if ('ga' in window && typeof window['ga'] == 'function') vars.gaReady = true;
+			// Check if ga and gtag are needed
+			if (opts.trackingId && opts.useAnalyticsJS) gaNeeded = true;
+			if ((opts.trackingId && !opts.useAnalyticsJS) || opts.measurementId) gtagNeeded = true;
 
-			// Check for gtag ready or not in use
-			if (!opts.measurementId && opts.useAnalyticsJS) vars.gtagReady = true;
-			if ('gtag' in window && typeof window['gtag'] == 'function') vars.gtagReady = true;
+			// Check for ga ready
+			if (gaNeeded && 'ga' in window && typeof window['ga'] == 'function') vars.gaReady = true;
+
+			// Check for gtag ready
+			if (gtagNeeded && 'gtag' in window && typeof window['gtag'] == 'function') vars.gtagReady = true;
 
 			// All ready?
-			if (vars.gaReady && vars.gtagReady) initTracking();
+			if (((gaNeeded && vars.gaReady) || !gaNeeded) && ((gtagNeeded && vars.gtagReady) || !gtagNeeded)) initTracking();
 			else if (count < 600) setTimeout(() => {
 				checkGA(count++);
 			}, 100);
@@ -175,7 +178,7 @@ if(lqx && !('analytics' in lqx)) {
 				function gtag(){dataLayer.push(arguments);}
 				gtag('js', new Date());` +
 				(vars.abTestGroup ? `gtag('set', 'dimension' + '${opts.abTest.dimension}', '${vars.abTestGroup}');` : '') +
-				`gtag('config', '${tagId}, '${opts.sendPageview ? '{}' : "{'send_page_view': false}"});`;
+				`gtag('config', '${tagId}', ${opts.sendPageview ? '{}' : "{'send_page_view': false}"});`;
 
 			// Append the second script element to the head
 			document.head.appendChild(ga4Script);
@@ -210,7 +213,7 @@ if(lqx && !('analytics' in lqx)) {
 		 */
 		let sendGAPageview = (pageInfo) => {
 			// Send event with ga
-			if (opts.trackingId && opts.useAnalyticsJS && vars.gaReady) {
+			if (vars.gaReady) {
 				if (pageInfo.url && pageInfo.title) {
 					let url = new URL(pageInfo.url, window.location.href);
 
@@ -229,7 +232,7 @@ if(lqx && !('analytics' in lqx)) {
 			}
 
 			// Send event with gtag
-			if (((opts.trackingId && !opts.useAnalyticsJS) || opts.measurementId) && vars.gtagReady) {
+			if (vars.gtagReady) {
 				if (pageInfo.url && pageInfo.title) {
 					let url = new URL(pageInfo.url, window.location.href);
 
@@ -263,12 +266,13 @@ if(lqx && !('analytics' in lqx)) {
 				eventCategory: 'event_category',
 				eventLabel: 'event_label',
 				eventAction: 'event_action',
+				eventValue: 'value',
 				nonInteraction: 'non_interaction',
 				hitCallback: 'event_callback'
 			};
 
 			// Send event with ga
-			if (opts.trackingId && opts.useAnalyticsJS && vars.gaReady) {
+			if (vars.gaReady) {
 				let eventParams = {
 					hitType: 'event'
 				};
@@ -282,7 +286,7 @@ if(lqx && !('analytics' in lqx)) {
 			}
 
 			// Send event with gtag
-			if (((opts.trackingId && !opts.useAnalyticsJS) || opts.measurementId) && vars.gtagReady) {
+			if (vars.gtagReady) {
 				let eventParams = {};
 
 				Object.keys(ga4PropMap).forEach((prop) => {
@@ -402,10 +406,10 @@ if(lqx && !('analytics' in lqx)) {
 				}
 
 				// Find all a tags and cycle through them
-				setup(jQuery('a'));
+				setup(jQuery('a[href]'));
 
 				// Add a mutation handler for links added to the DOM
-				lqx.mutation.addHandler('addNode', 'a', setup);
+				lqx.mutation.addHandler('addNode', 'a[href]', setup);
 			}
 
 			// Track errors
@@ -434,7 +438,7 @@ if(lqx && !('analytics' in lqx)) {
 
 				let calcScrollDepth = () => {
 					if (vars.scrollDepthMax < 100) {
-						vars.scrollDepthMax = Math.ceil(100 * (vars.window.scrollTop() + vars.window.height()) / vars.document.height());
+						vars.scrollDepthMax = Math.ceil(100 * (lqx.vars.window.scrollTop() + lqx.vars.window.height()) / lqx.vars.document.height());
 					}
 				};
 
@@ -442,11 +446,12 @@ if(lqx && !('analytics' in lqx)) {
 				window.addEventListener('scroll', calcScrollDepth, {passive: true});
 
 				// add listener to page unload
-				vars.window.on('beforeunload', () => {
+				lqx.vars.window.on('beforeunload', () => {
 					calcScrollDepth();
 					sendGAEvent({
 						eventCategory: 'Scroll Depth',
-						eventAction: vars.scrollDepthMax,
+						eventAction: 'Scroll Depth (%)',
+						eventValue: vars.scrollDepthMax,
 						nonInteraction: true
 					});
 				});
@@ -504,8 +509,10 @@ if(lqx && !('analytics' in lqx)) {
 			}
 
 			// Track rage clicks
-			if(opts.rageClicks.enabled) {
-				jQuery('body').on('click', function(event){
+			if (opts.rageClicks.enabled) {
+				lqx.log('Setting up rage clicks tracking');
+
+				jQuery('body').on('click', function(event) {
 					// Save click event
 					vars.clickEvents.push({
 						event: event,
@@ -553,6 +560,31 @@ if(lqx && !('analytics' in lqx)) {
 						}
 						// Remove used Clicks
 						vars.clickEvents.splice(0, totalClicks);
+					}
+				});
+			}
+
+			// Track page performance
+			// Performance API https://developer.mozilla.org/en-US/docs/Web/API/Performance_API
+			if (opts.performance.enabled) {
+				lqx.log('Setting performance tracking');
+
+				lqx.vars.window.on('beforeunload', () => {
+					let perfArr = window.performance.getEntriesByType('navigation');
+					if (perfArr.length > 0) {
+						let perf = perfArr[0];
+						sendGAEvent({
+							eventCategory: 'Performance',
+							eventAction: 'Ready Time (ms)',
+							eventValue: Math.floor(perf.domInteractive),
+							nonInteraction: true,
+						});
+						sendGAEvent({
+							eventCategory: 'Performance',
+							eventAction: 'Load Time (ms)',
+							eventValue: Math.floor(perf.duration),
+							nonInteraction: true,
+						});
 					}
 				});
 			}
