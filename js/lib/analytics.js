@@ -111,8 +111,8 @@ if(lqx && !('analytics' in lqx)) {
 					}
 					// Load Google Analytics
 					if(!opts.usingGTM && opts.trackingId) {
-						if(opts.useAnalyticsJS)
-						gaCode(opts.trackingId);
+						if(opts.useAnalyticsJS) gaCode(opts.trackingId);
+						else gtagCode(opts.trackingId);
 					}
 					// Wait for GA to be ready before starting tracking functions
 					checkGA();
@@ -207,7 +207,7 @@ if(lqx && !('analytics' in lqx)) {
 		 */
 		let sendGAPageview = (pageInfo) => {
 			// Send event with ga
-			if (vars.gaReady) {
+			if (opts.trackingId && opts.useAnalyticsJS && vars.gaReady) {
 				if (pageInfo.url && pageInfo.title) {
 					let url = new URL(pageInfo.url, window.location.href);
 
@@ -226,7 +226,7 @@ if(lqx && !('analytics' in lqx)) {
 			}
 
 			// Send event with gtag
-			if (vars.gtagReady) {
+			if (((opts.trackingId && !opts.useAnalyticsJS) || opts.measurementId) && vars.gtagReady) {
 				if (pageInfo.url && pageInfo.title) {
 					let url = new URL(pageInfo.url, window.location.href);
 
@@ -265,7 +265,7 @@ if(lqx && !('analytics' in lqx)) {
 			};
 
 			// Send event with ga
-			if (vars.gaReady) {
+			if (opts.trackingId && opts.useAnalyticsJS && vars.gaReady) {
 				let eventParams = {
 					hitType: 'event'
 				};
@@ -279,7 +279,7 @@ if(lqx && !('analytics' in lqx)) {
 			}
 
 			// Send event with gtag
-			if (vars.gtagReady) {
+			if (((opts.trackingId && !opts.useAnalyticsJS) || opts.measurementId) && vars.gtagReady) {
 				let eventParams = {};
 
 				Object.keys(ga4PropMap).forEach((prop) => {
@@ -430,16 +430,13 @@ if(lqx && !('analytics' in lqx)) {
 				lqx.log('Setting up scroll depth tracking');
 
 				let calcScrollDepth = () => {
-					return Math.ceil(100 * (vars.window.scrollTop() + vars.window.height()) / vars.document.height());
+					if (vars.scrollDepthMax < 100) {
+						vars.scrollDepthMax = Math.ceil(100 * (vars.window.scrollTop() + vars.window.height()) / vars.document.height());
+					}
 				};
 
 				// add listener to scrollthrottle event
-				window.addEventListener('scroll', () => {
-					// capture the hightest scroll point, stop calculating once reached 100
-					if (vars.scrollDepthMax < 100) {
-						vars.scrollDepthMax = calcScrollDepth();
-					}
-				}, {passive: true});
+				window.addEventListener('scroll', calcScrollDepth, {passive: true});
 
 				// add listener to page unload
 				vars.window.on('beforeunload', () => {
