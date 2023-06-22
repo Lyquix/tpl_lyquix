@@ -186,8 +186,12 @@ if($this -> params -> get('ga_account', '') || $this -> params -> get('ga4_accou
 }
 
 // Merge with options from template settings
-$lqx_options = array_replace_recursive($lqx_options, json_decode($this -> params -> get('lqx_options', '{}'), true));
-$scripts_options = array_replace_recursive([], json_decode($this -> params -> get('scripts_options', '{}'), true));
+$theme_lqx_options = json_decode($this -> params -> get('lqx_options'), true);
+if(!$theme_lqx_options) $theme_lqx_options = [];
+$lqx_options = array_replace_recursive($lqx_options, $theme_lqx_options);
+$theme_script_options = json_decode($this -> params -> get('scripts_options'), true);
+if(!$theme_script_options) $theme_script_options = [];
+$scripts_options = array_replace_recursive([], $theme_script_options);
 ?>
 <script defer src="<?php echo $tmpl_url . '/dist/' . $scripts_filename; ?>" onload="lqx.ready(<?php echo htmlentities(json_encode($lqx_options)); ?>); $lqx.ready(<?php echo htmlentities(json_encode($scripts_options)); ?>);"></script>
 <?php
