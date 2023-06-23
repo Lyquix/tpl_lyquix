@@ -180,7 +180,7 @@ if($this -> params -> get('ga_account', '') || $this -> params -> get('ga4_accou
 		'trackingId' => $this -> params -> get('ga_account'),
 		'measurementId' => $this -> params -> get('ga4_account'),
 		'sendPageview' => $this -> params -> get('ga_pageview', '1') ? true : false,
-		'useAnalyticsJS' => $this -> params -> get$this -> params -> get('ga_use_analytics_js', '1') ? true : false,
+		'useAnalyticsJS' => $this -> params -> get('ga_use_analytics_js', '1') ? true : false,
 		'usingGTM' => $this -> params -> get('ga_via_gtm', '0') ? true : false
 	];
 }
