@@ -2213,7 +2213,7 @@ var lqx = lqx || {
 
 		// add listener for window on focus in/out
 		document.addEventListener('visibilitychange', (e) => {
-			if (document.visibilityState === 'visible') userActive();
+			if (document.visibilityState === 'visible') lqx.userActive();
 			else lqx.userInactive();
 		});
 
