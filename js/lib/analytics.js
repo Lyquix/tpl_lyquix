@@ -108,25 +108,29 @@ if(lqx && !('analytics' in lqx)) {
 				if(opts.enabled) {
 					lqx.log('Initializing `analytics`');
 
-					// Init A-B testing before loading GA code
-					if(opts.abTest.name && opts.abTest.dimension) initABTesting();
+					// Check if there's any analytics account available
+					if((opts.trackingId && !opts.usingGTM) || (opts.measurementId && !opts.usingGTM) || opts.usingGTM) {
+						// Init A-B testing before loading GA code
+						if(opts.abTest.name && opts.abTest.dimension) initABTesting();
 
-					// Load Google Analytics 4
-					if(!opts.usingGTM && opts.measurementId) {
-						gtagCode(opts.measurementId);
-					}
-					// Load Google Analytics
-					if(!opts.usingGTM && opts.trackingId) {
-						if(opts.useAnalyticsJS) gaCode(opts.trackingId);
-						else gtagCode(opts.trackingId);
-					}
-					// Wait for GA to be ready before starting tracking functions
-					checkGA();
+						// Load Google Analytics 4
+						if(!opts.usingGTM && opts.measurementId) {
+							gtagCode(opts.measurementId);
+						}
+						// Load Google Analytics
+						if(!opts.usingGTM && opts.trackingId) {
+							if(opts.useAnalyticsJS) gaCode(opts.trackingId);
+							else gtagCode(opts.trackingId);
+						}
+						// Wait for GA to be ready before starting tracking functions
+						checkGA();
 
-					// Set YouTube API callback function
-					window.onYouTubeIframeAPIReady = function(){
-						onYouTubeIframeAPIReady();
-					};
+						// Set YouTube API callback function
+						window.onYouTubeIframeAPIReady = function(){
+							onYouTubeIframeAPIReady();
+						};
+					}
+					else lqx.warn('Analytics not available: no trackingId or measurementId or GTM set');
 				}
 			});
 
@@ -295,6 +299,8 @@ if(lqx && !('analytics' in lqx)) {
 
 				let eventName = ('eventName' in eventInfo && eventInfo.eventName) ? eventInfo.eventName : eventInfo.eventAction;
 
+				eventParams.event_timeout = 2000;
+
 				// send event
 				gtag('event', eventName, eventParams);
 			}
@@ -335,11 +341,16 @@ if(lqx && !('analytics' in lqx)) {
 									elem.on('click', function(e){
 										lqx.log('Outbound link to: ' + url.href);
 
+										// set label
+										var label = elem.attr('title') ? elem.attr('title') + ' [' + url.href + ']' : url.href;
+
 										// links opens in a new window when user holds the ctrl key
 										newWindow = newWindow || e.ctrlKey || e.shiftKey || e.metaKey;
 
-										// set label
-										var label = elem.attr('title') ? elem.attr('title') + ' [' + url.href + ']' : url.href;
+										// Fallback in case the event callback function is not triggered
+										if(!newWindow) var timer = setTimeout(function() {
+											window.location.href = url.href;
+										}, 2000);
 
 										// send event
 										sendGAEvent({
@@ -348,6 +359,7 @@ if(lqx && !('analytics' in lqx)) {
 											eventLabel: label,
 											nonInteraction: opts.outbound.nonInteraction,
 											hitCallback: newWindow ? null : function() {
+												clearTimeout(timer); // cancel the fallback function
 												window.location.href = url.href; // when opening in same window, wait for ga event to be sent
 											}
 										});
@@ -363,14 +375,19 @@ if(lqx && !('analytics' in lqx)) {
 									elem.on('click', function(e){
 										lqx.log('Download link to: ' + url.href);
 
-										// links opens in a new window when user holds the ctrl key
-										newWindow = newWindow || e.ctrlKey || e.shiftKey || e.metaKey;
-
 										// set labels
 										var loc = url.protocol + '//' + url.hostname + url.pathname + url.search;
 										var page = url.pathname + url.search;
 										var title = elem.attr('title') ? elem.attr('title') : 'Download: ' + page;
 										var label = elem.attr('title') ? elem.attr('title') + ' [' + page + ']' : page;
+
+										// links opens in a new window when user holds the ctrl key
+										newWindow = newWindow || e.ctrlKey || e.shiftKey || e.metaKey;
+
+										// Fallback in case the event callback function is not triggered
+										if(!newWindow) var timer = setTimeout(function() {
+											window.location.href = url.href;
+										}, 2000);
 
 										// send pageview
 										if(opts.downloads.hitType == 'pageview') {
@@ -378,6 +395,7 @@ if(lqx && !('analytics' in lqx)) {
 												url: loc,
 												title: title,
 												callback: newWindow ? null : function() {
+													clearTimeout(timer); // cancel the fallback function
 													window.location.href = url.href; // when opening in same window, wait for ga event to be sent
 												}
 											});
@@ -391,6 +409,7 @@ if(lqx && !('analytics' in lqx)) {
 												eventLabel: label,
 												nonInteraction: opts.downloads.nonInteraction,
 												hitCallback: newWindow ? null : function() {
+													clearTimeout(timer); // cancel the fallback function
 													window.location.href = url.href; // when opening in same window, wait for ga event to be sent
 												}
 											});
