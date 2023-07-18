@@ -154,9 +154,6 @@ $font-td:				$font-copy;		// Font family for data cells
 // Base styles
 @import "lib/base.scss";
 
-// Font feature settings
-@import "lib/font-feature-settings.scss";
-
 // Array of screen sizes
 $screen-sizes: xs sm md lg xl;
 

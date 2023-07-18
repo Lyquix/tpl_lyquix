@@ -181,6 +181,28 @@
 		font-size: $font-size-big * 2;
 		line-height: $line-height-big * 0.9;
 	}
+	
+	// Font-features
+	.font-historical-forms { font-variant-alternates: historical-forms; }
+	.font-all-small-caps { font-variant-caps: all-small-caps; }
+	.font-petite-caps { font-variant-caps: petite-caps; }
+	.font-all-petite-caps { font-variant-caps: all-petite-caps; }
+	.font-unicase { font-variant-caps: unicase; }
+	.font-tilting-caps { font-variant-caps: titling-caps; }
+	.font-ordinal { font-variant-numeric: ordinal; }
+	.font-slashed-zero { font-variant-numeric: slashed-zero; }
+	.font-oldstyle-nums { font-variant-numeric: oldstyle-nums; }
+	.font-tabular-nums { font-variant-numeric: tabular-nums; }
+	.font-diagonal-fractions { font-variant-numeric: diagonal-fractions; }
+	.font-stacked-fractions { font-variant-numeric: stacked-fractions; }
+	.font-superscript { font-variant-position: super; }
+	.font-subscript { font-variant-position: sub; }
+	.font-ligatures { font-variant-ligatures: normal; }
+	.font-common-ligatures { font-variant-ligatures: common-ligatures; }
+	.font-discretionary-ligatures { font-variant-ligatures: discretionary-ligatures; }
+	.font-historical-ligatures { font-variant-ligatures: historical-ligatures; }
+	.font-ligatures-contextual { font-variant-ligatures: contextual; }
+	.font-kerning { font-kerning: normal; }
 }
 
 @mixin common-color {
