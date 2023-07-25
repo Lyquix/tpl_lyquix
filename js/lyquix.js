@@ -1383,14 +1383,14 @@ var lqx = lqx || {
 			var playerId = elem.attr('id');
 			// check youtube players
 			if (src.indexOf('youtube.com/embed/') != -1) {
-				if (!vars.youTubeIframeAPIReady) {
+				if (!lqx.vars.youTubeIframeAPIReady) {
 					// Load YouTube iframe API
 					// Create the script element
 					let ytScript = document.createElement('script');
 					ytScript.async = true;
 					ytScript.src = 'https://www.youtube.com/iframe_api';
 					ytScript.onload = () => {
-						vars.youTubeIframeAPIReady = true;
+						lqx.vars.youTubeIframeAPIReady = true;
 					};
 
 					// Append the first script element to the head
