@@ -1,7 +1,7 @@
 /**
  * controller.dist.js - Sample Vue controller
  *
- * @version     2.4.0
+ * @version     2.4.1
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix

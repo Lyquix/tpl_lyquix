@@ -2,7 +2,7 @@
  * fixes.js - Browser fixes
  *
  * @package     tpl_lyquix
- * @version     2.4.0
+ * @version     2.4.1
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2018 Lyquix
  * @license     GNU General Public License version 2 or later
