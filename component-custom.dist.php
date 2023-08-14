@@ -2,7 +2,7 @@
 /**
  * component-custom.dist.php - Sample custom component template file. Copy to component-custom.php to customize for your project.
  *
- * @version     1.1.0
+ * @version     1.1.1
  * @package     tpl_lyquix
  * @author      Lyquix
  * @copyright   Copyright (C) 2015 - 2017 Lyquix
