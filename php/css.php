@@ -185,7 +185,10 @@ if(!file_exists($tmpl_path . '/dist/' . $stylesheet_filename)) {
 			curl_setopt($curl, CURLOPT_URL, $stylesheet['url']);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-			$tmp .= curl_exec($curl) . "\n";
+			$res = curl_exec($curl);
+			$status = curl_getinfo($curl);
+			if ($status['http_code'] < 400) $tmp .= $res . "\n";
+			else $tmp .= "/* Error downloading file\n" . $res . "\n*/\n";
 			curl_close($curl);
 			// Update URLs
 			preg_match_all($urlRegex, $tmp, $matches);

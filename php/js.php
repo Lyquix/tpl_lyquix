@@ -152,7 +152,10 @@ if(!file_exists($tmpl_path . '/dist/' . $scripts_filename)) {
 			curl_setopt($curl, CURLOPT_URL, $script['url']);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-			$scripts_data .= curl_exec($curl) . "\n";
+			$res = curl_exec($curl);
+			$status = curl_getinfo($curl);
+			if ($status['http_code'] < 400) $scripts_data .= $res . "\n";
+			else $scripts_data .= "/* Error downloading file\n" . $res . "\n*/\n";
 			curl_close($curl);
 		}
 	}
