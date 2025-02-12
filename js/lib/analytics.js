@@ -326,99 +326,103 @@ if(lqx && !('analytics' in lqx)) {
 						lqx.log('Setting up ' + elems.length + ' download links', elems);
 						elems.forEach(function(elem){
 							// check if it has an href attribute, otherwise it is just a page anchor
-							if(elem.href) {
-								elem = jQuery(elem);
+							try {
+								if(elem.href) {
+									elem = jQuery(elem);
 
-								// get absolute url
-								var url = new URL(elem.attr('href'), window.location.href);
+									// get absolute url
+									var url = new URL(elem.attr('href'), window.location.href);
 
-								// determine if the link target is opening in a new window
-								var newWindow = (elem.attr('target') && !elem.attr('target').match(/^_(self|parent|top)$/i));
+									// determine if the link target is opening in a new window
+									var newWindow = (elem.attr('target') && !elem.attr('target').match(/^_(self|parent|top)$/i));
 
-								// check if it is an outbound link, track as event
-								if(opts.outbound.enabled && url.host != window.location.host && opts.outbound.exclude.indexOf(url.host) == -1) {
-									lqx.log('Found outbound link to ' + url.href);
-									elem.on('click', function(e){
-										lqx.log('Outbound link to: ' + url.href);
+									// check if it is an outbound link, track as event
+									if(opts.outbound.enabled && url.host != window.location.host && opts.outbound.exclude.indexOf(url.host) == -1) {
+										lqx.log('Found outbound link to ' + url.href);
+										elem.on('click', function(e){
+											lqx.log('Outbound link to: ' + url.href);
 
-										// set label
-										var label = elem.attr('title') ? elem.attr('title') + ' [' + url.href + ']' : url.href;
+											// set label
+											var label = elem.attr('title') ? elem.attr('title') + ' [' + url.href + ']' : url.href;
 
-										// links opens in a new window when user holds the ctrl key
-										newWindow = newWindow || e.ctrlKey || e.shiftKey || e.metaKey;
+											// links opens in a new window when user holds the ctrl key
+											newWindow = newWindow || e.ctrlKey || e.shiftKey || e.metaKey;
 
-										// Fallback in case the event callback function is not triggered
-										if(!newWindow) var timer = setTimeout(function() {
-											window.location.href = url.href;
-										}, 2000);
+											// Fallback in case the event callback function is not triggered
+											if(!newWindow) var timer = setTimeout(function() {
+												window.location.href = url.href;
+											}, 2000);
 
-										// send event
-										sendGAEvent({
-											eventCategory: 'Outbound Links',
-											eventAction: 'click',
-											eventLabel: label,
-											nonInteraction: opts.outbound.nonInteraction,
-											hitCallback: newWindow ? null : function() {
-												clearTimeout(timer); // cancel the fallback function
-												window.location.href = url.href; // when opening in same window, wait for ga event to be sent
-											}
-										});
-
-										// when opening in new window, allow the link to proceed, otherwise wait for ga event
-										return newWindow;
-									});
-								}
-
-								// check if it is a download link (not a webpage) and track as pageview
-								if(opts.downloads.enabled && url.href.match(new RegExp('\.(' + opts.downloads.extensions.join('|') + ')$', 'i')) !== null) {
-									lqx.log('Found download link to ' + url.href);
-									elem.on('click', function(e){
-										lqx.log('Download link to: ' + url.href);
-
-										// set labels
-										var loc = url.protocol + '//' + url.hostname + url.pathname + url.search;
-										var page = url.pathname + url.search;
-										var title = elem.attr('title') ? elem.attr('title') : 'Download: ' + page;
-										var label = elem.attr('title') ? elem.attr('title') + ' [' + page + ']' : page;
-
-										// links opens in a new window when user holds the ctrl key
-										newWindow = newWindow || e.ctrlKey || e.shiftKey || e.metaKey;
-
-										// Fallback in case the event callback function is not triggered
-										if(!newWindow) var timer = setTimeout(function() {
-											window.location.href = url.href;
-										}, 2000);
-
-										// send pageview
-										if(opts.downloads.hitType == 'pageview') {
-											sendGAPageview({
-												url: loc,
-												title: title,
-												callback: newWindow ? null : function() {
-													clearTimeout(timer); // cancel the fallback function
-													window.location.href = url.href; // when opening in same window, wait for ga event to be sent
-												}
-											});
-										}
-
-										// or send event
-										else if(opts.downloads.hitType == 'event') {
+											// send event
 											sendGAEvent({
-												eventCategory: 'Download Links',
+												eventCategory: 'Outbound Links',
 												eventAction: 'click',
 												eventLabel: label,
-												nonInteraction: opts.downloads.nonInteraction,
+												nonInteraction: opts.outbound.nonInteraction,
 												hitCallback: newWindow ? null : function() {
 													clearTimeout(timer); // cancel the fallback function
 													window.location.href = url.href; // when opening in same window, wait for ga event to be sent
 												}
 											});
-										}
 
-										// when opening in new window, allow the link to proceed, otherwise wait for ga event
-										return newWindow;
-									});
+											// when opening in new window, allow the link to proceed, otherwise wait for ga event
+											return newWindow;
+										});
+									}
+
+									// check if it is a download link (not a webpage) and track as pageview
+									if(opts.downloads.enabled && url.href.match(new RegExp('\.(' + opts.downloads.extensions.join('|') + ')$', 'i')) !== null) {
+										lqx.log('Found download link to ' + url.href);
+										elem.on('click', function(e){
+											lqx.log('Download link to: ' + url.href);
+
+											// set labels
+											var loc = url.protocol + '//' + url.hostname + url.pathname + url.search;
+											var page = url.pathname + url.search;
+											var title = elem.attr('title') ? elem.attr('title') : 'Download: ' + page;
+											var label = elem.attr('title') ? elem.attr('title') + ' [' + page + ']' : page;
+
+											// links opens in a new window when user holds the ctrl key
+											newWindow = newWindow || e.ctrlKey || e.shiftKey || e.metaKey;
+
+											// Fallback in case the event callback function is not triggered
+											if(!newWindow) var timer = setTimeout(function() {
+												window.location.href = url.href;
+											}, 2000);
+
+											// send pageview
+											if(opts.downloads.hitType == 'pageview') {
+												sendGAPageview({
+													url: loc,
+													title: title,
+													callback: newWindow ? null : function() {
+														clearTimeout(timer); // cancel the fallback function
+														window.location.href = url.href; // when opening in same window, wait for ga event to be sent
+													}
+												});
+											}
+
+											// or send event
+											else if(opts.downloads.hitType == 'event') {
+												sendGAEvent({
+													eventCategory: 'Download Links',
+													eventAction: 'click',
+													eventLabel: label,
+													nonInteraction: opts.downloads.nonInteraction,
+													hitCallback: newWindow ? null : function() {
+														clearTimeout(timer); // cancel the fallback function
+														window.location.href = url.href; // when opening in same window, wait for ga event to be sent
+													}
+												});
+											}
+
+											// when opening in new window, allow the link to proceed, otherwise wait for ga event
+											return newWindow;
+										});
+									}
 								}
+							} catch(e) {
+								lqx.log(e)
 							}
 						});
 					}
